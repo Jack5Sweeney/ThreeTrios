@@ -8,7 +8,7 @@ public class ModelImpl implements IModel {
   private int numRows;
   private int numColumns;
   private File pathToConfig;
-  private ArrayList<ArrayList<CellType>> boardAvailibilty;
+  private ArrayList<ArrayList<CellType>> boardAvailability;
   private ArrayList<ArrayList<Card>> boardWithCards;
 
   public ModelImpl(String board) {
@@ -28,6 +28,7 @@ public class ModelImpl implements IModel {
           if (parts.length >= 2) {
             this.numRows = Integer.parseInt(parts[0]);
             this.numColumns = Integer.parseInt(parts[1]);
+            configBoardAvailability(this.numRows, this.numColumns, parts);
           } else {
             throw new IllegalArgumentException("Invalid config file format. Expected two integers.");
           }
@@ -40,5 +41,8 @@ public class ModelImpl implements IModel {
     } else {
       throw new IllegalArgumentException("Config file not found.");
     }
+  }
+
+  private void configBoardAvailability(int numRows, int numColumns, String[] parts) {
   }
 }
