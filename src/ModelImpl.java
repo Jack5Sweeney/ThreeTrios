@@ -44,7 +44,5 @@ public class ModelImpl implements IModel {
     }
   }
 
-//  private ArrayList<ArrayList<CellType>> getBoardAvailibiltyFromBoardConfig() {
 //
-//  }
 }
