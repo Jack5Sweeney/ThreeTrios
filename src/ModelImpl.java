@@ -12,6 +12,7 @@ import static java.util.Collections.frequency;
  */
 public class ModelImpl implements IModel {
 
+  //test comment
   private int numRows;
   private int numColumns;
   private File pathToBoardConfig;
