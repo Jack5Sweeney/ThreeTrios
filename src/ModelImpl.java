@@ -3,6 +3,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import static java.util.Arrays.asList;
+import static java.util.Collections.frequency;
 
 /**
  * Implementation of the {@link IModel} interface that represents the game model.
@@ -17,6 +19,9 @@ public class ModelImpl implements IModel {
   private CellType[][] boardAvailability;
   private Card[][] boardWithCards;
   private ArrayList<Card> deck;
+  private ArrayList<Card> redHand;
+  private ArrayList<Card> blueHand;
+
 
   /**
    * Constructs the ModelImpl with the specified configuration files for the board and the card database.
@@ -28,15 +33,19 @@ public class ModelImpl implements IModel {
     pathToBoardConfig = new File("docs" + File.separator + board);
     pathToCardDB = new File("docs" + File.separator + cardDB);
     deck = new ArrayList<>();
+    redHand = new ArrayList<>();
+    blueHand = new ArrayList<>();
   }
 
   /**
-   * Starts the game by configuring the board and setting up its availability based on the config file.
+   * Starts the game by configuring the board and setting up its availability based on the config file,
+   * adding all cards to a deck then distributing to the proper players.
    */
   @Override
   public void startGame() {
     configBoard();
     configCards();
+    distributeCards();
   }
 
   /**
@@ -93,13 +102,16 @@ public class ModelImpl implements IModel {
                   determineDirectionValue(parts[4]));
               if (confirmNonDupCard(possibleCardToAdd)) {
                 this.deck.add(possibleCardToAdd);
-              } else {throw new IllegalArgumentException("There are duplicate cards in the card database."); }
+              } else {
+                throw new IllegalArgumentException("There are duplicate cards in the card database.");
+              }
             } else {
               throw new IllegalArgumentException("Invalid card database file format. Expected two integers.");
             }
             playerToDealCardTo++;
             firstLine = reader.readLine();
           }
+          ensureCorrectAmountOfCards();
         } else {
           throw new IllegalArgumentException("Card database file is empty.");
         }
@@ -108,6 +120,24 @@ public class ModelImpl implements IModel {
       }
     } else {
       throw new IllegalArgumentException("Card database file not found.");
+    }
+  }
+
+  /**
+   * Ensures that the number of cards in the deck matches the expected minimum amount.
+   * The expected number of cards should be equal to the number of playable spaces
+   * (cells marked as {@link CellType#EMPTY}) plus one additional card.
+   *
+   * @throws IllegalArgumentException if the number of cards in the deck does not match the expected count
+   */
+  private void ensureCorrectAmountOfCards() {
+    int playableSpacesCount = 0;
+    for (CellType[] row : boardAvailability) {
+      playableSpacesCount += frequency(asList(row), CellType.EMPTY);
+    }
+    if (this.deck.size() < playableSpacesCount + 1) {
+      throw new IllegalArgumentException("The amount of cards in the deck should be equal to " +
+          "(number of playable spaces) + 1.");
     }
   }
 
@@ -209,6 +239,20 @@ public class ModelImpl implements IModel {
       } else {
         throw new IOException("Missing row in config file.");
       }
+    }
+  }
+
+  /**
+   * Distributes the cards from the deck to the players' hands based on the player's color.
+   * Cards belonging to the red player are added to the {@code redHand}, and cards belonging
+   * to the blue player are added to the {@code blueHand}.
+   */
+  private void distributeCards() {
+    for(Card deckCard : this.deck) {
+      if(deckCard.getPlayer() == PlayerColor.RED) {
+        redHand.add(deckCard);
+      }
+      else { blueHand.add(deckCard); }
     }
   }
 }

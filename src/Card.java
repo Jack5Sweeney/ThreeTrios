@@ -45,17 +45,23 @@ public class Card {
     return player;
   }
 
+  /**
+   * Returns a copy of the name associated with this object.
+   *
+   * @return a new String representing the name of this object
+   */
   public String getName() {
     return new String(this.name);
   }
 
 
   /**
-   * Gets the map of directions and their corresponding values.
+   * Gets a copy of directions and their corresponding values.
    *
-   * @return the map of directions and direction values
+   * @return a copy map of directions and direction values
    */
   public Map<Direction, DirectionValue> getDirectionsAndValues() {
-    return directionsAndValues;
+    return new HashMap<>(directionsAndValues);
   }
+
 }

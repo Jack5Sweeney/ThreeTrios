@@ -37,11 +37,22 @@ public class TestModel {
   }
 
   @Test
-  public void testVModelCatchesErrorWithDuplicateCard() {
+  public void testModelCatchesErrorWithDuplicateCard() {
     try {
       IModel dupCardModelConfig = new ModelImpl("simpleBoard.config", "dupCard.database");
       dupCardModelConfig.startGame();
       fail("There is a duplicate card in the card database");
+    } catch (IllegalArgumentException e) {
+      //successfully caught IllegalArgumentException
+    }
+  }
+
+  @Test
+  public void testModelCatchesErrorWithNotEnoughCards() {
+    try {
+      IModel dupCardModelConfig = new ModelImpl("simpleBoard.config", "notEnoughCards.database");
+      dupCardModelConfig.startGame();
+      fail("There is no enough cards in the card database");
     } catch (IllegalArgumentException e) {
       //successfully caught IllegalArgumentException
     }
