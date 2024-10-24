@@ -37,7 +37,6 @@ public class ModelImpl implements IModel {
   public void startGame() {
     configBoard();
     configCards();
-    
   }
 
   /**
@@ -76,7 +75,7 @@ public class ModelImpl implements IModel {
    * Cards are assigned to players alternately.
    *
    * @throws IllegalArgumentException if the card database file is missing, has an invalid format,
-   *                                  or there is an error reading the file.
+   *                                  is a duplicate card, or there is an error reading the file.
    */
   private void configCards() {
     if (pathToCardDB.exists() && pathToCardDB.isFile()) {
@@ -84,14 +83,17 @@ public class ModelImpl implements IModel {
         String firstLine = reader.readLine();
         if (firstLine != null) {
           int playerToDealCardTo = 0;
-          while(firstLine != null) {
+          while (firstLine != null) {
             String[] parts = firstLine.split("\\s+");
             if (parts.length == 5) {
-              this.deck.add(new Card(determinePlayerColor(playerToDealCardTo), parts[0],
+              Card possibleCardToAdd = new Card(determinePlayerColor(playerToDealCardTo), parts[0],
                   determineDirectionValue(parts[1]),
                   determineDirectionValue(parts[2]),
                   determineDirectionValue(parts[3]),
-                  determineDirectionValue(parts[4])));
+                  determineDirectionValue(parts[4]));
+              if (confirmNonDupCard(possibleCardToAdd)) {
+                this.deck.add(possibleCardToAdd);
+              } else {throw new IllegalArgumentException("There are duplicate cards in the card database."); }
             } else {
               throw new IllegalArgumentException("Invalid card database file format. Expected two integers.");
             }
@@ -110,6 +112,25 @@ public class ModelImpl implements IModel {
   }
 
   /**
+   * Confirms whether the card to be added is a duplicate.
+   * Checks the deck to ensure the card with the same name does not already exist.
+   *
+   * @param possibleCardToAdd the card being checked for duplication
+   * @return {@code true} if the card is not a duplicate, {@code false} otherwise
+   */
+  private boolean confirmNonDupCard(Card possibleCardToAdd) {
+    if (!this.deck.isEmpty()) {
+      for (Card card : this.deck) {
+        if (card.getName().equals(possibleCardToAdd.getName())) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+
+  /**
    * Determines which player's color to assign to a card based on the index.
    * Alternates between RED and BLUE.
    *
@@ -117,10 +138,11 @@ public class ModelImpl implements IModel {
    * @return the PlayerColor (RED or BLUE) based on the index
    */
   private PlayerColor determinePlayerColor(int playerToDealCardTo) {
-    if(playerToDealCardTo % 2 == 0) {
+    if (playerToDealCardTo % 2 == 0) {
       return PlayerColor.RED;
+    } else {
+      return PlayerColor.BLUE;
     }
-    else { return PlayerColor.BLUE; }
   }
 
   /**

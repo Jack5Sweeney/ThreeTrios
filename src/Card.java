@@ -45,6 +45,11 @@ public class Card {
     return player;
   }
 
+  public String getName() {
+    return new String(this.name);
+  }
+
+
   /**
    * Gets the map of directions and their corresponding values.
    *
