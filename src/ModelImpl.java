@@ -231,7 +231,7 @@ public class ModelImpl implements IModel {
           if (parts[column] == 'C') {
             boardAvailability[row][column] = CellType.EMPTY;
           } else if (parts[column] == 'X') {
-            boardAvailability[row][column] = CellType.EMPTY;
+            boardAvailability[row][column] = CellType.HOLE;
           } else {
             throw new IOException("Invalid character in config file.");
           }
@@ -254,5 +254,10 @@ public class ModelImpl implements IModel {
       }
       else { blueHand.add(deckCard); }
     }
+  }
+
+  @Override
+  public void placeCard(int boardRow, int boardCol, int cardIndex, PlayerColor player) {
+
   }
 }
