@@ -57,5 +57,10 @@ public class TestModel {
       //successfully caught IllegalArgumentException
     }
   }
+
+  @Test
+  public void testValidGameConstruction() {
+    simpleModel.startGame();
+  }
 }
 

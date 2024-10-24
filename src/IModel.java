@@ -22,5 +22,5 @@ public interface IModel {
    * @param player    the {@link PlayerColor} of the player placing the card
    * @throws IllegalArgumentException if the specified position is invalid or the card index is out of bounds
    */
-  void placeCard(int boardRow, int boardCol, int cardIndex, PlayerColor player);
+  void placeCard(int boardRow, int boardCol, int cardIndex, PlayerImpl player);
 }

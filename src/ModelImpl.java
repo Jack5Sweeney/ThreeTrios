@@ -19,8 +19,8 @@ public class ModelImpl implements IModel {
   private CellType[][] boardAvailability;
   private Card[][] boardWithCards;
   private ArrayList<Card> deck;
-  private ArrayList<Card> redHand;
-  private ArrayList<Card> blueHand;
+  private IPlayer redPlayer;
+  private IPlayer bluePlayer;
 
 
   /**
@@ -33,8 +33,6 @@ public class ModelImpl implements IModel {
     pathToBoardConfig = new File("docs" + File.separator + board);
     pathToCardDB = new File("docs" + File.separator + cardDB);
     deck = new ArrayList<>();
-    redHand = new ArrayList<>();
-    blueHand = new ArrayList<>();
   }
 
   /**
@@ -46,6 +44,7 @@ public class ModelImpl implements IModel {
     configBoard();
     configCards();
     distributeCards();
+
   }
 
   /**
@@ -248,16 +247,20 @@ public class ModelImpl implements IModel {
    * to the blue player are added to the {@code blueHand}.
    */
   private void distributeCards() {
+    ArrayList<Card> redHand = new ArrayList<>();
+    ArrayList<Card> blueHand = new ArrayList<>();
     for(Card deckCard : this.deck) {
       if(deckCard.getPlayer() == PlayerColor.RED) {
         redHand.add(deckCard);
       }
       else { blueHand.add(deckCard); }
     }
+    this.redPlayer = new PlayerImpl(PlayerColor.RED, redHand);
+    this.bluePlayer = new PlayerImpl(PlayerColor.BLUE, blueHand);
   }
 
   @Override
-  public void placeCard(int boardRow, int boardCol, int cardIndex, PlayerColor player) {
+  public void placeCard(int boardRow, int boardCol, int cardIndex, PlayerImpl player) {
 
   }
 }
