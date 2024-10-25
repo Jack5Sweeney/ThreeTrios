@@ -264,4 +264,19 @@ public class ModelImpl implements IModel {
   public void placeCard(int boardRow, int boardCol, int cardIndex, PlayerImpl player) {
 
   }
+
+  // Card placement implementation
+// - board availability, two arrays representing an array of rows and array of columns
+// - board with cards, two arrays representing an array of rows and array of CARDS null and card
+// how should we represent the neighbors of the cards to call the implementation of the rules
+// hashmap? array?
+
+// function called placeCard where we place the card onto the board
+// we have to access the first index of the hand, then place the card onto the
+// board with cards, and this changes the according index of the board availability.
+// in the GUI (future use) the boardWithCards is the representation and if a card is placed
+// that card is shown, if it is null which means that there isn't a card, it checks the
+// boardAvailability and sees if it is a hole or a empty.
+
+
 }
