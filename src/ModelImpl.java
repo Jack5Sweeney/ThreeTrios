@@ -261,7 +261,7 @@ public class ModelImpl implements IModel {
   }
 
   @Override
-  public void placeCard(int boardRow, int boardCol, int cardIndex, PlayerImpl player) {
+  public void placeCard(int boardRow, int boardCol, int cardIndexInHand, PlayerImpl player) {
 
   }
 
@@ -278,5 +278,15 @@ public class ModelImpl implements IModel {
 // that card is shown, if it is null which means that there isn't a card, it checks the
 // boardAvailability and sees if it is a hole or a empty.
 
+  /**
+   * Updates the game board to reflect the effects of placing the specified card. This includes
+   * resolving any attacks on adjacent opposing cards and executing any associated combo actions
+   * triggered by the placement.
+   *
+   * @param cardPlaced the {@code Card} that was placed on the board, initiating the update and
+   *                   triggering any relevant interactions or combos with neighboring cards
+   */
+
+  private void updateBoard(Card cardPlaced) { }
 
 }

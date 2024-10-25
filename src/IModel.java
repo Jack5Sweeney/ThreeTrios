@@ -18,9 +18,9 @@ public interface IModel {
    *
    * @param boardRow  the row on the board where the card is to be placed
    * @param boardCol  the column on the board where the card is to be placed
-   * @param cardIndex the index of the card in the player's hand to place on the board
+   * @param cardIndexInHand the index of the card in the player's hand to place on the board
    * @param player    the {@link PlayerColor} of the player placing the card
    * @throws IllegalArgumentException if the specified position is invalid or the card index is out of bounds
    */
-  void placeCard(int boardRow, int boardCol, int cardIndex, PlayerImpl player);
+  void placeCard(int boardRow, int boardCol, int cardIndexInHand, PlayerImpl player);
 }
