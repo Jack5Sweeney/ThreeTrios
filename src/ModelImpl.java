@@ -357,6 +357,135 @@ public class ModelImpl implements IModel {
    *
    * @param cardPlaced the card that was recently placed on the board
    */
-  private void updateBoard(Card cardPlaced) {
+  public void updateBoard(Card cardPlaced, int row, int col) {
+    int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};  // North, South, West, East
+    Direction[] dirEnums = {Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST};
+
+    // Iterate over each direction to check for adjacent cards
+    for (int i = 0; i < directions.length; i++) {
+      int adjRow = row + directions[i][0];
+      int adjCol = col + directions[i][1];
+
+      if (isValidPosition(adjRow, adjCol) && boardWithCards[adjRow][adjCol] != null) {
+        Card adjacentCard = boardWithCards[adjRow][adjCol];
+
+        // Check if the adjacent card belongs to the opponent
+        if (adjacentCard.getPlayer() != cardPlaced.getPlayer()) {
+          // Battle: compare card values in the respective direction
+          Direction placedDir = dirEnums[i];
+          Direction adjOppositeDir = getOppositeDirection(placedDir);
+
+          if (cardPlaced.getDirectionsAndValues().get(placedDir).getValue() >
+                  adjacentCard.getDirectionsAndValues().get(adjOppositeDir).getValue()) {
+
+            // Flip the opponent's card and start a combo check
+            flipCardOwnership(adjacentCard, adjRow, adjCol, cardPlaced.getPlayer());
+            comboStep(adjacentCard, adjRow, adjCol, cardPlaced.getPlayer());
+          }
+        }
+      }
+    }
   }
+
+  /**
+   * Handles the combo step after flipping an opponent's card. Newly flipped cards may battle
+   * adjacent cards recursively until no more cards can be flipped.
+   *
+   * @param flippedCard the card that has been flipped
+   * @param row the row index of the flipped card
+   * @param col the column index of the flipped card
+   * @param newOwner the new owner of the flipped card
+   */
+  private void comboStep(Card flippedCard, int row, int col, PlayerColor newOwner) {
+
+    int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};  // North, South, West, East
+    Direction[] dirEnums = {Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST};
+
+    for (int i = 0; i < directions.length; i++) {
+      int adjRow = row + directions[i][0];
+      int adjCol = col + directions[i][1];
+
+      if (isValidPosition(adjRow, adjCol) && boardWithCards[adjRow][adjCol] != null) {
+        Card adjacentCard = boardWithCards[adjRow][adjCol];
+
+        if (adjacentCard.getPlayer() != newOwner) {
+          // Battle with the adjacent card
+          Direction flippedDir = dirEnums[i];
+          Direction adjOppositeDir = getOppositeDirection(flippedDir);
+
+          if (flippedCard.getDirectionsAndValues().get(flippedDir).getValue() >
+                  adjacentCard.getDirectionsAndValues().get(adjOppositeDir).getValue()) {
+
+            // Flip the opponent's card and continue the combo step
+            flipCardOwnership(adjacentCard, adjRow, adjCol, newOwner);
+            comboStep(adjacentCard, adjRow, adjCol, newOwner);
+          }
+        }
+      }
+    }
+  }
+
+  /**
+   * Flips the ownership of a card to a new player.
+   *
+   * @param card the card to flip
+   * @param row the row index of the card on the board
+   * @param col the column index of the card on the board
+   * @param newOwner the new owner of the card
+   */
+  public void flipCardOwnership(Card card, int row, int col, PlayerColor newOwner) {
+    Card flippedCard = new Card(newOwner, card.getName(),
+            card.getDirectionsAndValues().get(Direction.NORTH),
+            card.getDirectionsAndValues().get(Direction.EAST),
+            card.getDirectionsAndValues().get(Direction.SOUTH),
+            card.getDirectionsAndValues().get(Direction.WEST));
+
+    // Update the board with the flipped card
+    boardWithCards[row][col] = flippedCard;
+  }
+
+  /**
+   * Gets the opposite direction of a given direction.
+   *
+   * @param direction the direction for which to find the opposite
+   * @return the opposite direction
+   */
+  private Direction getOppositeDirection(Direction direction) {
+    switch (direction) {
+      case NORTH: return Direction.SOUTH;
+      case SOUTH: return Direction.NORTH;
+      case EAST:  return Direction.WEST;
+      case WEST:  return Direction.EAST;
+      default: throw new IllegalArgumentException("Invalid direction: " + direction);
+    }
+  }
+
+  /**
+   * Checks if the given row and column are within the bounds of the board.
+   *
+   * @param row the row index
+   * @param col the column index
+   * @return true if the position is valid; false otherwise
+   */
+  private boolean isValidPosition(int row, int col) {
+    return row >= 0 && row < boardWithCards.length && col >= 0 && col < boardWithCards[0].length;
+  }
+
+
+  // getter for testing
+
+  public IPlayer getRedPlayer() {
+    return redPlayer;
+  }
+
+  // getter for testing
+
+  public IPlayer getBluePlayer() {
+    return bluePlayer;
+  }
+
+  // this implements the rules helper function that will be implemented
+  // when the board is being updated.
+  // updates the board, and then calls the functions to implement rules when the board
+  // is being update so then it can change the cards colors if nessaracy.
 }

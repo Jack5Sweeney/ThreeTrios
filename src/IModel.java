@@ -37,4 +37,13 @@ public interface IModel {
    * @throws IllegalArgumentException if there is no card at the specified position
    */
   Card getCardAt(int boardRow, int boardCol);
+
+  void updateBoard(Card cardAt, int i, int i1);
+
+
+  void flipCardOwnership(Card cardAt, int i, int i1, PlayerColor playerColor);
+
+  Object getRedPlayer();
+
+  Object getBluePlayer();
 }
