@@ -295,6 +295,13 @@ public class ModelImpl implements IModel {
    *                                  or if the target cell is not empty
    */
   private void checkValidCardPlacement(int boardRow, int boardCol) {
+    checkValidIndex(boardRow, boardCol);
+    if (this.boardAvailability[boardRow][boardCol] != CellType.EMPTY) {
+      throw new IllegalArgumentException("The card placement is not valid for the board.");
+    }
+  }
+
+  private void checkValidIndex(int boardRow, int boardCol) {
     if (boardRow < 0
         || boardCol < 0
         || boardRow >= this.boardAvailability.length
@@ -302,26 +309,33 @@ public class ModelImpl implements IModel {
       throw new IllegalArgumentException("Invalid card placement for row "
           + boardRow + " and column " + boardCol);
     }
-    if (this.boardAvailability[boardRow][boardCol] != CellType.EMPTY) {
-      throw new IllegalArgumentException("The card placement is not valid for the board.");
-    }
   }
 
   /**
-   * Retrieves the card at the specified board position. Returns a new instance
-   * of the card to avoid unintended modifications.
+   * Retrieves the card at the specified board position. If a card exists at the
+   * given location, a new instance of the card is returned to prevent unintended
+   * modifications. If no card is present, an exception is thrown.
    *
-   * @param boardRow the row position of the card
-   * @param boardCol the column position of the card
-   * @return a copy of the card at the specified position
+   * @param boardRow the row index on the board where the card is located
+   * @param boardCol the column index on the board where the card is located
+   * @return a new instance of the {@link Card} at the specified position
+   * @throws IllegalArgumentException if there is no card at the specified position
    */
   public Card getCardAt(int boardRow, int boardCol) {
-    Card card = this.boardWithCards[boardRow][boardCol];
-    return new Card(card.getPlayer(), card.getName(),
-        card.getDirectionsAndValues().get(Direction.NORTH),
-        card.getDirectionsAndValues().get(Direction.EAST),
-        card.getDirectionsAndValues().get(Direction.SOUTH),
-        card.getDirectionsAndValues().get(Direction.WEST));
+    checkValidIndex(boardRow, boardCol);
+    if (this.boardWithCards[boardRow][boardCol] != null) {
+      Card card = this.boardWithCards[boardRow][boardCol];
+      return new Card(
+          card.getPlayer(),
+          card.getName(),
+          card.getDirectionsAndValues().get(Direction.NORTH),
+          card.getDirectionsAndValues().get(Direction.EAST),
+          card.getDirectionsAndValues().get(Direction.SOUTH),
+          card.getDirectionsAndValues().get(Direction.WEST)
+      );
+    } else {
+      throw new IllegalArgumentException("No such card.");
+    }
   }
 
 // Card placement implementation

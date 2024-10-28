@@ -189,5 +189,75 @@ public class TestModel {
       //Successfully caught IllegalArgumentException
     }
   }
+
+  @Test
+  public void testGetCardAtValidPositionWithCard() {
+    simpleModel.startGame();
+    simpleModel.placeCard(0, 0, 0, redPlayer);
+    Card card = simpleModel.getCardAt(0, 0);
+
+    Assert.assertNotNull(card);
+    Assert.assertEquals("CorruptKing", card.getName());
+  }
+
+  @Test
+  public void testGetCardAtInvalidNegRow() {
+    try {
+      simpleModel.startGame();
+      simpleModel.placeCard(0, 0, 0, redPlayer);
+      simpleModel.getCardAt(-1, 0);
+      fail("Invalid card position");
+    } catch (IllegalArgumentException e) {
+      //Successfully Caught IllegalArgumentException
+    }
+  }
+
+  @Test
+  public void testGetCardAtInvalidPossRow() {
+    try {
+      simpleModel.startGame();
+      simpleModel.placeCard(0, 0, 0, redPlayer);
+      simpleModel.getCardAt(10, 0);
+      fail("Invalid card position");
+    } catch (IllegalArgumentException e) {
+      //Successfully Caught IllegalArgumentException
+    }
+  }
+
+  @Test
+  public void testGetCardAtInvalidNegCol() {
+    try {
+      simpleModel.startGame();
+      simpleModel.placeCard(0, 0, 0, redPlayer);
+      simpleModel.getCardAt(0, -1);
+      fail("Invalid card position");
+    } catch (IllegalArgumentException e) {
+      //Successfully Caught IllegalArgumentException
+    }
+  }
+
+  @Test
+  public void testGetCardAtInvalidPossCol() {
+    try {
+      simpleModel.startGame();
+      simpleModel.placeCard(0, 0, 0, redPlayer);
+      simpleModel.getCardAt(0, 10);
+      fail("Invalid card position");
+    } catch (IllegalArgumentException e) {
+      //Successfully Caught IllegalArgumentException
+    }
+  }
+
+  @Test
+  public void testGetCardAtINullCard() {
+    try {
+      simpleModel.startGame();
+      simpleModel.placeCard(0, 0, 0, redPlayer);
+      simpleModel.getCardAt(0, 1);
+      fail("Cannot retrieve a null card");
+    } catch (IllegalArgumentException e) {
+      //Successfully Caught IllegalArgumentException
+    }
+  }
 }
 

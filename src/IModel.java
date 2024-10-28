@@ -27,13 +27,14 @@ public interface IModel {
   void placeCard(int boardRow, int boardCol, int cardIndexInHand, PlayerImpl player);
 
   /**
-   * Retrieves the card at the specified location on the board.
-   * Returns a new instance of the card to prevent unintended modifications.
+   * Retrieves the card at the specified board position. If a card exists at the
+   * given location, a new instance of the card is returned to prevent unintended
+   * modifications. If no card is present, an exception is thrown.
    *
-   * @param boardRow the row of the card's position on the board
-   * @param boardCol the column of the card's position on the board
-   * @return a copy of the {@link Card} at the specified board position
-   * @throws IllegalArgumentException if the specified board position is out of bounds
+   * @param boardRow the row index on the board where the card is located
+   * @param boardCol the column index on the board where the card is located
+   * @return a new instance of the {@link Card} at the specified position
+   * @throws IllegalArgumentException if there is no card at the specified position
    */
   Card getCardAt(int boardRow, int boardCol);
 }
