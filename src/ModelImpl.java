@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+
 import static java.util.Arrays.asList;
 import static java.util.Collections.frequency;
 
@@ -47,7 +48,6 @@ public class ModelImpl implements IModel {
     configBoard();
     configCards();
     distributeCards();
-
   }
 
   /**
@@ -250,28 +250,71 @@ public class ModelImpl implements IModel {
    * to the blue player are added to the {@code blueHand}.
    */
   private void distributeCards() {
-    for(Card deckCard : this.deck) {
-      if(deckCard.getPlayer() == PlayerColor.RED) {
+    for (Card deckCard : this.deck) {
+      if (deckCard.getPlayer() == PlayerColor.RED) {
         this.redPlayer.getHand().add(deckCard);
+      } else {
+        this.bluePlayer.getHand().add(deckCard);
       }
-      else { this.bluePlayer.getHand().add(deckCard); }
     }
   }
 
+  /**
+   * Places a card on the board for a specified player at the given row and column
+   * position, removing it from the player's hand.
+   *
+   * @param boardRow        the row on the board where the card will be placed
+   * @param boardCol        the column on the board where the card will be placed
+   * @param cardIndexInHand the index of the card in the player's hand
+   * @param player          the player who is placing the card
+   * @throws IllegalArgumentException if the player is null, if the card index is invalid,
+   *                                  or if the placement on the board is invalid
+   */
   @Override
   public void placeCard(int boardRow, int boardCol, int cardIndexInHand, PlayerImpl player) {
+    if (player == null) {
+      throw new IllegalArgumentException("Player cannot be null.");
+    }
+    if (cardIndexInHand < 0 || cardIndexInHand >= player.getHand().size()) {
+      throw new IllegalArgumentException("Invalid card index in hand.");
+    }
     checkValidCardPlacement(boardRow, boardCol);
     this.boardWithCards[boardRow][boardCol] = player.getHand().remove(cardIndexInHand);
     this.boardAvailability[boardRow][boardCol] = CellType.CARD;
     //updateBoard(this.boardWithCards[boardRow][boardCol]);
   }
 
+
+  /**
+   * Verifies if a card placement is valid by checking the board boundaries
+   * and ensuring the target cell is empty.
+   *
+   * @param boardRow the row of the placement
+   * @param boardCol the column of the placement
+   * @throws IllegalArgumentException if the placement is outside the board boundaries
+   *                                  or if the target cell is not empty
+   */
   private void checkValidCardPlacement(int boardRow, int boardCol) {
-    if(this.boardAvailability[boardRow][boardCol] != CellType.EMPTY) {
+    if (boardRow < 0
+        || boardCol < 0
+        || boardRow >= this.boardAvailability.length
+        || boardCol >= this.boardAvailability[boardRow].length) {
+      throw new IllegalArgumentException("Invalid card placement for row "
+          + boardRow + " and column " + boardCol);
+    }
+    if (this.boardAvailability[boardRow][boardCol] != CellType.EMPTY) {
       throw new IllegalArgumentException("The card placement is not valid for the board.");
     }
   }
 
+  /**
+   * Retrieves the card at the specified board position. Returns a new instance
+   * of the card to avoid unintended modifications.
+   *
+   * @param boardRow the row position of the card
+   * @param boardCol the column position of the card
+   * @return a copy of the card at the specified position
+   */
   public Card getCardAt(int boardRow, int boardCol) {
     Card card = this.boardWithCards[boardRow][boardCol];
     return new Card(card.getPlayer(), card.getName(),
@@ -295,14 +338,11 @@ public class ModelImpl implements IModel {
 // boardAvailability and sees if it is a hole or a empty.
 
   /**
-   * Updates the game board to reflect the effects of placing the specified card. This includes
-   * resolving any attacks on adjacent opposing cards and executing any associated combo actions
-   * triggered by the placement.
+   * Updates the game board to reflect any changes due to the placement of a card,
+   * including resolving interactions with adjacent cards.
    *
-   * @param cardPlaced the {@code Card} that was placed on the board, initiating the update and
-   *                   triggering any relevant interactions or combos with neighboring cards
+   * @param cardPlaced the card that was recently placed on the board
    */
-
-  private void updateBoard(Card cardPlaced) { }
-
+  private void updateBoard(Card cardPlaced) {
+  }
 }

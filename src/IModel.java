@@ -14,15 +14,26 @@ public interface IModel {
   void startGame();
 
   /**
-   * Places a card on the board at the specified row and column.
+   * Places a card on the board for a specified player at the given row and column
+   * position, removing it from the player's hand.
    *
-   * @param boardRow  the row on the board where the card is to be placed
-   * @param boardCol  the column on the board where the card is to be placed
-   * @param cardIndexInHand the index of the card in the player's hand to place on the board
-   * @param player    the {@link PlayerColor} of the player placing the card
-   * @throws IllegalArgumentException if the specified position is invalid or the card index is out of bounds
+   * @param boardRow        the row on the board where the card will be placed
+   * @param boardCol        the column on the board where the card will be placed
+   * @param cardIndexInHand the index of the card in the player's hand
+   * @param player          the player who is placing the card
+   * @throws IllegalArgumentException if the player is null, if the card index is invalid,
+   *                                  or if the placement on the board is invalid
    */
   void placeCard(int boardRow, int boardCol, int cardIndexInHand, PlayerImpl player);
 
+  /**
+   * Retrieves the card at the specified location on the board.
+   * Returns a new instance of the card to prevent unintended modifications.
+   *
+   * @param boardRow the row of the card's position on the board
+   * @param boardCol the column of the card's position on the board
+   * @return a copy of the {@link Card} at the specified board position
+   * @throws IllegalArgumentException if the specified board position is out of bounds
+   */
   Card getCardAt(int boardRow, int boardCol);
 }

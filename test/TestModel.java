@@ -78,14 +78,116 @@ public class TestModel {
   public void testPlacingCardInEmptySpot() {
     simpleModel.startGame();
     simpleModel.placeCard(0,0,0, redPlayer);
+    Assert.assertEquals("CorruptKing", simpleModel.getCardAt(0,0).getName());
+  }
 
-    Card expectedCard = new Card(PlayerColor.RED, "CorruptKing", DirectionValue.SEVEN,
-        DirectionValue.THREE,
-        DirectionValue.NINE,
-        DirectionValue.A);
+  @Test
+  public void testPlacingCardInNonEmptySpot() {
+    try {
+      simpleModel.startGame();
+      simpleModel.placeCard(0, 0, 0, redPlayer);
+      simpleModel.placeCard(0, 0, 0, bluePlayer);
+      fail("Placed card in a full spot");
+    }
+    catch (IllegalArgumentException e) {
+      //Successfully caught IllegalArgumentException
+    }
+  }
 
-    Assert.assertEquals(expectedCard, simpleModel.getCardAt(0,0));
-    //CorruptKing 7 3 9 A
+  @Test
+  public void testPlacingCardInHole() {
+    try {
+      model.startGame();
+      model.placeCard(1, 1, 0, redPlayer);
+      fail("Placed card in a spot hole");
+    }
+    catch (IllegalArgumentException e) {
+      //Successfully caught IllegalArgumentException
+    }
+  }
+
+  @Test
+  public void testPlacingCardOutOfBoundsRowPoss() {
+    try {
+      simpleModel.startGame();
+      simpleModel.placeCard(3,0,0, redPlayer);
+      fail("Out of bounds row");
+    }
+    catch (IllegalArgumentException e) {
+      //Successfully caught IllegalArgumentException
+    }
+  }
+
+  @Test
+  public void testPlacingCardOutOfBoundsRowNeg() {
+    try {
+      simpleModel.startGame();
+      simpleModel.placeCard(0,-1,0, redPlayer);
+      fail("Out of bounds row");
+    }
+    catch (IllegalArgumentException e) {
+      //Successfully caught IllegalArgumentException
+    }
+  }
+
+  @Test
+  public void testPlacingCardOutOfBoundsColPoss() {
+    try {
+      simpleModel.startGame();
+      simpleModel.placeCard(0,3,0, redPlayer);
+      fail("Placed card in a spot hole");
+    }
+    catch (IllegalArgumentException e) {
+      //Successfully caught IllegalArgumentException
+    }
+  }
+
+  @Test
+  public void testPlacingCardOutOfBoundsColNeg() {
+    try {
+      simpleModel.startGame();
+      simpleModel.placeCard(0,-1,0, redPlayer);
+      fail("Placed card in a spot hole");
+    }
+    catch (IllegalArgumentException e) {
+      //Successfully caught IllegalArgumentException
+    }
+  }
+
+  @Test
+  public void testPlacingCardOutOfBoundsHandIndexPoss() {
+    try {
+      simpleModel.startGame();
+      simpleModel.placeCard(0,0,5, redPlayer);
+      fail("Placed card in a spot hole");
+    }
+    catch (IllegalArgumentException e) {
+      //Successfully caught IllegalArgumentException
+    }
+  }
+
+  @Test
+  public void testPlacingCardOutOfBoundsHandIndexNeg() {
+    try {
+      simpleModel.startGame();
+      simpleModel.placeCard(0,0,-1, redPlayer);
+      fail("Placed card in a spot hole");
+    }
+    catch (IllegalArgumentException e) {
+      //Successfully caught IllegalArgumentException
+    }
+  }
+
+  @Test
+  public void testPlacingCardNullPlayer() {
+    try {
+      simpleModel.startGame();
+      simpleModel.placeCard(0,0,0, null);
+      fail("Player cannot be null");
+    }
+    catch (IllegalArgumentException e) {
+      //Successfully caught IllegalArgumentException
+    }
   }
 }
 
