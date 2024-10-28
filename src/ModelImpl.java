@@ -30,10 +30,12 @@ public class ModelImpl implements IModel {
    * @param board  the name of the board configuration file
    * @param cardDB the name of the card database file
    */
-  public ModelImpl(String board, String cardDB) {
-    pathToBoardConfig = new File("docs" + File.separator + board);
-    pathToCardDB = new File("docs" + File.separator + cardDB);
-    deck = new ArrayList<>();
+  public ModelImpl(String board, String cardDB, ArrayList<IPlayer> players) {
+    this.pathToBoardConfig = new File("docs" + File.separator + board);
+    this.pathToCardDB = new File("docs" + File.separator + cardDB);
+    this.deck = new ArrayList<>();
+    this.redPlayer = players.get(0);
+    this.bluePlayer = players.get(1);
   }
 
   /**
@@ -248,24 +250,38 @@ public class ModelImpl implements IModel {
    * to the blue player are added to the {@code blueHand}.
    */
   private void distributeCards() {
-    ArrayList<Card> redHand = new ArrayList<>();
-    ArrayList<Card> blueHand = new ArrayList<>();
     for(Card deckCard : this.deck) {
       if(deckCard.getPlayer() == PlayerColor.RED) {
-        redHand.add(deckCard);
+        this.redPlayer.getHand().add(deckCard);
       }
-      else { blueHand.add(deckCard); }
+      else { this.bluePlayer.getHand().add(deckCard); }
     }
-    this.redPlayer = new PlayerImpl(PlayerColor.RED, redHand);
-    this.bluePlayer = new PlayerImpl(PlayerColor.BLUE, blueHand);
   }
 
   @Override
   public void placeCard(int boardRow, int boardCol, int cardIndexInHand, PlayerImpl player) {
-
+    checkValidCardPlacement(boardRow, boardCol);
+    this.boardWithCards[boardRow][boardCol] = player.getHand().remove(cardIndexInHand);
+    this.boardAvailability[boardRow][boardCol] = CellType.CARD;
+    //updateBoard(this.boardWithCards[boardRow][boardCol]);
   }
 
-  // Card placement implementation
+  private void checkValidCardPlacement(int boardRow, int boardCol) {
+    if(this.boardAvailability[boardRow][boardCol] != CellType.EMPTY) {
+      throw new IllegalArgumentException("The card placement is not valid for the board.");
+    }
+  }
+
+  public Card getCardAt(int boardRow, int boardCol) {
+    Card card = this.boardWithCards[boardRow][boardCol];
+    return new Card(card.getPlayer(), card.getName(),
+        card.getDirectionsAndValues().get(Direction.NORTH),
+        card.getDirectionsAndValues().get(Direction.EAST),
+        card.getDirectionsAndValues().get(Direction.SOUTH),
+        card.getDirectionsAndValues().get(Direction.WEST));
+  }
+
+// Card placement implementation
 // - board availability, two arrays representing an array of rows and array of columns
 // - board with cards, two arrays representing an array of rows and array of CARDS null and card
 // how should we represent the neighbors of the cards to call the implementation of the rules

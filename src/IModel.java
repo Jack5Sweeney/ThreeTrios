@@ -23,4 +23,6 @@ public interface IModel {
    * @throws IllegalArgumentException if the specified position is invalid or the card index is out of bounds
    */
   void placeCard(int boardRow, int boardCol, int cardIndexInHand, PlayerImpl player);
+
+  Card getCardAt(int boardRow, int boardCol);
 }
