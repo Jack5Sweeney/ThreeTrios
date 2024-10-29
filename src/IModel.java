@@ -46,4 +46,20 @@ public interface IModel {
   Object getRedPlayer();
 
   Object getBluePlayer();
+
+  /**
+   * Returns the current board with cards on it.
+   *
+   * @return a 2D array representing the board with cards
+   */
+
+  Card[][] getBoard();
+
+  /**
+   * Returns the board availability information.
+   *
+   * @return a 2D array representing the board cell types (e.g., empty, hole, etc.)
+   */
+
+  CellType[][] getBoardAvailability();
 }
