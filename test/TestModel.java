@@ -118,32 +118,21 @@ public class TestModel {
     Card blueCard = new Card(PlayerColor.BLUE, "BlueCard",
             DirectionValue.TWO, DirectionValue.TWO, DirectionValue.TWO, DirectionValue.TWO);
     ((PlayerImpl) modelForRulesTesting.getBluePlayer()).getHand().add(blueCard);
-    modelForRulesTesting.placeCard(1, 1, 0,
-            (PlayerImpl) modelForRulesTesting.getBluePlayer());
+    modelForRulesTesting.placeCard(1, 1, 0, (PlayerImpl) modelForRulesTesting.getBluePlayer());
 
     // Ensure the initial card is blue
-    assertEquals(PlayerColor.BLUE, modelForRulesTesting.getCardAt(
-            1, 1).getPlayer());
-    System.out.println("Initial placement: " +
-            modelForRulesTesting.getCardAt(1, 1).getPlayer());
+    assertEquals(PlayerColor.BLUE, modelForRulesTesting.getCardAt(1, 1).getPlayer());
 
     // Place a stronger red card adjacent to the blue card at (1, 2)
     Card redCard = new Card(PlayerColor.RED, "RedCard",
             DirectionValue.FIVE, DirectionValue.FIVE, DirectionValue.FIVE, DirectionValue.FIVE);
     ((PlayerImpl) modelForRulesTesting.getRedPlayer()).getHand().add(redCard);
-    modelForRulesTesting.placeCard(1, 2, 0,
-            (PlayerImpl) modelForRulesTesting.getRedPlayer());
-
-    // Trigger updateBoard to apply the flipping rules
-    modelForRulesTesting.updateBoard(modelForRulesTesting.getCardAt(
-            1, 2), 1, 2);
+    modelForRulesTesting.placeCard(1, 2, 0, (PlayerImpl) modelForRulesTesting.getRedPlayer());
 
     // Verify that the blue card at (1, 1) has flipped to red
-    assertEquals(PlayerColor.RED, modelForRulesTesting.getCardAt(
-            1, 1).getPlayer());
-    System.out.println("After flipping: " +
-            modelForRulesTesting.getCardAt(1, 1).getPlayer());
+    assertEquals(PlayerColor.RED, modelForRulesTesting.getCardAt(1, 1).getPlayer());
   }
+
 
 
   @Test
