@@ -16,7 +16,10 @@ public class TestModel {
 
   private PlayerImpl redPlayer;
   private PlayerImpl bluePlayer;
+  private PlayerImpl redPlayer1;
+  private PlayerImpl bluePlayer1;
   private ArrayList<IPlayer> players;
+  private ArrayList<IPlayer> players1;
   private Card redCard;
   private Card blueCard;
   private Card strongRedCard;
@@ -31,29 +34,32 @@ public class TestModel {
     simpleModel = new ModelImpl("simpleBoard.config", "simpleCard.database", players);
 
     // Initialize the model with a 3x3 board for simple testing
-    ArrayList<IPlayer> playersForTesting = new ArrayList<>();
-    playersForTesting.add(new PlayerImpl(PlayerColor.RED, new ArrayList<>()));
-    playersForTesting.add(new PlayerImpl(PlayerColor.BLUE, new ArrayList<>()));
-    modelForRulesTesting = new ModelImpl("simpleBoard.config", "simpleCard.database", players);
+    redPlayer1 = new PlayerImpl(PlayerColor.RED, new ArrayList<>());
+    bluePlayer1 = new PlayerImpl(PlayerColor.BLUE, new ArrayList<>());
+    players1 = new ArrayList<>(List.of(redPlayer1, bluePlayer1));
+    modelForRulesTesting = new ModelImpl("simpleBoard.config", "simpleCard.database", players1);
 
     // Initialize the board with a 3x3 grid for simplicity
     modelForRulesTesting.startGame();
 
     // Directly initialize cards with attack values for testing
+    /*
     redCard = new Card(PlayerColor.RED, "RedCard",
             DirectionValue.NINE, DirectionValue.SIX, DirectionValue.THREE, DirectionValue.FOUR);
 
     blueCard = new Card(PlayerColor.BLUE, "BlueCard",
             DirectionValue.TWO, DirectionValue.SEVEN, DirectionValue.FIVE, DirectionValue.EIGHT);
 
+
+     */
     strongRedCard = new Card(PlayerColor.RED, "StrongRedCard",
             DirectionValue.NINE, DirectionValue.NINE, DirectionValue.NINE, DirectionValue.NINE);
 
     weakBlueCard = new Card(PlayerColor.BLUE, "WeakBlueCard",
             DirectionValue.TWO, DirectionValue.TWO, DirectionValue.TWO, DirectionValue.TWO);
 
-    redPlayer.getHand().add(strongRedCard);
-    bluePlayer.getHand().add(weakBlueCard);
+    redPlayer1.getHand().add(strongRedCard);
+    bluePlayer1.getHand().add(weakBlueCard);
   }
 
   @Test
@@ -84,9 +90,61 @@ public class TestModel {
             1, 1), 1, 1, PlayerColor.RED);
 
     // Verify that the card ownership has been flipped to Red
-    assertEquals("The card should be flipped to Red ownership.",
+    assertEquals(
             PlayerColor.RED, modelForRulesTesting.getCardAt(1, 1).getPlayer());
   }
+
+  @Test
+  public void testFlipCardOwnership1() {
+    // Place a blue card and flip it to red
+    modelForRulesTesting.placeCard(1, 1, 0, (PlayerImpl) modelForRulesTesting.getBluePlayer());
+
+    // Check the color before flipping to ensure placeCard worked
+    System.out.println("Before flipping: " + modelForRulesTesting.getCardAt(1, 1).getPlayer());
+
+    // Flip the card ownership to Red
+    modelForRulesTesting.flipCardOwnership(modelForRulesTesting.getCardAt(1, 1), 1, 1, PlayerColor.RED);
+
+    // Verify that the card ownership has been flipped to Red
+    assertEquals(PlayerColor.RED, modelForRulesTesting.getCardAt(1, 1).getPlayer());
+
+    // Debug output to confirm flip
+    System.out.println("After flipping: " + modelForRulesTesting.getCardAt(1, 1).getPlayer());
+  }
+
+  @Test
+  public void testPlaceAndFlipAdjacentCard() {
+    // Place a weaker blue card on the board at (1, 1)
+    Card blueCard = new Card(PlayerColor.BLUE, "BlueCard",
+            DirectionValue.TWO, DirectionValue.TWO, DirectionValue.TWO, DirectionValue.TWO);
+    ((PlayerImpl) modelForRulesTesting.getBluePlayer()).getHand().add(blueCard);
+    modelForRulesTesting.placeCard(1, 1, 0,
+            (PlayerImpl) modelForRulesTesting.getBluePlayer());
+
+    // Ensure the initial card is blue
+    assertEquals(PlayerColor.BLUE, modelForRulesTesting.getCardAt(
+            1, 1).getPlayer());
+    System.out.println("Initial placement: " +
+            modelForRulesTesting.getCardAt(1, 1).getPlayer());
+
+    // Place a stronger red card adjacent to the blue card at (1, 2)
+    Card redCard = new Card(PlayerColor.RED, "RedCard",
+            DirectionValue.FIVE, DirectionValue.FIVE, DirectionValue.FIVE, DirectionValue.FIVE);
+    ((PlayerImpl) modelForRulesTesting.getRedPlayer()).getHand().add(redCard);
+    modelForRulesTesting.placeCard(1, 2, 0,
+            (PlayerImpl) modelForRulesTesting.getRedPlayer());
+
+    // Trigger updateBoard to apply the flipping rules
+    modelForRulesTesting.updateBoard(modelForRulesTesting.getCardAt(
+            1, 2), 1, 2);
+
+    // Verify that the blue card at (1, 1) has flipped to red
+    assertEquals(PlayerColor.RED, modelForRulesTesting.getCardAt(
+            1, 1).getPlayer());
+    System.out.println("After flipping: " +
+            modelForRulesTesting.getCardAt(1, 1).getPlayer());
+  }
+
 
   @Test
   public void testModelCatchesErrorWithInvalidFileName() {

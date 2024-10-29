@@ -184,6 +184,7 @@ public class ModelImpl implements IModel {
    * @return the corresponding DirectionValue
    * @throws IllegalArgumentException if the direction value is not valid
    */
+
   private DirectionValue determineDirectionValue(String directionValue) {
     switch (directionValue) {
       case "1":
@@ -221,6 +222,7 @@ public class ModelImpl implements IModel {
    * @param reader     the BufferedReader used to read the configuration file
    * @throws IOException if there is an error reading the file or invalid content is encountered
    */
+
   private void configBoardAvailability(int numRows, int numColumns, BufferedReader reader)
       throws IOException {
     this.boardAvailability = new CellType[numRows][numColumns];
@@ -279,9 +281,10 @@ public class ModelImpl implements IModel {
       throw new IllegalArgumentException("Invalid card index in hand.");
     }
     checkValidCardPlacement(boardRow, boardCol);
-    this.boardWithCards[boardRow][boardCol] = player.getHand().remove(cardIndexInHand);
+    Card placedCard = player.getHand().remove(cardIndexInHand);
+    this.boardWithCards[boardRow][boardCol] = placedCard;
     this.boardAvailability[boardRow][boardCol] = CellType.CARD;
-    //updateBoard(this.boardWithCards[boardRow][boardCol]);
+    updateBoard(placedCard, boardRow, boardCol);
   }
 
 
@@ -326,12 +329,12 @@ public class ModelImpl implements IModel {
     if (this.boardWithCards[boardRow][boardCol] != null) {
       Card card = this.boardWithCards[boardRow][boardCol];
       return new Card(
-          card.getPlayer(),
-          card.getName(),
-          card.getDirectionsAndValues().get(Direction.NORTH),
-          card.getDirectionsAndValues().get(Direction.EAST),
-          card.getDirectionsAndValues().get(Direction.SOUTH),
-          card.getDirectionsAndValues().get(Direction.WEST)
+              card.getPlayer(),
+              card.getName(),
+              card.getDirectionsAndValues().get(Direction.NORTH),
+              card.getDirectionsAndValues().get(Direction.EAST),
+              card.getDirectionsAndValues().get(Direction.SOUTH),
+              card.getDirectionsAndValues().get(Direction.WEST)
       );
     } else {
       throw new IllegalArgumentException("No such card.");
@@ -357,6 +360,7 @@ public class ModelImpl implements IModel {
    *
    * @param cardPlaced the card that was recently placed on the board
    */
+
   public void updateBoard(Card cardPlaced, int row, int col) {
     int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};  // North, South, West, East
     Direction[] dirEnums = {Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST};
@@ -396,6 +400,7 @@ public class ModelImpl implements IModel {
    * @param col the column index of the flipped card
    * @param newOwner the new owner of the flipped card
    */
+
   private void comboStep(Card flippedCard, int row, int col, PlayerColor newOwner) {
 
     int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};  // North, South, West, East
@@ -433,6 +438,7 @@ public class ModelImpl implements IModel {
    * @param col the column index of the card on the board
    * @param newOwner the new owner of the card
    */
+
   public void flipCardOwnership(Card card, int row, int col, PlayerColor newOwner) {
     Card flippedCard = new Card(newOwner, card.getName(),
             card.getDirectionsAndValues().get(Direction.NORTH),
@@ -450,6 +456,7 @@ public class ModelImpl implements IModel {
    * @param direction the direction for which to find the opposite
    * @return the opposite direction
    */
+
   private Direction getOppositeDirection(Direction direction) {
     switch (direction) {
       case NORTH: return Direction.SOUTH;
@@ -467,10 +474,10 @@ public class ModelImpl implements IModel {
    * @param col the column index
    * @return true if the position is valid; false otherwise
    */
+
   private boolean isValidPosition(int row, int col) {
     return row >= 0 && row < boardWithCards.length && col >= 0 && col < boardWithCards[0].length;
   }
-
 
   // getter for testing
 
