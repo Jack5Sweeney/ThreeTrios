@@ -1,15 +1,16 @@
 /**
  * Interface representing the model for a game.
- * Defines methods to control and manage the game's state, including starting the game and
- * placing cards on the board.
+ * Defines methods to control and manage the game's state, including starting the game,
+ * placing cards on the board, retrieving board data, and checking game status.
  */
 public interface IModel {
 
   /**
-   * Starts the game by setting up the board dimensions and other configurations.
+   * Starts the game by configuring the board, setting up initial conditions, and preparing
+   * the card deck.
    *
-   * @throws IllegalArgumentException if the configuration file is not found, has an invalid format,
-   *                                  or if there is an issue reading the file
+   * @throws IllegalArgumentException if there is an issue reading the configuration file
+   *                                  or if the file has an invalid format
    */
   void startGame();
 
@@ -38,31 +39,64 @@ public interface IModel {
    */
   Card getCardAt(int boardRow, int boardCol);
 
-  void updateBoard(Card cardAt, int i, int i1);
+  /**
+   * Updates the board to reflect changes made by placing a card, including interactions
+   * with adjacent cards.
+   *
+   * @param cardAt the card placed on the board
+   * @param row    the row index of the card's position
+   * @param col    the column index of the card's position
+   */
+  void updateBoard(Card cardAt, int row, int col);
 
+  /**
+   * Retrieves a new instance of the red player, including their color and hand.
+   *
+   * @return a new {@link IPlayer} instance representing the red player
+   */
   IPlayer getRedPlayer();
 
+  /**
+   * Retrieves a new instance of the blue player, including their color and hand.
+   *
+   * @return a new {@link IPlayer} instance representing the blue player
+   */
   IPlayer getBluePlayer();
 
   /**
-   * Returns the current board with cards on it.
+   * Provides a deep copy of the current board with all cards.
    *
-   * @return a 2D array representing the board with cards
+   * @return a 2D array of {@link Card} objects representing the board, with all attributes copied
    */
-
   Card[][] getBoard();
 
   /**
    * Returns the board availability information.
    *
-   * @return a 2D array representing the board cell types (e.g., empty, hole, etc.)
+   * @return a 2D array of {@link CellType} objects representing the availability status of each cell
    */
-
   CellType[][] getBoardAvailability();
 
+  /**
+   * Checks if the game has started and throws an exception if it has not.
+   *
+   * @throws IllegalStateException if the game has not started
+   */
   void checkGameStarted();
 
+  /**
+   * Checks if the game is over and throws an exception if it is.
+   *
+   * @throws IllegalStateException if the game is over
+   */
   void checkGameOver();
 
+  /**
+   * Retrieves the winning player of the game.
+   * If the game ends in a draw, throws an exception as there is no winning player.
+   *
+   * @return a new {@link IPlayer} instance representing the winning player
+   * @throws IllegalStateException if the game ended in a draw with no winning player
+   */
   IPlayer getWinningPlayer();
 }

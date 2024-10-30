@@ -562,6 +562,11 @@ public class ModelImpl implements IModel {
     return availabilityCopy;
   }
 
+  /**
+   * Checks the current game status, updating game state and determining the winning player.
+   * This method counts the number of cards each player has on the board and checks if
+   * the board is full, updating the gameOver and winningPlayer fields as necessary.
+   */
   private void checkGameStatus() {
     // Counters for each player's cards on the board
     int redCount = 0;
@@ -605,18 +610,35 @@ public class ModelImpl implements IModel {
     }
   }
 
+  /**
+   * Validates if the game has started. Throws an exception if the game is not yet started.
+   *
+   * @throws IllegalStateException if the game has not started
+   */
   public void checkGameStarted() {
     if(!this.gameStarted) {
       throw new IllegalStateException("The game is not started!");
     }
   }
 
+  /**
+   * Checks if the game is over. Throws an exception if the game has ended.
+   *
+   * @throws IllegalStateException if the game is over
+   */
   public void checkGameOver() {
     if(this.gameOver) {
       throw new IllegalStateException("The game is over!");
     }
   }
 
+  /**
+   * Retrieves the winning player of the game.
+   * If the game ended in a draw, throws an exception as there is no winning player.
+   *
+   * @return a new {@link IPlayer} instance representing the winning player
+   * @throws IllegalStateException if the game ended in a draw with no winning player
+   */
   public IPlayer getWinningPlayer() {
     if(this.winningPlayer == null) {
       throw new IllegalStateException("There is a tie, no winning player yet");
