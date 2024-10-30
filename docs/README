@@ -1,0 +1,43 @@
+The overall purpose of this codebase it to implement a card game, which is based off of
+player interactions and different view updates. The project facilitates card-based gameplay where
+components interact in harmony to create a playable and fun game. People that try to use this
+codebase will need a basic understanding of java as well as being familiar with OOD design
+principals.
+
+An example of a quick setup/initialization would be :
+    redPlayer = new PlayerImpl(PlayerColor.RED, new ArrayList<>());
+    bluePlayer = new PlayerImpl(PlayerColor.BLUE, new ArrayList<>());
+    players = new ArrayList<>(List.of(redPlayer, bluePlayer));
+    model = new ModelImpl("board.config", "card.database", players);
+and then model.startGame();
+
+This demonstrates the setup of a model and players, and how to start a basic game.
+
+Key Components:
+
+Model (ModelImpl) : Manages the game's logic, handles the state, rules, and structure for cards
+and players.
+
+View (ViewImpl) : This renders the view in a way that can be seen through a string version
+of the game.
+
+Player (PlayerImpl) : Represents individual players in the game, it has attributes like color
+and score.
+
+Key Subcomponents :
+
+Direction and Direction value
+
+CellType
+
+Card
+
+PlayerColor
+
+Source Org.
+
+src : contains all the primary code files
+    ModelImpl.java and IModel.java
+    ViewImpl.java and IView.java
+    PlayerImpl.java and IPlayer.java
+test/ : handles all the testing files for model and view
