@@ -546,8 +546,5 @@ public class ModelImpl implements IModel {
     return availabilityCopy;
   }
 
-  // this implements the rules helper function that will be implemented
-  // when the board is being updated.
-  // updates the board, and then calls the functions to implement rules when the board
-  // is being update so then it can change the cards colors if nessaracy.
+  //TEST TO SEE IF PUSH MODIFIES
 }
