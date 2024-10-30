@@ -567,6 +567,7 @@ public class ModelImpl implements IModel {
    * This method counts the number of cards each player has on the board and checks if
    * the board is full, updating the gameOver and winningPlayer fields as necessary.
    */
+
   private void checkGameStatus() {
     // Counters for each player's cards on the board
     int redCount = 0;
@@ -615,10 +616,11 @@ public class ModelImpl implements IModel {
    *
    * @throws IllegalStateException if the game has not started
    */
-  public void checkGameStarted() {
+  public boolean checkGameStarted() {
     if(!this.gameStarted) {
       throw new IllegalStateException("The game is not started!");
     }
+    return true;
   }
 
   /**
@@ -626,10 +628,11 @@ public class ModelImpl implements IModel {
    *
    * @throws IllegalStateException if the game is over
    */
-  public void checkGameOver() {
+  public boolean checkGameOver() {
     if(this.gameOver) {
       throw new IllegalStateException("The game is over!");
     }
+    return false;
   }
 
   /**

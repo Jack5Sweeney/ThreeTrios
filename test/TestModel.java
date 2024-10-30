@@ -42,24 +42,12 @@ public class TestModel {
     // Initialize the board with a 3x3 grid for simplicity
     modelForRulesTesting.startGame();
 
-    // Directly initialize cards with attack values for testing
-    /*
-    redCard = new Card(PlayerColor.RED, "RedCard",
-            DirectionValue.NINE, DirectionValue.SIX, DirectionValue.THREE, DirectionValue.FOUR);
-
-    blueCard = new Card(PlayerColor.BLUE, "BlueCard",
-            DirectionValue.TWO, DirectionValue.SEVEN, DirectionValue.FIVE, DirectionValue.EIGHT);
-
-
-     */
     strongRedCard = new Card(PlayerColor.RED, "StrongRedCard",
             DirectionValue.NINE, DirectionValue.NINE, DirectionValue.NINE, DirectionValue.NINE);
 
     weakBlueCard = new Card(PlayerColor.BLUE, "WeakBlueCard",
             DirectionValue.TWO, DirectionValue.TWO, DirectionValue.TWO, DirectionValue.TWO);
 
-    redPlayer1.getHand().add(strongRedCard);
-    bluePlayer1.getHand().add(weakBlueCard);
   }
 
   @Test
@@ -113,7 +101,7 @@ public class TestModel {
     // Place a weaker blue card on the board at (1, 0)
     Card blueCard1 = new Card(PlayerColor.BLUE, "BlueCard",
             DirectionValue.ONE, DirectionValue.ONE, DirectionValue.ONE, DirectionValue.ONE);
-    (modelForRulesTesting.getBluePlayer()).getHand().add(blueCard);
+    (modelForRulesTesting.getBluePlayer()).getHand().add(blueCard1);
     modelForRulesTesting.placeCard(1, 0, 0,   modelForRulesTesting.getBluePlayer());
 
     // Ensure the initial card is blue
@@ -131,7 +119,97 @@ public class TestModel {
     assertEquals(PlayerColor.RED, modelForRulesTesting.getCardAt(1, 0).getPlayer());
   }
 
+  // this tests to see if the first card that flips will flip a card with greater value
+  // it should not...
 
+  @Test
+  public void testPlaceAndFlipAdjacentCardWithNoPropAvailable() {
+    // Place a weaker blue card on the board at (1, 1)
+    Card blueCard = new Card(PlayerColor.BLUE, "BlueCard",
+            DirectionValue.TWO, DirectionValue.TWO, DirectionValue.TWO, DirectionValue.TWO);
+    (modelForRulesTesting.getBluePlayer()).getHand().add(blueCard);
+    modelForRulesTesting.placeCard(1, 0, 0,   modelForRulesTesting.getBluePlayer());
+
+    // Place a weaker blue card on the board at (1, 0)
+    Card blueCard1 = new Card(PlayerColor.BLUE, "BlueCard",
+            DirectionValue.ONE, DirectionValue.ONE, DirectionValue.ONE, DirectionValue.ONE);
+    (modelForRulesTesting.getBluePlayer()).getHand().add(blueCard1);
+    modelForRulesTesting.placeCard(1, 1, 0,   modelForRulesTesting.getBluePlayer());
+
+    // Ensure the initial card is blue
+    assertEquals(PlayerColor.BLUE, modelForRulesTesting.getCardAt(1, 1).getPlayer());
+    assertEquals(PlayerColor.BLUE, modelForRulesTesting.getCardAt(1, 0).getPlayer());
+
+    // Place a stronger red card adjacent to the blue card at (1, 2)
+    Card redCard = new Card(PlayerColor.RED, "RedCard",
+            DirectionValue.FIVE, DirectionValue.FIVE, DirectionValue.FIVE, DirectionValue.FIVE);
+    (modelForRulesTesting.getRedPlayer()).getHand().add(redCard);
+    modelForRulesTesting.placeCard(1, 2, 0,   modelForRulesTesting.getRedPlayer());
+
+    // Verify that the blue card at (1, 1) has flipped to red
+    assertEquals(PlayerColor.RED, modelForRulesTesting.getCardAt(1, 1).getPlayer());
+    assertEquals(PlayerColor.BLUE, modelForRulesTesting.getCardAt(1, 0).getPlayer());
+  }
+
+  // test to see if it propogates when there are two cards that are the same value after one is
+  // flipped
+
+  @Test
+  public void testPlaceAndFlipAdjacentCardWithPropAvailableButTie() {
+    // Place a weaker blue card on the board at (1, 1)
+    Card blueCard = new Card(PlayerColor.BLUE, "BlueCard",
+            DirectionValue.ONE, DirectionValue.ONE, DirectionValue.ONE, DirectionValue.ONE);
+    (modelForRulesTesting.getBluePlayer()).getHand().add(blueCard);
+    modelForRulesTesting.placeCard(1, 0, 0,   modelForRulesTesting.getBluePlayer());
+
+    // Place a weaker blue card on the board at (1, 0)
+    Card blueCard1 = new Card(PlayerColor.BLUE, "BlueCard",
+            DirectionValue.ONE, DirectionValue.ONE, DirectionValue.ONE, DirectionValue.ONE);
+    (modelForRulesTesting.getBluePlayer()).getHand().add(blueCard1);
+    modelForRulesTesting.placeCard(1, 1, 0,   modelForRulesTesting.getBluePlayer());
+
+    // Ensure the initial card is blue
+    assertEquals(PlayerColor.BLUE, modelForRulesTesting.getCardAt(1, 1).getPlayer());
+    assertEquals(PlayerColor.BLUE, modelForRulesTesting.getCardAt(1, 0).getPlayer());
+
+    // Place a stronger red card adjacent to the blue card at (1, 2)
+    Card redCard = new Card(PlayerColor.RED, "RedCard",
+            DirectionValue.FIVE, DirectionValue.FIVE, DirectionValue.FIVE, DirectionValue.FIVE);
+    (modelForRulesTesting.getRedPlayer()).getHand().add(redCard);
+    modelForRulesTesting.placeCard(1, 2, 0,   modelForRulesTesting.getRedPlayer());
+
+    // Verify that the blue card at (1, 1) has flipped to red
+    assertEquals(PlayerColor.RED, modelForRulesTesting.getCardAt(1, 1).getPlayer());
+    assertEquals(PlayerColor.BLUE, modelForRulesTesting.getCardAt(1, 0).getPlayer());
+  }
+
+  @Test
+  public void testPropegationOfMultipleCardsWithDifferentDirections() {
+    modelForRulesTesting.placeCard(0, 0, 4,   modelForRulesTesting.getRedPlayer());
+    modelForRulesTesting.placeCard(1, 0, 2,   modelForRulesTesting.getRedPlayer());
+    modelForRulesTesting.placeCard(2, 0, 1,   modelForRulesTesting.getRedPlayer());
+    modelForRulesTesting.placeCard(2, 1, 1,   modelForRulesTesting.getRedPlayer());
+    modelForRulesTesting.placeCard(2, 2, 0,   modelForRulesTesting.getBluePlayer());
+
+    assertEquals(PlayerColor.BLUE, modelForRulesTesting.getCardAt(0, 0).getPlayer());
+    assertEquals(PlayerColor.BLUE, modelForRulesTesting.getCardAt(1, 0).getPlayer());
+    assertEquals(PlayerColor.BLUE, modelForRulesTesting.getCardAt(2, 0).getPlayer());
+    assertEquals(PlayerColor.BLUE, modelForRulesTesting.getCardAt(2, 1).getPlayer());
+    assertEquals(PlayerColor.BLUE, modelForRulesTesting.getCardAt(2, 2).getPlayer());
+
+  }
+
+  @Test
+  public void testTryingToPropWithDiag() {
+    modelForRulesTesting.placeCard(0, 0, 0,   modelForRulesTesting.getRedPlayer());
+    modelForRulesTesting.placeCard(1, 1, 0,   modelForRulesTesting.getRedPlayer());
+    modelForRulesTesting.placeCard(2, 2, 1,   modelForRulesTesting.getBluePlayer());
+
+    assertEquals(PlayerColor.RED, modelForRulesTesting.getCardAt(0, 0).getPlayer());
+    assertEquals(PlayerColor.RED, modelForRulesTesting.getCardAt(1, 1).getPlayer());
+    assertEquals(PlayerColor.BLUE, modelForRulesTesting.getCardAt(2, 2).getPlayer());
+
+  }
 
   @Test
   public void testModelCatchesErrorWithInvalidFileName() {

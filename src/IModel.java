@@ -82,14 +82,14 @@ public interface IModel {
    *
    * @throws IllegalStateException if the game has not started
    */
-  void checkGameStarted();
+  boolean checkGameStarted();
 
   /**
    * Checks if the game is over and throws an exception if it is.
    *
    * @throws IllegalStateException if the game is over
    */
-  void checkGameOver();
+  boolean checkGameOver();
 
   /**
    * Retrieves the winning player of the game.
