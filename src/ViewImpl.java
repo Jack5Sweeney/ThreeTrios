@@ -79,7 +79,6 @@ public class ViewImpl implements IView {
         } else {
           sb.append("_");  // Empty cell
         }
-        sb.append(" ");
       }
       sb.append("\n");
     }

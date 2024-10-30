@@ -40,25 +40,6 @@ public class ModelImpl implements IModel {
   }
 
   /**
-   * Constructor specifically for testing
-   *
-   * @param boardAvailability
-   * @param boardWithCards
-   * @param deck
-   * @param redPlayer
-   * @param bluePlayer
-   */
-
-  // Test-specific constructor to initialize with a predefined deck and board
-  public ModelImpl(CellType[][] boardAvailability, Card[][] boardWithCards, ArrayList<Card> deck, IPlayer redPlayer, IPlayer bluePlayer) {
-    this.boardAvailability = boardAvailability;
-    this.boardWithCards = boardWithCards;
-    this.deck = deck;
-    this.redPlayer = redPlayer;
-    this.bluePlayer = bluePlayer;
-  }
-
-  /**
    * Starts the game by configuring the board and setting up its availability based on the config file,
    * adding all cards to a deck then distributing to the proper players.
    */

@@ -64,4 +64,16 @@ public class Card {
     return new HashMap<>(directionsAndValues);
   }
 
+  @Override
+  public String toString() {
+    return new String(this.name + " " +
+            this.directionsAndValues.get(Direction.NORTH).toString()
+            + " " +
+            this.directionsAndValues.get(Direction.EAST)).toString()
+            + " " +
+            this.directionsAndValues.get(Direction.SOUTH).toString()
+            + " " +
+            this.directionsAndValues.get(Direction.WEST).toString();
+  }
+
 }
