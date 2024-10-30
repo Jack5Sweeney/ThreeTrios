@@ -367,5 +367,16 @@ public class TestModel {
       //Successfully Caught IllegalArgumentException
     }
   }
+
+  @Test
+  public void testGameOverBeforeGameStarted() {
+    try {
+      simpleModel.checkGameStarted();
+      fail("The game is not started yet");
+    } catch (IllegalStateException e) {
+      // Successfully caught IllegalStateException
+    }
+  }
+
 }
 

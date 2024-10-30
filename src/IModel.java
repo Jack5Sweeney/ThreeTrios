@@ -59,4 +59,10 @@ public interface IModel {
    */
 
   CellType[][] getBoardAvailability();
+
+  void checkGameStarted();
+
+  void checkGameOver();
+
+  IPlayer getWinningPlayer();
 }

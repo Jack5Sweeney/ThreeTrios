@@ -25,6 +25,7 @@ public class ModelImpl implements IModel {
   private IPlayer bluePlayer;
   private boolean gameStarted;
   private boolean gameOver;
+  private IPlayer winningPlayer;
 
 
   /**
@@ -294,6 +295,7 @@ public class ModelImpl implements IModel {
     this.boardWithCards[boardRow][boardCol] = placedCard;
     this.boardAvailability[boardRow][boardCol] = CellType.CARD;
     updateBoard(placedCard, boardRow, boardCol);
+    checkGameStatus();
   }
 
 
@@ -560,6 +562,49 @@ public class ModelImpl implements IModel {
     return availabilityCopy;
   }
 
+  private void checkGameStatus() {
+    // Counters for each player's cards on the board
+    int redCount = 0;
+    int blueCount = 0;
+    int totalPlayableCells = 0;
+    int totalOccupiedCells = 0;
+
+    for (int row = 0; row < boardWithCards.length; row++) {
+      for (int col = 0; col < boardWithCards[row].length; col++) {
+        // Count playable cells (EMPTY or CARD)
+        if (boardAvailability[row][col] == CellType.EMPTY || boardAvailability[row][col] == CellType.CARD) {
+          totalPlayableCells++;
+
+          // Count occupied cells and cards for each player
+          if (boardWithCards[row][col] != null) {
+            totalOccupiedCells++;
+            Card card = boardWithCards[row][col];
+            if (card.getPlayer() == PlayerColor.RED) {
+              redCount++;
+            } else if (card.getPlayer() == PlayerColor.BLUE) {
+              blueCount++;
+            }
+          }
+        }
+      }
+    }
+
+    // Check if the board is full
+    if (totalOccupiedCells == totalPlayableCells) {
+      this.gameOver = true;
+    }
+
+    // Update the winning player based on card counts
+    if (redCount > blueCount) {
+      this.winningPlayer = this.redPlayer;
+    } else if (blueCount > redCount) {
+      this.winningPlayer = this.bluePlayer;
+    } else {
+      // It's a tie; you may choose to handle this differently
+      this.winningPlayer = null; // Represents a draw
+    }
+  }
+
   public void checkGameStarted() {
     if(!this.gameStarted) {
       throw new IllegalStateException("The game is not started!");
@@ -572,6 +617,13 @@ public class ModelImpl implements IModel {
     }
   }
 
+  public IPlayer getWinningPlayer() {
+    if(this.winningPlayer == null) {
+      throw new IllegalStateException("There is a tie, no winning player yet");
+    }
+    return new PlayerImpl(winningPlayer.getPlayerColor(), winningPlayer.getHand());
+
+  }
 
   //TEST TO SEE IF PUSH MODIFIES
 }

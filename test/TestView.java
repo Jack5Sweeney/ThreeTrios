@@ -49,12 +49,21 @@ public class TestView {
   public void testBluePlayerView() {
     // Switch the view to the blue player
     view.switchPlayerView();
-    String expectedOutput = "Player: BLUE\n"
-        + "R _ _ \n"
-        + "_ B _ \n"
-        + "_ _ _ \n"
-        + "Hand:\n"
-        + "B2 1 2 3 4\n";
+    String expectedOutput = "Player: BLUE\n" +
+        "__    _\n" +
+        "_ _   _\n" +
+        "_  _  _\n" +
+        "_   _ _\n" +
+        "_    __\n" +
+        "Hand:\n" +
+        "AngryDragon 2 8 9 9\n" +
+        "HeroKnight A 2 4 4\n" +
+        "SkyWhale 4 5 9 9\n" +
+        "StormGiant 9 7 3 6\n" +
+        "MysticPhoenix 5 6 7 A\n" +
+        "ThunderWolf 8 6 3 5\n" +
+        "SteelRaven 4 7 8 6\n" +
+        "JJWKing 9 4 7 9\n";
 
     assertEquals(expectedOutput, view.toString());
   }
