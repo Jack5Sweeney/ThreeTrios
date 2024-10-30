@@ -2,7 +2,8 @@ The overall purpose of this codebase it to implement a card game, which is based
 player interactions and different view updates. The project facilitates card-based gameplay where
 components interact in harmony to create a playable and fun game. People that try to use this
 codebase will need a basic understanding of java as well as being familiar with OOD design
-principals.
+principals. There are 3 interfaces where the classes all implement the interfaces that we created.
+There are four enums that are used for the project which are a specific design choice.
 
 An example of a quick setup/initialization would be :
     redPlayer = new PlayerImpl(PlayerColor.RED, new ArrayList<>());
@@ -26,13 +27,16 @@ and score.
 
 Key Subcomponents :
 
-Direction and Direction value
+Direction and Direction value: These are important enums that determine the direction and
+value of each card, which is vital for the model and logic of the game.
 
-CellType
+CellType: This is an enum which determines if the cell of the board is empty, a card, or a hole.
+this is important for the board configuration and how the game can be played.
 
-Card
+Card: This class is for the creation of a card. The card has a player, a player name, and the
+directions and the values that go with each direction.
 
-PlayerColor
+PlayerColor: This is a simple enum that helps determine if it is either a red or blue player.
 
 Source Org.
 
