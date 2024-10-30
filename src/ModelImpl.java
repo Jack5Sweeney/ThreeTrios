@@ -40,7 +40,6 @@ public class ModelImpl implements IModel {
   }
 
   /**
-   *
    * Constructor specifically for testing
    *
    * @param boardAvailability
@@ -293,7 +292,7 @@ public class ModelImpl implements IModel {
    *                                  or if the placement on the board is invalid
    */
   @Override
-  public void placeCard(int boardRow, int boardCol, int cardIndexInHand, PlayerImpl player) {
+  public void placeCard(int boardRow, int boardCol, int cardIndexInHand, IPlayer player) {
     if (player == null) {
       throw new IllegalArgumentException("Player cannot be null.");
     }
@@ -349,12 +348,12 @@ public class ModelImpl implements IModel {
     if (this.boardWithCards[boardRow][boardCol] != null) {
       Card card = this.boardWithCards[boardRow][boardCol];
       return new Card(
-              card.getPlayer(),
-              card.getName(),
-              card.getDirectionsAndValues().get(Direction.NORTH),
-              card.getDirectionsAndValues().get(Direction.EAST),
-              card.getDirectionsAndValues().get(Direction.SOUTH),
-              card.getDirectionsAndValues().get(Direction.WEST)
+          card.getPlayer(),
+          card.getName(),
+          card.getDirectionsAndValues().get(Direction.NORTH),
+          card.getDirectionsAndValues().get(Direction.EAST),
+          card.getDirectionsAndValues().get(Direction.SOUTH),
+          card.getDirectionsAndValues().get(Direction.WEST)
       );
     } else {
       throw new IllegalArgumentException("No such card.");
@@ -400,7 +399,7 @@ public class ModelImpl implements IModel {
           Direction adjOppositeDir = getOppositeDirection(placedDir);
 
           if (cardPlaced.getDirectionsAndValues().get(placedDir).getValue() >
-                  adjacentCard.getDirectionsAndValues().get(adjOppositeDir).getValue()) {
+              adjacentCard.getDirectionsAndValues().get(adjOppositeDir).getValue()) {
 
             // Flip the opponent's card and start a combo check
             flipCardOwnership(adjacentCard, adjRow, adjCol, cardPlaced.getPlayer());
@@ -416,9 +415,9 @@ public class ModelImpl implements IModel {
    * adjacent cards recursively until no more cards can be flipped.
    *
    * @param flippedCard the card that has been flipped
-   * @param row the row index of the flipped card
-   * @param col the column index of the flipped card
-   * @param newOwner the new owner of the flipped card
+   * @param row         the row index of the flipped card
+   * @param col         the column index of the flipped card
+   * @param newOwner    the new owner of the flipped card
    */
 
   private void comboStep(Card flippedCard, int row, int col, PlayerColor newOwner) {
@@ -439,7 +438,7 @@ public class ModelImpl implements IModel {
           Direction adjOppositeDir = getOppositeDirection(flippedDir);
 
           if (flippedCard.getDirectionsAndValues().get(flippedDir).getValue() >
-                  adjacentCard.getDirectionsAndValues().get(adjOppositeDir).getValue()) {
+              adjacentCard.getDirectionsAndValues().get(adjOppositeDir).getValue()) {
 
             // Flip the opponent's card and continue the combo step
             flipCardOwnership(adjacentCard, adjRow, adjCol, newOwner);
@@ -453,18 +452,18 @@ public class ModelImpl implements IModel {
   /**
    * Flips the ownership of a card to a new player.
    *
-   * @param card the card to flip
-   * @param row the row index of the card on the board
-   * @param col the column index of the card on the board
+   * @param card     the card to flip
+   * @param row      the row index of the card on the board
+   * @param col      the column index of the card on the board
    * @param newOwner the new owner of the card
    */
 
   public void flipCardOwnership(Card card, int row, int col, PlayerColor newOwner) {
     Card flippedCard = new Card(newOwner, card.getName(),
-            card.getDirectionsAndValues().get(Direction.NORTH),
-            card.getDirectionsAndValues().get(Direction.EAST),
-            card.getDirectionsAndValues().get(Direction.SOUTH),
-            card.getDirectionsAndValues().get(Direction.WEST));
+        card.getDirectionsAndValues().get(Direction.NORTH),
+        card.getDirectionsAndValues().get(Direction.EAST),
+        card.getDirectionsAndValues().get(Direction.SOUTH),
+        card.getDirectionsAndValues().get(Direction.WEST));
 
     // Update the board with the flipped card
     boardWithCards[row][col] = flippedCard;
@@ -479,48 +478,91 @@ public class ModelImpl implements IModel {
 
   private Direction getOppositeDirection(Direction direction) {
     switch (direction) {
-      case NORTH: return Direction.SOUTH;
-      case SOUTH: return Direction.NORTH;
-      case EAST:  return Direction.WEST;
-      case WEST:  return Direction.EAST;
-      default: throw new IllegalArgumentException("Invalid direction: " + direction);
+      case NORTH:
+        return Direction.SOUTH;
+      case SOUTH:
+        return Direction.NORTH;
+      case EAST:
+        return Direction.WEST;
+      case WEST:
+        return Direction.EAST;
+      default:
+        throw new IllegalArgumentException("Invalid direction: " + direction);
     }
   }
 
   /**
-   * Checks if the given row and column are within the bounds of the board.
+   * Checks if the specified position on the board is within valid bounds.
    *
-   * @param row the row index
-   * @param col the column index
-   * @return true if the position is valid; false otherwise
+   * @param row the row index to check
+   * @param col the column index to check
+   * @return {@code true} if the position is valid; {@code false} otherwise
    */
-
   private boolean isValidPosition(int row, int col) {
     return row >= 0 && row < boardWithCards.length && col >= 0 && col < boardWithCards[0].length;
   }
 
-  // getter for testing
-
+  /**
+   * Retrieves a new instance of the red player with the same color and hand.
+   *
+   * @return a new {@link IPlayer} instance for the red player
+   */
   public IPlayer getRedPlayer() {
-    return redPlayer;
+    return new PlayerImpl(redPlayer.getPlayerColor(), redPlayer.getHand());
   }
 
-  // getter for testing
-
+  /**
+   * Retrieves a new instance of the blue player with the same color and hand.
+   *
+   * @return a new {@link IPlayer} instance for the blue player
+   */
   public IPlayer getBluePlayer() {
-    return bluePlayer;
+    return new PlayerImpl(bluePlayer.getPlayerColor(), bluePlayer.getHand());
   }
 
-  // getter for testing
-
+  /**
+   * Provides a deep copy of the current board with all cards.
+   *
+   * @return a 2D array of {@link Card} objects representing the board, with all attributes copied
+   */
   public Card[][] getBoard() {
-    return boardWithCards;
+    int numRows = boardWithCards.length;
+    int numCols = boardWithCards[0].length;
+    Card[][] boardCopy = new Card[numRows][numCols];
+
+    for (int i = 0; i < numRows; i++) {
+      for (int j = 0; j < numCols; j++) {
+        if (boardWithCards[i][j] != null) {
+          Card card = boardWithCards[i][j];
+          boardCopy[i][j] = new Card(
+              card.getPlayer(),
+              card.getName(),
+              card.getDirectionsAndValues().get(Direction.NORTH),
+              card.getDirectionsAndValues().get(Direction.EAST),
+              card.getDirectionsAndValues().get(Direction.SOUTH),
+              card.getDirectionsAndValues().get(Direction.WEST)
+          );
+        } else {
+          boardCopy[i][j] = null;
+        }
+      }
+    }
+    return boardCopy;
   }
 
-  // getter for testing
-
+  /**
+   * Provides a copy of the board availability array, showing each cell's availability type.
+   *
+   * @return a 2D array of {@link CellType} objects representing the availability status of each cell
+   */
   public CellType[][] getBoardAvailability() {
-    return boardAvailability;
+    int numRows = boardAvailability.length;
+    CellType[][] availabilityCopy = new CellType[numRows][];
+
+    for (int i = 0; i < numRows; i++) {
+      availabilityCopy[i] = boardAvailability[i].clone();
+    }
+    return availabilityCopy;
   }
 
   // this implements the rules helper function that will be implemented

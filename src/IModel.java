@@ -24,7 +24,7 @@ public interface IModel {
    * @throws IllegalArgumentException if the player is null, if the card index is invalid,
    *                                  or if the placement on the board is invalid
    */
-  void placeCard(int boardRow, int boardCol, int cardIndexInHand, PlayerImpl player);
+  void placeCard(int boardRow, int boardCol, int cardIndexInHand, IPlayer player);
 
   /**
    * Retrieves the card at the specified board position. If a card exists at the
@@ -40,12 +40,11 @@ public interface IModel {
 
   void updateBoard(Card cardAt, int i, int i1);
 
-
   void flipCardOwnership(Card cardAt, int i, int i1, PlayerColor playerColor);
 
-  Object getRedPlayer();
+  IPlayer getRedPlayer();
 
-  Object getBluePlayer();
+  IPlayer getBluePlayer();
 
   /**
    * Returns the current board with cards on it.
