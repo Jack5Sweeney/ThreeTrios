@@ -55,7 +55,7 @@ public class ViewImpl implements IView {
    * @param sb the {@code StringBuilder} to append the current player information to
    */
   private void appendCurrentPlayer(StringBuilder sb) {
-    String currentPlayerColor = currentPlayer == model.getRedPlayer() ? "RED" : "BLUE";
+    String currentPlayerColor = currentPlayer.getPlayerColor().toString();
     sb.append("Player: ").append(currentPlayerColor).append("\n");
   }
 
@@ -96,5 +96,3 @@ public class ViewImpl implements IView {
     }
   }
 }
-
-// test
