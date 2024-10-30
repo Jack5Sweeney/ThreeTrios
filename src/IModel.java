@@ -63,7 +63,8 @@ public interface IModel {
   /**
    * Returns the board availability information.
    *
-   * @return a 2D array of {@link CellType} objects representing the availability status of each cell
+   * @return a 2D array of {@link CellType} objects representing the availability status of each
+   *         cell
    */
   CellType[][] getBoardAvailability();
 

@@ -10,10 +10,25 @@ import static java.util.Collections.frequency;
 /**
  * Implementation of the {@link IModel} interface that represents the game model.
  * Handles board configuration and game setup.
+ *
+ * <p><strong>Class Invariants:</strong></p>
+ * <ul>
+ *   <li>The board availability and board with cards arrays are consistent.
+ *       For any position <code>(i, j)</code>:
+ *       <ul>
+ *           <li>If <code>boardAvailability[i][j] == CellType.CARD</code>,
+ *               then <code>boardWithCards[i][j] != null</code>.</li>
+ *           <li>If <code>boardAvailability[i][j] != CellType.CARD</code>,
+ *               then <code>boardWithCards[i][j] == null</code>.</li>
+ *       </ul>
+ *   </li>
+ *   <li>The color of the red player is always <code>PlayerColor.RED</code>,
+ *       and the color of the blue player is always <code>PlayerColor.BLUE</code>.
+ *   </li>
+ * </ul>
  */
 public class ModelImpl implements IModel {
 
-  //test comment
   private int numRows;
   private int numColumns;
   private File pathToBoardConfig;
@@ -29,7 +44,8 @@ public class ModelImpl implements IModel {
 
 
   /**
-   * Constructs the ModelImpl with the specified configuration files for the board and the card database.
+   * Constructs the ModelImpl with the specified configuration files for the board and the
+   * card database.
    *
    * @param board  the name of the board configuration file
    * @param cardDB the name of the card database file
@@ -45,8 +61,8 @@ public class ModelImpl implements IModel {
   }
 
   /**
-   * Starts the game by configuring the board and setting up its availability based on the config file,
-   * adding all cards to a deck then distributing to the proper players.
+   * Starts the game by configuring the board and setting up its availability based on the
+   * config file, adding all cards to a deck then distributing to the proper players.
    */
   @Override
   public void startGame() {
@@ -74,7 +90,8 @@ public class ModelImpl implements IModel {
             this.numColumns = Integer.parseInt(parts[1]);
             configBoardAvailability(this.numRows, this.numColumns, reader);
           } else {
-            throw new IllegalArgumentException("Invalid config file format. Expected two integers.");
+            throw new IllegalArgumentException("Invalid config file format. Expected two " +
+                "integers.");
           }
         } else {
           throw new IllegalArgumentException("Config file is empty.");
@@ -91,8 +108,9 @@ public class ModelImpl implements IModel {
    * Configures the deck of cards by reading the card database file.
    * Cards are assigned to players alternately.
    *
-   * @throws IllegalArgumentException if the card database file is missing, has an invalid format,
-   *                                  is a duplicate card, or there is an error reading the file.
+   * @throws IllegalArgumentException if the card database file is missing, has an invalid
+   *                                  format, is a duplicate card, or there is an error reading
+   *                                  the file.
    */
   private void configCards() {
     if (pathToCardDB.exists() && pathToCardDB.isFile()) {
@@ -103,7 +121,8 @@ public class ModelImpl implements IModel {
           while (firstLine != null) {
             String[] parts = firstLine.split("\\s+");
             if (parts.length == 5) {
-              Card possibleCardToAdd = new Card(determinePlayerColor(playerToDealCardTo), parts[0],
+              Card possibleCardToAdd = new Card(determinePlayerColor(playerToDealCardTo),
+                  parts[0],
                   determineDirectionValue(parts[1]),
                   determineDirectionValue(parts[2]),
                   determineDirectionValue(parts[3]),
@@ -111,10 +130,12 @@ public class ModelImpl implements IModel {
               if (confirmNonDupCard(possibleCardToAdd)) {
                 this.deck.add(possibleCardToAdd);
               } else {
-                throw new IllegalArgumentException("There are duplicate cards in the card database.");
+                throw new IllegalArgumentException("There are duplicate cards in the card " +
+                    "database.");
               }
             } else {
-              throw new IllegalArgumentException("Invalid card database file format. Expected two integers.");
+              throw new IllegalArgumentException("Invalid card database file format. Expected " +
+                  "two integers.");
             }
             playerToDealCardTo++;
             firstLine = reader.readLine();
@@ -136,7 +157,8 @@ public class ModelImpl implements IModel {
    * The expected number of cards should be equal to the number of playable spaces
    * (cells marked as {@link CellType#EMPTY}) plus one additional card.
    *
-   * @throws IllegalArgumentException if the number of cards in the deck does not match the expected count
+   * @throws IllegalArgumentException if the number of cards in the deck does not match the
+   *                                  expected count
    */
   private void ensureCorrectAmountOfCards() {
     int playableSpacesCount = 0;
@@ -277,7 +299,7 @@ public class ModelImpl implements IModel {
    * @param player          the player who is placing the card
    * @throws IllegalArgumentException if the player is null, if the card index is invalid,
    *                                  or if the placement on the board is invalid
-   * @throws IllegalStateException if the game has not started or is over
+   * @throws IllegalStateException    if the game has not started or is over
    */
   @Override
   public void placeCard(int boardRow, int boardCol, int cardIndexInHand, IPlayer player) {
@@ -334,7 +356,7 @@ public class ModelImpl implements IModel {
    * @param boardCol the column index on the board where the card is located
    * @return a new instance of the {@link Card} at the specified position
    * @throws IllegalArgumentException if there is no card at the specified position
-   * @throws IllegalStateException if the game has not started or is over
+   * @throws IllegalStateException    if the game has not started or is over
    */
   public Card getCardAt(int boardRow, int boardCol) {
     checkGameStarted();
@@ -496,7 +518,7 @@ public class ModelImpl implements IModel {
   public IPlayer getRedPlayer() {
     checkGameStarted();
     checkGameOver();
-    ArrayList<Card> copyHand= new ArrayList<Card>(redPlayer.getHand());
+    ArrayList<Card> copyHand = new ArrayList<Card>(redPlayer.getHand());
     return new PlayerImpl(PlayerColor.RED, copyHand);
   }
 
@@ -509,7 +531,7 @@ public class ModelImpl implements IModel {
   public IPlayer getBluePlayer() {
     checkGameStarted();
     checkGameOver();
-    ArrayList<Card> copyHand= new ArrayList<Card>(bluePlayer.getHand());
+    ArrayList<Card> copyHand = new ArrayList<Card>(bluePlayer.getHand());
     return new PlayerImpl(PlayerColor.BLUE, copyHand);
   }
 
@@ -620,7 +642,7 @@ public class ModelImpl implements IModel {
    * @throws IllegalStateException if the game has not started
    */
   public boolean checkGameStarted() {
-    if(!this.gameStarted) {
+    if (!this.gameStarted) {
       throw new IllegalStateException("The game is not started!");
     }
     return true;
@@ -632,7 +654,7 @@ public class ModelImpl implements IModel {
    * @throws IllegalStateException if the game is over
    */
   public boolean checkGameOver() {
-    if(this.gameOver) {
+    if (this.gameOver) {
       throw new IllegalStateException("The game is over!");
     }
     return false;
@@ -646,12 +668,10 @@ public class ModelImpl implements IModel {
    * @throws IllegalStateException if the game ended in a draw with no winning player
    */
   public IPlayer getWinningPlayer() {
-    if(this.winningPlayer == null) {
+    if (this.winningPlayer == null) {
       throw new IllegalStateException("There is a tie, no winning player yet");
     }
     return new PlayerImpl(winningPlayer.getPlayerColor(), winningPlayer.getHand());
 
   }
-
-  //TEST TO SEE IF PUSH MODIFIES
 }

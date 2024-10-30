@@ -12,6 +12,13 @@ public interface IView {
    */
   String toString();
 
+  /**
+   * Switches the view to the next player by updating the current player
+   * displayed in the view. This method checks the current player's color:
+   * if the player is RED, it switches to BLUE, and if the player is BLUE,
+   * it switches to RED. This allows the game to alternate views between
+   * players based on the turn sequence.
+   */
   void switchPlayerView();
 
 }

@@ -21,11 +21,12 @@ public class Card {
    * @param westValue  the value assigned to the west direction (cannot be null)
    * @throws IllegalArgumentException if any of the parameters are null
    */
-  public Card(PlayerColor player, String name,  DirectionValue northValue, DirectionValue eastValue,
-              DirectionValue southValue, DirectionValue westValue) {
+  public Card(PlayerColor player, String name,  DirectionValue northValue,
+              DirectionValue eastValue, DirectionValue southValue, DirectionValue westValue) {
     if (player == null || northValue == null || eastValue == null || southValue == null
         || westValue == null) {
-      throw new IllegalArgumentException("You cannot construct a card without all of the proper parameters.");
+      throw new IllegalArgumentException("You cannot construct a card without all of the proper " +
+          "parameters.");
     }
     this.player = player;
     this.name = name;
