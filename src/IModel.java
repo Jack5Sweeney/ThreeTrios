@@ -40,8 +40,6 @@ public interface IModel {
 
   void updateBoard(Card cardAt, int i, int i1);
 
-  void flipCardOwnership(Card cardAt, int i, int i1, PlayerColor playerColor);
-
   IPlayer getRedPlayer();
 
   IPlayer getBluePlayer();

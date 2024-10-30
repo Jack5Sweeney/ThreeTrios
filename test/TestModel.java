@@ -80,39 +80,6 @@ public class TestModel {
   }
 
   @Test
-  public void testFlipCardOwnership() {
-    // Place a blue card and flip it to red
-    modelForRulesTesting.placeCard(1, 1, 0,
-              modelForRulesTesting.getBluePlayer());
-
-    // Flip the card ownership to Red
-    modelForRulesTesting.flipCardOwnership(modelForRulesTesting.getCardAt(
-            1, 1), 1, 1, PlayerColor.RED);
-
-    // Verify that the card ownership has been flipped to Red
-    assertEquals(
-            PlayerColor.RED, modelForRulesTesting.getCardAt(1, 1).getPlayer());
-  }
-
-  @Test
-  public void testFlipCardOwnership1() {
-    // Place a blue card and flip it to red
-    modelForRulesTesting.placeCard(1, 1, 0,   modelForRulesTesting.getBluePlayer());
-
-    // Check the color before flipping to ensure placeCard worked
-    System.out.println("Before flipping: " + modelForRulesTesting.getCardAt(1, 1).getPlayer());
-
-    // Flip the card ownership to Red
-    modelForRulesTesting.flipCardOwnership(modelForRulesTesting.getCardAt(1, 1), 1, 1, PlayerColor.RED);
-
-    // Verify that the card ownership has been flipped to Red
-    assertEquals(PlayerColor.RED, modelForRulesTesting.getCardAt(1, 1).getPlayer());
-
-    // Debug output to confirm flip
-    System.out.println("After flipping: " + modelForRulesTesting.getCardAt(1, 1).getPlayer());
-  }
-
-  @Test
   public void testPlaceAndFlipAdjacentCard() {
     // Place a weaker blue card on the board at (1, 1)
     Card blueCard = new Card(PlayerColor.BLUE, "BlueCard",

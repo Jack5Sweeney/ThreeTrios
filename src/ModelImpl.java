@@ -23,6 +23,8 @@ public class ModelImpl implements IModel {
   private ArrayList<Card> deck;
   private IPlayer redPlayer;
   private IPlayer bluePlayer;
+  private boolean gameStarted;
+  private boolean gameOver;
 
 
   /**
@@ -37,6 +39,8 @@ public class ModelImpl implements IModel {
     this.deck = new ArrayList<>();
     this.redPlayer = players.get(0);
     this.bluePlayer = players.get(1);
+    this.gameStarted = false;
+    this.gameOver = false;
   }
 
   /**
@@ -45,6 +49,7 @@ public class ModelImpl implements IModel {
    */
   @Override
   public void startGame() {
+    gameStarted = true;
     configBoard();
     configCards();
     distributeCards();
@@ -271,9 +276,13 @@ public class ModelImpl implements IModel {
    * @param player          the player who is placing the card
    * @throws IllegalArgumentException if the player is null, if the card index is invalid,
    *                                  or if the placement on the board is invalid
+   * @throws IllegalStateException if the game has not started or is over
    */
   @Override
   public void placeCard(int boardRow, int boardCol, int cardIndexInHand, IPlayer player) {
+    checkGameStarted();
+    checkGameOver();
+
     if (player == null) {
       throw new IllegalArgumentException("Player cannot be null.");
     }
@@ -323,8 +332,11 @@ public class ModelImpl implements IModel {
    * @param boardCol the column index on the board where the card is located
    * @return a new instance of the {@link Card} at the specified position
    * @throws IllegalArgumentException if there is no card at the specified position
+   * @throws IllegalStateException if the game has not started or is over
    */
   public Card getCardAt(int boardRow, int boardCol) {
+    checkGameStarted();
+    checkGameOver();
     checkValidIndex(boardRow, boardCol);
     if (this.boardWithCards[boardRow][boardCol] != null) {
       Card card = this.boardWithCards[boardRow][boardCol];
@@ -341,27 +353,17 @@ public class ModelImpl implements IModel {
     }
   }
 
-// Card placement implementation
-// - board availability, two arrays representing an array of rows and array of columns
-// - board with cards, two arrays representing an array of rows and array of CARDS null and card
-// how should we represent the neighbors of the cards to call the implementation of the rules
-// hashmap? array?
-
-// function called placeCard where we place the card onto the board
-// we have to access the first index of the hand, then place the card onto the
-// board with cards, and this changes the according index of the board availability.
-// in the GUI (future use) the boardWithCards is the representation and if a card is placed
-// that card is shown, if it is null which means that there isn't a card, it checks the
-// boardAvailability and sees if it is a hole or a empty.
-
   /**
    * Updates the game board to reflect any changes due to the placement of a card,
    * including resolving interactions with adjacent cards.
    *
    * @param cardPlaced the card that was recently placed on the board
+   * @throws IllegalStateException if the game has not started or is over
    */
 
   public void updateBoard(Card cardPlaced, int row, int col) {
+    checkGameStarted();
+    checkGameOver();
     int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};  // North, South, West, East
     Direction[] dirEnums = {Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST};
 
@@ -439,7 +441,7 @@ public class ModelImpl implements IModel {
    * @param newOwner the new owner of the card
    */
 
-  public void flipCardOwnership(Card card, int row, int col, PlayerColor newOwner) {
+  private void flipCardOwnership(Card card, int row, int col, PlayerColor newOwner) {
     Card flippedCard = new Card(newOwner, card.getName(),
         card.getDirectionsAndValues().get(Direction.NORTH),
         card.getDirectionsAndValues().get(Direction.EAST),
@@ -487,8 +489,11 @@ public class ModelImpl implements IModel {
    * Retrieves a new instance of the red player with the same color and hand.
    *
    * @return a new {@link IPlayer} instance for the red player
+   * @throws IllegalStateException if the game has not started or is over
    */
   public IPlayer getRedPlayer() {
+    checkGameStarted();
+    checkGameOver();
     return new PlayerImpl(redPlayer.getPlayerColor(), redPlayer.getHand());
   }
 
@@ -496,8 +501,11 @@ public class ModelImpl implements IModel {
    * Retrieves a new instance of the blue player with the same color and hand.
    *
    * @return a new {@link IPlayer} instance for the blue player
+   * @throws IllegalStateException if the game has not started or is over
    */
   public IPlayer getBluePlayer() {
+    checkGameStarted();
+    checkGameOver();
     return new PlayerImpl(bluePlayer.getPlayerColor(), bluePlayer.getHand());
   }
 
@@ -505,8 +513,11 @@ public class ModelImpl implements IModel {
    * Provides a deep copy of the current board with all cards.
    *
    * @return a 2D array of {@link Card} objects representing the board, with all attributes copied
+   * @throws IllegalStateException if the game has not started or is over
    */
   public Card[][] getBoard() {
+    checkGameStarted();
+    checkGameOver();
     int numRows = boardWithCards.length;
     int numCols = boardWithCards[0].length;
     Card[][] boardCopy = new Card[numRows][numCols];
@@ -535,8 +546,11 @@ public class ModelImpl implements IModel {
    * Provides a copy of the board availability array, showing each cell's availability type.
    *
    * @return a 2D array of {@link CellType} objects representing the availability status of each cell
+   * @throws IllegalStateException if the game has not started or is over
    */
   public CellType[][] getBoardAvailability() {
+    checkGameStarted();
+    checkGameOver();
     int numRows = boardAvailability.length;
     CellType[][] availabilityCopy = new CellType[numRows][];
 
@@ -545,6 +559,19 @@ public class ModelImpl implements IModel {
     }
     return availabilityCopy;
   }
+
+  public void checkGameStarted() {
+    if(!this.gameStarted) {
+      throw new IllegalStateException("The game is not started!");
+    }
+  }
+
+  public void checkGameOver() {
+    if(this.gameOver) {
+      throw new IllegalStateException("The game is over!");
+    }
+  }
+
 
   //TEST TO SEE IF PUSH MODIFIES
 }
