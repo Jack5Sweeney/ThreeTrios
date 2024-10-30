@@ -44,15 +44,13 @@ public class TestModel {
 
   @Test
   public void testBattleWithoutFlipDueToLowerValue() {
-    // Place a weak Blue card in the center and a strong Red card to the east
-    modelForRulesTesting.placeCard(1, 1, 0,
-        modelForRulesTesting.getBluePlayer());  // Weak Blue card in the center
-    modelForRulesTesting.placeCard(1, 2, 0,
-        modelForRulesTesting.getRedPlayer());   // Strong Red card to the east
+
+    modelForRulesTesting.placeCard(1, 1, 0, modelForRulesTesting.getRedPlayer());
+    modelForRulesTesting.placeCard(1, 2, 1, modelForRulesTesting.getBluePlayer());
 
     // The strong Red card should not flip as it has a higher attack value
     assertEquals(
-        PlayerColor.RED, modelForRulesTesting.getCardAt(1, 2).getPlayer());
+        PlayerColor.RED, modelForRulesTesting.getCardAt(1, 1).getPlayer());
   }
 
   @Test
