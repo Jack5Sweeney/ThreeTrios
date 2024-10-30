@@ -363,7 +363,7 @@ public class ModelImpl implements IModel {
    * @throws IllegalStateException if the game has not started or is over
    */
 
-  public void updateBoard(Card cardPlaced, int row, int col) {
+  private void updateBoard(Card cardPlaced, int row, int col) {
     checkGameStarted();
     checkGameOver();
     int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};  // North, South, West, East
@@ -496,7 +496,8 @@ public class ModelImpl implements IModel {
   public IPlayer getRedPlayer() {
     checkGameStarted();
     checkGameOver();
-    return new PlayerImpl(redPlayer.getPlayerColor(), redPlayer.getHand());
+    ArrayList<Card> copyHand= new ArrayList<Card>(redPlayer.getHand());
+    return new PlayerImpl(PlayerColor.RED, copyHand);
   }
 
   /**
@@ -508,8 +509,10 @@ public class ModelImpl implements IModel {
   public IPlayer getBluePlayer() {
     checkGameStarted();
     checkGameOver();
-    return new PlayerImpl(bluePlayer.getPlayerColor(), bluePlayer.getHand());
+    ArrayList<Card> copyHand= new ArrayList<Card>(bluePlayer.getHand());
+    return new PlayerImpl(PlayerColor.BLUE, copyHand);
   }
+
 
   /**
    * Provides a deep copy of the current board with all cards.

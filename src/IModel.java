@@ -40,16 +40,6 @@ public interface IModel {
   Card getCardAt(int boardRow, int boardCol);
 
   /**
-   * Updates the board to reflect changes made by placing a card, including interactions
-   * with adjacent cards.
-   *
-   * @param cardAt the card placed on the board
-   * @param row    the row index of the card's position
-   * @param col    the column index of the card's position
-   */
-  void updateBoard(Card cardAt, int row, int col);
-
-  /**
    * Retrieves a new instance of the red player, including their color and hand.
    *
    * @return a new {@link IPlayer} instance representing the red player
@@ -92,11 +82,11 @@ public interface IModel {
   boolean checkGameOver();
 
   /**
-   * Retrieves the winning player of the game.
-   * If the game ends in a draw, throws an exception as there is no winning player.
+   * Retrieves a copy of the winning player of the game. If the game is currently in a draw it
+   * returns null.
    *
    * @return a new {@link IPlayer} instance representing the winning player
-   * @throws IllegalStateException if the game ended in a draw with no winning player
+   * @throws IllegalStateException if the game is not started.
    */
   IPlayer getWinningPlayer();
 }

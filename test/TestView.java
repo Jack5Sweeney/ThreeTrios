@@ -257,4 +257,3 @@ public class TestView {
     assertEquals(expectedOutput, view.toString());
   }
 }
-

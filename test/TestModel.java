@@ -3,9 +3,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.fail;
 
 public class TestModel {
@@ -13,6 +15,7 @@ public class TestModel {
   private IModel simpleModel;
   private IModel model;
   private IModel modelForRulesTesting;
+  private IModel easyWinModel;
 
   private PlayerImpl redPlayer;
   private PlayerImpl bluePlayer;
@@ -20,10 +23,6 @@ public class TestModel {
   private PlayerImpl bluePlayer1;
   private ArrayList<IPlayer> players;
   private ArrayList<IPlayer> players1;
-  private Card redCard;
-  private Card blueCard;
-  private Card strongRedCard;
-  private Card weakBlueCard;
 
   @Before
   public void setup() {
@@ -32,21 +31,14 @@ public class TestModel {
     players = new ArrayList<>(List.of(redPlayer, bluePlayer));
     model = new ModelImpl("board.config", "card.database", players);
     simpleModel = new ModelImpl("simpleBoard.config", "simpleCard.database", players);
+    easyWinModel = new ModelImpl("1x1Board.config", "simpleCard.database", players);
 
-    // Initialize the model with a 3x3 board for simple testing
     redPlayer1 = new PlayerImpl(PlayerColor.RED, new ArrayList<>());
     bluePlayer1 = new PlayerImpl(PlayerColor.BLUE, new ArrayList<>());
     players1 = new ArrayList<>(List.of(redPlayer1, bluePlayer1));
     modelForRulesTesting = new ModelImpl("simpleBoard.config", "simpleCard.database", players1);
 
-    // Initialize the board with a 3x3 grid for simplicity
     modelForRulesTesting.startGame();
-
-    strongRedCard = new Card(PlayerColor.RED, "StrongRedCard",
-            DirectionValue.NINE, DirectionValue.NINE, DirectionValue.NINE, DirectionValue.NINE);
-
-    weakBlueCard = new Card(PlayerColor.BLUE, "WeakBlueCard",
-            DirectionValue.TWO, DirectionValue.TWO, DirectionValue.TWO, DirectionValue.TWO);
 
   }
 
@@ -54,35 +46,31 @@ public class TestModel {
   public void testBattleWithoutFlipDueToLowerValue() {
     // Place a weak Blue card in the center and a strong Red card to the east
     modelForRulesTesting.placeCard(1, 1, 0,
-             modelForRulesTesting.getBluePlayer());  // Weak Blue card in the center
+        modelForRulesTesting.getBluePlayer());  // Weak Blue card in the center
     modelForRulesTesting.placeCard(1, 2, 0,
-              modelForRulesTesting.getRedPlayer());   // Strong Red card to the east
-
-    // Trigger the battle rules by updating the board with the weak Blue card
-    modelForRulesTesting.updateBoard(modelForRulesTesting.getCardAt(
-            1, 1), 1, 1);
+        modelForRulesTesting.getRedPlayer());   // Strong Red card to the east
 
     // The strong Red card should not flip as it has a higher attack value
     assertEquals(
-            PlayerColor.RED, modelForRulesTesting.getCardAt(1, 2).getPlayer());
+        PlayerColor.RED, modelForRulesTesting.getCardAt(1, 2).getPlayer());
   }
 
   @Test
   public void testPlaceAndFlipAdjacentCard() {
     // Place a weaker blue card on the board at (1, 1)
     Card blueCard = new Card(PlayerColor.BLUE, "BlueCard",
-            DirectionValue.TWO, DirectionValue.TWO, DirectionValue.TWO, DirectionValue.TWO);
-    (  modelForRulesTesting.getBluePlayer()).getHand().add(blueCard);
-    modelForRulesTesting.placeCard(1, 1, 0,   modelForRulesTesting.getBluePlayer());
+        DirectionValue.TWO, DirectionValue.TWO, DirectionValue.TWO, DirectionValue.TWO);
+    (modelForRulesTesting.getBluePlayer()).getHand().add(blueCard);
+    modelForRulesTesting.placeCard(1, 1, 0, modelForRulesTesting.getBluePlayer());
 
     // Ensure the initial card is blue
     assertEquals(PlayerColor.BLUE, modelForRulesTesting.getCardAt(1, 1).getPlayer());
 
     // Place a stronger red card adjacent to the blue card at (1, 2)
     Card redCard = new Card(PlayerColor.RED, "RedCard",
-            DirectionValue.FIVE, DirectionValue.FIVE, DirectionValue.FIVE, DirectionValue.FIVE);
-    (  modelForRulesTesting.getRedPlayer()).getHand().add(redCard);
-    modelForRulesTesting.placeCard(1, 2, 0,   modelForRulesTesting.getRedPlayer());
+        DirectionValue.FIVE, DirectionValue.FIVE, DirectionValue.FIVE, DirectionValue.FIVE);
+    (modelForRulesTesting.getRedPlayer()).getHand().add(redCard);
+    modelForRulesTesting.placeCard(1, 2, 0, modelForRulesTesting.getRedPlayer());
 
     // Verify that the blue card at (1, 1) has flipped to red
     assertEquals(PlayerColor.RED, modelForRulesTesting.getCardAt(1, 1).getPlayer());
@@ -94,15 +82,15 @@ public class TestModel {
   public void testPlaceAndFlipAdjacentCardWithProp() {
     // Place a weaker blue card on the board at (1, 1)
     Card blueCard = new Card(PlayerColor.BLUE, "BlueCard",
-            DirectionValue.TWO, DirectionValue.TWO, DirectionValue.TWO, DirectionValue.TWO);
+        DirectionValue.TWO, DirectionValue.TWO, DirectionValue.TWO, DirectionValue.TWO);
     (modelForRulesTesting.getBluePlayer()).getHand().add(blueCard);
-    modelForRulesTesting.placeCard(1, 1, 0,   modelForRulesTesting.getBluePlayer());
+    modelForRulesTesting.placeCard(1, 1, 0, modelForRulesTesting.getBluePlayer());
 
     // Place a weaker blue card on the board at (1, 0)
     Card blueCard1 = new Card(PlayerColor.BLUE, "BlueCard",
-            DirectionValue.ONE, DirectionValue.ONE, DirectionValue.ONE, DirectionValue.ONE);
+        DirectionValue.ONE, DirectionValue.ONE, DirectionValue.ONE, DirectionValue.ONE);
     (modelForRulesTesting.getBluePlayer()).getHand().add(blueCard1);
-    modelForRulesTesting.placeCard(1, 0, 0,   modelForRulesTesting.getBluePlayer());
+    modelForRulesTesting.placeCard(1, 0, 0, modelForRulesTesting.getBluePlayer());
 
     // Ensure the initial card is blue
     assertEquals(PlayerColor.BLUE, modelForRulesTesting.getCardAt(1, 1).getPlayer());
@@ -110,9 +98,9 @@ public class TestModel {
 
     // Place a stronger red card adjacent to the blue card at (1, 2)
     Card redCard = new Card(PlayerColor.RED, "RedCard",
-            DirectionValue.FIVE, DirectionValue.FIVE, DirectionValue.FIVE, DirectionValue.FIVE);
+        DirectionValue.FIVE, DirectionValue.FIVE, DirectionValue.FIVE, DirectionValue.FIVE);
     (modelForRulesTesting.getRedPlayer()).getHand().add(redCard);
-    modelForRulesTesting.placeCard(1, 2, 0,   modelForRulesTesting.getRedPlayer());
+    modelForRulesTesting.placeCard(1, 2, 0, modelForRulesTesting.getRedPlayer());
 
     // Verify that the blue card at (1, 1) has flipped to red
     assertEquals(PlayerColor.RED, modelForRulesTesting.getCardAt(1, 1).getPlayer());
@@ -126,15 +114,15 @@ public class TestModel {
   public void testPlaceAndFlipAdjacentCardWithNoPropAvailable() {
     // Place a weaker blue card on the board at (1, 1)
     Card blueCard = new Card(PlayerColor.BLUE, "BlueCard",
-            DirectionValue.TWO, DirectionValue.TWO, DirectionValue.TWO, DirectionValue.TWO);
+        DirectionValue.TWO, DirectionValue.TWO, DirectionValue.TWO, DirectionValue.TWO);
     (modelForRulesTesting.getBluePlayer()).getHand().add(blueCard);
-    modelForRulesTesting.placeCard(1, 0, 0,   modelForRulesTesting.getBluePlayer());
+    modelForRulesTesting.placeCard(1, 0, 0, modelForRulesTesting.getBluePlayer());
 
     // Place a weaker blue card on the board at (1, 0)
     Card blueCard1 = new Card(PlayerColor.BLUE, "BlueCard",
-            DirectionValue.ONE, DirectionValue.ONE, DirectionValue.ONE, DirectionValue.ONE);
+        DirectionValue.ONE, DirectionValue.ONE, DirectionValue.ONE, DirectionValue.ONE);
     (modelForRulesTesting.getBluePlayer()).getHand().add(blueCard1);
-    modelForRulesTesting.placeCard(1, 1, 0,   modelForRulesTesting.getBluePlayer());
+    modelForRulesTesting.placeCard(1, 1, 0, modelForRulesTesting.getBluePlayer());
 
     // Ensure the initial card is blue
     assertEquals(PlayerColor.BLUE, modelForRulesTesting.getCardAt(1, 1).getPlayer());
@@ -142,9 +130,9 @@ public class TestModel {
 
     // Place a stronger red card adjacent to the blue card at (1, 2)
     Card redCard = new Card(PlayerColor.RED, "RedCard",
-            DirectionValue.FIVE, DirectionValue.FIVE, DirectionValue.FIVE, DirectionValue.FIVE);
+        DirectionValue.FIVE, DirectionValue.FIVE, DirectionValue.FIVE, DirectionValue.FIVE);
     (modelForRulesTesting.getRedPlayer()).getHand().add(redCard);
-    modelForRulesTesting.placeCard(1, 2, 0,   modelForRulesTesting.getRedPlayer());
+    modelForRulesTesting.placeCard(1, 2, 0, modelForRulesTesting.getRedPlayer());
 
     // Verify that the blue card at (1, 1) has flipped to red
     assertEquals(PlayerColor.RED, modelForRulesTesting.getCardAt(1, 1).getPlayer());
@@ -158,15 +146,15 @@ public class TestModel {
   public void testPlaceAndFlipAdjacentCardWithPropAvailableButTie() {
     // Place a weaker blue card on the board at (1, 1)
     Card blueCard = new Card(PlayerColor.BLUE, "BlueCard",
-            DirectionValue.ONE, DirectionValue.ONE, DirectionValue.ONE, DirectionValue.ONE);
+        DirectionValue.ONE, DirectionValue.ONE, DirectionValue.ONE, DirectionValue.ONE);
     (modelForRulesTesting.getBluePlayer()).getHand().add(blueCard);
-    modelForRulesTesting.placeCard(1, 0, 0,   modelForRulesTesting.getBluePlayer());
+    modelForRulesTesting.placeCard(1, 0, 0, modelForRulesTesting.getBluePlayer());
 
     // Place a weaker blue card on the board at (1, 0)
     Card blueCard1 = new Card(PlayerColor.BLUE, "BlueCard",
-            DirectionValue.ONE, DirectionValue.ONE, DirectionValue.ONE, DirectionValue.ONE);
+        DirectionValue.ONE, DirectionValue.ONE, DirectionValue.ONE, DirectionValue.ONE);
     (modelForRulesTesting.getBluePlayer()).getHand().add(blueCard1);
-    modelForRulesTesting.placeCard(1, 1, 0,   modelForRulesTesting.getBluePlayer());
+    modelForRulesTesting.placeCard(1, 1, 0, modelForRulesTesting.getBluePlayer());
 
     // Ensure the initial card is blue
     assertEquals(PlayerColor.BLUE, modelForRulesTesting.getCardAt(1, 1).getPlayer());
@@ -174,9 +162,9 @@ public class TestModel {
 
     // Place a stronger red card adjacent to the blue card at (1, 2)
     Card redCard = new Card(PlayerColor.RED, "RedCard",
-            DirectionValue.FIVE, DirectionValue.FIVE, DirectionValue.FIVE, DirectionValue.FIVE);
+        DirectionValue.FIVE, DirectionValue.FIVE, DirectionValue.FIVE, DirectionValue.FIVE);
     (modelForRulesTesting.getRedPlayer()).getHand().add(redCard);
-    modelForRulesTesting.placeCard(1, 2, 0,   modelForRulesTesting.getRedPlayer());
+    modelForRulesTesting.placeCard(1, 2, 0, modelForRulesTesting.getRedPlayer());
 
     // Verify that the blue card at (1, 1) has flipped to red
     assertEquals(PlayerColor.RED, modelForRulesTesting.getCardAt(1, 1).getPlayer());
@@ -185,11 +173,11 @@ public class TestModel {
 
   @Test
   public void testPropegationOfMultipleCardsWithDifferentDirections() {
-    modelForRulesTesting.placeCard(0, 0, 4,   modelForRulesTesting.getRedPlayer());
-    modelForRulesTesting.placeCard(1, 0, 2,   modelForRulesTesting.getRedPlayer());
-    modelForRulesTesting.placeCard(2, 0, 1,   modelForRulesTesting.getRedPlayer());
-    modelForRulesTesting.placeCard(2, 1, 1,   modelForRulesTesting.getRedPlayer());
-    modelForRulesTesting.placeCard(2, 2, 0,   modelForRulesTesting.getBluePlayer());
+    modelForRulesTesting.placeCard(0, 0, 4, modelForRulesTesting.getRedPlayer());
+    modelForRulesTesting.placeCard(1, 0, 2, modelForRulesTesting.getRedPlayer());
+    modelForRulesTesting.placeCard(2, 0, 1, modelForRulesTesting.getRedPlayer());
+    modelForRulesTesting.placeCard(2, 1, 1, modelForRulesTesting.getRedPlayer());
+    modelForRulesTesting.placeCard(2, 2, 0, modelForRulesTesting.getBluePlayer());
 
     assertEquals(PlayerColor.BLUE, modelForRulesTesting.getCardAt(0, 0).getPlayer());
     assertEquals(PlayerColor.BLUE, modelForRulesTesting.getCardAt(1, 0).getPlayer());
@@ -201,9 +189,9 @@ public class TestModel {
 
   @Test
   public void testTryingToPropWithDiag() {
-    modelForRulesTesting.placeCard(0, 0, 0,   modelForRulesTesting.getRedPlayer());
-    modelForRulesTesting.placeCard(1, 1, 0,   modelForRulesTesting.getRedPlayer());
-    modelForRulesTesting.placeCard(2, 2, 1,   modelForRulesTesting.getBluePlayer());
+    modelForRulesTesting.placeCard(0, 0, 0, modelForRulesTesting.getRedPlayer());
+    modelForRulesTesting.placeCard(1, 1, 0, modelForRulesTesting.getRedPlayer());
+    modelForRulesTesting.placeCard(2, 2, 1, modelForRulesTesting.getBluePlayer());
 
     assertEquals(PlayerColor.RED, modelForRulesTesting.getCardAt(0, 0).getPlayer());
     assertEquals(PlayerColor.RED, modelForRulesTesting.getCardAt(1, 1).getPlayer());
@@ -263,8 +251,8 @@ public class TestModel {
   @Test
   public void testPlacingCardInEmptySpot() {
     simpleModel.startGame();
-    simpleModel.placeCard(0,0,0, redPlayer);
-    assertEquals("CorruptKing", simpleModel.getCardAt(0,0).getName());
+    simpleModel.placeCard(0, 0, 0, redPlayer);
+    assertEquals("CorruptKing", simpleModel.getCardAt(0, 0).getName());
   }
 
   @Test
@@ -274,8 +262,7 @@ public class TestModel {
       simpleModel.placeCard(0, 0, 0, redPlayer);
       simpleModel.placeCard(0, 0, 0, bluePlayer);
       fail("Placed card in a full spot");
-    }
-    catch (IllegalArgumentException e) {
+    } catch (IllegalArgumentException e) {
       //Successfully caught IllegalArgumentException
     }
   }
@@ -286,8 +273,7 @@ public class TestModel {
       model.startGame();
       model.placeCard(1, 1, 0, redPlayer);
       fail("Placed card in a spot hole");
-    }
-    catch (IllegalArgumentException e) {
+    } catch (IllegalArgumentException e) {
       //Successfully caught IllegalArgumentException
     }
   }
@@ -296,10 +282,9 @@ public class TestModel {
   public void testPlacingCardOutOfBoundsRowPoss() {
     try {
       simpleModel.startGame();
-      simpleModel.placeCard(3,0,0, redPlayer);
+      simpleModel.placeCard(3, 0, 0, redPlayer);
       fail("Out of bounds row");
-    }
-    catch (IllegalArgumentException e) {
+    } catch (IllegalArgumentException e) {
       //Successfully caught IllegalArgumentException
     }
   }
@@ -308,10 +293,9 @@ public class TestModel {
   public void testPlacingCardOutOfBoundsRowNeg() {
     try {
       simpleModel.startGame();
-      simpleModel.placeCard(0,-1,0, redPlayer);
+      simpleModel.placeCard(0, -1, 0, redPlayer);
       fail("Out of bounds row");
-    }
-    catch (IllegalArgumentException e) {
+    } catch (IllegalArgumentException e) {
       //Successfully caught IllegalArgumentException
     }
   }
@@ -320,10 +304,9 @@ public class TestModel {
   public void testPlacingCardOutOfBoundsColPoss() {
     try {
       simpleModel.startGame();
-      simpleModel.placeCard(0,3,0, redPlayer);
+      simpleModel.placeCard(0, 3, 0, redPlayer);
       fail("Placed card in a spot hole");
-    }
-    catch (IllegalArgumentException e) {
+    } catch (IllegalArgumentException e) {
       //Successfully caught IllegalArgumentException
     }
   }
@@ -332,10 +315,9 @@ public class TestModel {
   public void testPlacingCardOutOfBoundsColNeg() {
     try {
       simpleModel.startGame();
-      simpleModel.placeCard(0,-1,0, redPlayer);
+      simpleModel.placeCard(0, -1, 0, redPlayer);
       fail("Placed card in a spot hole");
-    }
-    catch (IllegalArgumentException e) {
+    } catch (IllegalArgumentException e) {
       //Successfully caught IllegalArgumentException
     }
   }
@@ -344,10 +326,9 @@ public class TestModel {
   public void testPlacingCardOutOfBoundsHandIndexPoss() {
     try {
       simpleModel.startGame();
-      simpleModel.placeCard(0,0,5, redPlayer);
+      simpleModel.placeCard(0, 0, 5, redPlayer);
       fail("Placed card in a spot hole");
-    }
-    catch (IllegalArgumentException e) {
+    } catch (IllegalArgumentException e) {
       //Successfully caught IllegalArgumentException
     }
   }
@@ -356,10 +337,9 @@ public class TestModel {
   public void testPlacingCardOutOfBoundsHandIndexNeg() {
     try {
       simpleModel.startGame();
-      simpleModel.placeCard(0,0,-1, redPlayer);
+      simpleModel.placeCard(0, 0, -1, redPlayer);
       fail("Placed card in a spot hole");
-    }
-    catch (IllegalArgumentException e) {
+    } catch (IllegalArgumentException e) {
       //Successfully caught IllegalArgumentException
     }
   }
@@ -368,10 +348,9 @@ public class TestModel {
   public void testPlacingCardNullPlayer() {
     try {
       simpleModel.startGame();
-      simpleModel.placeCard(0,0,0, null);
+      simpleModel.placeCard(0, 0, 0, null);
       fail("Player cannot be null");
-    }
-    catch (IllegalArgumentException e) {
+    } catch (IllegalArgumentException e) {
       //Successfully caught IllegalArgumentException
     }
   }
@@ -456,5 +435,135 @@ public class TestModel {
     }
   }
 
+  @Test
+  public void getRedPlayerReturnsACopyOfRedPlayerCorrectCardName() {
+    simpleModel.startGame();
+    assertEquals("CorruptKing",
+        simpleModel.getRedPlayer().getHand().get(0).getName());
+  }
+
+  @Test
+  public void getRedPlayerMutateCardDoesNotMutatePlayer() {
+    simpleModel.startGame();
+    simpleModel.getRedPlayer().getHand().remove(0);
+    assertEquals("CorruptKing",
+        simpleModel.getRedPlayer().getHand().get(0).getName());
+  }
+
+  @Test
+  public void getBluePlayerReturnsACopyOfBluePlayerCorrectCardName() {
+    simpleModel.startGame();
+    assertEquals("AngryDragon",
+        simpleModel.getBluePlayer().getHand().get(0).getName());
+  }
+
+  @Test
+  public void getBluePlayerMutateCardDoesNotMutatePlayer() {
+    simpleModel.startGame();
+    simpleModel.getBluePlayer().getHand().remove(0);
+    assertEquals("AngryDragon",
+        simpleModel.getBluePlayer().getHand().get(0).getName());
+  }
+
+  @Test
+  public void testGetBoardReturnsDeepCopy() {
+    simpleModel.startGame();
+
+    simpleModel.placeCard(0, 0, 0, redPlayer);
+    Card originalCard = simpleModel.getCardAt(0, 0);
+
+    Card[][] boardCopy = simpleModel.getBoard();
+    assertEquals(originalCard.getName(), boardCopy[0][0].getName());
+
+    boardCopy[0][0] = new Card(PlayerColor.RED, "MutantCard", DirectionValue.ONE, DirectionValue.TWO, DirectionValue.THREE, DirectionValue.FOUR);
+
+    assertEquals("CorruptKing", simpleModel.getCardAt(0, 0).getName());
+    assertEquals(originalCard.getName(), simpleModel.getCardAt(0, 0).getName());
+    assertNotEquals("MutantCard", simpleModel.getCardAt(0, 0).getName());
+  }
+
+  @Test
+  public void testGetBoardAvailabilityReturnsDeepCopy() {
+    simpleModel.startGame();
+
+    CellType[][] availabilityCopy = simpleModel.getBoardAvailability();
+
+    CellType originalCellType = simpleModel.getBoardAvailability()[0][0];
+    assertEquals(originalCellType, availabilityCopy[0][0]);
+
+    availabilityCopy[0][0] = CellType.HOLE;
+
+    assertEquals(originalCellType, simpleModel.getBoardAvailability()[0][0]);
+    assertNotEquals(CellType.HOLE, simpleModel.getBoardAvailability()[0][0]);
+  }
+
+  @Test(expected = IllegalStateException.class)
+  public void testCheckGameStartedThrowsExceptionIfGameNotStarted() {
+    simpleModel.checkGameStarted();
+  }
+
+  @Test
+  public void testCheckGameStartedDoesNotThrowIfGameStarted() {
+    simpleModel.startGame();
+    try {
+      simpleModel.checkGameStarted();
+    } catch (IllegalStateException e) {
+      fail("Exception should not have been thrown, as the game has started.");
+    }
+  }
+
+  @Test(expected = IllegalStateException.class)
+  public void testCheckGameOverThrowsExceptionIfGameOver() {
+    easyWinModel.startGame();
+    easyWinModel.placeCard(0, 0, 0, redPlayer);
+    easyWinModel.checkGameOver();
+  }
+
+  @Test
+  public void testCheckGameOverDoesNotThrowIfGameNotOver() {
+    simpleModel.startGame();
+    try {
+      simpleModel.checkGameOver();
+    } catch (IllegalStateException e) {
+      fail("Exception should not have been thrown, as the game is not over.");
+    }
+  }
+
+  @Test(expected = IllegalStateException.class)
+  public void testGetWinningPlayerThrowsExceptionIfGameNotStarted() {
+    simpleModel.getWinningPlayer();
+  }
+
+  @Test(expected = IllegalStateException.class)
+  public void testGetWinningPlayerThrowsExceptionIfGameIsInTieWithNoCards() {
+    simpleModel.startGame();
+    simpleModel.getWinningPlayer();
+  }
+
+  @Test(expected = IllegalStateException.class)
+  public void testGetWinningPlayerThrowsExceptionIfGameIsInTieWithCards() {
+    simpleModel.startGame();
+    simpleModel.placeCard(0, 0, 0, redPlayer);
+    simpleModel.placeCard(2, 2, 0, bluePlayer);
+    simpleModel.getWinningPlayer();
+  }
+
+  @Test
+  public void testGetWinningPlayerReturnsCorrectWinningPlayer() {
+    simpleModel.startGame();
+    simpleModel.placeCard(0, 0, 0, redPlayer);
+    simpleModel.placeCard(1, 1, 0, redPlayer);
+    simpleModel.placeCard(2, 2, 0, bluePlayer);
+    assertEquals(PlayerColor.RED, simpleModel.getWinningPlayer().getPlayerColor());
+  }
+
+  @Test
+  public void testGetWinningPlayerReturnsCorrectWinningPlayerAfterProp() {
+    simpleModel.startGame();
+    simpleModel.placeCard(0, 0, 0, redPlayer);
+    simpleModel.placeCard(0, 1, 0, redPlayer);
+    simpleModel.placeCard(0, 2, 0, bluePlayer);
+    assertEquals(PlayerColor.BLUE, simpleModel.getWinningPlayer().getPlayerColor());
+  }
 }
 
