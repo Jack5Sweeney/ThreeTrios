@@ -392,9 +392,9 @@ public class ModelImpl implements IModel {
     Direction[] dirEnums = {Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST};
 
     // Iterate over each direction to check for adjacent cards
-    for (int i = 0; i < directions.length; i++) {
-      int adjRow = row + directions[i][0];
-      int adjCol = col + directions[i][1];
+    for (int directionIndex = 0; directionIndex < directions.length; directionIndex++) {
+      int adjRow = row + directions[directionIndex][0];
+      int adjCol = col + directions[directionIndex][1];
 
       if (isValidPosition(adjRow, adjCol) && boardWithCards[adjRow][adjCol] != null) {
         Card adjacentCard = boardWithCards[adjRow][adjCol];
@@ -402,7 +402,7 @@ public class ModelImpl implements IModel {
         // Check if the adjacent card belongs to the opponent
         if (adjacentCard.getPlayerColor() != cardPlaced.getPlayerColor()) {
           // Battle: compare card values in the respective direction
-          Direction placedDir = dirEnums[i];
+          Direction placedDir = dirEnums[directionIndex];
           Direction adjOppositeDir = getOppositeDirection(placedDir);
 
           if (cardPlaced.getDirectionsAndValues().get(placedDir).getValue() >
@@ -432,16 +432,16 @@ public class ModelImpl implements IModel {
     int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};  // North, South, West, East
     Direction[] dirEnums = {Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST};
 
-    for (int i = 0; i < directions.length; i++) {
-      int adjRow = row + directions[i][0];
-      int adjCol = col + directions[i][1];
+    for (int directionIndex = 0; directionIndex < directions.length; directionIndex++) {
+      int adjRow = row + directions[directionIndex][0];
+      int adjCol = col + directions[directionIndex][1];
 
       if (isValidPosition(adjRow, adjCol) && boardWithCards[adjRow][adjCol] != null) {
         Card adjacentCard = boardWithCards[adjRow][adjCol];
 
         if (adjacentCard.getPlayerColor() != newOwner) {
           // Battle with the adjacent card
-          Direction flippedDir = dirEnums[i];
+          Direction flippedDir = dirEnums[directionIndex];
           Direction adjOppositeDir = getOppositeDirection(flippedDir);
 
           if (flippedCard.getDirectionsAndValues().get(flippedDir).getValue() >
@@ -549,11 +549,11 @@ public class ModelImpl implements IModel {
     int numCols = boardWithCards[0].length;
     Card[][] boardCopy = new Card[numRows][numCols];
 
-    for (int i = 0; i < numRows; i++) {
-      for (int j = 0; j < numCols; j++) {
-        if (boardWithCards[i][j] != null) {
-          Card card = boardWithCards[i][j];
-          boardCopy[i][j] = new Card(
+    for (int rows = 0; rows < numRows; rows++) {
+      for (int cols = 0; cols < numCols; cols++) {
+        if (boardWithCards[rows][cols] != null) {
+          Card card = boardWithCards[rows][cols];
+          boardCopy[rows][cols] = new Card(
               card.getPlayerColor(),
               card.getName(),
               card.getDirectionsAndValues().get(Direction.NORTH),
@@ -562,7 +562,7 @@ public class ModelImpl implements IModel {
               card.getDirectionsAndValues().get(Direction.WEST)
           );
         } else {
-          boardCopy[i][j] = null;
+          boardCopy[rows][cols] = null;
         }
       }
     }
@@ -582,8 +582,8 @@ public class ModelImpl implements IModel {
     int numRows = boardAvailability.length;
     CellType[][] availabilityCopy = new CellType[numRows][];
 
-    for (int i = 0; i < numRows; i++) {
-      availabilityCopy[i] = boardAvailability[i].clone();
+    for (int rowIndx = 0; rowIndx < numRows; rowIndx++) {
+      availabilityCopy[rowIndx] = boardAvailability[rowIndx].clone();
     }
     return availabilityCopy;
   }
