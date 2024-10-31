@@ -26,19 +26,6 @@ public class ViewImpl implements IView {
   }
 
   /**
-   * Switches the view to the next player by updating the current player
-   * displayed in the view. THIS METHOD IS FOR TESTING, WE KNOW THAT SWITCHING THE POV
-   * SHOULD BE HANDLED IN THE CONTROLLER
-   */
-  public void switchPlayerView() {
-    if (this.currentPlayer.getPlayerColor() == PlayerColor.RED) {
-      this.currentPlayer = model.getBluePlayer();
-    } else if (this.currentPlayer.getPlayerColor() == PlayerColor.BLUE) {
-      this.currentPlayer = model.getRedPlayer();
-    }
-  }
-
-  /**
    * Returns a string representation of the game state, including the current player, board layout,
    * and hand.
    *

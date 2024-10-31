@@ -11,12 +11,4 @@ public interface IView {
    *         relevant to the current state of the game
    */
   String toString();
-
-  /**
-   * Switches the view to the next player by updating the current player
-   * displayed in the view. THIS METHOD IS FOR TESTING, WE KNOW THAT SWITCHING THE POV
-   * SHOULD BE HANDLED IN THE CONTROLLER
-   */
-  void switchPlayerView();
-
 }

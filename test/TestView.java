@@ -79,23 +79,21 @@ public class TestView {
         "EarthBear 6 3 7 9\n";
     assertEquals(expectedOutputBefore, view.toString());
 
-    view.switchPlayerView();
-
-    String expectedOutputAfter = "Player: BLUE\n" +
+    String expectedOutputAfter = "Player: RED\n" +
         "__    _\n" +
         "_ _   _\n" +
         "_  _  _\n" +
         "_   _ _\n" +
         "_    __\n" +
         "Hand:\n" +
-        "AngryDragon 2 8 9 9\n" +
-        "HeroKnight A 2 4 4\n" +
-        "SkyWhale 4 5 9 9\n" +
-        "StormGiant 9 7 3 6\n" +
-        "MysticPhoenix 5 6 7 A\n" +
-        "ThunderWolf 8 6 3 5\n" +
-        "SteelRaven 4 7 8 6\n" +
-        "JJWKing 9 4 7 9\n";
+        "CorruptKing 7 3 9 A\n" +
+        "WindBird 7 2 5 3\n" +
+        "WorldDragon 8 3 5 7\n" +
+        "FlameTiger 6 4 7 8\n" +
+        "ShadowSerpent 3 9 6 8\n" +
+        "IceGolem 5 4 6 7\n" +
+        "LunarEagle 7 9 5 2\n" +
+        "EarthBear 6 3 7 9\n";
 
     assertEquals(expectedOutputAfter, view.toString());
   }
@@ -136,18 +134,16 @@ public class TestView {
     assertEquals(expectedOutputBefore,  view.toString());
 
     simpleModel.placeCard(0, 0, 1, redPlayer);
-    view.switchPlayerView();
 
-    String expectedOutputAfter = "Player: BLUE\n" +
+    String expectedOutputAfter = "Player: RED\n" +
         "R__\n" +
         "___\n" +
         "___\n" +
         "Hand:\n" +
-        "AngryDragon 2 8 9 9\n" +
-        "HeroKnight A 2 4 4\n" +
-        "SkyWhale 4 5 9 9\n" +
-        "StormGiant 9 7 3 6\n" +
-        "MysticPhoenix 5 6 7 A\n";
+        "CorruptKing 7 3 9 A\n" +
+        "WorldDragon 8 3 5 7\n" +
+        "FlameTiger 6 4 7 8\n" +
+        "ShadowSerpent 3 9 6 8\n";
 
     assertEquals(expectedOutputAfter,  view.toString());
   }
@@ -170,18 +166,17 @@ public class TestView {
 
     assertEquals(expectedOutputRed, view.toString());
 
-    view.switchPlayerView();
     simpleModel.placeCard(0, 1, 0, bluePlayer);
 
-    String expectedOutputBlue = "Player: BLUE\n" +
+    String expectedOutputBlue = "Player: RED\n" +
         "BB_\n" +
         "___\n" +
         "___\n" +
         "Hand:\n" +
-        "HeroKnight A 2 4 4\n" +
-        "SkyWhale 4 5 9 9\n" +
-        "StormGiant 9 7 3 6\n" +
-        "MysticPhoenix 5 6 7 A\n";
+        "CorruptKing 7 3 9 A\n" +
+        "WorldDragon 8 3 5 7\n" +
+        "FlameTiger 6 4 7 8\n" +
+        "ShadowSerpent 3 9 6 8\n";
 
     assertEquals(expectedOutputBlue,  view.toString());
   }
@@ -191,9 +186,7 @@ public class TestView {
     simpleModel.startGame();
     view = new ViewImpl(simpleModel);
     simpleModel.placeCard(0, 0, 1, redPlayer);
-    view.switchPlayerView();
     simpleModel.placeCard(0, 1, 0, bluePlayer);
-    view.switchPlayerView();
 
     String expectedOutput = "Player: RED\n" +
         "RRR\n" +
