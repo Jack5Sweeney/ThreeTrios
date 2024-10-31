@@ -518,8 +518,7 @@ public class ModelImpl implements IModel {
   public IPlayer getRedPlayer() {
     checkGameStarted();
     checkGameOver();
-    ArrayList<Card> copyHand = new ArrayList<Card>(redPlayer.getHand());
-    return new PlayerImpl(PlayerColor.RED, copyHand);
+    return new PlayerImpl(PlayerColor.RED, redPlayer.getHand());
   }
 
   /**
@@ -531,8 +530,7 @@ public class ModelImpl implements IModel {
   public IPlayer getBluePlayer() {
     checkGameStarted();
     checkGameOver();
-    ArrayList<Card> copyHand = new ArrayList<Card>(bluePlayer.getHand());
-    return new PlayerImpl(PlayerColor.BLUE, copyHand);
+    return new PlayerImpl(PlayerColor.BLUE, (bluePlayer.getHand()));
   }
 
 
