@@ -16,11 +16,13 @@ public class TestView {
   private IModel chessModel;
   private IModel oneByOneModel;
   private ViewImpl view;
+  IPlayer redPlayer;
+  IPlayer bluePlayer;
 
   @Before
   public void setup() {
-    IPlayer redPlayer = new PlayerImpl(PlayerColor.RED, new ArrayList<>());
-    IPlayer bluePlayer = new PlayerImpl(PlayerColor.BLUE, new ArrayList<>());
+    redPlayer = new PlayerImpl(PlayerColor.RED, new ArrayList<>());
+    bluePlayer = new PlayerImpl(PlayerColor.BLUE, new ArrayList<>());
     ArrayList<IPlayer> players = new ArrayList<>(List.of(redPlayer, bluePlayer));
     model = new ModelImpl("board.config", "card.database", players);
     simpleModel = new ModelImpl("simpleBoard.config", "simpleCard.database", players);
@@ -33,11 +35,11 @@ public class TestView {
   public void testRedPlayerView() {
     model.startGame();
     view = new ViewImpl(model);
-    model.placeCard(0, 0, 0, model.getBluePlayer());
-    model.placeCard(0, 1, 0, model.getBluePlayer());
-    model.placeCard(1, 2, 0, model.getBluePlayer());
-    model.placeCard(2, 3, 0, model.getRedPlayer());
-    model.placeCard(4, 6, 0, model.getRedPlayer());
+    model.placeCard(0, 0, 0, bluePlayer);
+    model.placeCard(0, 1, 0, bluePlayer);
+    model.placeCard(1, 2, 0, bluePlayer);
+    model.placeCard(2, 3, 0, redPlayer);
+    model.placeCard(4, 6, 0, redPlayer);
     String expectedOutput = "Player: RED\n"
         + "BB    _\n"
         + "_ B   _\n"
@@ -133,7 +135,7 @@ public class TestView {
         "ShadowSerpent 3 9 6 8\n";
     assertEquals(expectedOutputBefore,  view.toString());
 
-    simpleModel.placeCard(0, 0, 1, simpleModel.getRedPlayer());
+    simpleModel.placeCard(0, 0, 1, redPlayer);
     view.switchPlayerView();
 
     String expectedOutputAfter = "Player: BLUE\n" +
@@ -154,10 +156,24 @@ public class TestView {
   public void testTextViewRespondsCardsAttacking() {
     simpleModel.startGame();
     view = new ViewImpl(simpleModel);
-    simpleModel.placeCard(0, 0, 1, simpleModel.getRedPlayer());
-    view.switchPlayerView();
+    simpleModel.placeCard(0, 0, 1, redPlayer);
 
-    String expectedOutput = "Player: BLUE\n" +
+    String expectedOutputRed = "Player: RED\n" +
+        "R__\n" +
+        "___\n" +
+        "___\n" +
+        "Hand:\n" +
+        "CorruptKing 7 3 9 A\n" +
+        "WorldDragon 8 3 5 7\n" +
+        "FlameTiger 6 4 7 8\n" +
+        "ShadowSerpent 3 9 6 8\n";
+
+    assertEquals(expectedOutputRed, view.toString());
+
+    view.switchPlayerView();
+    simpleModel.placeCard(0, 1, 0, bluePlayer);
+
+    String expectedOutputBlue = "Player: BLUE\n" +
         "BB_\n" +
         "___\n" +
         "___\n" +
@@ -167,18 +183,16 @@ public class TestView {
         "StormGiant 9 7 3 6\n" +
         "MysticPhoenix 5 6 7 A\n";
 
-    simpleModel.placeCard(0, 1, 0, simpleModel.getBluePlayer());
-
-    assertEquals(expectedOutput,  view.toString());
+    assertEquals(expectedOutputBlue,  view.toString());
   }
 
   @Test
   public void testTextViewRespondsCardsAttackingAndPropagation() {
     simpleModel.startGame();
     view = new ViewImpl(simpleModel);
-    simpleModel.placeCard(0, 0, 1, simpleModel.getRedPlayer());
+    simpleModel.placeCard(0, 0, 1, redPlayer);
     view.switchPlayerView();
-    simpleModel.placeCard(0, 1, 0, simpleModel.getBluePlayer());
+    simpleModel.placeCard(0, 1, 0, bluePlayer);
     view.switchPlayerView();
 
     String expectedOutput = "Player: RED\n" +
@@ -189,7 +203,7 @@ public class TestView {
         "WorldDragon 8 3 5 7\n" +
         "FlameTiger 6 4 7 8\n" +
         "ShadowSerpent 3 9 6 8\n";
-    simpleModel.placeCard(0, 2, 0, simpleModel.getRedPlayer());
+    simpleModel.placeCard(0, 2, 0, redPlayer);
 
     assertEquals(expectedOutput,  view.toString());
   }

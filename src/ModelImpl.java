@@ -281,7 +281,7 @@ public class ModelImpl implements IModel {
    */
   private void distributeCards() {
     for (Card deckCard : this.deck) {
-      if (deckCard.getPlayer() == PlayerColor.RED) {
+      if (deckCard.getPlayerColor() == PlayerColor.RED) {
         this.redPlayer.getHand().add(deckCard);
       } else {
         this.bluePlayer.getHand().add(deckCard);
@@ -365,7 +365,7 @@ public class ModelImpl implements IModel {
     if (this.boardWithCards[boardRow][boardCol] != null) {
       Card card = this.boardWithCards[boardRow][boardCol];
       return new Card(
-          card.getPlayer(),
+          card.getPlayerColor(),
           card.getName(),
           card.getDirectionsAndValues().get(Direction.NORTH),
           card.getDirectionsAndValues().get(Direction.EAST),
@@ -400,7 +400,7 @@ public class ModelImpl implements IModel {
         Card adjacentCard = boardWithCards[adjRow][adjCol];
 
         // Check if the adjacent card belongs to the opponent
-        if (adjacentCard.getPlayer() != cardPlaced.getPlayer()) {
+        if (adjacentCard.getPlayerColor() != cardPlaced.getPlayerColor()) {
           // Battle: compare card values in the respective direction
           Direction placedDir = dirEnums[i];
           Direction adjOppositeDir = getOppositeDirection(placedDir);
@@ -409,8 +409,8 @@ public class ModelImpl implements IModel {
               adjacentCard.getDirectionsAndValues().get(adjOppositeDir).getValue()) {
 
             // Flip the opponent's card and start a combo check
-            flipCardOwnership(adjacentCard, adjRow, adjCol, cardPlaced.getPlayer());
-            comboStep(adjacentCard, adjRow, adjCol, cardPlaced.getPlayer());
+            flipCardOwnership(adjacentCard, adjRow, adjCol, cardPlaced.getPlayerColor());
+            comboStep(adjacentCard, adjRow, adjCol, cardPlaced.getPlayerColor());
           }
         }
       }
@@ -439,7 +439,7 @@ public class ModelImpl implements IModel {
       if (isValidPosition(adjRow, adjCol) && boardWithCards[adjRow][adjCol] != null) {
         Card adjacentCard = boardWithCards[adjRow][adjCol];
 
-        if (adjacentCard.getPlayer() != newOwner) {
+        if (adjacentCard.getPlayerColor() != newOwner) {
           // Battle with the adjacent card
           Direction flippedDir = dirEnums[i];
           Direction adjOppositeDir = getOppositeDirection(flippedDir);
@@ -518,7 +518,8 @@ public class ModelImpl implements IModel {
   public IPlayer getRedPlayer() {
     checkGameStarted();
     checkGameOver();
-    return new PlayerImpl(PlayerColor.RED, redPlayer.getHand());
+    ArrayList<Card> copyHand = new ArrayList<>(redPlayer.getHand());
+    return new PlayerImpl(PlayerColor.RED, copyHand);
   }
 
   /**
@@ -530,7 +531,8 @@ public class ModelImpl implements IModel {
   public IPlayer getBluePlayer() {
     checkGameStarted();
     checkGameOver();
-    return new PlayerImpl(PlayerColor.BLUE, (bluePlayer.getHand()));
+    ArrayList<Card> copyHand = new ArrayList<>(bluePlayer.getHand());
+    return new PlayerImpl(PlayerColor.BLUE, copyHand);
   }
 
 
@@ -552,7 +554,7 @@ public class ModelImpl implements IModel {
         if (boardWithCards[i][j] != null) {
           Card card = boardWithCards[i][j];
           boardCopy[i][j] = new Card(
-              card.getPlayer(),
+              card.getPlayerColor(),
               card.getName(),
               card.getDirectionsAndValues().get(Direction.NORTH),
               card.getDirectionsAndValues().get(Direction.EAST),
@@ -609,9 +611,9 @@ public class ModelImpl implements IModel {
           if (boardWithCards[row][col] != null) {
             totalOccupiedCells++;
             Card card = boardWithCards[row][col];
-            if (card.getPlayer() == PlayerColor.RED) {
+            if (card.getPlayerColor() == PlayerColor.RED) {
               redCount++;
-            } else if (card.getPlayer() == PlayerColor.BLUE) {
+            } else if (card.getPlayerColor() == PlayerColor.BLUE) {
               blueCount++;
             }
           }
@@ -665,12 +667,13 @@ public class ModelImpl implements IModel {
    *
    * @return a new {@link IPlayer} instance representing the winning player
    * @throws IllegalStateException if the game ended in a draw with no winning player
+   *                               or if the game has not started.
    */
   public IPlayer getWinningPlayer() {
+    checkGameStarted();
     if (this.winningPlayer == null) {
       throw new IllegalStateException("There is a tie, no winning player yet");
     }
     return new PlayerImpl(winningPlayer.getPlayerColor(), winningPlayer.getHand());
-
   }
 }

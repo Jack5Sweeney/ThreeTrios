@@ -49,7 +49,7 @@ public class TestModel {
     modelForRulesTesting.placeCard(1, 2, 0,
         modelForRulesTesting.getRedPlayer());
     assertEquals(
-        PlayerColor.RED, modelForRulesTesting.getCardAt(1, 2).getPlayer());
+        PlayerColor.RED, modelForRulesTesting.getCardAt(1, 2).getPlayerColor());
   }
 
   @Test
@@ -61,14 +61,14 @@ public class TestModel {
     (modelForRulesTesting.getBluePlayer()).getHand().add(blueCard);
     modelForRulesTesting.placeCard(1, 1, 0, modelForRulesTesting.getBluePlayer());
 
-    assertEquals(PlayerColor.BLUE, modelForRulesTesting.getCardAt(1, 1).getPlayer());
+    assertEquals(PlayerColor.BLUE, modelForRulesTesting.getCardAt(1, 1).getPlayerColor());
 
     Card redCard = new Card(PlayerColor.RED, "RedCard",
         DirectionValue.FIVE, DirectionValue.FIVE, DirectionValue.FIVE, DirectionValue.FIVE);
     (modelForRulesTesting.getRedPlayer()).getHand().add(redCard);
     modelForRulesTesting.placeCard(1, 2, 0, modelForRulesTesting.getRedPlayer());
 
-    assertEquals(PlayerColor.RED, modelForRulesTesting.getCardAt(1, 1).getPlayer());
+    assertEquals(PlayerColor.RED, modelForRulesTesting.getCardAt(1, 1).getPlayerColor());
   }
 
   @Test
@@ -85,30 +85,30 @@ public class TestModel {
     (modelForRulesTesting.getBluePlayer()).getHand().add(blueCard1);
     modelForRulesTesting.placeCard(1, 0, 0, modelForRulesTesting.getBluePlayer());
 
-    assertEquals(PlayerColor.BLUE, modelForRulesTesting.getCardAt(1, 1).getPlayer());
-    assertEquals(PlayerColor.BLUE, modelForRulesTesting.getCardAt(1, 0).getPlayer());
+    assertEquals(PlayerColor.BLUE, modelForRulesTesting.getCardAt(1, 1).getPlayerColor());
+    assertEquals(PlayerColor.BLUE, modelForRulesTesting.getCardAt(1, 0).getPlayerColor());
 
     Card redCard = new Card(PlayerColor.RED, "RedCard",
         DirectionValue.FIVE, DirectionValue.FIVE, DirectionValue.FIVE, DirectionValue.FIVE);
     (modelForRulesTesting.getRedPlayer()).getHand().add(redCard);
     modelForRulesTesting.placeCard(1, 2, 0, modelForRulesTesting.getRedPlayer());
 
-    assertEquals(PlayerColor.RED, modelForRulesTesting.getCardAt(1, 1).getPlayer());
-    assertEquals(PlayerColor.RED, modelForRulesTesting.getCardAt(1, 0).getPlayer());
+    assertEquals(PlayerColor.RED, modelForRulesTesting.getCardAt(1, 1).getPlayerColor());
+    assertEquals(PlayerColor.RED, modelForRulesTesting.getCardAt(1, 0).getPlayerColor());
   }
 
   @Test
   public void testPlaceAndFlipAdjacentCardWithNoPropAvailable() {
     simpleModel.startGame();
-    simpleModel.placeCard(0,0,0,simpleModel.getBluePlayer());
-    simpleModel.placeCard(0,1,0,simpleModel.getBluePlayer());
+    simpleModel.placeCard(0,0,0, bluePlayer);
+    simpleModel.placeCard(0,1,0, bluePlayer);
 
-    assertEquals(PlayerColor.BLUE, simpleModel.getCardAt(0, 0).getPlayer());
-    assertEquals(PlayerColor.BLUE, simpleModel.getCardAt(0, 1).getPlayer());
+    assertEquals(PlayerColor.BLUE, simpleModel.getCardAt(0, 0).getPlayerColor());
+    assertEquals(PlayerColor.BLUE, simpleModel.getCardAt(0, 1).getPlayerColor());
 
-    simpleModel.placeCard(0,2,0,simpleModel.getRedPlayer());
-    assertEquals(PlayerColor.RED, simpleModel.getCardAt(0, 1).getPlayer());
-    assertEquals(PlayerColor.BLUE, simpleModel.getCardAt(0, 0).getPlayer());
+    simpleModel.placeCard(0,2,0, redPlayer);
+    assertEquals(PlayerColor.RED, simpleModel.getCardAt(0, 1).getPlayerColor());
+    assertEquals(PlayerColor.BLUE, simpleModel.getCardAt(0, 0).getPlayerColor());
 
   }
 
@@ -116,12 +116,12 @@ public class TestModel {
   public void testPlaceAndFlipAdjacentCardWithPropAvailableButTie() {
     simpleModel.startGame();
 
-    simpleModel.placeCard(0,0,1,simpleModel.getBluePlayer());
-    simpleModel.placeCard(1,0,1,simpleModel.getBluePlayer());
-    simpleModel.placeCard(1,1,3,simpleModel.getRedPlayer());
+    simpleModel.placeCard(0,0,1,bluePlayer);
+    simpleModel.placeCard(1,0,1,bluePlayer);
+    simpleModel.placeCard(1,1,3,redPlayer);
 
-    assertEquals(PlayerColor.BLUE, simpleModel.getCardAt(0, 0).getPlayer());
-    assertEquals(PlayerColor.RED, simpleModel.getCardAt(1, 0).getPlayer());
+    assertEquals(PlayerColor.BLUE, simpleModel.getCardAt(0, 0).getPlayerColor());
+    assertEquals(PlayerColor.RED, simpleModel.getCardAt(1, 0).getPlayerColor());
   }
 
   @Test
@@ -134,11 +134,11 @@ public class TestModel {
     modelForRulesTesting.placeCard(2, 1, 1, modelForRulesTesting.getRedPlayer());
     modelForRulesTesting.placeCard(2, 2, 0, modelForRulesTesting.getBluePlayer());
 
-    assertEquals(PlayerColor.BLUE, modelForRulesTesting.getCardAt(0, 0).getPlayer());
-    assertEquals(PlayerColor.BLUE, modelForRulesTesting.getCardAt(1, 0).getPlayer());
-    assertEquals(PlayerColor.BLUE, modelForRulesTesting.getCardAt(2, 0).getPlayer());
-    assertEquals(PlayerColor.BLUE, modelForRulesTesting.getCardAt(2, 1).getPlayer());
-    assertEquals(PlayerColor.BLUE, modelForRulesTesting.getCardAt(2, 2).getPlayer());
+    assertEquals(PlayerColor.BLUE, modelForRulesTesting.getCardAt(0, 0).getPlayerColor());
+    assertEquals(PlayerColor.BLUE, modelForRulesTesting.getCardAt(1, 0).getPlayerColor());
+    assertEquals(PlayerColor.BLUE, modelForRulesTesting.getCardAt(2, 0).getPlayerColor());
+    assertEquals(PlayerColor.BLUE, modelForRulesTesting.getCardAt(2, 1).getPlayerColor());
+    assertEquals(PlayerColor.BLUE, modelForRulesTesting.getCardAt(2, 2).getPlayerColor());
 
   }
 
@@ -150,9 +150,9 @@ public class TestModel {
     modelForRulesTesting.placeCard(1, 1, 0, modelForRulesTesting.getRedPlayer());
     modelForRulesTesting.placeCard(2, 2, 1, modelForRulesTesting.getBluePlayer());
 
-    assertEquals(PlayerColor.RED, modelForRulesTesting.getCardAt(0, 0).getPlayer());
-    assertEquals(PlayerColor.RED, modelForRulesTesting.getCardAt(1, 1).getPlayer());
-    assertEquals(PlayerColor.BLUE, modelForRulesTesting.getCardAt(2, 2).getPlayer());
+    assertEquals(PlayerColor.RED, modelForRulesTesting.getCardAt(0, 0).getPlayerColor());
+    assertEquals(PlayerColor.RED, modelForRulesTesting.getCardAt(1, 1).getPlayerColor());
+    assertEquals(PlayerColor.BLUE, modelForRulesTesting.getCardAt(2, 2).getPlayerColor());
 
   }
 
@@ -484,6 +484,19 @@ public class TestModel {
       fail("Exception should not have been thrown, as the game is not over.");
     }
   }
+
+  @Test
+  public void testGetPlayerColorReturnsCorrectPlayerColorRED() {
+    simpleModel.startGame();
+    assertEquals( PlayerColor.RED, simpleModel.getRedPlayer().getPlayerColor());
+  }
+
+  @Test
+  public void testGetPlayerColorReturnsCorrectPlayerColorBLUE() {
+    simpleModel.startGame();
+    assertEquals( PlayerColor.BLUE, simpleModel.getBluePlayer().getPlayerColor());
+  }
+
 
   @Test(expected = IllegalStateException.class)
   public void testGetWinningPlayerThrowsExceptionIfGameNotStarted() {

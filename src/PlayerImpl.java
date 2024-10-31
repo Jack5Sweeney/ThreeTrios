@@ -7,10 +7,14 @@ import java.util.ArrayList;
  */
 public class PlayerImpl implements IPlayer {
 
-  /** The color representing the player (e.g., RED or BLUE). */
+  /**
+   * The color representing the player (e.g., RED or BLUE).
+   */
   private final PlayerColor playerColor;
 
-  /** The hand of cards that the player holds. */
+  /**
+   * The hand of cards that the player holds.
+   */
   private ArrayList<Card> hand;
 
   /**
@@ -31,7 +35,11 @@ public class PlayerImpl implements IPlayer {
    */
   @Override
   public PlayerColor getPlayerColor() {
-    return this.playerColor;
+    if (this.playerColor == PlayerColor.RED) {
+      return PlayerColor.RED;
+    } else {
+      return PlayerColor.BLUE;
+    }
   }
 
   /**

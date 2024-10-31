@@ -8,27 +8,27 @@ import java.util.Map;
 public class Card {
 
   private final Map<Direction, DirectionValue> directionsAndValues;
-  private final PlayerColor player;
+  private final PlayerColor playerColor;
   private final String name;
 
   /**
    * Constructs a Card with the given player and directional values.
    *
-   * @param player     the color of the player to whom the card belongs (cannot be null)
+   * @param playerColor     the color of the player to whom the card belongs (cannot be null)
    * @param northValue the value assigned to the north direction (cannot be null)
    * @param eastValue  the value assigned to the east direction (cannot be null)
    * @param southValue the value assigned to the south direction (cannot be null)
    * @param westValue  the value assigned to the west direction (cannot be null)
    * @throws IllegalArgumentException if any of the parameters are null
    */
-  public Card(PlayerColor player, String name,  DirectionValue northValue,
+  public Card(PlayerColor playerColor, String name,  DirectionValue northValue,
               DirectionValue eastValue, DirectionValue southValue, DirectionValue westValue) {
-    if (player == null || northValue == null || eastValue == null || southValue == null
+    if (playerColor == null || northValue == null || eastValue == null || southValue == null
         || westValue == null) {
       throw new IllegalArgumentException("You cannot construct a card without all of the proper " +
           "parameters.");
     }
-    this.player = player;
+    this.playerColor = playerColor;
     this.name = name;
     this.directionsAndValues = new HashMap<>();
     directionsAndValues.put(Direction.NORTH, northValue);
@@ -42,8 +42,8 @@ public class Card {
    *
    * @return the player color
    */
-  public PlayerColor getPlayer() {
-    return player;
+  public PlayerColor getPlayerColor() {
+    return playerColor;
   }
 
   /**
@@ -67,10 +67,10 @@ public class Card {
 
   @Override
   public String toString() {
-    return new String(this.name + " " +
+    return  this.name + " " +
             this.directionsAndValues.get(Direction.NORTH).toString()
             + " " +
-            this.directionsAndValues.get(Direction.EAST)).toString()
+            this.directionsAndValues.get(Direction.EAST).toString()
             + " " +
             this.directionsAndValues.get(Direction.SOUTH).toString()
             + " " +

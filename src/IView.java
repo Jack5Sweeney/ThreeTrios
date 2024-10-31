@@ -14,10 +14,8 @@ public interface IView {
 
   /**
    * Switches the view to the next player by updating the current player
-   * displayed in the view. This method checks the current player's color:
-   * if the player is RED, it switches to BLUE, and if the player is BLUE,
-   * it switches to RED. This allows the game to alternate views between
-   * players based on the turn sequence.
+   * displayed in the view. THIS METHOD IS FOR TESTING, WE KNOW THAT SWITCHING THE POV
+   * SHOULD BE HANDLED IN THE CONTROLLER
    */
   void switchPlayerView();
 

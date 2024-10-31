@@ -27,10 +27,8 @@ public class ViewImpl implements IView {
 
   /**
    * Switches the view to the next player by updating the current player
-   * displayed in the view. This method checks the current player's color:
-   * if the player is RED, it switches to BLUE, and if the player is BLUE,
-   * it switches to RED. This allows the game to alternate views between
-   * players based on the turn sequence.
+   * displayed in the view. THIS METHOD IS FOR TESTING, WE KNOW THAT SWITCHING THE POV
+   * SHOULD BE HANDLED IN THE CONTROLLER
    */
   public void switchPlayerView() {
     if (this.currentPlayer.getPlayerColor() == PlayerColor.RED) {
@@ -80,7 +78,7 @@ public class ViewImpl implements IView {
       for (int col = 0; col < boardWithCards[row].length; col++) {
         if (boardWithCards[row][col] != null) {
           // Display 'R' or 'B' based on the card’s player color
-          sb.append(boardWithCards[row][col].getPlayer() == PlayerColor.RED ? "R" : "B");
+          sb.append(boardWithCards[row][col].getPlayerColor() == PlayerColor.RED ? "R" : "B");
         } else if (boardAvailability[row][col] == CellType.HOLE) {
           sb.append(" ");  // Hole
         } else {
@@ -98,8 +96,14 @@ public class ViewImpl implements IView {
    */
   private void appendHand(StringBuilder sb) {
     sb.append("Hand:\n");
-    for (Card card : currentPlayer.getHand()) {
-      sb.append(card.toString()).append("\n");
+    if (currentPlayer.getPlayerColor() == PlayerColor.RED) {
+      for (Card card : model.getRedPlayer().getHand()) {
+        sb.append(card.toString()).append("\n");
+      }
+    } else {
+      for (Card card : model.getBluePlayer().getHand()) {
+        sb.append(card.toString()).append("\n");
+      }
     }
   }
 }
