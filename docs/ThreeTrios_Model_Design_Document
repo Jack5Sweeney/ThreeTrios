@@ -1,0 +1,32 @@
+We have structured our model to support both human and AI players with a flexible, extensible design.
+At the core of this design is a Player interface that abstracts out essential methods for interacting with the game,
+including access to the player’s hand, player color, and potential moves. This setup allows us to add new player types—such
+as an AI-controlled player—by implementing this interface. With this approach, we can introduce varied player logic while
+maintaining consistent interaction within the game.
+
+For our initial implementation, PlayerImpl is the primary class implementing the Player interface. This class manages
+fundamental attributes like hand management and player color, serving as a baseline for human-controlled players.
+However, when we expand the game to include an AI player, this design will allow us to extend PlayerImpl or create new
+subclasses of Player to incorporate AI strategies, enabling additional play modes like solitaire or fully automated testing
+scenarios.
+
+Key Components of the Model:
+
+ModelImpl: This class, implementing the IModel interface, serves as the main game engine, handling core game setup,
+rules enforcement, and the board's current state. By abstracting away player logic from the model,
+ModelImpl is agnostic to whether a human or AI controls a player. The model is designed to process player turns,
+enforce the game’s battle rules, and check for end-game conditions. Methods like startGame, placeCard, and updateBoard
+encapsulate these actions and validate game states.
+
+Player Interface: Defines the essential player interactions required by the model, such as obtaining a
+player’s hand or color. This abstraction supports extensibility, enabling different implementations (human or AI)
+to be used interchangeably within the game.
+
+PlayerImpl: The main implementation of Player, primarily designed for human-controlled players. PlayerImpl provides foundational
+methods for card management and retrieval of player color, ensuring seamless integration with the ModelImpl.
+
+AI Player (Future Expansion): With the Player interface, adding an AI-controlled player in the future is straightforward.
+The AI class can implement logic to evaluate moves, make strategic placements, and manage interactions without altering
+the model’s core functionality. AI players would interact with ModelImpl through the same methods as human players,
+ensuring a cohesive and maintainable design.
+

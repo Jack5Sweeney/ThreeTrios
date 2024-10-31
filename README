@@ -38,6 +38,18 @@ directions and the values that go with each direction.
 
 PlayerColor: This is a simple enum that helps determine if it is either a red or blue player.
 
+Class Invariants:
+The board availability and board with cards arrays are consistent. For any position (i, j):
+If boardAvailability[i][j] == CellType. CARD, then boardWithCards[i][j] != null.
+If boardAvailability[i][j] != CellType. CARD, then boardWithCards[i][j] == null.
+
+In the configBoardAvailability method the cells that are marked as CellType.EMPTY or
+CellType.HOLE are set in boardAvailability without any cards in boardWithCards ensuring that non
+CellType.CARD cells are null in the boardWithCards.
+
+These are invariants because they are logical statements that occur consistently throughout
+the model that have to be true for the board to work.
+
 Source Org.
 
 src : contains all the primary code files
@@ -45,3 +57,4 @@ src : contains all the primary code files
     ViewImpl.java and IView.java
     PlayerImpl.java and IPlayer.java
 test/ : handles all the testing files for model and view
+

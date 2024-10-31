@@ -3,13 +3,15 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.fail;
 
+/**
+ * Test class to test the ModelImpl Implementation.
+ **/
 public class TestModel {
 
   private IModel simpleModel;
@@ -19,10 +21,7 @@ public class TestModel {
 
   private PlayerImpl redPlayer;
   private PlayerImpl bluePlayer;
-  private PlayerImpl redPlayer1;
-  private PlayerImpl bluePlayer1;
   private ArrayList<IPlayer> players;
-  private ArrayList<IPlayer> players1;
 
   @Before
   public void setup() {
@@ -33,9 +32,9 @@ public class TestModel {
     simpleModel = new ModelImpl("simpleBoard.config", "simpleCard.database", players);
     easyWinModel = new ModelImpl("1x1Board.config", "simpleCard.database", players);
 
-    redPlayer1 = new PlayerImpl(PlayerColor.RED, new ArrayList<>());
-    bluePlayer1 = new PlayerImpl(PlayerColor.BLUE, new ArrayList<>());
-    players1 = new ArrayList<>(List.of(redPlayer1, bluePlayer1));
+    PlayerImpl redPlayer1 = new PlayerImpl(PlayerColor.RED, new ArrayList<>());
+    PlayerImpl bluePlayer1 = new PlayerImpl(PlayerColor.BLUE, new ArrayList<>());
+    ArrayList<IPlayer> players1 = new ArrayList<>(List.of(redPlayer1, bluePlayer1));
     modelForRulesTesting = new ModelImpl("simpleBoard.config", "simpleCard.database", players1);
 
 
@@ -45,13 +44,10 @@ public class TestModel {
   public void testBattleWithoutFlipDueToLowerValue() {
     modelForRulesTesting.startGame();
 
-    // Place a weak Blue card in the center and a strong Red card to the east
     modelForRulesTesting.placeCard(1, 1, 0,
-        modelForRulesTesting.getBluePlayer());  // Weak Blue card in the center
+        modelForRulesTesting.getBluePlayer());
     modelForRulesTesting.placeCard(1, 2, 0,
-        modelForRulesTesting.getRedPlayer());   // Strong Red card to the east
-
-    // The strong Red card should not flip as it has a higher attack value
+        modelForRulesTesting.getRedPlayer());
     assertEquals(
         PlayerColor.RED, modelForRulesTesting.getCardAt(1, 2).getPlayer());
   }
@@ -60,60 +56,46 @@ public class TestModel {
   public void testPlaceAndFlipAdjacentCard() {
     modelForRulesTesting.startGame();
 
-    // Place a weaker blue card on the board at (1, 1)
     Card blueCard = new Card(PlayerColor.BLUE, "BlueCard",
         DirectionValue.TWO, DirectionValue.TWO, DirectionValue.TWO, DirectionValue.TWO);
     (modelForRulesTesting.getBluePlayer()).getHand().add(blueCard);
     modelForRulesTesting.placeCard(1, 1, 0, modelForRulesTesting.getBluePlayer());
 
-    // Ensure the initial card is blue
     assertEquals(PlayerColor.BLUE, modelForRulesTesting.getCardAt(1, 1).getPlayer());
 
-    // Place a stronger red card adjacent to the blue card at (1, 2)
     Card redCard = new Card(PlayerColor.RED, "RedCard",
         DirectionValue.FIVE, DirectionValue.FIVE, DirectionValue.FIVE, DirectionValue.FIVE);
     (modelForRulesTesting.getRedPlayer()).getHand().add(redCard);
     modelForRulesTesting.placeCard(1, 2, 0, modelForRulesTesting.getRedPlayer());
 
-    // Verify that the blue card at (1, 1) has flipped to red
     assertEquals(PlayerColor.RED, modelForRulesTesting.getCardAt(1, 1).getPlayer());
   }
-
-  // tests the propagation of the cards
 
   @Test
   public void testPlaceAndFlipAdjacentCardWithProp() {
     modelForRulesTesting.startGame();
 
-    // Place a weaker blue card on the board at (1, 1)
     Card blueCard = new Card(PlayerColor.BLUE, "BlueCard",
         DirectionValue.TWO, DirectionValue.TWO, DirectionValue.TWO, DirectionValue.TWO);
     (modelForRulesTesting.getBluePlayer()).getHand().add(blueCard);
     modelForRulesTesting.placeCard(1, 1, 0, modelForRulesTesting.getBluePlayer());
 
-    // Place a weaker blue card on the board at (1, 0)
     Card blueCard1 = new Card(PlayerColor.BLUE, "BlueCard",
         DirectionValue.ONE, DirectionValue.ONE, DirectionValue.ONE, DirectionValue.ONE);
     (modelForRulesTesting.getBluePlayer()).getHand().add(blueCard1);
     modelForRulesTesting.placeCard(1, 0, 0, modelForRulesTesting.getBluePlayer());
 
-    // Ensure the initial card is blue
     assertEquals(PlayerColor.BLUE, modelForRulesTesting.getCardAt(1, 1).getPlayer());
     assertEquals(PlayerColor.BLUE, modelForRulesTesting.getCardAt(1, 0).getPlayer());
 
-    // Place a stronger red card adjacent to the blue card at (1, 2)
     Card redCard = new Card(PlayerColor.RED, "RedCard",
         DirectionValue.FIVE, DirectionValue.FIVE, DirectionValue.FIVE, DirectionValue.FIVE);
     (modelForRulesTesting.getRedPlayer()).getHand().add(redCard);
     modelForRulesTesting.placeCard(1, 2, 0, modelForRulesTesting.getRedPlayer());
 
-    // Verify that the blue card at (1, 1) has flipped to red
     assertEquals(PlayerColor.RED, modelForRulesTesting.getCardAt(1, 1).getPlayer());
     assertEquals(PlayerColor.RED, modelForRulesTesting.getCardAt(1, 0).getPlayer());
   }
-
-  // this tests to see if the first card that flips will flip a card with greater value
-  // it should not...
 
   @Test
   public void testPlaceAndFlipAdjacentCardWithNoPropAvailable() {
@@ -188,7 +170,8 @@ public class TestModel {
   @Test
   public void testModelCatchesErrorWithInvalidFileFormat() {
     try {
-      IModel invalidModelConfig = new ModelImpl("invalidBoard.config", "simpleCard.database", players);
+      IModel invalidModelConfig = new ModelImpl("invalidBoard.config",
+          "simpleCard.database", players);
       invalidModelConfig.startGame();
       fail("The board config is not a valid format");
     } catch (IllegalArgumentException e) {
@@ -199,7 +182,8 @@ public class TestModel {
   @Test
   public void testModelCatchesErrorWithDuplicateCard() {
     try {
-      IModel dupCardModelConfig = new ModelImpl("simpleBoard.config", "dupCard.database", players);
+      IModel dupCardModelConfig = new ModelImpl("simpleBoard.config",
+          "dupCard.database", players);
       dupCardModelConfig.startGame();
       fail("There is a duplicate card in the card database");
     } catch (IllegalArgumentException e) {
@@ -210,17 +194,13 @@ public class TestModel {
   @Test
   public void testModelCatchesErrorWithNotEnoughCards() {
     try {
-      IModel dupCardModelConfig = new ModelImpl("simpleBoard.config", "notEnoughCards.database", players);
+      IModel dupCardModelConfig = new ModelImpl("simpleBoard.config",
+          "notEnoughCards.database", players);
       dupCardModelConfig.startGame();
       fail("There is no enough cards in the card database");
     } catch (IllegalArgumentException e) {
       //successfully caught IllegalArgumentException
     }
-  }
-
-  @Test
-  public void testValidGameConstruction() {
-    simpleModel.startGame();
   }
 
   @Test
@@ -450,7 +430,8 @@ public class TestModel {
     Card[][] boardCopy = simpleModel.getBoard();
     assertEquals(originalCard.getName(), boardCopy[0][0].getName());
 
-    boardCopy[0][0] = new Card(PlayerColor.RED, "MutantCard", DirectionValue.ONE, DirectionValue.TWO, DirectionValue.THREE, DirectionValue.FOUR);
+    boardCopy[0][0] = new Card(PlayerColor.RED, "MutantCard", DirectionValue.ONE,
+        DirectionValue.TWO, DirectionValue.THREE, DirectionValue.FOUR);
 
     assertEquals("CorruptKing", simpleModel.getCardAt(0, 0).getName());
     assertEquals(originalCard.getName(), simpleModel.getCardAt(0, 0).getName());

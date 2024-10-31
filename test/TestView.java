@@ -6,6 +6,9 @@ import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Test class to test the ViewImpl Implementation.
+ **/
 public class TestView {
   private IModel model;
   private IModel simpleModel;

@@ -570,7 +570,8 @@ public class ModelImpl implements IModel {
   /**
    * Provides a copy of the board availability array, showing each cell's availability type.
    *
-   * @return a 2D array of {@link CellType} objects representing the availability status of each cell
+   * @return a 2D array of {@link CellType} objects representing the availability status of
+   *         each cell
    * @throws IllegalStateException if the game has not started or is over
    */
   public CellType[][] getBoardAvailability() {
@@ -600,8 +601,8 @@ public class ModelImpl implements IModel {
 
     for (int row = 0; row < boardWithCards.length; row++) {
       for (int col = 0; col < boardWithCards[row].length; col++) {
-        // Count playable cells (EMPTY or CARD)
-        if (boardAvailability[row][col] == CellType.EMPTY || boardAvailability[row][col] == CellType.CARD) {
+        if (boardAvailability[row][col] == CellType.EMPTY ||
+            boardAvailability[row][col] == CellType.CARD) {
           totalPlayableCells++;
 
           // Count occupied cells and cards for each player

@@ -1,6 +1,6 @@
 /**
- * A textual representation of the game view for a player, displaying the current player, game board,
- * and the player's hand.
+ * A textual representation of the game view for a player, displaying the current player,
+ * game board, and the player's hand.
  *
  * <p>The {@code GameTextView} class implements the {@code GameView} interface and provides a
  * formatted string representation of the game state, including the current player's identity, the
@@ -33,7 +33,7 @@ public class ViewImpl implements IView {
    * players based on the turn sequence.
    */
   public void switchPlayerView() {
-    if(this.currentPlayer.getPlayerColor() == PlayerColor.RED) {
+    if (this.currentPlayer.getPlayerColor() == PlayerColor.RED) {
       this.currentPlayer = model.getBluePlayer();
     } else if (this.currentPlayer.getPlayerColor() == PlayerColor.BLUE) {
       this.currentPlayer = model.getRedPlayer();
