@@ -33,7 +33,7 @@ value of each card, which is vital for the model and logic of the game.
 CellType: This is an enum which determines if the cell of the board is empty, a card, or a hole.
 this is important for the board configuration and how the game can be played.
 
-Card: This class is for the creation of a card. The card has a player, a player name, and the
+CardImpl: This class is for the creation of a card. The card has a player, a player name, and the
 directions and the values that go with each direction.
 
 PlayerColor: This is a simple enum that helps determine if it is either a red or blue player.

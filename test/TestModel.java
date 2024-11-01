@@ -56,14 +56,14 @@ public class TestModel {
   public void testPlaceAndFlipAdjacentCard() {
     modelForRulesTesting.startGame();
 
-    Card blueCard = new Card(PlayerColor.BLUE, "BlueCard",
+    CardImpl blueCard = new CardImpl(PlayerColor.BLUE, "BlueCard",
         DirectionValue.TWO, DirectionValue.TWO, DirectionValue.TWO, DirectionValue.TWO);
     (modelForRulesTesting.getBluePlayer()).getHand().add(blueCard);
     modelForRulesTesting.placeCard(1, 1, 0, modelForRulesTesting.getBluePlayer());
 
     assertEquals(PlayerColor.BLUE, modelForRulesTesting.getCardAt(1, 1).getPlayerColor());
 
-    Card redCard = new Card(PlayerColor.RED, "RedCard",
+    CardImpl redCard = new CardImpl(PlayerColor.RED, "RedCard",
         DirectionValue.FIVE, DirectionValue.FIVE, DirectionValue.FIVE, DirectionValue.FIVE);
     (modelForRulesTesting.getRedPlayer()).getHand().add(redCard);
     modelForRulesTesting.placeCard(1, 2, 0, modelForRulesTesting.getRedPlayer());
@@ -75,12 +75,12 @@ public class TestModel {
   public void testPlaceAndFlipAdjacentCardWithProp() {
     modelForRulesTesting.startGame();
 
-    Card blueCard = new Card(PlayerColor.BLUE, "BlueCard",
+    CardImpl blueCard = new CardImpl(PlayerColor.BLUE, "BlueCard",
         DirectionValue.TWO, DirectionValue.TWO, DirectionValue.TWO, DirectionValue.TWO);
     (modelForRulesTesting.getBluePlayer()).getHand().add(blueCard);
     modelForRulesTesting.placeCard(1, 1, 0, modelForRulesTesting.getBluePlayer());
 
-    Card blueCard1 = new Card(PlayerColor.BLUE, "BlueCard",
+    CardImpl blueCard1 = new CardImpl(PlayerColor.BLUE, "BlueCard",
         DirectionValue.ONE, DirectionValue.ONE, DirectionValue.ONE, DirectionValue.ONE);
     (modelForRulesTesting.getBluePlayer()).getHand().add(blueCard1);
     modelForRulesTesting.placeCard(1, 0, 0, modelForRulesTesting.getBluePlayer());
@@ -88,7 +88,7 @@ public class TestModel {
     assertEquals(PlayerColor.BLUE, modelForRulesTesting.getCardAt(1, 1).getPlayerColor());
     assertEquals(PlayerColor.BLUE, modelForRulesTesting.getCardAt(1, 0).getPlayerColor());
 
-    Card redCard = new Card(PlayerColor.RED, "RedCard",
+    CardImpl redCard = new CardImpl(PlayerColor.RED, "RedCard",
         DirectionValue.FIVE, DirectionValue.FIVE, DirectionValue.FIVE, DirectionValue.FIVE);
     (modelForRulesTesting.getRedPlayer()).getHand().add(redCard);
     modelForRulesTesting.placeCard(1, 2, 0, modelForRulesTesting.getRedPlayer());
@@ -314,7 +314,7 @@ public class TestModel {
   public void testGetCardAtValidPositionWithCard() {
     simpleModel.startGame();
     simpleModel.placeCard(0, 0, 0, redPlayer);
-    Card card = simpleModel.getCardAt(0, 0);
+    CardImpl card = simpleModel.getCardAt(0, 0);
 
     Assert.assertNotNull(card);
     assertEquals("CorruptKing", card.getName());
@@ -425,12 +425,12 @@ public class TestModel {
     simpleModel.startGame();
 
     simpleModel.placeCard(0, 0, 0, redPlayer);
-    Card originalCard = simpleModel.getCardAt(0, 0);
+    CardImpl originalCard = simpleModel.getCardAt(0, 0);
 
-    Card[][] boardCopy = simpleModel.getBoard();
+    CardImpl[][] boardCopy = simpleModel.getBoard();
     assertEquals(originalCard.getName(), boardCopy[0][0].getName());
 
-    boardCopy[0][0] = new Card(PlayerColor.RED, "MutantCard", DirectionValue.ONE,
+    boardCopy[0][0] = new CardImpl(PlayerColor.RED, "MutantCard", DirectionValue.ONE,
         DirectionValue.TWO, DirectionValue.THREE, DirectionValue.FOUR);
 
     assertEquals("CorruptKing", simpleModel.getCardAt(0, 0).getName());

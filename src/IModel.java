@@ -34,10 +34,10 @@ public interface IModel {
    *
    * @param boardRow the row index on the board where the card is located
    * @param boardCol the column index on the board where the card is located
-   * @return a new instance of the {@link Card} at the specified position
+   * @return a new instance of the {@link CardImpl} at the specified position
    * @throws IllegalArgumentException if there is no card at the specified position
    */
-  Card getCardAt(int boardRow, int boardCol);
+  CardImpl getCardAt(int boardRow, int boardCol);
 
   /**
    * Retrieves a new instance of the red player, including their color and hand.
@@ -56,9 +56,9 @@ public interface IModel {
   /**
    * Provides a deep copy of the current board with all cards.
    *
-   * @return a 2D array of {@link Card} objects representing the board, with all attributes copied
+   * @return a 2D array of {@link CardImpl} objects representing the board, with all attributes copied
    */
-  Card[][] getBoard();
+  CardImpl[][] getBoard();
 
   /**
    * Returns the board availability information.

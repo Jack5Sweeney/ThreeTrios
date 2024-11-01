@@ -33,10 +33,10 @@ public class ModelImpl implements IModel {
   private int numColumns;
   private File pathToBoardConfig;
   private File pathToCardDB;
-  private CellType[][] boardAvailability;
-  private Card[][] boardWithCards;
-  private ArrayList<Card> deck;
-  private IPlayer redPlayer;
+  private CellType[][] boardAvailability;   //boardAvailability and boardWithCards are both 0
+  private CardImpl[][] boardWithCards;          //indexed, the top left corner is (0,0) and the bottom
+  private ArrayList<CardImpl> deck;             //right is (n,m), where 'n' and 'm' are the dimensions of
+  private IPlayer redPlayer;                //the board
   private IPlayer bluePlayer;
   private boolean gameStarted;
   private boolean gameOver;
@@ -121,7 +121,7 @@ public class ModelImpl implements IModel {
           while (firstLine != null) {
             String[] parts = firstLine.split("\\s+");
             if (parts.length == 5) {
-              Card possibleCardToAdd = new Card(determinePlayerColor(playerToDealCardTo),
+              CardImpl possibleCardToAdd = new CardImpl(determinePlayerColor(playerToDealCardTo),
                   parts[0],
                   determineDirectionValue(parts[1]),
                   determineDirectionValue(parts[2]),
@@ -178,9 +178,9 @@ public class ModelImpl implements IModel {
    * @param possibleCardToAdd the card being checked for duplication
    * @return {@code true} if the card is not a duplicate, {@code false} otherwise
    */
-  private boolean confirmNonDupCard(Card possibleCardToAdd) {
+  private boolean confirmNonDupCard(CardImpl possibleCardToAdd) {
     if (!this.deck.isEmpty()) {
-      for (Card card : this.deck) {
+      for (CardImpl card : this.deck) {
         if (card.getName().equals(possibleCardToAdd.getName())) {
           return false;
         }
@@ -254,7 +254,7 @@ public class ModelImpl implements IModel {
   private void configBoardAvailability(int numRows, int numColumns, BufferedReader reader)
       throws IOException {
     this.boardAvailability = new CellType[numRows][numColumns];
-    this.boardWithCards = new Card[numRows][numColumns];
+    this.boardWithCards = new CardImpl[numRows][numColumns];
     for (int row = 0; row < numRows; row++) {
       String line = reader.readLine();
       if (line != null) {
@@ -280,7 +280,7 @@ public class ModelImpl implements IModel {
    * to the blue player are added to the {@code blueHand}.
    */
   private void distributeCards() {
-    for (Card deckCard : this.deck) {
+    for (CardImpl deckCard : this.deck) {
       if (deckCard.getPlayerColor() == PlayerColor.RED) {
         this.redPlayer.getHand().add(deckCard);
       } else {
@@ -313,7 +313,7 @@ public class ModelImpl implements IModel {
       throw new IllegalArgumentException("Invalid card index in hand.");
     }
     checkValidCardPlacement(boardRow, boardCol);
-    Card placedCard = player.getHand().remove(cardIndexInHand);
+    CardImpl placedCard = player.getHand().remove(cardIndexInHand);
     this.boardWithCards[boardRow][boardCol] = placedCard;
     this.boardAvailability[boardRow][boardCol] = CellType.CARD;
     updateBoard(placedCard, boardRow, boardCol);
@@ -354,17 +354,17 @@ public class ModelImpl implements IModel {
    *
    * @param boardRow the row index on the board where the card is located
    * @param boardCol the column index on the board where the card is located
-   * @return a new instance of the {@link Card} at the specified position
+   * @return a new instance of the {@link CardImpl} at the specified position
    * @throws IllegalArgumentException if there is no card at the specified position
    * @throws IllegalStateException    if the game has not started or is over
    */
-  public Card getCardAt(int boardRow, int boardCol) {
+  public CardImpl getCardAt(int boardRow, int boardCol) {
     checkGameStarted();
     checkGameOver();
     checkValidIndex(boardRow, boardCol);
     if (this.boardWithCards[boardRow][boardCol] != null) {
-      Card card = this.boardWithCards[boardRow][boardCol];
-      return new Card(
+      CardImpl card = this.boardWithCards[boardRow][boardCol];
+      return new CardImpl(
           card.getPlayerColor(),
           card.getName(),
           card.getDirectionsAndValues().get(Direction.NORTH),
@@ -385,7 +385,7 @@ public class ModelImpl implements IModel {
    * @throws IllegalStateException if the game has not started or is over
    */
 
-  private void updateBoard(Card cardPlaced, int row, int col) {
+  private void updateBoard(CardImpl cardPlaced, int row, int col) {
     checkGameStarted();
     checkGameOver();
     int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};  // North, South, West, East
@@ -397,7 +397,7 @@ public class ModelImpl implements IModel {
       int adjCol = col + directions[directionIndex][1];
 
       if (isValidPosition(adjRow, adjCol) && boardWithCards[adjRow][adjCol] != null) {
-        Card adjacentCard = boardWithCards[adjRow][adjCol];
+        CardImpl adjacentCard = boardWithCards[adjRow][adjCol];
 
         // Check if the adjacent card belongs to the opponent
         if (adjacentCard.getPlayerColor() != cardPlaced.getPlayerColor()) {
@@ -427,7 +427,7 @@ public class ModelImpl implements IModel {
    * @param newOwner    the new owner of the flipped card
    */
 
-  private void comboStep(Card flippedCard, int row, int col, PlayerColor newOwner) {
+  private void comboStep(CardImpl flippedCard, int row, int col, PlayerColor newOwner) {
 
     int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};  // North, South, West, East
     Direction[] dirEnums = {Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST};
@@ -437,7 +437,7 @@ public class ModelImpl implements IModel {
       int adjCol = col + directions[directionIndex][1];
 
       if (isValidPosition(adjRow, adjCol) && boardWithCards[adjRow][adjCol] != null) {
-        Card adjacentCard = boardWithCards[adjRow][adjCol];
+        CardImpl adjacentCard = boardWithCards[adjRow][adjCol];
 
         if (adjacentCard.getPlayerColor() != newOwner) {
           // Battle with the adjacent card
@@ -465,8 +465,8 @@ public class ModelImpl implements IModel {
    * @param newOwner the new owner of the card
    */
 
-  private void flipCardOwnership(Card card, int row, int col, PlayerColor newOwner) {
-    Card flippedCard = new Card(newOwner, card.getName(),
+  private void flipCardOwnership(CardImpl card, int row, int col, PlayerColor newOwner) {
+    CardImpl flippedCard = new CardImpl(newOwner, card.getName(),
         card.getDirectionsAndValues().get(Direction.NORTH),
         card.getDirectionsAndValues().get(Direction.EAST),
         card.getDirectionsAndValues().get(Direction.SOUTH),
@@ -518,7 +518,7 @@ public class ModelImpl implements IModel {
   public IPlayer getRedPlayer() {
     checkGameStarted();
     checkGameOver();
-    ArrayList<Card> copyHand = new ArrayList<>(redPlayer.getHand());
+    ArrayList<CardImpl> copyHand = new ArrayList<>(redPlayer.getHand());
     return new PlayerImpl(PlayerColor.RED, copyHand);
   }
 
@@ -531,7 +531,7 @@ public class ModelImpl implements IModel {
   public IPlayer getBluePlayer() {
     checkGameStarted();
     checkGameOver();
-    ArrayList<Card> copyHand = new ArrayList<>(bluePlayer.getHand());
+    ArrayList<CardImpl> copyHand = new ArrayList<>(bluePlayer.getHand());
     return new PlayerImpl(PlayerColor.BLUE, copyHand);
   }
 
@@ -539,21 +539,21 @@ public class ModelImpl implements IModel {
   /**
    * Provides a deep copy of the current board with all cards.
    *
-   * @return a 2D array of {@link Card} objects representing the board, with all attributes copied
+   * @return a 2D array of {@link CardImpl} objects representing the board, with all attributes copied
    * @throws IllegalStateException if the game has not started or is over
    */
-  public Card[][] getBoard() {
+  public CardImpl[][] getBoard() {
     checkGameStarted();
     checkGameOver();
     int numRows = boardWithCards.length;
     int numCols = boardWithCards[0].length;
-    Card[][] boardCopy = new Card[numRows][numCols];
+    CardImpl[][] boardCopy = new CardImpl[numRows][numCols];
 
     for (int rows = 0; rows < numRows; rows++) {
       for (int cols = 0; cols < numCols; cols++) {
         if (boardWithCards[rows][cols] != null) {
-          Card card = boardWithCards[rows][cols];
-          boardCopy[rows][cols] = new Card(
+          CardImpl card = boardWithCards[rows][cols];
+          boardCopy[rows][cols] = new CardImpl(
               card.getPlayerColor(),
               card.getName(),
               card.getDirectionsAndValues().get(Direction.NORTH),
@@ -610,7 +610,7 @@ public class ModelImpl implements IModel {
           // Count occupied cells and cards for each player
           if (boardWithCards[row][col] != null) {
             totalOccupiedCells++;
-            Card card = boardWithCards[row][col];
+            CardImpl card = boardWithCards[row][col];
             if (card.getPlayerColor() == PlayerColor.RED) {
               redCount++;
             } else if (card.getPlayerColor() == PlayerColor.BLUE) {

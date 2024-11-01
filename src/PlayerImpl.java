@@ -15,7 +15,7 @@ public class PlayerImpl implements IPlayer {
   /**
    * The hand of cards that the player holds.
    */
-  private ArrayList<Card> hand;
+  private ArrayList<CardImpl> hand;
 
   /**
    * Constructs a {@code PlayerImpl} with the specified player color and initial hand of cards.
@@ -23,7 +23,7 @@ public class PlayerImpl implements IPlayer {
    * @param playerColor the color representing the player (e.g., RED or BLUE)
    * @param hand        the initial hand of cards for the player
    */
-  public PlayerImpl(PlayerColor playerColor, ArrayList<Card> hand) {
+  public PlayerImpl(PlayerColor playerColor, ArrayList<CardImpl> hand) {
     this.playerColor = playerColor;
     this.hand = hand;
   }
@@ -48,7 +48,7 @@ public class PlayerImpl implements IPlayer {
    * @return an {@link ArrayList} containing the player's cards
    */
   @Override
-  public ArrayList<Card> getHand() {
+  public ArrayList<CardImpl> getHand() {
     return this.hand;
   }
 }

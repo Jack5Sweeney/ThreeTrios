@@ -58,7 +58,7 @@ public class ViewImpl implements IView {
    * @param sb the {@code StringBuilder} to append the board layout to
    */
   private void appendBoard(StringBuilder sb) {
-    Card[][] boardWithCards = model.getBoard();
+    CardImpl[][] boardWithCards = model.getBoard();
     CellType[][] boardAvailability = model.getBoardAvailability();
 
     for (int row = 0; row < boardWithCards.length; row++) {
@@ -84,11 +84,11 @@ public class ViewImpl implements IView {
   private void appendHand(StringBuilder sb) {
     sb.append("Hand:\n");
     if (currentPlayer.getPlayerColor() == PlayerColor.RED) {
-      for (Card card : model.getRedPlayer().getHand()) {
+      for (CardImpl card : model.getRedPlayer().getHand()) {
         sb.append(card.toString()).append("\n");
       }
     } else {
-      for (Card card : model.getBluePlayer().getHand()) {
+      for (CardImpl card : model.getBluePlayer().getHand()) {
         sb.append(card.toString()).append("\n");
       }
     }

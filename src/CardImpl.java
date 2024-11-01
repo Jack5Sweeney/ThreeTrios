@@ -5,7 +5,7 @@ import java.util.Map;
  * Represents a Card that is associated with a player and holds directional values for four
  * cardinal directions (north, east, south, west).
  */
-public class Card {
+public class CardImpl implements ICard {
 
   private final Map<Direction, DirectionValue> directionsAndValues;
   private final PlayerColor playerColor;
@@ -21,8 +21,8 @@ public class Card {
    * @param westValue  the value assigned to the west direction (cannot be null)
    * @throws IllegalArgumentException if any of the parameters are null
    */
-  public Card(PlayerColor playerColor, String name,  DirectionValue northValue,
-              DirectionValue eastValue, DirectionValue southValue, DirectionValue westValue) {
+  public CardImpl(PlayerColor playerColor, String name, DirectionValue northValue,
+                  DirectionValue eastValue, DirectionValue southValue, DirectionValue westValue) {
     if (playerColor == null || northValue == null || eastValue == null || southValue == null
         || westValue == null) {
       throw new IllegalArgumentException("You cannot construct a card without all of the proper " +

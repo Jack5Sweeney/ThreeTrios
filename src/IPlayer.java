@@ -17,5 +17,5 @@ public interface IPlayer {
    *
    * @return the hand of cards
    */
-  ArrayList<Card> getHand();
+  ArrayList<CardImpl> getHand();
 }
