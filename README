@@ -58,3 +58,21 @@ src : contains all the primary code files
     PlayerImpl.java and IPlayer.java
 test/ : handles all the testing files for model and view
 
+
+Changes for Part 2
+To improve the model's functionality, we added two new methods: calculateFlips and getPlayerScore.
+
+1. calculateFlips
+Purpose: Calculates the number of opponent cards that would be flipped if a player places a card
+at a specific position.
+Reason: Previously, there was no way to evaluate a move's impact without executing it.
+This method helps players strategize by previewing flips without altering the board state.
+Implementation: calculateFlips checks in all four directions (North, South, East, West)
+using a helper method, countFlipsInDirection, to tally flips based on game rules.
+2. getPlayerScore
+Purpose: Returns the current score of a player by counting their cards on the board.
+Reason: The previous model lacked a way to track and display player scores dynamically.
+This addition enables real-time score updates.
+Implementation: getPlayerScore iterates over the board to count cards belonging to the
+specified player.
+

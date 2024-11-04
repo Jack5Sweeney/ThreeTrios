@@ -34,9 +34,9 @@ public class ModelImpl implements IModel {
   private File pathToBoardConfig;
   private File pathToCardDB;
   private CellType[][] boardAvailability;   //boardAvailability and boardWithCards are both 0
-  private CardImpl[][] boardWithCards;          //indexed, the top left corner is (0,0) and the bottom
-  private ArrayList<CardImpl> deck;             //right is (n,m), where 'n' and 'm' are the dimensions of
-  private IPlayer redPlayer;                //the board
+  private CardImpl[][] boardWithCards;      //indexed, the top left corner is (0,0) and the
+  private ArrayList<CardImpl> deck;         //bottom right is (n,m), where 'n' and 'm' are
+  private IPlayer redPlayer;                //the dimensions of the board
   private IPlayer bluePlayer;
   private boolean gameStarted;
   private boolean gameOver;
@@ -391,7 +391,6 @@ public class ModelImpl implements IModel {
     int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};  // North, South, West, East
     Direction[] dirEnums = {Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST};
 
-    // Iterate over each direction to check for adjacent cards
     for (int directionIndex = 0; directionIndex < directions.length; directionIndex++) {
       int adjRow = row + directions[directionIndex][0];
       int adjCol = col + directions[directionIndex][1];
@@ -399,16 +398,13 @@ public class ModelImpl implements IModel {
       if (isValidPosition(adjRow, adjCol) && boardWithCards[adjRow][adjCol] != null) {
         CardImpl adjacentCard = boardWithCards[adjRow][adjCol];
 
-        // Check if the adjacent card belongs to the opponent
         if (adjacentCard.getPlayerColor() != cardPlaced.getPlayerColor()) {
-          // Battle: compare card values in the respective direction
           Direction placedDir = dirEnums[directionIndex];
           Direction adjOppositeDir = getOppositeDirection(placedDir);
 
           if (cardPlaced.getDirectionsAndValues().get(placedDir).getValue() >
               adjacentCard.getDirectionsAndValues().get(adjOppositeDir).getValue()) {
 
-            // Flip the opponent's card and start a combo check
             flipCardOwnership(adjacentCard, adjRow, adjCol, cardPlaced.getPlayerColor());
             comboStep(adjacentCard, adjRow, adjCol, cardPlaced.getPlayerColor());
           }
@@ -539,7 +535,8 @@ public class ModelImpl implements IModel {
   /**
    * Provides a deep copy of the current board with all cards.
    *
-   * @return a 2D array of {@link CardImpl} objects representing the board, with all attributes copied
+   * @return a 2D array of {@link CardImpl} objects representing the board, with all attributes
+   *         copied
    * @throws IllegalStateException if the game has not started or is over
    */
   public CardImpl[][] getBoard() {
@@ -595,7 +592,6 @@ public class ModelImpl implements IModel {
    */
 
   private void checkGameStatus() {
-    // Counters for each player's cards on the board
     int redCount = 0;
     int blueCount = 0;
     int totalPlayableCells = 0;
@@ -606,8 +602,6 @@ public class ModelImpl implements IModel {
         if (boardAvailability[row][col] == CellType.EMPTY ||
             boardAvailability[row][col] == CellType.CARD) {
           totalPlayableCells++;
-
-          // Count occupied cells and cards for each player
           if (boardWithCards[row][col] != null) {
             totalOccupiedCells++;
             CardImpl card = boardWithCards[row][col];
@@ -621,19 +615,15 @@ public class ModelImpl implements IModel {
       }
     }
 
-    // Check if the board is full
     if (totalOccupiedCells == totalPlayableCells) {
       this.gameOver = true;
     }
-
-    // Update the winning player based on card counts
     if (redCount > blueCount) {
       this.winningPlayer = this.redPlayer;
     } else if (blueCount > redCount) {
       this.winningPlayer = this.bluePlayer;
     } else {
-      // It's a tie; you may choose to handle this differently
-      this.winningPlayer = null; // Represents a draw
+      this.winningPlayer = null;
     }
   }
 
@@ -650,15 +640,15 @@ public class ModelImpl implements IModel {
   }
 
   /**
-   * Checks if the game is over. Throws an exception if the game has ended.
+   * Checks if the game is over and throws an exception if it is.
    *
-   * @throws IllegalStateException if the game is over
+   * @throws IllegalStateException if the game is not started
    */
   public boolean checkGameOver() {
-    if (this.gameOver) {
+    if (!this.gameStarted) {
       throw new IllegalStateException("The game is over!");
     }
-    return false;
+    return this.gameOver;
   }
 
   /**
@@ -675,5 +665,59 @@ public class ModelImpl implements IModel {
       throw new IllegalStateException("There is a tie, no winning player yet");
     }
     return new PlayerImpl(winningPlayer.getPlayerColor(), winningPlayer.getHand());
+  }
+
+
+  /**
+   * Calculates the number of flips that would occur if a card were placed at the specified
+   * board position. A flip occurs when the placed card's value in a given direction is
+   * greater than the adjacent card's value in the opposite direction.
+   *
+   * @param row  the row index where the card is to be placed
+   * @param col  the column index where the card is to be placed
+   * @param card the card being placed on the board
+   * @return the number of opponent cards that would be flipped by this placement
+   */
+  public int calculateFlips(int row, int col, ICard card) {
+    int flipCount = 0;
+    int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+    Direction[] dirEnums = {Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST};
+
+    for (int directionIndex = 0; directionIndex < directions.length; directionIndex++) {
+      int adjRow = row + directions[directionIndex][0];
+      int adjCol = col + directions[directionIndex][1];
+
+      if (isValidPosition(adjRow, adjCol) && boardWithCards[adjRow][adjCol] != null) {
+        CardImpl adjacentCard = boardWithCards[adjRow][adjCol];
+        if (adjacentCard.getPlayerColor() != card.getPlayerColor()) {
+          Direction placedDir = dirEnums[directionIndex];
+          Direction adjOppositeDir = getOppositeDirection(placedDir);
+          if (card.getDirectionsAndValues().get(placedDir).getValue() >
+              adjacentCard.getDirectionsAndValues().get(adjOppositeDir).getValue()) {
+            flipCount++;
+          }
+        }
+      }
+    }
+    return flipCount;
+  }
+
+  /**
+   * Calculates the score for the specified player color by counting the cards on the board
+   * that belong to the player.
+   *
+   * @param playerColor the color of the player whose score is being calculated
+   * @return the number of cards on the board that belong to the specified player
+   */
+  public int getPlayerScore(PlayerColor playerColor) {
+    int score = 0;
+    for (CardImpl[] row : boardWithCards) {
+      for (CardImpl card : row) {
+        if (card != null && card.getPlayerColor() == playerColor) {
+          score++;
+        }
+      }
+    }
+    return score;
   }
 }

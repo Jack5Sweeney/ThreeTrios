@@ -2,12 +2,14 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.smartcardio.Card;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.fail;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Test class to test the ModelImpl Implementation.
@@ -38,6 +40,30 @@ public class TestModel {
     modelForRulesTesting = new ModelImpl("simpleBoard.config", "simpleCard.database", players1);
 
 
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testPlaceCardOutOfBoundsColNeg() {
+    simpleModel.startGame();
+    simpleModel.placeCard(0, -1, 0, redPlayer);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testPlaceCardOutOfBoundsColPos() {
+    simpleModel.startGame();
+    simpleModel.placeCard(0, 10, 0, redPlayer);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testPlaceCardOutOfBoundsRowNeg() {
+    simpleModel.startGame();
+    simpleModel.placeCard(-1, 0, 0, redPlayer);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testPlaceCardOutOfBoundsRowPos() {
+    simpleModel.startGame();
+    simpleModel.placeCard(10, 0, 0, redPlayer);
   }
 
   @Test
@@ -125,6 +151,16 @@ public class TestModel {
   }
 
   @Test
+  public void testPlaceCardDoesNotFlipSameColor() {
+    simpleModel.startGame();
+
+    simpleModel.placeCard(0,0,1, bluePlayer);
+    simpleModel.placeCard(1,0,2, bluePlayer);
+
+    assertEquals(PlayerColor.BLUE, simpleModel.getCardAt(0, 0).getPlayerColor());
+  }
+
+  @Test
   public void testPropegationOfMultipleCardsWithDifferentDirections() {
     modelForRulesTesting.startGame();
 
@@ -139,7 +175,6 @@ public class TestModel {
     assertEquals(PlayerColor.BLUE, modelForRulesTesting.getCardAt(2, 0).getPlayerColor());
     assertEquals(PlayerColor.BLUE, modelForRulesTesting.getCardAt(2, 1).getPlayerColor());
     assertEquals(PlayerColor.BLUE, modelForRulesTesting.getCardAt(2, 2).getPlayerColor());
-
   }
 
   @Test
@@ -154,6 +189,22 @@ public class TestModel {
     assertEquals(PlayerColor.RED, modelForRulesTesting.getCardAt(1, 1).getPlayerColor());
     assertEquals(PlayerColor.BLUE, modelForRulesTesting.getCardAt(2, 2).getPlayerColor());
 
+  }
+
+  @Test
+  public void testPlaceCardFlipsCardsAroundIt() {
+    simpleModel.startGame();
+
+    simpleModel.placeCard(1,2,1, bluePlayer);
+    simpleModel.placeCard(1,0,1, bluePlayer);
+
+    assertEquals(PlayerColor.BLUE, simpleModel.getCardAt(1, 2).getPlayerColor());
+    assertEquals(PlayerColor.BLUE, simpleModel.getCardAt(1, 0).getPlayerColor());
+
+    simpleModel.placeCard(1,1,4, redPlayer);
+
+    assertEquals(PlayerColor.RED, simpleModel.getCardAt(1, 2).getPlayerColor());
+    assertEquals(PlayerColor.RED, simpleModel.getCardAt(1, 0).getPlayerColor());
   }
 
   @Test
@@ -486,6 +537,13 @@ public class TestModel {
   }
 
   @Test
+  public void testCheckOverWhenGameIsOver() {
+    easyWinModel.startGame();
+    easyWinModel.placeCard(0, 0, 0, redPlayer);
+    assertTrue(easyWinModel.checkGameOver());
+  }
+
+  @Test
   public void testGetPlayerColorReturnsCorrectPlayerColorRED() {
     simpleModel.startGame();
     assertEquals( PlayerColor.RED, simpleModel.getRedPlayer().getPlayerColor());
@@ -533,6 +591,90 @@ public class TestModel {
     simpleModel.placeCard(0, 1, 0, redPlayer);
     simpleModel.placeCard(0, 2, 0, bluePlayer);
     assertEquals(PlayerColor.BLUE, simpleModel.getWinningPlayer().getPlayerColor());
+  }
+
+  @Test
+  public void testGetPlayerScoreAtGameStart() {
+    simpleModel.startGame();
+    assertEquals(0, simpleModel.getPlayerScore(PlayerColor.RED));
+    assertEquals(0, simpleModel.getPlayerScore(PlayerColor.BLUE));
+  }
+
+  @Test
+  public void testGetPlayerScoreAfterPlacingCards() {
+    simpleModel.startGame();
+    simpleModel.placeCard(0, 0, 0, redPlayer);
+    assertEquals(1, simpleModel.getPlayerScore(PlayerColor.RED));
+    assertEquals(0, simpleModel.getPlayerScore(PlayerColor.BLUE));
+    simpleModel.placeCard(1, 1, 0, bluePlayer);
+    assertEquals(1, simpleModel.getPlayerScore(PlayerColor.RED));
+    assertEquals(1, simpleModel.getPlayerScore(PlayerColor.BLUE));
+  }
+
+  @Test
+  public void testGetPlayerScoreAfterFlippingCards() {
+    modelForRulesTesting.startGame();
+
+    CardImpl blueCard = new CardImpl(PlayerColor.BLUE, "BlueCard",
+        DirectionValue.ONE, DirectionValue.ONE, DirectionValue.ONE, DirectionValue.ONE);
+    modelForRulesTesting.getBluePlayer().getHand().add(blueCard);
+    modelForRulesTesting.placeCard(1, 1, 0, modelForRulesTesting.getBluePlayer());
+
+    CardImpl redCard = new CardImpl(PlayerColor.RED, "RedCard",
+        DirectionValue.NINE, DirectionValue.NINE, DirectionValue.NINE, DirectionValue.NINE);
+    modelForRulesTesting.getRedPlayer().getHand().add(redCard);
+    modelForRulesTesting.placeCard(1, 2, 0, modelForRulesTesting.getRedPlayer());
+
+    assertEquals(2, modelForRulesTesting.getPlayerScore(PlayerColor.RED));
+    assertEquals(0, modelForRulesTesting.getPlayerScore(PlayerColor.BLUE));
+  }
+
+  @Test
+  public void testCalculateFlipsNoAdjacentOpponentCards() {
+    simpleModel.startGame();
+    CardImpl redCard = redPlayer.getHand().get(0);
+
+    int flips = simpleModel.calculateFlips(0, 0, redCard);
+    assertEquals(0, flips);
+  }
+
+  @Test
+  public void testCalculateFlipsWithOneAdjacentOpponentCard() {
+    simpleModel.startGame();
+
+    simpleModel.placeCard(0, 0, 0, redPlayer);
+    CardImpl blueCard = bluePlayer.getHand().get(0);
+    int flips = simpleModel.calculateFlips(0, 1, blueCard);
+    assertEquals(1, flips);
+  }
+
+  @Test
+  public void testCalculateFlipsWithTwoAdjacentOpponentCard() {
+    simpleModel.startGame();
+
+    simpleModel.placeCard(1,2,1, bluePlayer);
+    simpleModel.placeCard(1,0,1, bluePlayer);
+
+    assertEquals(PlayerColor.BLUE, simpleModel.getCardAt(1, 2).getPlayerColor());
+    assertEquals(PlayerColor.BLUE, simpleModel.getCardAt(1, 0).getPlayerColor());
+
+    CardImpl redCard = redPlayer.getHand().get(4);
+    int flips = simpleModel.calculateFlips(1, 1, redCard);
+    assertEquals(2, flips);
+  }
+
+  @Test
+  public void testCalculateFlipsComplexBoard() {
+    modelForRulesTesting.startGame();
+
+    modelForRulesTesting.placeCard(0, 0, 4, modelForRulesTesting.getRedPlayer());
+    modelForRulesTesting.placeCard(1, 0, 2, modelForRulesTesting.getRedPlayer());
+    modelForRulesTesting.placeCard(2, 0, 1, modelForRulesTesting.getRedPlayer());
+    modelForRulesTesting.placeCard(2, 1, 1, modelForRulesTesting.getRedPlayer());
+
+    CardImpl blueCard = modelForRulesTesting.getBluePlayer().getHand().get(0);
+    int flips = modelForRulesTesting.calculateFlips(2, 2, blueCard);
+    assertEquals(4, flips);
   }
 }
 

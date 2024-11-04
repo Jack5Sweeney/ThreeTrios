@@ -3,8 +3,8 @@ import java.util.Map;
 /**
  * Represents a card in the game, associated with a player and directional values for four
  * cardinal directions (north, east, south, west).
- * <p>
- * Each card has a player color, name, and specific values associated with each direction.
+ *
+ * <p>Each card has a player color, name, and specific values associated with each direction.
  */
 public interface ICard {
 
@@ -24,11 +24,11 @@ public interface ICard {
 
   /**
    * Provides a map of the card's directional values.
-   * <p>
-   * Each direction (north, east, south, west) is mapped to its respective value.
+   *
+   * <p>Each direction (north, east, south, west) is mapped to its respective value.
    *
    * @return a new {@link Map} of {@link Direction} keys to {@link DirectionValue} values
-   * representing the card's directional values.
+   *         representing the card's directional values.
    */
   Map<Direction, DirectionValue> getDirectionsAndValues();
 
