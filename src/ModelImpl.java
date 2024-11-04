@@ -41,6 +41,7 @@ public class ModelImpl implements IModel {
   private boolean gameStarted;
   private boolean gameOver;
   private IPlayer winningPlayer;
+  private IPlayer currentPlayer;
 
 
   /**
@@ -58,6 +59,7 @@ public class ModelImpl implements IModel {
     this.bluePlayer = players.get(1);
     this.gameStarted = false;
     this.gameOver = false;
+    this.currentPlayer = players.get(0);
   }
 
   /**
@@ -312,14 +314,25 @@ public class ModelImpl implements IModel {
     if (cardIndexInHand < 0 || cardIndexInHand >= player.getHand().size()) {
       throw new IllegalArgumentException("Invalid card index in hand.");
     }
+    if (currentPlayer.getPlayerColor() != player.getPlayerColor()) {
+      throw new IllegalArgumentException("Player is not in turn.");
+    }
     checkValidCardPlacement(boardRow, boardCol);
     CardImpl placedCard = player.getHand().remove(cardIndexInHand);
     this.boardWithCards[boardRow][boardCol] = placedCard;
     this.boardAvailability[boardRow][boardCol] = CellType.CARD;
     updateBoard(placedCard, boardRow, boardCol);
     checkGameStatus();
+    updatePlayerColor(player);
   }
 
+  private void updatePlayerColor(IPlayer player) {
+    if (player.getPlayerColor() == PlayerColor.RED) {
+      this.currentPlayer = this.bluePlayer;
+    } else {
+      this.currentPlayer = this.redPlayer;
+    }
+  }
 
   /**
    * Verifies if a card placement is valid by checking the board boundaries
