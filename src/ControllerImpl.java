@@ -1,3 +1,5 @@
+import gameConfiguration.ConfigGame;
+
 public class ControllerImpl implements IController {
 
   IView view;
@@ -7,13 +9,10 @@ public class ControllerImpl implements IController {
     this.view = view;
     this.model = model;
   }
-  @Override
-  public void configFiles() {
-
-  }
 
   @Override
-  public void playGame() {
-
+  public void playGame(String board, String cardDB) {
+    ConfigGame gameConfiguration = new ConfigGame(board, cardDB);
+    model.startGame(gameConfiguration.getBoard(), gameConfiguration.getDeck());
   }
 }

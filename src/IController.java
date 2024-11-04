@@ -1,7 +1,5 @@
 
 public interface IController {
 
-  void configFiles();
-
-  void playGame();
+  void playGame(String board, String cardDB);
 }
