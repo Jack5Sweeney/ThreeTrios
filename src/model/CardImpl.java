@@ -10,7 +10,7 @@ import java.util.Map;
 public class CardImpl implements ICard {
 
   private final Map<Direction, DirectionValue> directionsAndValues;
-  private final PlayerColor playerColor;
+  private PlayerColor playerColor;
   private final String name;
 
   /**
@@ -41,16 +41,22 @@ public class CardImpl implements ICard {
   }
 
   /**
-   * Gets the color of the player associated with this card.
+   * Gets a copy of the color of the player associated with this card.
    *
    * @return the {@link PlayerColor} of the player who owns this card
    */
+  @Override
   public PlayerColor getPlayerColor() {
-    return playerColor;
+    if (playerColor == PlayerColor.RED) {
+      return PlayerColor.RED;
+    }
+    else {
+      return PlayerColor.BLUE;
+    }
   }
 
   /**
-   * Retrieves the name associated with this card.
+   * Retrieves a copy of the name associated with this card.
    *
    * @return a new {@code String} representing the name of this card
    */
@@ -82,4 +88,25 @@ public class CardImpl implements ICard {
         this.directionsAndValues.get(Direction.SOUTH).toString() + " " +
         this.directionsAndValues.get(Direction.WEST).toString();
   }
+
+
+  /**
+   * Checks if this card is equal to another object. Two cards are considered equal if they
+   * are both instances of {@link ICard} and have the same directional values and name.
+   *
+   * @param o the object to compare with this card
+   * @return {@code true} if the specified object is an {@link ICard} with identical directional
+   *         values and name, {@code false} otherwise
+   */
+  @Override
+  public boolean equals(Object o) {
+    if (!(o instanceof ICard)) {
+      return false;
+    } else {
+      ICard otherCard = (ICard) o;
+      return this.directionsAndValues.equals(otherCard.getDirectionsAndValues())
+          && this.name.equals(otherCard.getName());
+    }
+  }
+
 }

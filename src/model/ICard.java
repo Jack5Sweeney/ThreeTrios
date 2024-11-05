@@ -11,7 +11,7 @@ import java.util.Map;
 public interface ICard {
 
   /**
-   * Gets the player color associated with this card.
+   * Gets a copy of the player color associated with this card.
    *
    * @return the {@link PlayerColor} indicating the owner of the card.
    */

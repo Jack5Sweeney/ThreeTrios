@@ -1,7 +1,6 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.frequency;
@@ -90,7 +89,7 @@ public class ModelImpl implements IModel {
       for (ICard outerCard : this.deck) {
         String name = outerCard.getName();
         for (ICard innerCard : this.deck) {
-          if (innerCard.getName().equals(name)) {
+          if (innerCard.getName().equals(name) && !innerCard.equals(outerCard)) {
             throw new IllegalArgumentException("Cannot have duplicate cards");
           }
         }
@@ -105,9 +104,9 @@ public class ModelImpl implements IModel {
   private void distributeCards() {
     for (ICard deckCard : this.deck) {
       if (deckCard.getPlayerColor() == PlayerColor.RED) {
-        this.redPlayer.getHand().add(deckCard);
+        this.redPlayer.addToHand(deckCard);
       } else {
-        this.bluePlayer.getHand().add(deckCard);
+        this.bluePlayer.addToHand(deckCard);
       }
     }
   }
@@ -138,12 +137,12 @@ public class ModelImpl implements IModel {
       throw new IllegalArgumentException("Player is not in turn.");
     }
     checkValidCardPlacement(boardRow, boardCol);
-    ICard placedCard = player.getHand().remove(cardIndexInHand);
+    ICard placedCard = player.removeFromHand(cardIndexInHand);
     this.boardWithCards[boardRow][boardCol] = placedCard;
     this.boardAvailability[boardRow][boardCol] = CellType.CARD;
     updateBoard(placedCard, boardRow, boardCol);
     checkGameStatus();
-    updatePlayerColor(player);
+    updateCurrentPlayer(player);
   }
 
   /**
@@ -151,8 +150,12 @@ public class ModelImpl implements IModel {
    *
    * @param player the player who completed their turn
    */
-  private void updatePlayerColor(IPlayer player) {
-    this.currentPlayer = (player.getPlayerColor() == PlayerColor.RED) ? this.bluePlayer : this.redPlayer;
+  private void updateCurrentPlayer(IPlayer player) {
+    if (player.getPlayerColor() == PlayerColor.RED) {
+      this.currentPlayer = this.bluePlayer;
+    } else {
+      this.currentPlayer = this.redPlayer;
+    }
   }
 
   /**
@@ -345,8 +348,7 @@ public class ModelImpl implements IModel {
   public IPlayer getRedPlayer() {
     checkGameStarted();
     checkGameOver();
-    ArrayList<ICard> copyHand = new ArrayList<>(redPlayer.getHand());
-    return new PlayerImpl(PlayerColor.RED, copyHand);
+    return new PlayerImpl(PlayerColor.RED, redPlayer.getHand());
   }
 
   /**
@@ -358,8 +360,7 @@ public class ModelImpl implements IModel {
   public IPlayer getBluePlayer() {
     checkGameStarted();
     checkGameOver();
-    ArrayList<ICard> copyHand = new ArrayList<>(bluePlayer.getHand());
-    return new PlayerImpl(PlayerColor.BLUE, copyHand);
+    return new PlayerImpl(PlayerColor.BLUE, bluePlayer.getHand());
   }
 
 
