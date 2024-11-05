@@ -1,5 +1,13 @@
+
+import gameConfiguration.ConfigGame;
+import model.IModel;
+import model.IPlayer;
+import model.PlayerColor;
+import model.PlayerImpl;
+import model.ModelImpl;
 import org.junit.Before;
 import org.junit.Test;
+import view.ViewImpl;
 
 import static org.junit.Assert.assertEquals;
 
@@ -7,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Test class to test the ViewImpl Implementation.
+ * Test class to test the view.ViewImpl Implementation.
  **/
 public class TestView {
   private IModel model;
@@ -16,33 +24,45 @@ public class TestView {
   private IModel chessModel;
   private IModel oneByOneModel;
   private ViewImpl view;
-  IPlayer redPlayer;
-  IPlayer bluePlayer;
+  private IPlayer redPlayer;
+  private IPlayer bluePlayer;
+
 
   @Before
   public void setup() {
     redPlayer = new PlayerImpl(PlayerColor.RED, new ArrayList<>());
     bluePlayer = new PlayerImpl(PlayerColor.BLUE, new ArrayList<>());
     ArrayList<IPlayer> players = new ArrayList<>(List.of(redPlayer, bluePlayer));
-    model = new ModelImpl("board.config", "card.database", players);
-    simpleModel = new ModelImpl("simpleBoard.config", "simpleCard.database", players);
-    plusModel = new ModelImpl("plusBoard.config", "card.database", players);
-    chessModel = new ModelImpl("chessBoard.config", "card.database", players);
-    oneByOneModel = new ModelImpl("1x1Board.config", "card.database", players);
+
+    ConfigGame gameConfig = new ConfigGame("board.config", "card.database");
+    model = new ModelImpl(gameConfig.getBoard(), gameConfig.getDeck(), players);
+
+    ConfigGame simpleGameConfig = new ConfigGame("simpleBoard.config", "simpleCard.database");
+    simpleModel = new ModelImpl(simpleGameConfig.getBoard(), simpleGameConfig.getDeck(), players);
+
+    ConfigGame plusGameConfig = new ConfigGame("plusBoard.config", "card.database");
+    plusModel = new ModelImpl(plusGameConfig.getBoard(), gameConfig.getDeck(), players);
+
+    ConfigGame chessGameConfig = new ConfigGame("chessBoard.config", "card.database");
+    chessModel = new ModelImpl(chessGameConfig.getBoard(), gameConfig.getDeck(), players);
+
+    ConfigGame oneByOneGameConfig = new ConfigGame("oneByOneBoard.config", "card.database");
+    oneByOneModel = new ModelImpl(oneByOneGameConfig.getBoard(), gameConfig.getDeck(), players);
   }
 
   @Test
   public void testRedPlayerView() {
     model.startGame();
     view = new ViewImpl(model);
+    model.placeCard(2, 3, 0, redPlayer);
     model.placeCard(0, 0, 0, bluePlayer);
+    model.placeCard(4, 6, 0, redPlayer);
     model.placeCard(0, 1, 0, bluePlayer);
     model.placeCard(1, 2, 0, bluePlayer);
-    model.placeCard(2, 3, 0, redPlayer);
-    model.placeCard(4, 6, 0, redPlayer);
+
     String expectedOutput = "Player: RED\n"
         + "BB    _\n"
-        + "_ B   _\n"
+        + "_ _   _\n"
         + "_  R  _\n"
         + "_   _ _\n"
         + "_    _R\n"

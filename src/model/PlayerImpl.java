@@ -1,3 +1,5 @@
+package model;
+
 import java.util.ArrayList;
 
 /**
@@ -15,15 +17,15 @@ public class PlayerImpl implements IPlayer {
   /**
    * The hand of cards that the player holds.
    */
-  private ArrayList<CardImpl> hand;
+  private ArrayList<ICard> hand;
 
   /**
-   * Constructs a {@code PlayerImpl} with the specified player color and initial hand of cards.
+   * Constructs a {@code model.PlayerImpl} with the specified player color and initial hand of cards.
    *
    * @param playerColor the color representing the player (e.g., RED or BLUE)
    * @param hand        the initial hand of cards for the player
    */
-  public PlayerImpl(PlayerColor playerColor, ArrayList<CardImpl> hand) {
+  public PlayerImpl(PlayerColor playerColor, ArrayList<ICard> hand) {
     this.playerColor = playerColor;
     this.hand = hand;
   }
@@ -48,7 +50,7 @@ public class PlayerImpl implements IPlayer {
    * @return an {@link ArrayList} containing the player's cards
    */
   @Override
-  public ArrayList<CardImpl> getHand() {
+  public ArrayList<ICard> getHand() {
     return this.hand;
   }
 }

@@ -1,3 +1,5 @@
+package model;
+
 /**
  * Represents the different types of cells in a game grid.
  * <ul>

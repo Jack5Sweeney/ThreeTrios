@@ -1,8 +1,10 @@
+import gameConfiguration.ConfigGame;
+import model.*;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.smartcardio.Card;
+import java.io.ObjectInputFilter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +14,7 @@ import static org.junit.Assert.fail;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Test class to test the ModelImpl Implementation.
+ * Test class to test the model.ModelImpl Implementation.
  **/
 public class TestModel {
 
@@ -30,14 +32,21 @@ public class TestModel {
     redPlayer = new PlayerImpl(PlayerColor.RED, new ArrayList<>());
     bluePlayer = new PlayerImpl(PlayerColor.BLUE, new ArrayList<>());
     players = new ArrayList<>(List.of(redPlayer, bluePlayer));
-    model = new ModelImpl("board.config", "card.database", players);
-    simpleModel = new ModelImpl("simpleBoard.config", "simpleCard.database", players);
-    easyWinModel = new ModelImpl("1x1Board.config", "simpleCard.database", players);
+
+    ConfigGame gameConfig = new ConfigGame("board.config", "card.database");
+    model = new ModelImpl(gameConfig.getBoard(), gameConfig.getDeck(), players);
+
+    ConfigGame simpleGameConfig = new ConfigGame("simpleBoard.config", "simpleCard.database");
+    simpleModel = new ModelImpl(simpleGameConfig.getBoard(), simpleGameConfig.getDeck(), players);
+
+    ConfigGame easyWinGameConfig = new ConfigGame("1x1Board.config", "simpleCard.database");
+    easyWinModel = new ModelImpl(easyWinGameConfig.getBoard(), easyWinGameConfig.getDeck(), players);
+
 
     PlayerImpl redPlayer1 = new PlayerImpl(PlayerColor.RED, new ArrayList<>());
     PlayerImpl bluePlayer1 = new PlayerImpl(PlayerColor.BLUE, new ArrayList<>());
     ArrayList<IPlayer> players1 = new ArrayList<>(List.of(redPlayer1, bluePlayer1));
-    modelForRulesTesting = new ModelImpl("simpleBoard.config", "simpleCard.database", players1);
+    modelForRulesTesting = new ModelImpl(simpleGameConfig.getBoard(), simpleGameConfig.getDeck(), players1);
 
 
   }
@@ -237,33 +246,11 @@ public class TestModel {
   }
 
   @Test
-  public void testModelCatchesErrorWithInvalidFileName() {
-    try {
-      IModel invalidModelName = new ModelImpl("playBoard.config", "simpleCard.database", players);
-      invalidModelName.startGame();
-      fail("PlayBoard is not a valid name");
-    } catch (IllegalArgumentException e) {
-      //successfully caught IllegalArgumentException
-    }
-  }
-
-  @Test
-  public void testModelCatchesErrorWithInvalidFileFormat() {
-    try {
-      IModel invalidModelConfig = new ModelImpl("invalidBoard.config",
-              "simpleCard.database", players);
-      invalidModelConfig.startGame();
-      fail("The board config is not a valid format");
-    } catch (IllegalArgumentException e) {
-      //successfully caught IllegalArgumentException
-    }
-  }
-
-  @Test
   public void testModelCatchesErrorWithDuplicateCard() {
     try {
-      IModel dupCardModelConfig = new ModelImpl("simpleBoard.config",
-              "dupCard.database", players);
+      ConfigGame configGame = new ConfigGame("simpleBoard.config",
+          "dupCard.database");
+      IModel dupCardModelConfig = new ModelImpl(configGame.getBoard(), configGame.getDeck(), players);
       dupCardModelConfig.startGame();
       fail("There is a duplicate card in the card database");
     } catch (IllegalArgumentException e) {
@@ -271,17 +258,7 @@ public class TestModel {
     }
   }
 
-  @Test
-  public void testModelCatchesErrorWithNotEnoughCards() {
-    try {
-      IModel dupCardModelConfig = new ModelImpl("simpleBoard.config",
-              "notEnoughCards.database", players);
-      dupCardModelConfig.startGame();
-      fail("There is no enough cards in the card database");
-    } catch (IllegalArgumentException e) {
-      //successfully caught IllegalArgumentException
-    }
-  }
+
 
   @Test
   public void testPlacingCardInEmptySpot() {
@@ -669,7 +646,7 @@ public class TestModel {
   @Test
   public void testCalculateFlipsNoAdjacentOpponentCards() {
     simpleModel.startGame();
-    CardImpl redCard = redPlayer.getHand().get(0);
+    ICard redCard = redPlayer.getHand().get(0);
 
     int flips = simpleModel.calculateFlips(0, 0, redCard);
     assertEquals(0, flips);
@@ -680,7 +657,7 @@ public class TestModel {
     simpleModel.startGame();
 
     simpleModel.placeCard(0, 0, 0, redPlayer);
-    CardImpl blueCard = bluePlayer.getHand().get(0);
+    ICard blueCard = bluePlayer.getHand().get(0);
     int flips = simpleModel.calculateFlips(0, 1, blueCard);
     assertEquals(1, flips);
   }
@@ -697,7 +674,7 @@ public class TestModel {
     assertEquals(PlayerColor.BLUE, simpleModel.getCardAt(1, 2).getPlayerColor());
     assertEquals(PlayerColor.BLUE, simpleModel.getCardAt(1, 0).getPlayerColor());
 
-    CardImpl redCard = redPlayer.getHand().get(2);
+    ICard redCard = redPlayer.getHand().get(2);
     int flips = simpleModel.calculateFlips(1, 1, redCard);
     assertEquals(2, flips);
   }
@@ -714,7 +691,7 @@ public class TestModel {
     modelForRulesTesting.placeCard(2, 0, 1, modelForRulesTesting.getRedPlayer());
     modelForRulesTesting.placeCard(2, 1, 1, modelForRulesTesting.getRedPlayer());
 
-    CardImpl blueCard = modelForRulesTesting.getBluePlayer().getHand().get(0);
+    model.CardImpl blueCard = modelForRulesTesting.getBluePlayer().getHand().get(0);
     int flips = modelForRulesTesting.calculateFlips(2, 2, blueCard);
     assertEquals(4, flips);
   }

@@ -1,60 +1,52 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+package model;
+
 import java.util.ArrayList;
+import java.util.Collections;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.frequency;
 
 /**
- * Implementation of the {@link IModel} interface that represents the game model.
- * Handles board configuration and game setup.
+ * The {@code ModelImpl} class implements the {@link IModel} interface, representing the game
+ * model. It handles game setup, board configuration, and manages game state and player actions.
  *
  * <p><strong>Class Invariants:</strong></p>
  * <ul>
- *   <li>The board availability and board with cards arrays are consistent.
- *       For any position <code>(i, j)</code>:
+ *   <li>The board availability and board with cards arrays are consistent:
  *       <ul>
- *           <li>If <code>boardAvailability[i][j] == CellType.CARD</code>,
- *               then <code>boardWithCards[i][j] != null</code>.</li>
- *           <li>If <code>boardAvailability[i][j] != CellType.CARD</code>,
- *               then <code>boardWithCards[i][j] == null</code>.</li>
+ *           <li>If <code>boardAvailability[i][j] == model.CellType.CARD</code>, then
+ *               <code>boardWithCards[i][j] != null</code>.</li>
+ *           <li>If <code>boardAvailability[i][j] != model.CellType.CARD</code>, then
+ *               <code>boardWithCards[i][j] == null</code>.</li>
  *       </ul>
  *   </li>
- *   <li>The color of the red player is always <code>PlayerColor.RED</code>,
- *       and the color of the blue player is always <code>PlayerColor.BLUE</code>.
- *   </li>
+ *   <li>The red player is always {@link PlayerColor#RED}, and the blue player is always
+ *       {@link PlayerColor#BLUE}.</li>
  * </ul>
  */
 public class ModelImpl implements IModel {
 
-  private int numRows;
-  private int numColumns;
-  private File pathToBoardConfig;
-  private File pathToCardDB;
-  private CellType[][] boardAvailability;   //boardAvailability and boardWithCards are both 0
-  private CardImpl[][] boardWithCards;      //indexed, the top left corner is (0,0) and the
-  private ArrayList<CardImpl> deck;         //bottom right is (n,m), where 'n' and 'm' are
-  private IPlayer redPlayer;                //the dimensions of the board
+  private CellType[][] boardAvailability;
+  private ICard[][] boardWithCards;
+  private ArrayList<ICard> deck;
+  private IPlayer redPlayer;
   private IPlayer bluePlayer;
   private boolean gameStarted;
   private boolean gameOver;
   private IPlayer winningPlayer;
   private IPlayer currentPlayer;
 
-
   /**
-   * Constructs the ModelImpl with the specified configuration files for the board and the
-   * card database.
+   * Initializes the game model with a board configuration, deck of cards, and players.
    *
-   * @param board  the name of the board configuration file
-   * @param cardDB the name of the card database file
+   * @param board   a 2D array of {@link CellType} representing the board layout
+   * @param deck    a list of {@link ICard} representing the deck of cards
+   * @param players a list of {@link IPlayer} representing the players in the game
    */
-  public ModelImpl(String board, String cardDB, ArrayList<IPlayer> players) {
-    this.pathToBoardConfig = new File("docs" + File.separator + board);
-    this.pathToCardDB = new File("docs" + File.separator + cardDB);
-    this.deck = new ArrayList<>();
+  public ModelImpl(CellType[][] board, ArrayList<ICard> deck, ArrayList<IPlayer> players) {
+    this.boardAvailability = board;
+    this.boardWithCards = new ICard[board.length][board[0].length];
+    this.deck = deck;
     this.redPlayer = players.get(0);
     this.bluePlayer = players.get(1);
     this.gameStarted = false;
@@ -63,104 +55,20 @@ public class ModelImpl implements IModel {
   }
 
   /**
-   * Starts the game by configuring the board and setting up its availability based on the
-   * config file, adding all cards to a deck then distributing to the proper players.
+   * Starts the game by validating the deck and distributing cards to the players.
    */
   @Override
   public void startGame() {
     gameStarted = true;
-    configBoard();
-    configCards();
+    ensureCorrectAmountOfCards();
+    confirmNonDupCard();
     distributeCards();
   }
 
   /**
-   * Reads the configuration file to set up the board dimensions and calls
-   * the method to initialize board availability.
+   * Ensures the deck has the correct number of cards based on the playable spaces on the board.
    *
-   * @throws IllegalArgumentException if the file is not found, has an invalid format,
-   *                                  or there is an issue reading the file
-   */
-  private void configBoard() {
-    if (pathToBoardConfig.exists() && pathToBoardConfig.isFile()) {
-      try (BufferedReader reader = new BufferedReader(new FileReader(pathToBoardConfig))) {
-        String firstLine = reader.readLine();
-        if (firstLine != null) {
-          String[] parts = firstLine.split("\\s+");
-          if (parts.length == 2) {
-            this.numRows = Integer.parseInt(parts[0]);
-            this.numColumns = Integer.parseInt(parts[1]);
-            configBoardAvailability(this.numRows, this.numColumns, reader);
-          } else {
-            throw new IllegalArgumentException("Invalid config file format. Expected two " +
-                "integers.");
-          }
-        } else {
-          throw new IllegalArgumentException("Config file is empty.");
-        }
-      } catch (IOException e) {
-        throw new IllegalArgumentException("Error reading config file.", e);
-      }
-    } else {
-      throw new IllegalArgumentException("Config file not found.");
-    }
-  }
-
-  /**
-   * Configures the deck of cards by reading the card database file.
-   * Cards are assigned to players alternately.
-   *
-   * @throws IllegalArgumentException if the card database file is missing, has an invalid
-   *                                  format, is a duplicate card, or there is an error reading
-   *                                  the file.
-   */
-  private void configCards() {
-    if (pathToCardDB.exists() && pathToCardDB.isFile()) {
-      try (BufferedReader reader = new BufferedReader(new FileReader(pathToCardDB))) {
-        String firstLine = reader.readLine();
-        if (firstLine != null) {
-          int playerToDealCardTo = 0;
-          while (firstLine != null) {
-            String[] parts = firstLine.split("\\s+");
-            if (parts.length == 5) {
-              CardImpl possibleCardToAdd = new CardImpl(determinePlayerColor(playerToDealCardTo),
-                  parts[0],
-                  determineDirectionValue(parts[1]),
-                  determineDirectionValue(parts[2]),
-                  determineDirectionValue(parts[3]),
-                  determineDirectionValue(parts[4]));
-              if (confirmNonDupCard(possibleCardToAdd)) {
-                this.deck.add(possibleCardToAdd);
-              } else {
-                throw new IllegalArgumentException("There are duplicate cards in the card " +
-                    "database.");
-              }
-            } else {
-              throw new IllegalArgumentException("Invalid card database file format. Expected " +
-                  "two integers.");
-            }
-            playerToDealCardTo++;
-            firstLine = reader.readLine();
-          }
-          ensureCorrectAmountOfCards();
-        } else {
-          throw new IllegalArgumentException("Card database file is empty.");
-        }
-      } catch (IOException e) {
-        throw new IllegalArgumentException("Error reading card database file.", e);
-      }
-    } else {
-      throw new IllegalArgumentException("Card database file not found.");
-    }
-  }
-
-  /**
-   * Ensures that the number of cards in the deck matches the expected minimum amount.
-   * The expected number of cards should be equal to the number of playable spaces
-   * (cells marked as {@link CellType#EMPTY}) plus one additional card.
-   *
-   * @throws IllegalArgumentException if the number of cards in the deck does not match the
-   *                                  expected count
+   * @throws IllegalArgumentException if the deck size does not match the expected count
    */
   private void ensureCorrectAmountOfCards() {
     int playableSpacesCount = 0;
@@ -168,121 +76,34 @@ public class ModelImpl implements IModel {
       playableSpacesCount += frequency(asList(row), CellType.EMPTY);
     }
     if (this.deck.size() < playableSpacesCount + 1) {
-      throw new IllegalArgumentException("The amount of cards in the deck should be equal to " +
-          "(number of playable spaces) + 1.");
+      throw new IllegalArgumentException("The deck should contain at least (playable spaces + 1) cards.");
     }
   }
 
   /**
-   * Confirms whether the card to be added is a duplicate.
-   * Checks the deck to ensure the card with the same name does not already exist.
+   * Confirms that the deck does not contain duplicate cards based on card names.
    *
-   * @param possibleCardToAdd the card being checked for duplication
-   * @return {@code true} if the card is not a duplicate, {@code false} otherwise
+   * @throws IllegalArgumentException if duplicate cards are found in the deck
    */
-  private boolean confirmNonDupCard(CardImpl possibleCardToAdd) {
+  private void confirmNonDupCard() {
     if (!this.deck.isEmpty()) {
-      for (CardImpl card : this.deck) {
-        if (card.getName().equals(possibleCardToAdd.getName())) {
-          return false;
-        }
-      }
-    }
-    return true;
-  }
-
-
-  /**
-   * Determines which player's color to assign to a card based on the index.
-   * Alternates between RED and BLUE.
-   *
-   * @param playerToDealCardTo the index of the player to deal a card to
-   * @return the PlayerColor (RED or BLUE) based on the index
-   */
-  private PlayerColor determinePlayerColor(int playerToDealCardTo) {
-    if (playerToDealCardTo % 2 == 0) {
-      return PlayerColor.RED;
-    } else {
-      return PlayerColor.BLUE;
-    }
-  }
-
-  /**
-   * Converts a string value from the card database into a corresponding {@link DirectionValue}.
-   *
-   * @param directionValue the string value representing the direction value
-   * @return the corresponding DirectionValue
-   * @throws IllegalArgumentException if the direction value is not valid
-   */
-
-  private DirectionValue determineDirectionValue(String directionValue) {
-    switch (directionValue) {
-      case "1":
-        return DirectionValue.ONE;
-      case "2":
-        return DirectionValue.TWO;
-      case "3":
-        return DirectionValue.THREE;
-      case "4":
-        return DirectionValue.FOUR;
-      case "5":
-        return DirectionValue.FIVE;
-      case "6":
-        return DirectionValue.SIX;
-      case "7":
-        return DirectionValue.SEVEN;
-      case "8":
-        return DirectionValue.EIGHT;
-      case "9":
-        return DirectionValue.NINE;
-      case "A":
-        return DirectionValue.A;
-      default:
-        throw new IllegalArgumentException("Invalid direction value: " + directionValue);
-    }
-  }
-
-
-  /**
-   * Configures the board availability based on the given dimensions and file content.
-   * Initializes the board with CellType and Card based on the config file's content.
-   *
-   * @param numRows    the number of rows in the board
-   * @param numColumns the number of columns in the board
-   * @param reader     the BufferedReader used to read the configuration file
-   * @throws IOException if there is an error reading the file or invalid content is encountered
-   */
-
-  private void configBoardAvailability(int numRows, int numColumns, BufferedReader reader)
-      throws IOException {
-    this.boardAvailability = new CellType[numRows][numColumns];
-    this.boardWithCards = new CardImpl[numRows][numColumns];
-    for (int row = 0; row < numRows; row++) {
-      String line = reader.readLine();
-      if (line != null) {
-        char[] parts = line.toCharArray();
-        for (int column = 0; column < numColumns; column++) {
-          if (parts[column] == 'C') {
-            boardAvailability[row][column] = CellType.EMPTY;
-          } else if (parts[column] == 'X') {
-            boardAvailability[row][column] = CellType.HOLE;
-          } else {
-            throw new IOException("Invalid character in config file.");
+      for (ICard outerCard : this.deck) {
+        String name = outerCard.getName();
+        for (ICard innerCard : this.deck) {
+          if (innerCard.getName().equals(name)) {
+            throw new IllegalArgumentException("Cannot have duplicate cards");
           }
         }
-      } else {
-        throw new IOException("Missing row in config file.");
       }
     }
   }
 
   /**
-   * Distributes the cards from the deck to the players' hands based on the player's color.
-   * Cards belonging to the red player are added to the {@code redHand}, and cards belonging
-   * to the blue player are added to the {@code blueHand}.
+   * Distributes cards from the deck to the players based on the player's color.
+   * Red player receives red cards, and blue player receives blue cards.
    */
   private void distributeCards() {
-    for (CardImpl deckCard : this.deck) {
+    for (ICard deckCard : this.deck) {
       if (deckCard.getPlayerColor() == PlayerColor.RED) {
         this.redPlayer.getHand().add(deckCard);
       } else {
@@ -292,16 +113,15 @@ public class ModelImpl implements IModel {
   }
 
   /**
-   * Places a card on the board for a specified player at the given row and column
-   * position, removing it from the player's hand.
+   * Places a card on the board at the specified location for a player, removing it from the
+   * player's hand.
    *
-   * @param boardRow        the row on the board where the card will be placed
-   * @param boardCol        the column on the board where the card will be placed
+   * @param boardRow        the row on the board for card placement
+   * @param boardCol        the column on the board for card placement
    * @param cardIndexInHand the index of the card in the player's hand
-   * @param player          the player who is placing the card
-   * @throws IllegalArgumentException if the player is null, if the card index is invalid,
-   *                                  or if the placement on the board is invalid
-   * @throws IllegalStateException    if the game has not started or is over
+   * @param player          the player placing the card
+   * @throws IllegalArgumentException if the placement or player is invalid
+   * @throws IllegalStateException    if the game is not started or already over
    */
   @Override
   public void placeCard(int boardRow, int boardCol, int cardIndexInHand, IPlayer player) {
@@ -318,7 +138,7 @@ public class ModelImpl implements IModel {
       throw new IllegalArgumentException("Player is not in turn.");
     }
     checkValidCardPlacement(boardRow, boardCol);
-    CardImpl placedCard = player.getHand().remove(cardIndexInHand);
+    ICard placedCard = player.getHand().remove(cardIndexInHand);
     this.boardWithCards[boardRow][boardCol] = placedCard;
     this.boardAvailability[boardRow][boardCol] = CellType.CARD;
     updateBoard(placedCard, boardRow, boardCol);
@@ -326,22 +146,21 @@ public class ModelImpl implements IModel {
     updatePlayerColor(player);
   }
 
+  /**
+   * Updates the current player after a turn.
+   *
+   * @param player the player who completed their turn
+   */
   private void updatePlayerColor(IPlayer player) {
-    if (player.getPlayerColor() == PlayerColor.RED) {
-      this.currentPlayer = this.bluePlayer;
-    } else {
-      this.currentPlayer = this.redPlayer;
-    }
+    this.currentPlayer = (player.getPlayerColor() == PlayerColor.RED) ? this.bluePlayer : this.redPlayer;
   }
 
   /**
-   * Verifies if a card placement is valid by checking the board boundaries
-   * and ensuring the target cell is empty.
+   * Validates if the card placement is within board boundaries and if the cell is empty.
    *
-   * @param boardRow the row of the placement
-   * @param boardCol the column of the placement
-   * @throws IllegalArgumentException if the placement is outside the board boundaries
-   *                                  or if the target cell is not empty
+   * @param boardRow the row index
+   * @param boardCol the column index
+   * @throws IllegalArgumentException if the placement is out of bounds or cell is occupied
    */
   private void checkValidCardPlacement(int boardRow, int boardCol) {
     checkValidIndex(boardRow, boardCol);
@@ -350,33 +169,34 @@ public class ModelImpl implements IModel {
     }
   }
 
+  /**
+   * Checks if a row and column index are within the board's valid bounds.
+   *
+   * @param boardRow the row index
+   * @param boardCol the column index
+   * @throws IllegalArgumentException if the indices are out of bounds
+   */
   private void checkValidIndex(int boardRow, int boardCol) {
-    if (boardRow < 0
-        || boardCol < 0
-        || boardRow >= this.boardAvailability.length
+    if (boardRow < 0 || boardCol < 0 || boardRow >= this.boardAvailability.length
         || boardCol >= this.boardAvailability[boardRow].length) {
-      throw new IllegalArgumentException("Invalid card placement for row "
-          + boardRow + " and column " + boardCol);
+      throw new IllegalArgumentException("Invalid card placement for row " + boardRow + " and column " + boardCol);
     }
   }
 
   /**
-   * Retrieves the card at the specified board position. If a card exists at the
-   * given location, a new instance of the card is returned to prevent unintended
-   * modifications. If no card is present, an exception is thrown.
+   * Retrieves a copy of the card at the specified board position, if one exists.
    *
-   * @param boardRow the row index on the board where the card is located
-   * @param boardCol the column index on the board where the card is located
+   * @param boardRow the row index
+   * @param boardCol the column index
    * @return a new instance of the {@link CardImpl} at the specified position
    * @throws IllegalArgumentException if there is no card at the specified position
-   * @throws IllegalStateException    if the game has not started or is over
    */
   public CardImpl getCardAt(int boardRow, int boardCol) {
     checkGameStarted();
     checkGameOver();
     checkValidIndex(boardRow, boardCol);
     if (this.boardWithCards[boardRow][boardCol] != null) {
-      CardImpl card = this.boardWithCards[boardRow][boardCol];
+      ICard card = this.boardWithCards[boardRow][boardCol];
       return new CardImpl(
           card.getPlayerColor(),
           card.getName(),
@@ -391,17 +211,15 @@ public class ModelImpl implements IModel {
   }
 
   /**
-   * Updates the game board to reflect any changes due to the placement of a card,
-   * including resolving interactions with adjacent cards.
+   * Updates the game board based on card interactions, flipping adjacent cards as necessary.
    *
-   * @param cardPlaced the card that was recently placed on the board
+   * @param cardPlaced the card recently placed on the board
    * @throws IllegalStateException if the game has not started or is over
    */
-
-  private void updateBoard(CardImpl cardPlaced, int row, int col) {
+  private void updateBoard(ICard cardPlaced, int row, int col) {
     checkGameStarted();
     checkGameOver();
-    int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};  // North, South, West, East
+    int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
     Direction[] dirEnums = {Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST};
 
     for (int directionIndex = 0; directionIndex < directions.length; directionIndex++) {
@@ -409,7 +227,7 @@ public class ModelImpl implements IModel {
       int adjCol = col + directions[directionIndex][1];
 
       if (isValidPosition(adjRow, adjCol) && boardWithCards[adjRow][adjCol] != null) {
-        CardImpl adjacentCard = boardWithCards[adjRow][adjCol];
+        ICard adjacentCard = boardWithCards[adjRow][adjCol];
 
         if (adjacentCard.getPlayerColor() != cardPlaced.getPlayerColor()) {
           Direction placedDir = dirEnums[directionIndex];
@@ -436,7 +254,7 @@ public class ModelImpl implements IModel {
    * @param newOwner    the new owner of the flipped card
    */
 
-  private void comboStep(CardImpl flippedCard, int row, int col, PlayerColor newOwner) {
+  private void comboStep(ICard flippedCard, int row, int col, PlayerColor newOwner) {
 
     int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};  // North, South, West, East
     Direction[] dirEnums = {Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST};
@@ -446,7 +264,7 @@ public class ModelImpl implements IModel {
       int adjCol = col + directions[directionIndex][1];
 
       if (isValidPosition(adjRow, adjCol) && boardWithCards[adjRow][adjCol] != null) {
-        CardImpl adjacentCard = boardWithCards[adjRow][adjCol];
+        ICard adjacentCard = boardWithCards[adjRow][adjCol];
 
         if (adjacentCard.getPlayerColor() != newOwner) {
           // Battle with the adjacent card
@@ -474,7 +292,7 @@ public class ModelImpl implements IModel {
    * @param newOwner the new owner of the card
    */
 
-  private void flipCardOwnership(CardImpl card, int row, int col, PlayerColor newOwner) {
+  private void flipCardOwnership(ICard card, int row, int col, PlayerColor newOwner) {
     CardImpl flippedCard = new CardImpl(newOwner, card.getName(),
         card.getDirectionsAndValues().get(Direction.NORTH),
         card.getDirectionsAndValues().get(Direction.EAST),
@@ -527,7 +345,7 @@ public class ModelImpl implements IModel {
   public IPlayer getRedPlayer() {
     checkGameStarted();
     checkGameOver();
-    ArrayList<CardImpl> copyHand = new ArrayList<>(redPlayer.getHand());
+    ArrayList<ICard> copyHand = new ArrayList<>(redPlayer.getHand());
     return new PlayerImpl(PlayerColor.RED, copyHand);
   }
 
@@ -540,7 +358,7 @@ public class ModelImpl implements IModel {
   public IPlayer getBluePlayer() {
     checkGameStarted();
     checkGameOver();
-    ArrayList<CardImpl> copyHand = new ArrayList<>(bluePlayer.getHand());
+    ArrayList<ICard> copyHand = new ArrayList<>(bluePlayer.getHand());
     return new PlayerImpl(PlayerColor.BLUE, copyHand);
   }
 
@@ -562,7 +380,7 @@ public class ModelImpl implements IModel {
     for (int rows = 0; rows < numRows; rows++) {
       for (int cols = 0; cols < numCols; cols++) {
         if (boardWithCards[rows][cols] != null) {
-          CardImpl card = boardWithCards[rows][cols];
+          ICard card = boardWithCards[rows][cols];
           boardCopy[rows][cols] = new CardImpl(
               card.getPlayerColor(),
               card.getName(),
@@ -617,7 +435,7 @@ public class ModelImpl implements IModel {
           totalPlayableCells++;
           if (boardWithCards[row][col] != null) {
             totalOccupiedCells++;
-            CardImpl card = boardWithCards[row][col];
+            ICard card = boardWithCards[row][col];
             if (card.getPlayerColor() == PlayerColor.RED) {
               redCount++;
             } else if (card.getPlayerColor() == PlayerColor.BLUE) {
@@ -701,7 +519,7 @@ public class ModelImpl implements IModel {
       int adjCol = col + directions[directionIndex][1];
 
       if (isValidPosition(adjRow, adjCol) && boardWithCards[adjRow][adjCol] != null) {
-        CardImpl adjacentCard = boardWithCards[adjRow][adjCol];
+        ICard adjacentCard = boardWithCards[adjRow][adjCol];
         if (adjacentCard.getPlayerColor() != card.getPlayerColor()) {
           Direction placedDir = dirEnums[directionIndex];
           Direction adjOppositeDir = getOppositeDirection(placedDir);
@@ -724,8 +542,8 @@ public class ModelImpl implements IModel {
    */
   public int getPlayerScore(PlayerColor playerColor) {
     int score = 0;
-    for (CardImpl[] row : boardWithCards) {
-      for (CardImpl card : row) {
+    for (ICard[] row : boardWithCards) {
+      for (ICard card : row) {
         if (card != null && card.getPlayerColor() == playerColor) {
           score++;
         }

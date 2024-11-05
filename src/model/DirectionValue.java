@@ -1,3 +1,5 @@
+package model;
+
 /**
  * Enum representing different direction values, each associated with an integer value.
  * The enum provides constants ONE through A, each mapped to a specific integer.

@@ -1,3 +1,5 @@
+package model;
+
 /**
  * Read-only interface representing the view-only model for a game.
  * Defines methods to observe the game's state without the ability to modify it.

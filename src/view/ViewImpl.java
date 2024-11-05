@@ -1,3 +1,12 @@
+package view;
+
+import model.CardImpl;
+import model.CellType;
+import model.PlayerColor;
+import model.IModel;
+import model.IPlayer;
+import model.ICard;
+
 /**
  * A textual representation of the game view for a player, displaying the current player,
  * game board, and the player's hand.
@@ -8,7 +17,7 @@
  */
 public class ViewImpl implements IView {
 
-  private final IModel model;
+  private IModel model;
   private IPlayer currentPlayer;
 
   /**
@@ -84,11 +93,11 @@ public class ViewImpl implements IView {
   private void appendHand(StringBuilder sb) {
     sb.append("Hand:\n");
     if (currentPlayer.getPlayerColor() == PlayerColor.RED) {
-      for (CardImpl card : model.getRedPlayer().getHand()) {
+      for (ICard card : model.getRedPlayer().getHand()) {
         sb.append(card.toString()).append("\n");
       }
     } else {
-      for (CardImpl card : model.getBluePlayer().getHand()) {
+      for (ICard card : model.getBluePlayer().getHand()) {
         sb.append(card.toString()).append("\n");
       }
     }

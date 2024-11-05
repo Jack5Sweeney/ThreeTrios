@@ -1,3 +1,5 @@
+package model;
+
 import java.util.ArrayList;
 
 /**
@@ -17,5 +19,5 @@ public interface IPlayer {
    *
    * @return the hand of cards
    */
-  ArrayList<CardImpl> getHand();
+  ArrayList<ICard> getHand();
 }

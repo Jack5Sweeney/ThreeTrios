@@ -1,8 +1,12 @@
+package model;
+
+import java.util.ArrayList;
+
 /**
  * Interface representing the full model for a game, extending the read-only model
  * and adding mutator methods to control and manage the game's state.
  */
-public interface IModel extends ReadOnlyIModel{
+public interface IModel extends ReadOnlyIModel {
 
   /**
    * Starts the game by configuring the board, setting up initial conditions, and preparing
@@ -25,4 +29,6 @@ public interface IModel extends ReadOnlyIModel{
    *                                  or if the placement on the board is invalid
    */
   void placeCard(int boardRow, int boardCol, int cardIndexInHand, IPlayer player);
+
+
 }

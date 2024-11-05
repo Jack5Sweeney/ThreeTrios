@@ -1,3 +1,5 @@
+package view;
+
 /**
  * Interface representing the view for a game.
  * Defines methods to display the current game state and provide output to the user.

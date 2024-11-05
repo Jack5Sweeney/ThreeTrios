@@ -6,46 +6,46 @@ principals. There are 3 interfaces where the classes all implement the interface
 There are four enums that are used for the project which are a specific design choice.
 
 An example of a quick setup/initialization would be :
-    redPlayer = new PlayerImpl(PlayerColor.RED, new ArrayList<>());
-    bluePlayer = new PlayerImpl(PlayerColor.BLUE, new ArrayList<>());
+    redPlayer = new model.PlayerImpl(model.PlayerColor.RED, new ArrayList<>());
+    bluePlayer = new model.PlayerImpl(model.PlayerColor.BLUE, new ArrayList<>());
     players = new ArrayList<>(List.of(redPlayer, bluePlayer));
-    model = new ModelImpl("board.config", "card.database", players);
+    model = new model.ModelImpl("board.config", "card.database", players);
 and then model.startGame();
 
 This demonstrates the setup of a model and players, and how to start a basic game.
 
 Key Components:
 
-Model (ModelImpl) : Manages the game's logic, handles the state, rules, and structure for cards
+Model (model.ModelImpl) : Manages the game's logic, handles the state, rules, and structure for cards
 and players.
 
-View (ViewImpl) : This renders the view in a way that can be seen through a string version
+View (view.ViewImpl) : This renders the view in a way that can be seen through a string version
 of the game.
 
-Player (PlayerImpl) : Represents individual players in the game, it has attributes like color
+Player (model.PlayerImpl) : Represents individual players in the game, it has attributes like color
 and score.
 
 Key Subcomponents :
 
-Direction and Direction value: These are important enums that determine the direction and
+model.Direction and model.Direction value: These are important enums that determine the direction and
 value of each card, which is vital for the model and logic of the game.
 
-CellType: This is an enum which determines if the cell of the board is empty, a card, or a hole.
+model.CellType: This is an enum which determines if the cell of the board is empty, a card, or a hole.
 this is important for the board configuration and how the game can be played.
 
-CardImpl: This class is for the creation of a card. The card has a player, a player name, and the
+model.CardImpl: This class is for the creation of a card. The card has a player, a player name, and the
 directions and the values that go with each direction.
 
-PlayerColor: This is a simple enum that helps determine if it is either a red or blue player.
+model.PlayerColor: This is a simple enum that helps determine if it is either a red or blue player.
 
 Class Invariants:
 The board availability and board with cards arrays are consistent. For any position (i, j):
-If boardAvailability[i][j] == CellType. CARD, then boardWithCards[i][j] != null.
-If boardAvailability[i][j] != CellType. CARD, then boardWithCards[i][j] == null.
+If boardAvailability[i][j] == model.CellType. CARD, then boardWithCards[i][j] != null.
+If boardAvailability[i][j] != model.CellType. CARD, then boardWithCards[i][j] == null.
 
-In the configBoardAvailability method the cells that are marked as CellType.EMPTY or
-CellType.HOLE are set in boardAvailability without any cards in boardWithCards ensuring that non
-CellType.CARD cells are null in the boardWithCards.
+In the configBoardAvailability method the cells that are marked as model.CellType.EMPTY or
+model.CellType.HOLE are set in boardAvailability without any cards in boardWithCards ensuring that non
+model.CellType.CARD cells are null in the boardWithCards.
 
 These are invariants because they are logical statements that occur consistently throughout
 the model that have to be true for the board to work.
@@ -53,9 +53,9 @@ the model that have to be true for the board to work.
 Source Org.
 
 src : contains all the primary code files
-    ModelImpl.java and IModel.java
-    ViewImpl.java and IView.java
-    PlayerImpl.java and IPlayer.java
+    model.ModelImpl.java and model.IModel.java
+    view.ViewImpl.java and view.IView.java
+    model.PlayerImpl.java and model.IPlayer.java
 test/ : handles all the testing files for model and view
 
 
