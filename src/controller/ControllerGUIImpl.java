@@ -1,6 +1,7 @@
 package controller;
 
 import model.IModel;
+import model.ReadOnlyIModel;
 import view.IViewFrameGUI;
 import view.ViewFrameGUIImpl;
 
@@ -12,6 +13,7 @@ import view.ViewFrameGUIImpl;
 public class ControllerGUIImpl implements IControllerGUI, Features {
 
   private IViewFrameGUI view;
+  private ReadOnlyIModel readOnlyModel;
   private IModel model;
 
   /**
@@ -19,7 +21,8 @@ public class ControllerGUIImpl implements IControllerGUI, Features {
    * Initializes an instance without setting the model or view, which are configured later
    * during the game setup process.
    */
-  public ControllerGUIImpl() {
+  public ControllerGUIImpl(ReadOnlyIModel readOnlyModel) {
+    this.readOnlyModel = readOnlyModel;
     // No initialization required in the default constructor
   }
 

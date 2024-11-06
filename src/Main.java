@@ -1,9 +1,6 @@
 import controller.ControllerGUIImpl;
 import gameConfiguration.ConfigGame;
-import model.IPlayer;
-import model.ModelImpl;
-import model.PlayerColor;
-import model.PlayerImpl;
+import model.*;
 import view.*;
 
 import java.util.ArrayList;
@@ -30,8 +27,9 @@ public class Main {
 
     ConfigGame gameConfigurator = new ConfigGame("board.config", "card.database");
     ModelImpl model = new ModelImpl(gameConfigurator.getBoard(), gameConfigurator.getDeck(), players);
+    ReadOnlyIModel readOnlyModel = new ModelImpl(gameConfigurator.getBoard(), gameConfigurator.getDeck(), players);
 
-    ControllerGUIImpl controller = new ControllerGUIImpl();
+    ControllerGUIImpl controller = new ControllerGUIImpl(readOnlyModel);
     controller.playGame(model);
   }
 }

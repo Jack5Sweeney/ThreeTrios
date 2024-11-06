@@ -2,6 +2,8 @@ package view;
 
 import controller.Features;
 import model.IModel;
+import model.ReadOnlyIModel;
+
 import javax.swing.JFrame;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -18,18 +20,18 @@ public class ViewFrameGUIImpl extends JFrame implements IViewFrameGUI {
   private final ViewBoardPanelGUIImpl boardPanel;
 
   /**
-   * Constructs a {@code ViewFrameGUIImpl} with the specified model, initializing the panels for
+   * Constructs a {@code ViewFrameGUIImpl} with the specified readOnlyModel, initializing the panels for
    * the game board and player hands and setting up the layout of the main window.
    *
-   * @param model the game model providing data for the board and players' hands
+   * @param readOnlyModel the game readOnlyModel providing data for the board and players' hands
    */
-  public ViewFrameGUIImpl(IModel model) {
-    this.redHandPanel = new ViewHandPanelGUIImpl(model.getRedPlayer().getHand());
-    this.blueHandPanel = new ViewHandPanelGUIImpl(model.getBluePlayer().getHand());
+  public ViewFrameGUIImpl(ReadOnlyIModel readOnlyModel) {
+    this.redHandPanel = new ViewHandPanelGUIImpl(readOnlyModel.getRedPlayer().getHand());
+    this.blueHandPanel = new ViewHandPanelGUIImpl(readOnlyModel.getBluePlayer().getHand());
     this.boardPanel = new ViewBoardPanelGUIImpl(
-        model.getBoard().length,
-        model.getBoard()[0].length,
-        model.getBoardAvailability()
+        readOnlyModel.getBoard().length,
+        readOnlyModel.getBoard()[0].length,
+        readOnlyModel.getBoardAvailability()
     );
 
     this.setLayout(new BorderLayout());
