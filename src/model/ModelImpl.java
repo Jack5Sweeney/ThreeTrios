@@ -1,6 +1,8 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.frequency;
@@ -34,6 +36,8 @@ public class ModelImpl implements IModel {
   private boolean gameOver;
   private IPlayer winningPlayer;
   private IPlayer currentPlayer;
+  private IPlayer playerPlacing;
+  private int cardIndexToPlace;
 
   /**
    * Initializes the game model with a board configuration, deck of cards, and players.
@@ -144,6 +148,37 @@ public class ModelImpl implements IModel {
     checkGameStatus();
     updateCurrentPlayer(player);
   }
+
+  /**
+   * Updates the card to be placed on the board based on the specified row and player color.
+   * This may involve changing the card's state or selection before placement.
+   *
+   * @param index   the row on the board where the card will potentially be placed
+   * @param color the color associated with the player or card being updated
+   */
+  @Override
+  public void updateCardToPlace(int index, PlayerColor color) {
+    IPlayer player;
+    if (color == PlayerColor.RED) {
+      player = this.getRedPlayer();
+    } else {
+      player = this.getBluePlayer();
+    }
+    this.playerPlacing = player;
+    this.cardIndexToPlace = index;
+  }
+
+  @Override
+  public IPlayer getPlayerToPlace() {
+    return this.playerPlacing;
+  }
+
+  @Override
+  public int getCardIndexToPlace() {
+    return Integer.valueOf(this.cardIndexToPlace);
+  }
+
+
 
   /**
    * Updates the current player after a turn.
@@ -556,4 +591,8 @@ public class ModelImpl implements IModel {
     }
     return score;
   }
+
+
+
+
 }

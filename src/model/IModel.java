@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * Interface representing the full model for a game, extending the read-only model
@@ -30,5 +31,20 @@ public interface IModel extends ReadOnlyIModel {
    */
   void placeCard(int boardRow, int boardCol, int cardIndexInHand, IPlayer player);
 
+
+
+  /**
+   * Updates the card to be placed on the board based on the specified row and player color.
+   * This may involve changing the card's state or selection before placement.
+   *
+   * @param index   the row on the board where the card will potentially be placed
+   * @param color the color associated with the player or card being updated
+   */
+  void updateCardToPlace(int index, PlayerColor color);
+
+
+  public IPlayer getPlayerToPlace();
+
+  public int getCardIndexToPlace();
 
 }

@@ -1,6 +1,7 @@
 package controller;
 
 import model.IModel;
+import model.IPlayer;
 import model.PlayerColor;
 import model.ReadOnlyIModel;
 import view.IViewFrameGUI;
@@ -58,8 +59,12 @@ public class ControllerGUIImpl implements IControllerGUI, Features {
   @Override
   public void handleCellClick(int row, int col) {
     // TODO: Uncomment and implement actual model and view update logic when ready
-    // model.processCellClick(row, col);
-    // view.updateBoardView(row, col);
+
+    int cardIndexToPlace = model.getCardIndexToPlace();
+    IPlayer playerPlacing = model.getPlayerToPlace();
+    model.placeCard(row, col, cardIndexToPlace, playerPlacing);
+    //view.updateBoard(row, col, model.getCardAt(row, col);
+    //view.updateHand(cardIndexToPlace, playerPlacing);
     System.out.println("Cell clicked: " + row + ", " + col);
   }
 
@@ -72,7 +77,7 @@ public class ControllerGUIImpl implements IControllerGUI, Features {
   @Override
   public void handleCardClick(int row, PlayerColor color) {
     view.highlightCard(row, color);
-    //somehow tell the model the card is clicked
+    model.updateCardToPlace(row, color);
     System.out.println("Card clicked: " + row + " Player color: " + color.toString());
   }
 }
