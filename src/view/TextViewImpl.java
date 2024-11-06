@@ -15,7 +15,7 @@ import model.ICard;
  * formatted string representation of the game state, including the current player's identity, the
  * board layout, and the cards in the current player's hand.
  */
-public class ViewImpl implements IView {
+public class TextViewImpl implements ITextView {
 
   private IModel model;
   private IPlayer currentPlayer;
@@ -26,7 +26,7 @@ public class ViewImpl implements IView {
    * @param model the game model that provides the state of the game
    * @throws IllegalArgumentException if {@code model} or {@code currentPlayer} is null
    */
-  public ViewImpl(IModel model) {
+  public TextViewImpl(IModel model) {
     if (model == null) {
       throw new IllegalArgumentException("Model and current player cannot be null");
     }

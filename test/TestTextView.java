@@ -7,7 +7,7 @@ import model.PlayerImpl;
 import model.ModelImpl;
 import org.junit.Before;
 import org.junit.Test;
-import view.ViewImpl;
+import view.TextViewImpl;
 
 import static org.junit.Assert.assertEquals;
 
@@ -17,13 +17,13 @@ import java.util.List;
 /**
  * Test class to test the view.ViewImpl Implementation.
  **/
-public class TestView {
+public class TestTextView {
   private IModel model;
   private IModel simpleModel;
   private IModel plusModel;
   private IModel chessModel;
   private IModel oneByOneModel;
-  private ViewImpl view;
+  private TextViewImpl view;
   private IPlayer redPlayer;
   private IPlayer bluePlayer;
 
@@ -53,7 +53,7 @@ public class TestView {
   @Test
   public void testRedPlayerView() {
     model.startGame();
-    view = new ViewImpl(model);
+    view = new TextViewImpl(model);
     model.placeCard(2, 3, 0, redPlayer);
     model.placeCard(0, 0, 0, bluePlayer);
     model.placeCard(4, 6, 0, redPlayer);
@@ -80,7 +80,7 @@ public class TestView {
   @Test
   public void testBluePlayerView() {
     model.startGame();
-    view = new ViewImpl(model);
+    view = new TextViewImpl(model);
 
     String expectedOutputBefore = "Player: RED\n" +
         "__    _\n" +
@@ -121,7 +121,7 @@ public class TestView {
   @Test
   public void testSimpleCardView() {
     simpleModel.startGame();
-    view = new ViewImpl(simpleModel);
+    view = new TextViewImpl(simpleModel);
 
     String expectedOutput = "Player: RED\n" +
         "___\n" +
@@ -140,7 +140,7 @@ public class TestView {
   @Test
   public void testTextViewRespondsToPlacingCard() {
     simpleModel.startGame();
-    view = new ViewImpl(simpleModel);
+    view = new TextViewImpl(simpleModel);
     String expectedOutputBefore = "Player: RED\n" +
         "___\n" +
         "___\n" +
@@ -171,7 +171,7 @@ public class TestView {
   @Test
   public void testTextViewRespondsCardsAttacking() {
     simpleModel.startGame();
-    view = new ViewImpl(simpleModel);
+    view = new TextViewImpl(simpleModel);
     simpleModel.placeCard(0, 0, 1, redPlayer);
 
     String expectedOutputRed = "Player: RED\n" +
@@ -204,7 +204,7 @@ public class TestView {
   @Test
   public void testTextViewRespondsCardsAttackingAndPropagation() {
     simpleModel.startGame();
-    view = new ViewImpl(simpleModel);
+    view = new TextViewImpl(simpleModel);
     simpleModel.placeCard(0, 0, 1, redPlayer);
     simpleModel.placeCard(0, 1, 0, bluePlayer);
 
@@ -224,7 +224,7 @@ public class TestView {
   @Test
   public void testUniqueBoardConfig1ToString() {
     plusModel.startGame();
-    view = new ViewImpl(plusModel);
+    view = new TextViewImpl(plusModel);
 
     String expectedOutput = "Player: RED\n" +
         " _ \n" +
@@ -246,7 +246,7 @@ public class TestView {
   @Test
   public void testUniqueBoardConfig2ToString() {
     chessModel.startGame();
-    view = new ViewImpl(chessModel);
+    view = new TextViewImpl(chessModel);
 
     String expectedOutput = "Player: RED\n" +
         "_ _ _\n" +
@@ -270,7 +270,7 @@ public class TestView {
   @Test
   public void testUniqueBoardConfig3ToString() {
     oneByOneModel.startGame();
-    view = new ViewImpl(oneByOneModel);
+    view = new TextViewImpl(oneByOneModel);
 
     String expectedOutput = "Player: RED\n" +
         "_\n" +

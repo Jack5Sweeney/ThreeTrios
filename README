@@ -19,7 +19,7 @@ Key Components:
 Model (model.ModelImpl) : Manages the game's logic, handles the state, rules, and structure for cards
 and players.
 
-View (view.ViewImpl) : This renders the view in a way that can be seen through a string version
+View (view.TextViewImpl) : This renders the view in a way that can be seen through a string version
 of the game.
 
 Player (model.PlayerImpl) : Represents individual players in the game, it has attributes like color
@@ -54,7 +54,7 @@ Source Org.
 
 src : contains all the primary code files
     model.ModelImpl.java and model.IModel.java
-    view.ViewImpl.java and view.IView.java
+    view.TextViewImpl.java and view.ITextView.java
     model.PlayerImpl.java and model.IPlayer.java
 test/ : handles all the testing files for model and view
 

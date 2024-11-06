@@ -3,13 +3,12 @@ package controller;
 import gameConfiguration.ConfigGame;
 import model.IModel;
 import model.IPlayer;
-import model.ModelImpl;
-import view.IView;
+import view.ITextView;
 
 import java.util.ArrayList;
 
 /**
- * The {@code ControllerImpl} class implements the {@link IController} interface, serving as the
+ * The {@code ControllerImpl} class implements the {@link ITextController} interface, serving as the
  * controller in the MVC (Model-View-Controller) pattern for the game application.
  * It coordinates interactions between the model and the view, facilitating the setup and
  * starting of the game using specified configurations for the board and card deck.
@@ -20,9 +19,9 @@ import java.util.ArrayList;
  *   controller.playGame("boardConfig.txt", "cardDB.txt", model, players);
  * </pre>
  */
-public class ControllerImpl implements IController {
+public class TextControllerImpl implements ITextController {
 
-  private IView view;
+  private ITextView view;
   private IModel model;
 
   /**
@@ -30,7 +29,7 @@ public class ControllerImpl implements IController {
    * Initializes a controller instance without setting the model or view, which will be
    * configured during game setup.
    */
-  public ControllerImpl() { }
+  public TextControllerImpl() { }
 
   /**
    * Starts the game by configuring the board and card deck based on specified file paths,
@@ -44,7 +43,6 @@ public class ControllerImpl implements IController {
   @Override
   public void playGame(String board, String cardDB, IModel model, ArrayList<IPlayer> players) {
     ConfigGame gameConfiguration = new ConfigGame(board, cardDB);
-    this.model = new ModelImpl(gameConfiguration.getBoard(), gameConfiguration.getDeck(), players);
     model.startGame();
   }
 }

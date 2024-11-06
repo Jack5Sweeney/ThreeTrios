@@ -3,8 +3,7 @@ import controller.*;
 import model.*;
 import org.junit.Before;
 import org.junit.Test;
-import view.IView;
-import view.ViewImpl;
+import view.ITextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,10 +13,10 @@ import static org.junit.Assert.fail;
 /**
  * Test class for the ControllerImpl class.
  */
-public class TestController {
+public class TestTextController {
 
-  private IController controller;
-  private IView view;
+  private ITextController controller;
+  private ITextView view;
   private IModel model;
 
   private PlayerImpl redPlayer;
@@ -31,7 +30,7 @@ public class TestController {
     bluePlayer = new PlayerImpl(PlayerColor.BLUE, new ArrayList<>());
     players = new ArrayList<>(List.of(redPlayer, bluePlayer));
 
-    controller = new ControllerImpl();
+    controller = new TextControllerImpl();
   }
 
   @Test

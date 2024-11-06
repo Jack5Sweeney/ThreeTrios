@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * the controller to coordinate interactions between the model and view based on
  * specified configurations.
  */
-public interface IController {
+public interface ITextController {
 
   /**
    * Sets up and starts the game by configuring the board and deck of cards based on
