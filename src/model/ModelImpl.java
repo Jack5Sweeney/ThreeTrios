@@ -254,12 +254,11 @@ public class ModelImpl implements IModel {
    * @param cardPlaced the card recently placed on the board
    * @throws IllegalStateException if the game has not started or is over
    */
-  private int updateBoard(ICard cardPlaced, int row, int col) {
+  private void updateBoard(ICard cardPlaced, int row, int col) {
     checkGameStarted();
     checkGameOver();
     int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
     Direction[] dirEnums = {Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST};
-    int numberOfCardsFlipped = 0;
 
     for (int directionIndex = 0; directionIndex < directions.length; directionIndex++) {
       int adjRow = row + directions[directionIndex][0];
@@ -276,12 +275,11 @@ public class ModelImpl implements IModel {
               adjacentCard.getDirectionsAndValues().get(adjOppositeDir).getValue()) {
 
             flipCardOwnership(adjacentCard, adjRow, adjCol, cardPlaced.getPlayerColor());
-            return comboStep(adjacentCard, adjRow, adjCol, cardPlaced.getPlayerColor(), 1);
+            comboStep(adjacentCard, adjRow, adjCol, cardPlaced.getPlayerColor());
           }
         }
       }
     }
-    return 0;
   }
 
   /**
@@ -294,7 +292,7 @@ public class ModelImpl implements IModel {
    * @param newOwner    the new owner of the flipped card
    */
 
-  private int comboStep(ICard flippedCard, int row, int col, PlayerColor newOwner, int numberOfCardsFlipped) {
+  private void comboStep(ICard flippedCard, int row, int col, PlayerColor newOwner) {
 
     int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};  // North, South, West, East
     Direction[] dirEnums = {Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST};
@@ -316,12 +314,11 @@ public class ModelImpl implements IModel {
 
             // Flip the opponent's card and continue the combo step
             flipCardOwnership(adjacentCard, adjRow, adjCol, newOwner);
-            comboStep(adjacentCard, adjRow, adjCol, newOwner, numberOfCardsFlipped++);
+            comboStep(adjacentCard, adjRow, adjCol, newOwner);
           }
         }
       }
     }
-    return numberOfCardsFlipped;
   }
 
   /**
@@ -540,16 +537,32 @@ public class ModelImpl implements IModel {
 
   /**
    * Calculates the number of flips that would occur if a card were placed at the specified
-   * board position. A flip occurs when the placed card's value in a given direction is
-   * greater than the adjacent card's value in the opposite direction.
+   * board position, including propagation of flips. A flip occurs when the placed card's value
+   * in a given direction is greater than the adjacent card's value in the opposite direction.
    *
    * @param row  the row index where the card is to be placed
    * @param col  the column index where the card is to be placed
    * @param card the card being placed on the board
    * @return the number of opponent cards that would be flipped by this placement
    */
-
   public int calculateFlips(int row, int col, ICard card) {
+    int flipCount = 0;
+    boolean[][] visited = new boolean[boardWithCards.length][boardWithCards[0].length];
+    return calculateFlipsRecursive(row, col, card, card.getPlayerColor(), visited);
+  }
+
+  /**
+   * A recursive helper method to count flips, propagating through the board by following the
+   * flipping rules in each direction.
+   *
+   * @param row        the row index of the current card
+   * @param col        the column index of the current card
+   * @param card       the card used to initiate the flip
+   * @param ownerColor the color of the player placing the card
+   * @param visited    a boolean 2D array to track visited positions and avoid re-counting flips
+   * @return the number of opponent cards that would be flipped by this placement
+   */
+  private int calculateFlipsRecursive(int row, int col, ICard card, PlayerColor ownerColor, boolean[][] visited) {
     int flipCount = 0;
     int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
     Direction[] dirEnums = {Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST};
@@ -558,20 +571,31 @@ public class ModelImpl implements IModel {
       int adjRow = row + directions[directionIndex][0];
       int adjCol = col + directions[directionIndex][1];
 
-      if (isValidPosition(adjRow, adjCol) && boardWithCards[adjRow][adjCol] != null) {
+      if (isValidPosition(adjRow, adjCol) && boardWithCards[adjRow][adjCol] != null &&
+              !visited[adjRow][adjCol]) {
+
         ICard adjacentCard = boardWithCards[adjRow][adjCol];
-        if (adjacentCard.getPlayerColor() != card.getPlayerColor()) {
+
+        if (adjacentCard.getPlayerColor() != ownerColor) {
           Direction placedDir = dirEnums[directionIndex];
           Direction adjOppositeDir = getOppositeDirection(placedDir);
+
           if (card.getDirectionsAndValues().get(placedDir).getValue() >
-              adjacentCard.getDirectionsAndValues().get(adjOppositeDir).getValue()) {
+                  adjacentCard.getDirectionsAndValues().get(adjOppositeDir).getValue()) {
+
+            // Mark as visited and count this flip
+            visited[adjRow][adjCol] = true;
             flipCount++;
+
+            // Recursively calculate flips from this newly "flipped" card
+            flipCount += calculateFlipsRecursive(adjRow, adjCol, adjacentCard, ownerColor, visited);
           }
         }
       }
     }
     return flipCount;
   }
+
 
   /**
    * Calculates the score for the specified player color by counting the cards on the board
