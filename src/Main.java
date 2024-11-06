@@ -6,7 +6,6 @@ import model.PlayerColor;
 import model.PlayerImpl;
 import view.*;
 
-import javax.swing.text.View;
 import java.util.ArrayList;
 import java.util.List;
 

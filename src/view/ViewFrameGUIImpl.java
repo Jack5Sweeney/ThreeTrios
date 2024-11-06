@@ -2,8 +2,9 @@ package view;
 
 import controller.Features;
 import model.IModel;
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JFrame;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 
 /**
  * Implementation of the {@link IViewFrameGUI} interface, representing the main game window for the GUI.
