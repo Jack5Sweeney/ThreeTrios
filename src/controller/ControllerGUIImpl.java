@@ -1,6 +1,7 @@
 package controller;
 
 import model.IModel;
+import model.PlayerColor;
 import model.ReadOnlyIModel;
 import view.IViewFrameGUI;
 import view.ViewFrameGUIImpl;
@@ -69,10 +70,9 @@ public class ControllerGUIImpl implements IControllerGUI, Features {
    * @param row the row index representing the card's position in the player's hand
    */
   @Override
-  public void handleCardClick(int row) {
-    // TODO: Uncomment and implement actual model and view update logic when ready
-    // model.processCardClick(row);
-    // view.updateCardView(row);
-    System.out.println("Card clicked: " + row);
+  public void handleCardClick(int row, PlayerColor color) {
+    view.highlightCard(row, color);
+    //somehow tell the model the card is clicked
+    System.out.println("Card clicked: " + row + " Player color: " + color.toString());
   }
 }

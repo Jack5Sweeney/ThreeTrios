@@ -1,12 +1,13 @@
 package view;
 
 import controller.Features;
-import model.IModel;
+import model.PlayerColor;
 import model.ReadOnlyIModel;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Color;
 
 /**
  * Implementation of the {@link IViewFrameGUI} interface, representing the main game window for the GUI.
@@ -18,6 +19,8 @@ public class ViewFrameGUIImpl extends JFrame implements IViewFrameGUI {
   private final ViewHandPanelGUIImpl redHandPanel;
   private final ViewHandPanelGUIImpl blueHandPanel;
   private final ViewBoardPanelGUIImpl boardPanel;
+
+  private JPanel highlightedCardPanel;
 
   /**
    * Constructs a {@code ViewFrameGUIImpl} with the specified readOnlyModel, initializing the panels for
@@ -79,4 +82,38 @@ public class ViewFrameGUIImpl extends JFrame implements IViewFrameGUI {
     this.setFocusable(true);
     this.requestFocus();
   }
+
+  /**
+   * Highlights a card belonging to a given player at a specified index (row in the hand).
+   * If another card is already highlighted, it will be de-highlighted first by removing
+   * its border.
+   *
+   * @param row   the row (index) of the card in the player's hand (0-based index)
+   * @param color the {@link PlayerColor} indicating which player's hand contains the card
+   */
+  @Override
+  public void highlightCard(int row, PlayerColor color) {
+    // Determine the correct hand panel based on the player's color
+    ViewHandPanelGUIImpl handPanel = (color == PlayerColor.RED) ? redHandPanel : blueHandPanel;
+
+    // Ensure the index is within bounds
+    if (row >= 0 && row < handPanel.getComponentCount()) {
+      JPanel cardPanel = (JPanel) handPanel.getComponent(row);
+
+      // Remove the border from the previously highlighted card, if any
+      if (highlightedCardPanel != null && highlightedCardPanel != cardPanel) {
+        highlightedCardPanel.setBorder(null);  // Remove the highlight border
+      }
+
+      // Add a yellow border to the new card
+      cardPanel.setBorder(BorderFactory.createLineBorder(Color.YELLOW, 3));
+
+      // Update the reference to the currently highlighted card
+      highlightedCardPanel = cardPanel;
+
+      // Refresh the panel to apply changes
+      cardPanel.repaint();
+    }
+  }
 }
+

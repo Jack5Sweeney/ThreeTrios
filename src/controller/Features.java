@@ -1,5 +1,7 @@
 package controller;
 
+import model.PlayerColor;
+
 /**
  * Interface representing the features and actions that the view can trigger within the controller.
  * These methods define user interaction events, such as clicking on cells or cards, that are handled
@@ -22,5 +24,5 @@ public interface Features {
    *
    * @param row the row index representing the position of the clicked card
    */
-  void handleCardClick(int row);
+  void handleCardClick(int row, PlayerColor color);
 }

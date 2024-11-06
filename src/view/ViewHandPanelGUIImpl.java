@@ -91,7 +91,7 @@ public class ViewHandPanelGUIImpl extends JPanel implements IViewHandsPanelGUI {
         @Override
         public void mouseClicked(MouseEvent e) {
           if (features != null) {
-            features.handleCardClick(index); // Notify Features about the card click
+            features.handleCardClick(index, card.getPlayerColor()); // Notify Features about the card click
           }
         }
       });

@@ -1,6 +1,7 @@
 package view;
 
 import controller.Features;
+import model.PlayerColor;
 
 /**
  * Interface for the main GUI frame of the view component. Defines methods to manage
@@ -28,4 +29,11 @@ public interface IViewFrameGUI {
    * @param features the controller's features that handle user interactions
    */
   void addFeatures(Features features);
+
+  /** Highlights a card belonging to a given player at a given index (row in the hand)
+   *
+   * @param row the row the card is located at (0 indexed)
+   * @param color the color the card to be flipped.
+   */
+  void highlightCard(int row, PlayerColor color);
 }
