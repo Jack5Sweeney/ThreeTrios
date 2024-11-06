@@ -678,7 +678,20 @@ public class TestModel {
     int flips = simpleModel.calculateFlips(1, 1, redCard);
     assertEquals(2, flips);
   }
+
+
+  @Test
+  public void testCalculateFlipsWithUpdateBoard() {
+    simpleModel.startGame();
+
+    simpleModel.placeCard(0, 0, 0, redPlayer);
+
+
+
+  }
 }
+
+
 
   /*
 
