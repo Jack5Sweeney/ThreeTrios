@@ -25,7 +25,6 @@ public class ControllerGUIImpl implements IControllerGUI, Features {
    */
   public ControllerGUIImpl(ReadOnlyIModel readOnlyModel) {
     this.readOnlyModel = readOnlyModel;
-    // No initialization required in the default constructor
   }
 
   /**
@@ -43,8 +42,7 @@ public class ControllerGUIImpl implements IControllerGUI, Features {
     }
     this.model = model;
     this.model.startGame();
-
-    this.view = new ViewFrameGUIImpl(model);
+    this.view = new ViewFrameGUIImpl(this.readOnlyModel);
     view.addFeatures(this);
     view.makeVisible();
   }
@@ -63,8 +61,8 @@ public class ControllerGUIImpl implements IControllerGUI, Features {
     int cardIndexToPlace = model.getCardIndexToPlace();
     IPlayer playerPlacing = model.getPlayerToPlace();
     model.placeCard(row, col, cardIndexToPlace, playerPlacing);
-    //view.updateBoard(row, col, model.getCardAt(row, col);
-    //view.updateHand(cardIndexToPlace, playerPlacing);
+    view.updateBoard(model.getBoard());
+    view.updateHand(cardIndexToPlace, playerPlacing);
     System.out.println("Cell clicked: " + row + ", " + col);
   }
 

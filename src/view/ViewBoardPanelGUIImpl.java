@@ -1,28 +1,24 @@
 package view;
 
 import model.CellType;
-import javax.swing.JPanel;
+
+import javax.swing.*;
 import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.BasicStroke;
+import java.awt.GridLayout;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.NoninvertibleTransformException;
-import java.awt.geom.Point2D;
 import controller.Features;
 
 /**
  * Implementation of the {@link IViewBoardPanelGUI} interface, providing a graphical panel
- * for displaying the game board within the GUI. This panel handles rendering of cells and
- * grid lines and supports user interactions through mouse clicks.
+ * for displaying the game board within the GUI. Each cell is represented as its own panel.
  */
 public class ViewBoardPanelGUIImpl extends JPanel implements IViewBoardPanelGUI {
   private Features features;
   private final int numRows;
   private final int numCols;
   private final CellType[][] boardAvailability;
+  private final CellPanel[][] cellPanels;
 
   /**
    * Constructs a {@code ViewBoardPanelGUIImpl} with specified rows, columns, and board availability.
@@ -35,7 +31,18 @@ public class ViewBoardPanelGUIImpl extends JPanel implements IViewBoardPanelGUI 
     this.numRows = numRows;
     this.numCols = numCols;
     this.boardAvailability = boardAvailability;
-    this.addMouseListener(new BoardClickListener());
+    this.cellPanels = new CellPanel[numRows][numCols];
+
+    setLayout(new GridLayout(numRows, numCols)); // Set grid layout for the board
+
+    // Initialize each cell panel and add it to the board
+    for (int row = 0; row < numRows; row++) {
+      for (int col = 0; col < numCols; col++) {
+        CellPanel cellPanel = new CellPanel(row, col, boardAvailability[row][col]);
+        cellPanels[row][col] = cellPanel;
+        this.add(cellPanel);
+      }
+    }
   }
 
   /**
@@ -49,112 +56,71 @@ public class ViewBoardPanelGUIImpl extends JPanel implements IViewBoardPanelGUI 
   }
 
   /**
-   * Paints the component by drawing the cells with colors based on their availability,
-   * as well as the grid lines.
+   * Updates the visual state of each cell based on the board data. Each cell is updated individually.
    *
-   * @param g the {@code Graphics} object used for drawing
+   * @param updatedBoard a 2D array representing the updated board state
    */
-  @Override
-  protected void paintComponent(Graphics g) {
-    super.paintComponent(g);
-    Graphics2D g2d = (Graphics2D) g.create();
-    g2d.transform(getModelToPhysical());
-    drawCells(g2d);
-    drawGrid(g2d);
-  }
-
-  /**
-   * Draws the cells on the board based on their type, using different colors for each cell type.
-   *
-   * @param g2d the {@code Graphics2D} object used for drawing
-   */
-  private void drawCells(Graphics2D g2d) {
+  public void updateBoard(CellType[][] updatedBoard) {
     for (int row = 0; row < numRows; row++) {
       for (int col = 0; col < numCols; col++) {
-        CellType cellType = boardAvailability[row][col];
-        Color color;
-        switch (cellType) {
-          case HOLE:
-            color = Color.GRAY;
-            break;
-          case EMPTY:
-            color = Color.YELLOW;
-            break;
-          default:
-            color = Color.WHITE;
-            break;
+        cellPanels[row][col].updateCell(updatedBoard[row][col]);
+      }
+    }
+  }
+
+  /**
+   * Inner class representing each cell in the board as a JPanel. Each cell has its own color and
+   * handles its own click events.
+   */
+  private class CellPanel extends JPanel {
+    private final int row;
+    private final int col;
+
+    public CellPanel(int row, int col, CellType cellType) {
+      this.row = row;
+      this.col = col;
+      setCellColor(cellType); // Set the initial color based on the cell type
+
+      setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+
+      // Add a mouse listener to handle click events
+      addMouseListener(new MouseAdapter() {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+          if (features != null) {
+            features.handleCellClick(row, col); // Notify the controller of the click
+          }
         }
-        g2d.setColor(color);
-        g2d.fillRect(col, row, 1, 1);
+      });
+    }
+
+    /**
+     * Updates the cell color based on the new cell type.
+     *
+     * @param cellType the new cell type for this cell
+     */
+    public void updateCell(CellType cellType) {
+      setCellColor(cellType);
+      repaint(); // Repaint the cell to reflect the updated color
+    }
+
+    /**
+     * Sets the color of the cell based on its type.
+     *
+     * @param cellType the type of cell (e.g., HOLE, EMPTY)
+     */
+    private void setCellColor(CellType cellType) {
+      switch (cellType) {
+        case HOLE:
+          setBackground(Color.GRAY);
+          break;
+        case EMPTY:
+          setBackground(Color.YELLOW);
+          break;
+        default:
+          setBackground(Color.WHITE);
+          break;
       }
     }
-  }
-
-  /**
-   * Draws the grid lines to visually separate cells on the game board.
-   *
-   * @param g2d the {@code Graphics2D} object used for drawing
-   */
-  private void drawGrid(Graphics2D g2d) {
-    g2d.setColor(Color.BLACK);
-    g2d.setStroke(new BasicStroke(0.01f));
-
-    // Draw horizontal grid lines
-    for (int row = 0; row <= numRows; row++) {
-      g2d.drawLine(0, row, numCols, row);
-    }
-    // Draw vertical grid lines
-    for (int col = 0; col <= numCols; col++) {
-      g2d.drawLine(col, 0, col, numRows);
-    }
-  }
-
-  /**
-   * Generates an {@code AffineTransform} for scaling model coordinates to physical screen
-   * coordinates, enabling a coordinate system that matches the number of rows and columns.
-   *
-   * @return the {@code AffineTransform} for scaling coordinates
-   */
-  private AffineTransform getModelToPhysical() {
-    AffineTransform xForm = new AffineTransform();
-    xForm.scale((double) this.getWidth() / numCols, (double) this.getHeight() / numRows);
-    return xForm;
-  }
-
-  /**
-   * Private inner class implementing {@code MouseListener} to handle click events on
-   * the game board. Transforms the click position to model coordinates and calls
-   * {@code handleCellClick} in {@link Features}.
-   */
-  private class BoardClickListener implements MouseListener {
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-      try {
-        AffineTransform physicalToModel = getModelToPhysical();
-        physicalToModel.invert();
-
-        Point2D evtPt = e.getPoint();
-        Point2D modelPt = physicalToModel.transform(evtPt, null);
-        int row = (int) modelPt.getY();
-        int col = (int) modelPt.getX();
-
-        features.handleCellClick(row, col);
-      } catch (NoninvertibleTransformException ex) {
-        throw new RuntimeException("Transform could not be inverted", ex);
-      }
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {}
-
-    @Override
-    public void mouseReleased(MouseEvent e) {}
-
-    @Override
-    public void mouseEntered(MouseEvent e) {}
-
-    @Override
-    public void mouseExited(MouseEvent e) {}
   }
 }

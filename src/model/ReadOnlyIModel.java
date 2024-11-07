@@ -87,5 +87,16 @@ public interface ReadOnlyIModel {
    * @return the number of cards that would be flipped by this move
    */
   int calculateFlips(int row, int col, ICard card);
+
+
+  /**
+   * Starts the game by configuring the board, setting up initial conditions, and preparing
+   * the card deck.
+   *
+   * @throws IllegalArgumentException if there is an issue reading the configuration file
+   *                                  or if the file has an invalid format
+   */
+  void startGame();
+
 }
 

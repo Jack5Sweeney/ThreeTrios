@@ -1,13 +1,13 @@
 package view;
 
 import controller.Features;
+import model.ICard;
+import model.IPlayer;
 import model.PlayerColor;
 import model.ReadOnlyIModel;
 
 import javax.swing.*;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.Color;
+import java.awt.*;
 
 /**
  * Implementation of the {@link IViewFrameGUI} interface, representing the main game window for the GUI.
@@ -20,7 +20,7 @@ public class ViewFrameGUIImpl extends JFrame implements IViewFrameGUI {
   private final ViewHandPanelGUIImpl blueHandPanel;
   private final ViewBoardPanelGUIImpl boardPanel;
 
-  private JPanel highlightedCardPanel;
+  private JPanel highlightedCardPanelGUIImpl;
 
   /**
    * Constructs a {@code ViewFrameGUIImpl} with the specified readOnlyModel, initializing the panels for
@@ -98,22 +98,68 @@ public class ViewFrameGUIImpl extends JFrame implements IViewFrameGUI {
 
     // Ensure the index is within bounds
     if (row >= 0 && row < handPanel.getComponentCount()) {
-      JPanel cardPanel = (JPanel) handPanel.getComponent(row);
+      JPanel CardPanelGUIImpl = (JPanel) handPanel.getComponent(row);
 
       // Remove the border from the previously highlighted card, if any
-      if (highlightedCardPanel != null && highlightedCardPanel != cardPanel) {
-        highlightedCardPanel.setBorder(null);  // Remove the highlight border
+      if (highlightedCardPanelGUIImpl != null && highlightedCardPanelGUIImpl != CardPanelGUIImpl) {
+        highlightedCardPanelGUIImpl.setBorder(null);  // Remove the highlight border
       }
 
       // Add a yellow border to the new card
-      cardPanel.setBorder(BorderFactory.createLineBorder(Color.YELLOW, 3));
+      CardPanelGUIImpl.setBorder(BorderFactory.createLineBorder(Color.YELLOW, 3));
 
       // Update the reference to the currently highlighted card
-      highlightedCardPanel = cardPanel;
+      highlightedCardPanelGUIImpl = CardPanelGUIImpl;
 
       // Refresh the panel to apply changes
-      cardPanel.repaint();
+      CardPanelGUIImpl.repaint();
     }
+  }
+
+  @Override
+  public void updateBoard(ICard[][] boardWithCard) {
+    int rows = boardWithCard.length;
+    int cols = boardWithCard[0].length;
+
+    // Iterate over each cell in the boardWithCard array
+    for (int row = 0; row < rows; row++) {
+      for (int col = 0; col < cols; col++) {
+        ICard card = boardWithCard[row][col];
+
+        // Find the component at this location in the grid
+        int componentIndex = row * cols + col;
+        Component currentComponent = boardPanel.getComponent(componentIndex);
+
+        if (card != null) {
+          // If there's a card, replace the current component with a CardPanelGUIImpl
+          CardPanelGUIImpl CardPanelGUIImpl = new CardPanelGUIImpl(card, -1); // Use -1 if index is irrelevant for the board
+          CardPanelGUIImpl.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+
+          // Replace the current component with the new CardPanelGUIImpl
+          boardPanel.remove(componentIndex);
+          boardPanel.add(CardPanelGUIImpl, componentIndex);
+        } else {
+          // If there's no card, ensure the cell is a blank JPanel
+          if (currentComponent instanceof CardPanelGUIImpl) {
+            JPanel emptyCell = new JPanel();
+            emptyCell.setBackground(Color.LIGHT_GRAY);
+            emptyCell.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+
+            // Replace the current component with an empty cell
+            boardPanel.remove(componentIndex);
+            boardPanel.add(emptyCell, componentIndex);
+          }
+        }
+      }
+    }
+
+    // Revalidate and repaint the board panel to reflect the updates
+    boardPanel.revalidate();
+    boardPanel.repaint();
+  }
+
+  @Override
+  public void updateHand(int cardIndexToPlace, IPlayer playerPlacing) {
   }
 }
 

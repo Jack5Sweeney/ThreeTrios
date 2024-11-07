@@ -1,6 +1,9 @@
 package view;
 
 import controller.Features;
+import model.CardImpl;
+import model.ICard;
+import model.IPlayer;
 import model.PlayerColor;
 
 /**
@@ -36,4 +39,8 @@ public interface IViewFrameGUI {
    * @param color the color the card to be flipped.
    */
   void highlightCard(int row, PlayerColor color);
+
+  void updateBoard(ICard[][] boardWithCard);
+
+  void updateHand(int cardIndexToPlace, IPlayer playerPlacing);
 }

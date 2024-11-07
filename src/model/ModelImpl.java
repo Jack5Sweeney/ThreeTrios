@@ -1,8 +1,6 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.frequency;
@@ -381,11 +379,8 @@ public class ModelImpl implements IModel {
    * Retrieves a new instance of the red player with the same color and hand.
    *
    * @return a new {@link IPlayer} instance for the red player
-   * @throws IllegalStateException if the game has not started or is over
    */
   public IPlayer getRedPlayer() {
-    checkGameStarted();
-    checkGameOver();
     return new PlayerImpl(PlayerColor.RED, redPlayer.getHand());
   }
 
@@ -393,11 +388,8 @@ public class ModelImpl implements IModel {
    * Retrieves a new instance of the blue player with the same color and hand.
    *
    * @return a new {@link IPlayer} instance for the blue player
-   * @throws IllegalStateException if the game has not started or is over
    */
   public IPlayer getBluePlayer() {
-    checkGameStarted();
-    checkGameOver();
     return new PlayerImpl(PlayerColor.BLUE, bluePlayer.getHand());
   }
 
@@ -407,11 +399,8 @@ public class ModelImpl implements IModel {
    *
    * @return a 2D array of {@link CardImpl} objects representing the board, with all attributes
    *         copied
-   * @throws IllegalStateException if the game has not started or is over
    */
   public CardImpl[][] getBoard() {
-    checkGameStarted();
-    checkGameOver();
     int numRows = boardWithCards.length;
     int numCols = boardWithCards[0].length;
     CardImpl[][] boardCopy = new CardImpl[numRows][numCols];
@@ -441,11 +430,8 @@ public class ModelImpl implements IModel {
    *
    * @return a 2D array of {@link CellType} objects representing the availability status of
    *         each cell
-   * @throws IllegalStateException if the game has not started or is over
    */
   public CellType[][] getBoardAvailability() {
-    checkGameStarted();
-    checkGameOver();
     int numRows = boardAvailability.length;
     CellType[][] availabilityCopy = new CellType[numRows][];
 

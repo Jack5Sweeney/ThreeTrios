@@ -10,15 +10,6 @@ import java.util.Map;
 public interface IModel extends ReadOnlyIModel {
 
   /**
-   * Starts the game by configuring the board, setting up initial conditions, and preparing
-   * the card deck.
-   *
-   * @throws IllegalArgumentException if there is an issue reading the configuration file
-   *                                  or if the file has an invalid format
-   */
-  void startGame();
-
-  /**
    * Places a card on the board for a specified player at the given row and column
    * position, removing it from the player's hand.
    *
