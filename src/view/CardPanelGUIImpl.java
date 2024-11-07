@@ -5,11 +5,17 @@ import model.Direction;
 import model.ICard;
 import model.PlayerColor;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
 /**
  * A JPanel representing an individual card. Displays the card's directional values
  * and player color, and handles click events if a {@link Features} instance is provided.
@@ -93,4 +99,12 @@ public class CardPanelGUIImpl extends JPanel {
     g2d.drawString(westValue, centerX - horizontalOffset - g2d.getFontMetrics().stringWidth(westValue) / 2, centerY);
   }
 
+  /**
+   * Sets the index of this card panel within the player's hand or position.
+   *
+   * @param index the new index of the card
+   */
+  public void setIndex(int index) {
+    this.index = index;
+  }
 }

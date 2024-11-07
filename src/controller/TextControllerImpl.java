@@ -35,14 +35,10 @@ public class TextControllerImpl implements ITextController {
    * Starts the game by configuring the board and card deck based on specified file paths,
    * initializing the model with these configurations and the provided players.
    *
-   * @param board   the file name of the board configuration file
-   * @param cardDB  the file name of the card database file
    * @param model   the game model used to represent the game's logic and state
-   * @param players the list of players participating in the game
    */
   @Override
-  public void playGame(String board, String cardDB, IModel model, ArrayList<IPlayer> players) {
-    ConfigGame gameConfiguration = new ConfigGame(board, cardDB);
+  public void playGame(IModel model) {
     model.startGame();
   }
 }

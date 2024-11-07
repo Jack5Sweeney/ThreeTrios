@@ -1,7 +1,6 @@
 package view;
 
 import controller.Features;
-import model.CardImpl;
 import model.ICard;
 import model.IPlayer;
 import model.PlayerColor;
@@ -40,7 +39,23 @@ public interface IViewFrameGUI {
    */
   void highlightCard(int row, PlayerColor color);
 
+  /**
+   * Updates the board display based on the provided 2D array of {@link ICard} objects.
+   * Each cell on the board is updated to show a card or remain empty if null.
+   * Replaces components on the board with {@link CardPanelGUIImpl} panels where cards
+   * are present, or blank panels for empty cells.
+   *
+   * @param boardWithCard a 2D array representing the board, where each {@code ICard}
+   *                      can be a card to display, or {@code null} for an empty cell
+   */
   void updateBoard(ICard[][] boardWithCard);
 
+  /**
+   * Updates the hand panel of the specified player by removing the card at the given index.
+   * Refreshes the display to reflect the removal.
+   *
+   * @param cardIndexToPlace the index of the card in the player's hand to be removed
+   * @param playerPlacing    the player whose hand is being updated
+   */
   void updateHand(int cardIndexToPlace, IPlayer playerPlacing);
 }

@@ -15,4 +15,13 @@ public interface IViewHandsPanelGUI {
    * @param features the controller's features that define the actions available to handle user input
    */
   void addClickListener(Features features);
+
+  /**
+   * Removes the card at the specified index from the hand, setting the card reference
+   * at that index to {@code null}. This method clears and rebuilds the panel to
+   * reflect the change, including empty spots for removed cards.
+   *
+   * @param index the index of the card to remove in the hand
+   */
+  void removeCardAtIndex(int index);
 }

@@ -6,8 +6,13 @@ import model.IPlayer;
 import model.PlayerColor;
 import model.ReadOnlyIModel;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 
 /**
  * Implementation of the {@link IViewFrameGUI} interface, representing the main game window for the GUI.
@@ -116,6 +121,15 @@ public class ViewFrameGUIImpl extends JFrame implements IViewFrameGUI {
     }
   }
 
+  /**
+   * Updates the board display based on the provided 2D array of {@link ICard} objects.
+   * Each cell on the board is updated to show a card or remain empty if null.
+   * Replaces components on the board with {@link CardPanelGUIImpl} panels where cards
+   * are present, or blank panels for empty cells.
+   *
+   * @param boardWithCard a 2D array representing the board, where each {@code ICard}
+   *                      can be a card to display, or {@code null} for an empty cell
+   */
   @Override
   public void updateBoard(ICard[][] boardWithCard) {
     int rows = boardWithCard.length;
@@ -132,12 +146,12 @@ public class ViewFrameGUIImpl extends JFrame implements IViewFrameGUI {
 
         if (card != null) {
           // If there's a card, replace the current component with a CardPanelGUIImpl
-          CardPanelGUIImpl CardPanelGUIImpl = new CardPanelGUIImpl(card, -1); // Use -1 if index is irrelevant for the board
-          CardPanelGUIImpl.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+          CardPanelGUIImpl cardPanel = new CardPanelGUIImpl(card, -1); // Use -1 if index is irrelevant for the board
+          cardPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 
           // Replace the current component with the new CardPanelGUIImpl
           boardPanel.remove(componentIndex);
-          boardPanel.add(CardPanelGUIImpl, componentIndex);
+          boardPanel.add(cardPanel, componentIndex);
         } else {
           // If there's no card, ensure the cell is a blank JPanel
           if (currentComponent instanceof CardPanelGUIImpl) {
@@ -158,8 +172,28 @@ public class ViewFrameGUIImpl extends JFrame implements IViewFrameGUI {
     boardPanel.repaint();
   }
 
+  /**
+   * Updates the hand panel of the specified player by removing the card at the given index.
+   * Refreshes the display to reflect the removal.
+   *
+   * @param cardIndexToPlace the index of the card in the player's hand to be removed
+   * @param playerPlacing    the player whose hand is being updated
+   */
   @Override
   public void updateHand(int cardIndexToPlace, IPlayer playerPlacing) {
+    PlayerColor playerColor = playerPlacing.getPlayerColor();
+    ViewHandPanelGUIImpl handPanel;
+    if (playerColor == PlayerColor.RED) {
+      handPanel = redHandPanel;
+    } else {
+      handPanel = blueHandPanel;
+    }
+
+    handPanel.removeCardAtIndex(cardIndexToPlace);
+
+    handPanel.revalidate();
+    handPanel.repaint();
   }
+
 }
 

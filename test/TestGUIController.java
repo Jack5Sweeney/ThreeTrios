@@ -14,11 +14,12 @@ import static org.junit.Assert.fail;
 /**
  * Test class for the ControllerImpl class.
  */
-public class TestTextController {
+public class TestGUIController {
 
-  private ITextController controller;
+  private ControllerGUIImpl controller;
   private ITextView view;
   private IModel model;
+  private ReadOnlyIModel readOnlyModel;
 
   private PlayerImpl redPlayer;
   private PlayerImpl bluePlayer;
@@ -32,6 +33,7 @@ public class TestTextController {
     bluePlayer = new PlayerImpl(PlayerColor.BLUE, new ArrayList<>());
     players = new ArrayList<>(List.of(redPlayer, bluePlayer));
 
-    controller = new TextControllerImpl();
+    controller = new ControllerGUIImpl(readOnlyModel);
   }
+
 }

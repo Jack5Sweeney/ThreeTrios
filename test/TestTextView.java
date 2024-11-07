@@ -46,7 +46,7 @@ public class TestTextView {
     ConfigGame chessGameConfig = new ConfigGame("chessBoard.config", "card.database");
     chessModel = new ModelImpl(chessGameConfig.getBoard(), gameConfig.getDeck(), players);
 
-    ConfigGame oneByOneGameConfig = new ConfigGame("oneByOneBoard.config", "card.database");
+    ConfigGame oneByOneGameConfig = new ConfigGame("1x1Board.config", "card.database");
     oneByOneModel = new ModelImpl(oneByOneGameConfig.getBoard(), gameConfig.getDeck(), players);
   }
 
@@ -58,7 +58,6 @@ public class TestTextView {
     model.placeCard(0, 0, 0, bluePlayer);
     model.placeCard(4, 6, 0, redPlayer);
     model.placeCard(0, 1, 0, bluePlayer);
-    model.placeCard(1, 2, 0, bluePlayer);
 
     String expectedOutput = "Player: RED\n"
         + "BB    _\n"

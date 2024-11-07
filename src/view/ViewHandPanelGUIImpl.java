@@ -4,7 +4,10 @@ import controller.Features;
 import model.ICard;
 import javax.swing.JPanel;
 import javax.swing.BoxLayout;
+import javax.swing.BorderFactory;
 import java.util.ArrayList;
+import java.awt.Dimension;
+import java.awt.Color;
 
 /**
  * Implementation of the {@link IViewHandsPanelGUI} interface, representing the GUI panel
@@ -51,9 +54,35 @@ public class ViewHandPanelGUIImpl extends JPanel implements IViewHandsPanelGUI {
   private void createCardPanelGUIImpls() {
     for (int i = 0; i < cards.size(); i++) {
       ICard card = cards.get(i);
-      CardPanelGUIImpl CardPanelGUIImpl = new CardPanelGUIImpl(card, i);
-      CardPanelGUIImpl.setFeatures(features);  // Set the Features instance if already available
-      this.add(CardPanelGUIImpl);
+      if (card != null) {
+        CardPanelGUIImpl cardPanel = new CardPanelGUIImpl(card, i);
+        cardPanel.setFeatures(features);
+        this.add(cardPanel);
+      } else {
+        // Add an empty panel to represent the missing card
+        JPanel emptyPanel = new JPanel();
+        emptyPanel.setPreferredSize(new Dimension(100, 20)); // Adjust size as needed
+        emptyPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        this.add(emptyPanel);
+      }
     }
+  }
+
+  /**
+   * Removes the card at the specified index from the hand, setting the card reference
+   * at that index to {@code null}. This method clears and rebuilds the panel to
+   * reflect the change, including empty spots for removed cards.
+   *
+   * @param index the index of the card to remove in the hand
+   */
+  public void removeCardAtIndex(int index) {
+    // Set the card at the specified index to null
+    cards.set(index, null);
+
+    // Remove all components from the panel
+    this.removeAll();
+
+    // Recreate the card panels, including empty spots for nulls
+    createCardPanelGUIImpls();
   }
 }
