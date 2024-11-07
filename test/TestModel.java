@@ -679,15 +679,18 @@ public class TestModel {
     assertEquals(2, flips);
   }
 
-
   @Test
-  public void testCalculateFlipsWithUpdateBoard() {
+  public void testCalculateFlipsWithTwoOpponentCardProp() {
     simpleModel.startGame();
 
-    simpleModel.placeCard(0, 0, 0, redPlayer);
+    simpleModel.placeCard(0, 2, 4, redPlayer);
+    simpleModel.placeCard(1, 0, 1, bluePlayer);
+    simpleModel.placeCard(2, 2, 3, redPlayer);
+    simpleModel.placeCard(1, 1, 1, bluePlayer);
 
-
-
+    ICard redCard = redPlayer.getHand().get(2);
+    int flips = simpleModel.calculateFlips(1, 2, redCard);
+    assertEquals(2, flips);
   }
 }
 
