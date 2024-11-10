@@ -60,19 +60,56 @@ test/ : handles all the testing files for model and view
 
 
 Changes for Part 2
-To improve the model's functionality, we added two new methods: calculateFlips and getPlayerScore.
+In reexamining the model’s design and implementation from the previous assignment,
+we identified a few areas that needed enhancements to improve gameplay functionality and user experience.
+Below is a summary of the changes made, explaining what functionality was previously missing, the reasons behind it,
+and how we addressed these issues.
 
-1. calculateFlips
-Purpose: Calculates the number of opponent cards that would be flipped if a player places a card
-at a specific position.
-Reason: Previously, there was no way to evaluate a move's impact without executing it.
-This method helps players strategize by previewing flips without altering the board state.
-Implementation: calculateFlips checks in all four directions (North, South, East, West)
-using a helper method, countFlipsInDirection, to tally flips based on game rules.
-2. getPlayerScore
-Purpose: Returns the current score of a player by counting their cards on the board.
-Reason: The previous model lacked a way to track and display player scores dynamically.
-This addition enables real-time score updates.
-Implementation: getPlayerScore iterates over the board to count cards belonging to the
-specified player.
+1. Move Evaluation: calculateFlips
+Missing Functionality: The original model lacked a method for evaluating the potential impact of a move before
+executing it. Without a preview option, players couldn’t anticipate how many opponent cards their move might flip,
+limiting strategic planning.
 
+New Addition: We introduced calculateFlips, a method that calculates the number of opponent cards that would be flipped
+if a player places a card at a specific position.
+
+Implementation Details: The calculateFlips method examines the board in four cardinal directions
+(North, South, East, West) using the helper function countFlipsInDirection to tally flips based on game rules.
+This change allows players to preview move impacts without altering the board state, supporting more strategic decision-making.
+
+2. Real-Time Score Tracking: getPlayerScore
+Missing Functionality: The previous model didn’t offer real-time score tracking. As a result, the player’s score wasn’t
+dynamically updated or displayed based on board state changes.
+
+New Addition: We added getPlayerScore, a method that counts a player's cards on the board and returns the current score.
+
+Implementation Details: getPlayerScore iterates over the board, identifying cards associated with the specified player.
+This addition enables real-time score updates, enriching the competitive aspect of the game and giving players
+immediate feedback on their progress.
+
+3. Separation of File Management
+Missing Functionality: File reading functionality was initially embedded within the model, reducing modularity and
+compromising the model’s focus on game logic.
+
+New Addition: File reading has been moved outside the model into a dedicated class, allowing the model to concentrate
+on game-specific operations.
+
+Implementation Details: By externalizing file reading, the model now better adheres to single-responsibility principles,
+improving modularity and readability.
+
+4. Enhanced Turn Management: getPlayerToPlace and getCardIndexToPlace
+Missing Functionality: The model previously lacked a method to track a player’s current selection, complicating
+the turn-by-turn logic.
+
+New Addition: We added getPlayerToPlace and getCardIndexToPlace to the model interface to manage the current card selection.
+
+Implementation Details: These methods keep track of the player’s intended card placement, streamlining
+turn-taking and enhancing game flow consistency.
+
+5. Read-Only Model Interface
+Missing Functionality: Previously, the view had access to mutator methods, risking unintended modifications to the model.
+
+New Addition: We created a ReadOnlyModel interface that exposes only observer methods to the view.
+
+Implementation Details: By restricting the view to read-only access, this interface preserves the integrity of the
+model state and aligns with MVC architecture best practices.

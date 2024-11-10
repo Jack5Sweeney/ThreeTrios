@@ -22,8 +22,14 @@ public class ControllerGUIImpl implements IControllerGUI, Features {
    * Default constructor for {@code ControllerGUIImpl}.
    * Initializes an instance without setting the model or view, which are configured later
    * during the game setup process.
+   *
+   * @param readOnlyModel a read-only-model for the view
+   * @throws IllegalArgumentException if the constructor has a null field
    */
   public ControllerGUIImpl(ReadOnlyIModel readOnlyModel) {
+    if (readOnlyModel == null) {
+      throw new IllegalArgumentException("readOnlyModel cannot be null");
+    }
     this.readOnlyModel = readOnlyModel;
   }
 
@@ -56,8 +62,6 @@ public class ControllerGUIImpl implements IControllerGUI, Features {
    */
   @Override
   public void handleCellClick(int row, int col) {
-    // TODO: Uncomment and implement actual model and view update logic when ready
-
     int cardIndexToPlace = model.getCardIndexToPlace();
     IPlayer playerPlacing = model.getPlayerToPlace();
     model.placeCard(row, col, cardIndexToPlace, playerPlacing);
