@@ -24,6 +24,7 @@ public class ViewFrameGUIImpl extends JFrame implements IViewFrameGUI {
   private final ViewHandPanelGUIImpl redHandPanel;
   private final ViewHandPanelGUIImpl blueHandPanel;
   private final ViewBoardPanelGUIImpl boardPanel;
+  private final ReadOnlyIModel readOnlyModel;
 
   private JPanel highlightedCardPanelGUIImpl;
 
@@ -34,6 +35,8 @@ public class ViewFrameGUIImpl extends JFrame implements IViewFrameGUI {
    * @param readOnlyModel the game readOnlyModel providing data for the board and players' hands
    */
   public ViewFrameGUIImpl(ReadOnlyIModel readOnlyModel) {
+    this.readOnlyModel = readOnlyModel;
+
     this.redHandPanel = new ViewHandPanelGUIImpl(readOnlyModel.getRedPlayer().getHand());
     this.blueHandPanel = new ViewHandPanelGUIImpl(readOnlyModel.getBluePlayer().getHand());
     this.boardPanel = new ViewBoardPanelGUIImpl(
@@ -46,6 +49,7 @@ public class ViewFrameGUIImpl extends JFrame implements IViewFrameGUI {
     this.setSize(800, 600);
     this.setLocationRelativeTo(null);
     this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+    this.setTitle(readOnlyModel.getCurrentPlayerColor().toString());
 
     this.add(redHandPanel, BorderLayout.WEST);
     this.add(boardPanel, BorderLayout.CENTER);
@@ -167,7 +171,6 @@ public class ViewFrameGUIImpl extends JFrame implements IViewFrameGUI {
       }
     }
 
-    // Revalidate and repaint the board panel to reflect the updates
     boardPanel.revalidate();
     boardPanel.repaint();
   }
@@ -189,10 +192,18 @@ public class ViewFrameGUIImpl extends JFrame implements IViewFrameGUI {
       handPanel = blueHandPanel;
     }
 
-    handPanel.removeCardAtIndex(cardIndexToPlace);
+    if (playerPlacing.getPlayerColor() == PlayerColor.RED) {
+      this.setTitle(PlayerColor.BLUE.toString());
+    }
+    else {
+      this.setTitle(PlayerColor.RED.toString());
+    }
 
+    handPanel.removeCardAtIndex(cardIndexToPlace);
     handPanel.revalidate();
     handPanel.repaint();
+
+
   }
 
 }

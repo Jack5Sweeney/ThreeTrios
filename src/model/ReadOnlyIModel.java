@@ -37,7 +37,7 @@ public interface ReadOnlyIModel {
    * @return a 2D array of {@link CardImpl} objects representing the board, with all
    *         attributes copied
    */
-  CardImpl[][] getBoard();
+  ICard[][] getBoard();
 
   /**
    * Returns the board availability information.
@@ -97,6 +97,13 @@ public interface ReadOnlyIModel {
    *                                  or if the file has an invalid format
    */
   void startGame();
+
+  /**
+   * Method to get the current players color for the view to visualize the current player.
+   *
+   * @return the current players color
+   */
+  PlayerColor getCurrentPlayerColor();
 
 }
 

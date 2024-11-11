@@ -31,7 +31,6 @@ public class ControllerGUIImpl implements IControllerGUI, Features {
       throw new IllegalArgumentException("readOnlyModel cannot be null");
     }
     this.readOnlyModel = readOnlyModel;
-    view = new ViewFrameGUIImpl(this.readOnlyModel);
     this.view = view;
 
   }

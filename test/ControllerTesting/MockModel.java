@@ -2,6 +2,8 @@ package ControllerTesting;
 
 import model.*;
 
+import java.util.ArrayList;
+
 public class MockModel implements IModel {
 
   public boolean startGameCalled = false;
@@ -50,22 +52,22 @@ public class MockModel implements IModel {
 
   @Override
   public IPlayer getRedPlayer() {
-    return null;
+    return new PlayerImpl(PlayerColor.RED, new ArrayList<ICard>());
   }
 
   @Override
   public IPlayer getBluePlayer() {
-    return null;
+    return new PlayerImpl(PlayerColor.BLUE, new ArrayList<ICard>());
   }
 
   @Override
-  public CardImpl[][] getBoard() {
-    return new CardImpl[0][];
+  public ICard[][] getBoard() {
+    return new CardImpl[1][1];
   }
 
   @Override
   public CellType[][] getBoardAvailability() {
-    return new CellType[0][];
+    return new CellType[0][0];
   }
 
   @Override
@@ -96,5 +98,10 @@ public class MockModel implements IModel {
   @Override
   public void startGame() {
 
+  }
+
+  @Override
+  public PlayerColor getCurrentPlayerColor() {
+    return PlayerColor.RED;
   }
 }

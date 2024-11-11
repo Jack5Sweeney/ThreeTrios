@@ -13,7 +13,10 @@ public class MockView implements IViewFrameGUI {
   public boolean updateHandCalled = false;
   public int highlightedRow;
   public PlayerColor highlightedColor;
-
+  public MockModel mockModel;
+  public MockView(MockModel mockModel) {
+    this.mockModel = mockModel;
+  };
   @Override
   public void addFeatures(Features features) {
     addFeaturesCalled = true;

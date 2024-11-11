@@ -69,6 +69,16 @@ public class ModelImpl implements IModel {
   }
 
   /**
+   * Method to get the current players color for the view to visualize the current player.
+   *
+   * @return the current players color
+   */
+  @Override
+  public PlayerColor getCurrentPlayerColor() {
+    return this.currentPlayer.getPlayerColor();
+  }
+
+  /**
    * Ensures the deck has the correct number of cards based on the playable spaces on the board.
    *
    * @throws IllegalArgumentException if the deck size does not match the expected count
@@ -399,10 +409,10 @@ public class ModelImpl implements IModel {
    * @return a 2D array of {@link CardImpl} objects representing the board, with all attributes
    *         copied
    */
-  public CardImpl[][] getBoard() {
+  public ICard[][] getBoard() {
     int numRows = boardWithCards.length;
     int numCols = boardWithCards[0].length;
-    CardImpl[][] boardCopy = new CardImpl[numRows][numCols];
+    ICard[][] boardCopy = new CardImpl[numRows][numCols];
 
     for (int rows = 0; rows < numRows; rows++) {
       for (int cols = 0; cols < numCols; cols++) {

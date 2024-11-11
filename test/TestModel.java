@@ -484,7 +484,7 @@ public class TestModel {
     simpleModel.placeCard(0, 0, 0, redPlayer);
     CardImpl originalCard = simpleModel.getCardAt(0, 0);
 
-    CardImpl[][] boardCopy = simpleModel.getBoard();
+    ICard[][] boardCopy = simpleModel.getBoard();
     assertEquals(originalCard.getName(), boardCopy[0][0].getName());
 
     boardCopy[0][0] = new CardImpl(PlayerColor.RED, "MutantCard", DirectionValue.ONE,
@@ -692,25 +692,22 @@ public class TestModel {
     int flips = simpleModel.calculateFlips(1, 2, redCard);
     assertEquals(2, flips);
   }
+
+  @Test
+  public void testCurrentGetPlayerColor() {
+    simpleModel.startGame();
+    assertEquals(simpleModel.getCurrentPlayerColor(), PlayerColor.RED);
+  }
+
+  @Test
+  public void testCurrentGetPlayerColorAfterSwitchedPlayerColor() {
+    simpleModel.startGame();
+    assertEquals(simpleModel.getCurrentPlayerColor(), PlayerColor.RED);
+    simpleModel.placeCard(0, 0, 0, redPlayer);
+    assertEquals(simpleModel.getCurrentPlayerColor(), PlayerColor.BLUE);
+  }
 }
 
 
 
-  /*
-
-  @Test
-  public void testCalculateFlipsComplexBoard() {
-    modelForRulesTesting.startGame();
-
-    modelForRulesTesting.placeCard(0, 0, 4, modelForRulesTesting.getRedPlayer());
-    modelForRulesTesting.placeCard(1, 0, 2, modelForRulesTesting.getRedPlayer());
-    modelForRulesTesting.placeCard(2, 0, 1, modelForRulesTesting.getRedPlayer());
-    modelForRulesTesting.placeCard(2, 1, 1, modelForRulesTesting.getRedPlayer());
-
-    model.CardImpl blueCard = modelForRulesTesting.getBluePlayer().getHand().get(0);
-    int flips = modelForRulesTesting.calculateFlips(2, 2, blueCard);
-    assertEquals(4, flips);
-  }
-
-   */
 

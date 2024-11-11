@@ -5,7 +5,6 @@ import gameConfiguration.ConfigGame;
 import model.*;
 import org.junit.Before;
 import org.junit.Test;
-import view.IViewFrameGUI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +17,7 @@ import static org.junit.Assert.*;
 public class TestGUIController {
 
   private ControllerGUIImpl controller;
-  private MockModel readOnlyModel;
+  private MockModel readOnlyMockModel;
   private MockModel model;
   private MockView viewMock;
 
@@ -31,18 +30,15 @@ public class TestGUIController {
     ConfigGame gameConfigurator = new ConfigGame("board.config", "cards.database");
 
     // Initialize mock model and view for testing
-    readOnlyModel = new MockModel();
-    viewMock = new MockView();
+    readOnlyMockModel = new MockModel();
+    viewMock = new MockView(readOnlyMockModel);
     model = new MockModel();
-
-    // Initialize controller with mock model and view
-    controller = new ControllerGUIImpl(viewMock, readOnlyModel);
   }
 
   @Test
   public void testNullViewInConstructor() {
     try {
-      controller = new ControllerGUIImpl(null, readOnlyModel);
+      controller = new ControllerGUIImpl(null, readOnlyMockModel);
       fail("Read-only-model cannot be null");
     } catch (IllegalArgumentException e) {
       // Successfully caught IllegalArgumentException
@@ -62,6 +58,7 @@ public class TestGUIController {
   @Test
   public void testNullModelInPlayGame() {
     try {
+      controller = new ControllerGUIImpl(viewMock, readOnlyMockModel);
       controller.playGame(null);
       fail("Model cannot be null");
     } catch (IllegalArgumentException e) {
@@ -71,8 +68,9 @@ public class TestGUIController {
 
   @Test
   public void testPlayGameInitializesCorrectly() {
+    controller = new ControllerGUIImpl(viewMock, readOnlyMockModel);
     controller.playGame(model);
-    assertTrue("Model's startGame method should be called", readOnlyModel.startGameCalled);
+    assertTrue("Model's startGame method should be called", readOnlyMockModel.startGameCalled);
     assertTrue("View's addFeatures method should be called", viewMock.addFeaturesCalled);
     assertTrue( "View's makeVisible method should be called", viewMock.makeVisibleCalled);
   }

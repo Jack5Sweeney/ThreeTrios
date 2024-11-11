@@ -67,7 +67,7 @@ public class TextViewImpl implements ITextView {
    * @param sb the {@code StringBuilder} to append the board layout to
    */
   private void appendBoard(StringBuilder sb) {
-    CardImpl[][] boardWithCards = model.getBoard();
+    ICard[][] boardWithCards = model.getBoard();
     CellType[][] boardAvailability = model.getBoardAvailability();
 
     for (int row = 0; row < boardWithCards.length; row++) {

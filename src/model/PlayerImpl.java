@@ -37,7 +37,11 @@ public class PlayerImpl implements IPlayer {
    */
   @Override
   public PlayerColor getPlayerColor() {
-    return this.playerColor;
+    if (this.playerColor == PlayerColor.RED) {
+      return PlayerColor.RED;
+    } else {
+      return PlayerColor.BLUE;
+    }
   }
 
   /**
