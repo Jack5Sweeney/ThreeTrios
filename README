@@ -6,11 +6,16 @@ principals. There are 3 interfaces where the classes all implement the interface
 There are four enums that are used for the project which are a specific design choice.
 
 An example of a quick setup/initialization would be :
-    redPlayer = new model.PlayerImpl(model.PlayerColor.RED, new ArrayList<>());
-    bluePlayer = new model.PlayerImpl(model.PlayerColor.BLUE, new ArrayList<>());
-    players = new ArrayList<>(List.of(redPlayer, bluePlayer));
-    model = new model.ModelImpl("board.config", "card.database", players);
-and then model.startGame();
+    PlayerImpl redPlayer = new PlayerImpl(PlayerColor.RED, new ArrayList<>());
+    PlayerImpl bluePlayer = new PlayerImpl(PlayerColor.BLUE, new ArrayList<>());
+    ArrayList<IPlayer> players = new ArrayList<>(List.of(redPlayer, bluePlayer));
+
+    ConfigGame gameConfigurator = new ConfigGame("board.config", "card.database");
+    ModelImpl model = new ModelImpl(gameConfigurator.getBoard(), gameConfigurator.getDeck(), players);
+    ReadOnlyIModel readOnlyModel = new ModelImpl(gameConfigurator.getBoard(), gameConfigurator.getDeck(), players);
+
+    ControllerGUIImpl controller = new ControllerGUIImpl(readOnlyModel);
+    controller.playGame(model);
 
 This demonstrates the setup of a model and players, and how to start a basic game.
 
@@ -58,6 +63,16 @@ src : contains all the primary code files
     model.PlayerImpl.java and model.IPlayer.java
 test/ : handles all the testing files for model and view
 
+Coordinate System:
+The game board is represented as a 2D array, where each element corresponds to a cell on the board.
+The coordinate system uses a row-major order, meaning that the first index represents the row (y-coordinate),
+and the second index represents the column (x-coordinate).
+
+Origin: The origin of the grid is located at the top-left corner, with coordinates (0, 0).
+Row and Column Indices:
+
+board[row][col]: Here, row specifies the vertical position (moving downward increases the row index),
+and col specifies the horizontal position (moving right increases the column index).
 
 Changes for Part 2
 In reexamining the model’s design and implementation from the previous assignment,
@@ -113,3 +128,9 @@ New Addition: We created a ReadOnlyModel interface that exposes only observer me
 
 Implementation Details: By restricting the view to read-only access, this interface preserves the integrity of the
 model state and aligns with MVC architecture best practices.
+
+6. Removing Concrete Class-types From Model Implementation:
+To improve flexibility and adherence to interface-based design principles,
+we removed concrete class references within the model implementation wherever possible.
+Instead of directly using specific class types like PlayerImpl or CardImpl,
+we rely on interfaces (IPlayer, ICard)
