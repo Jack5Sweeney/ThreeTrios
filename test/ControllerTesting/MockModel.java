@@ -1,4 +1,4 @@
-package Mocks;
+package ControllerTesting;
 
 import model.*;
 

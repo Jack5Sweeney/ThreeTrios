@@ -1,6 +1,5 @@
-import Mocks.MockModel;
-import Mocks.MockPlayer;
-import Mocks.MockView;
+package ControllerTesting;
+
 import controller.*;
 import gameConfiguration.ConfigGame;
 import model.*;
@@ -19,9 +18,9 @@ import static org.junit.Assert.*;
 public class TestGUIController {
 
   private ControllerGUIImpl controller;
-  private ReadOnlyIModel readOnlyModel;
-  private IModel model;
-  private IViewFrameGUI viewMock;
+  private MockModel readOnlyModel;
+  private MockModel model;
+  private MockView viewMock;
 
   @Before
   public void setUp() {
@@ -37,13 +36,23 @@ public class TestGUIController {
     model = new MockModel();
 
     // Initialize controller with mock model and view
-    controller = new ControllerGUIImpl(readOnlyModel);
+    controller = new ControllerGUIImpl(viewMock, readOnlyModel);
+  }
+
+  @Test
+  public void testNullViewInConstructor() {
+    try {
+      controller = new ControllerGUIImpl(null, readOnlyModel);
+      fail("Read-only-model cannot be null");
+    } catch (IllegalArgumentException e) {
+      // Successfully caught IllegalArgumentException
+    }
   }
 
   @Test
   public void testNullReadOnlyModelInConstructor() {
     try {
-      controller = new ControllerGUIImpl(null);
+      controller = new ControllerGUIImpl(viewMock, null);
       fail("Read-only-model cannot be null");
     } catch (IllegalArgumentException e) {
       // Successfully caught IllegalArgumentException

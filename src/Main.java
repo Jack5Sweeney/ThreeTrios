@@ -28,8 +28,9 @@ public class Main {
     ConfigGame gameConfigurator = new ConfigGame("board.config", "card.database");
     ModelImpl model = new ModelImpl(gameConfigurator.getBoard(), gameConfigurator.getDeck(), players);
     ReadOnlyIModel readOnlyModel = new ModelImpl(gameConfigurator.getBoard(), gameConfigurator.getDeck(), players);
+    IViewFrameGUI view = new ViewFrameGUIImpl(readOnlyModel);
 
-    ControllerGUIImpl controller = new ControllerGUIImpl(readOnlyModel);
+    ControllerGUIImpl controller = new ControllerGUIImpl(view, readOnlyModel);
     controller.playGame(model);
   }
 }

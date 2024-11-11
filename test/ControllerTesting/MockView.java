@@ -1,4 +1,4 @@
-package Mocks;
+package ControllerTesting;
 
 import controller.Features;
 import model.ICard;

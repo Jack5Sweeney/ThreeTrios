@@ -23,14 +23,17 @@ public class ControllerGUIImpl implements IControllerGUI, Features {
    * Initializes an instance without setting the model or view, which are configured later
    * during the game setup process.
    *
-   * @param readOnlyModel a read-only-model for the view
+   * @param view  a view constructed with a read-only-model
    * @throws IllegalArgumentException if the constructor has a null field
    */
-  public ControllerGUIImpl(ReadOnlyIModel readOnlyModel) {
-    if (readOnlyModel == null) {
+  public ControllerGUIImpl(IViewFrameGUI view, ReadOnlyIModel readOnlyModel) {
+    if (view == null || readOnlyModel == null) {
       throw new IllegalArgumentException("readOnlyModel cannot be null");
     }
     this.readOnlyModel = readOnlyModel;
+    view = new ViewFrameGUIImpl(this.readOnlyModel);
+    this.view = view;
+
   }
 
   /**
