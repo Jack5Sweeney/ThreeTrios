@@ -1,16 +1,16 @@
+package TestStrategies;
+
 import gameConfiguration.ConfigGame;
 import model.*;
 import strategies.CornerStrategy;
 import strategies.FlipTheMostStrategy;
 import strategies.Placement;
-import model.ICard;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.ObjectInputFilter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -222,7 +222,65 @@ import static org.junit.Assert.assertTrue;
       assertEquals(0, bestMove.column);
     }
 
+    @Test
+    public void testLoggingCallsToGetCardAtWithStrategyOne() {
+      ConfigGame simpleGameConfig = new ConfigGame("simpleBoard.config", "simpleCard.database");
+      ICard[][] boardWithCards = new ICard[3][3];
+      boardWithCards[2][2] = simpleGameConfig.getDeck().get(0);
+      MockModelRecordCoordinatesChecked mockModel = new MockModelRecordCoordinatesChecked(boardWithCards);
 
+      strategy1.chooseMove(mockModel, bluePlayer);
 
+      ArrayList<ArrayList<Integer>> expected = new ArrayList<ArrayList<Integer>>();
+      expected.add(new ArrayList<>(Arrays.asList(0, 0)));
+      expected.add(new ArrayList<>(Arrays.asList(0, 1)));
+      expected.add(new ArrayList<>(Arrays.asList(0, 2)));
+      expected.add(new ArrayList<>(Arrays.asList(1, 0)));
+      expected.add(new ArrayList<>(Arrays.asList(1, 1)));
+      expected.add(new ArrayList<>(Arrays.asList(1, 2)));
+      expected.add(new ArrayList<>(Arrays.asList(2, 0)));
+      expected.add(new ArrayList<>(Arrays.asList(2, 1)));
+      expected.add(new ArrayList<>(Arrays.asList(2, 2)));
 
+      assertEquals(expected, mockModel.cordLog);
+    }
+
+    @Test
+    public void testLoggingCallsToGetCardAtWithStrategyTwoAfterPlacingCard() {
+      ConfigGame simpleGameConfig = new ConfigGame("simpleBoard.config", "simpleCard.database");
+      ICard[][] boardWithCards = new ICard[3][3];
+      boardWithCards[0][0] = simpleGameConfig.getDeck().get(0);
+      MockModelRecordCoordinatesChecked mockModel = new MockModelRecordCoordinatesChecked(boardWithCards);
+
+      strategy2.chooseMove(mockModel, bluePlayer);
+
+      ArrayList<ArrayList<Integer>> expected = new ArrayList<ArrayList<Integer>>();
+
+      expected.add(new ArrayList<>(Arrays.asList(0, 0)));
+      expected.add(new ArrayList<>(Arrays.asList(0, 2)));
+      expected.add(new ArrayList<>(Arrays.asList(2, 0)));
+      expected.add(new ArrayList<>(Arrays.asList(2, 2)));
+      expected.add(new ArrayList<>(Arrays.asList(0, 0)));
+      expected.add(new ArrayList<>(Arrays.asList(0, 1)));
+      expected.add(new ArrayList<>(Arrays.asList(0, 2)));
+      expected.add(new ArrayList<>(Arrays.asList(1, 0)));
+      expected.add(new ArrayList<>(Arrays.asList(1, 1)));
+      expected.add(new ArrayList<>(Arrays.asList(1, 2)));
+      expected.add(new ArrayList<>(Arrays.asList(2, 0)));
+      expected.add(new ArrayList<>(Arrays.asList(2, 1)));
+      expected.add(new ArrayList<>(Arrays.asList(2, 2)));
+
+      assertEquals(expected, mockModel.cordLog);
+    }
+
+    @Test
+    public void testLyingAboutValueReturnsExpectedCoordinates() {
+      ConfigGame simpleGameConfig = new ConfigGame("simpleBoard.config", "simpleCard.database");
+      ICard[][] boardWithCards = new CardImpl[3][3];
+      boardWithCards[0][0] = simpleGameConfig.getDeck().get(0);
+      MockModelLiesAboutCalcCardsFlipValue mockModel = new MockModelLiesAboutCalcCardsFlipValue(boardWithCards);
+
+      assertEquals(0, strategy1.chooseMove(mockModel, redPlayer).row);
+      assertEquals(1, strategy1.chooseMove(mockModel, redPlayer).column);
+    }
   }

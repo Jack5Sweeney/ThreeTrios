@@ -36,21 +36,23 @@ public class CornerStrategy implements IStrategy {
       int cornerCol = corners[i][1];
       Direction[] directions = exposedDirections[i];
 
-      // Skip this corner if it's not open
-      if (!isPositionOpen(model, cornerRow, cornerCol)) continue;
+      try {
+        model.getCardAt(cornerRow, cornerCol);
+      } catch (IllegalArgumentException e) {
 
-      for (int cardIndex = 0; cardIndex < player.getHand().size(); cardIndex++) {
-        ICard card = player.getHand().get(cardIndex);
+        for (int cardIndex = 0; cardIndex < player.getHand().size(); cardIndex++) {
+          ICard card = player.getHand().get(cardIndex);
 
-        // Calculate the flip risk based on the highest value in the exposed directions
-        int flipRisk = calculateHighestExposedValue(card, directions);
+          // Calculate the flip risk based on the highest value in the exposed directions
+          int flipRisk = calculateHighestExposedValue(card, directions);
 
-        // Update the best placement if this flip risk is lower or if it matches the
-        // current best flip risk but is closer to the upper-leftmost position
-        if (flipRisk < minFlipRisk ||
-                (flipRisk == minFlipRisk && (bestPlacement == null || isUpperLeft(cornerRow, cornerCol, bestPlacement)))) {
-          minFlipRisk = flipRisk;
-          bestPlacement = new Placement(cornerRow, cornerCol); // Store card with placement
+          // Update the best placement if this flip risk is lower or if it matches the
+          // current best flip risk but is closer to the upper-leftmost position
+          if (flipRisk < minFlipRisk ||
+              (flipRisk == minFlipRisk && (bestPlacement == null || isUpperLeft(cornerRow, cornerCol, bestPlacement)))) {
+            minFlipRisk = flipRisk;
+            bestPlacement = new Placement(cornerRow, cornerCol); // Store card with placement
+          }
         }
       }
     }
@@ -59,14 +61,17 @@ public class CornerStrategy implements IStrategy {
     if (bestPlacement == null) {
       for (int row = 0; row < boardHeight; row++) {
         for (int col = 0; col < boardWidth; col++) {
-          if (isPositionOpen(model, row, col)) {
+          try {
+            model.getCardAt(row, col);
+          } catch (IllegalArgumentException e) {
             if (bestPlacement == null || isUpperLeft(row, col, bestPlacement)) {
               bestPlacement = new Placement(row, col); // Fallback to first card in hand
             }
           }
         }
+        }
       }
-    }
+
 
     return bestPlacement;
   }
@@ -89,13 +94,5 @@ public class CornerStrategy implements IStrategy {
 
   private boolean isUpperLeft(int row, int col, Placement bestPlacement) {
     return row < bestPlacement.row || (row == bestPlacement.row && col < bestPlacement.column);
-  }
-
-  /**
-   * Checks if a position is open by verifying if the position on the board is null (or empty).
-   */
-
-  private boolean isPositionOpen(IModel model, int row, int col) {
-    return model.getBoard()[row][col] == null; // Adjust if open spots use a different representation
   }
 }
