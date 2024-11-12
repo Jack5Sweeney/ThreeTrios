@@ -60,12 +60,12 @@ import static org.junit.Assert.assertTrue;
     public void testFlipTheMostStrategy0() {
       simpleModel.startGame();
 
-      simpleModel.placeCard(2, 2, 0, simpleModel.getRedPlayer());
-      simpleModel.placeCard(0, 0, 3, simpleModel.getBluePlayer());
-      simpleModel.placeCard(1, 2, 0, simpleModel.getRedPlayer());
-      simpleModel.placeCard(2, 0, 0, simpleModel.getBluePlayer());
-      simpleModel.placeCard(0,2,0, simpleModel.getRedPlayer());
-      simpleModel.placeCard(0, 1, 1, simpleModel.getBluePlayer());
+      simpleModel.placeCard(2, 2, 0, redPlayer);
+      simpleModel.placeCard(0, 0, 3, bluePlayer);
+      simpleModel.placeCard(1, 2, 0, redPlayer);
+      simpleModel.placeCard(2, 0, 0, bluePlayer);
+      simpleModel.placeCard(0,2,0, redPlayer);
+      simpleModel.placeCard(0, 1, 1, bluePlayer);
 
       Placement bestMove = strategy1.chooseMove(simpleModel, redPlayer);
 
@@ -84,7 +84,7 @@ import static org.junit.Assert.assertTrue;
     public void testFlipTheMostStrategy1() {
       stratModel.startGame();
 
-      stratModel.placeCard(2, 2, 0, stratModel.getRedPlayer());
+      stratModel.placeCard(2, 2, 0, redPlayer);
 
       Placement bestMove = strategy1.chooseMove(stratModel, bluePlayer);
 
@@ -98,8 +98,8 @@ import static org.junit.Assert.assertTrue;
 
       // placing the 1 card that can flip the red into a bad location
 
-      stratModel.placeCard(1, 0, 2, stratModel.getBluePlayer());
-      stratModel.placeCard(0, 2, 4, stratModel.getRedPlayer());
+      stratModel.placeCard(1, 0, 2, bluePlayer);
+      stratModel.placeCard(0, 2, 3, redPlayer);
 
       assertEquals("ShadowSerpent", stratModel.getCardAt(0, 2).getName());
 
@@ -108,16 +108,15 @@ import static org.junit.Assert.assertTrue;
       // now theres no good moves for a blue to flip the red because there is no strong enough
       // blue cards and it should place at 0 0, no card is strong enough to flip that red card
 
-      assertEquals(1, bestMove2.row);
-      assertEquals(2, bestMove2.column);
-      assertEquals("ShadowSerpent", stratModel.getRedPlayer().getHand().get(4).toString());
+      assertEquals(0, bestMove2.row);
+      assertEquals(0, bestMove2.column);
     }
 
     @Test
     public void testFlipTheMostStrategyCannotFlipValidCardsAlreadyPlaced() {
       simpleModel.startGame();
 
-      simpleModel.placeCard(2, 2, 0, simpleModel.getRedPlayer());
+      simpleModel.placeCard(2, 2, 0, redPlayer);
 
 
       Placement bestMove = strategy1.chooseMove(simpleModel, bluePlayer);
@@ -134,8 +133,8 @@ import static org.junit.Assert.assertTrue;
     public void testFlipTheMostStrategyWithNoBestMoveGoesUpperLeft() {
       simpleModel.startGame();
 
-      simpleModel.placeCard(2, 2, 0, simpleModel.getRedPlayer());
-      simpleModel.placeCard(0, 2, 2, simpleModel.getBluePlayer());
+      simpleModel.placeCard(2, 2, 0, redPlayer);
+      simpleModel.placeCard(0, 2, 2, bluePlayer);
 
       Placement bestMove = strategy1.chooseMove(simpleModel, redPlayer);
 
@@ -145,14 +144,14 @@ import static org.junit.Assert.assertTrue;
       assertEquals(expectedRow, bestMove.row);
       assertEquals(expectedColumn, bestMove.column);
 
-      simpleModel.placeCard(0, 1, 3, simpleModel.getRedPlayer());
+      simpleModel.placeCard(0, 1, 3, redPlayer);
 
       Placement bestMove2 = strategy1.chooseMove(simpleModel, bluePlayer);
 
       assertEquals(1, bestMove2.row);
       assertEquals(1, bestMove2.column);
 
-      simpleModel.placeCard(1, 1, 1, simpleModel.getBluePlayer());
+      simpleModel.placeCard(1, 1, 1, bluePlayer);
 
       assertEquals("HeroKnight", simpleModel.getCardAt(1, 1).getName());
 
@@ -164,9 +163,9 @@ import static org.junit.Assert.assertTrue;
       simpleModel.startGame();
 
       // Simulate some moves to set up the board state
-      simpleModel.placeCard(2, 2, 0, simpleModel.getRedPlayer());
-      simpleModel.placeCard(0, 0, 3, simpleModel.getBluePlayer());
-      simpleModel.placeCard(1, 2, 0, simpleModel.getRedPlayer());
+      simpleModel.placeCard(2, 2, 0, redPlayer);
+      simpleModel.placeCard(0, 0, 3, bluePlayer);
+      simpleModel.placeCard(1, 2, 0, redPlayer);
 
       // Use CornerStrategy to determine the best move for redPlayer
       Placement bestMove = strategy2.chooseMove(simpleModel, bluePlayer);
@@ -174,7 +173,7 @@ import static org.junit.Assert.assertTrue;
       // Assertions to verify the best corner placement
       assertEquals(0, bestMove.row);
       assertEquals(2, bestMove.column);
-      simpleModel.placeCard(0, 2, 0, simpleModel.getBluePlayer());
+      simpleModel.placeCard(0, 2, 0, bluePlayer);
       assertEquals("AngryDragon", simpleModel.getCardAt(0, 2).getName());
     }
 
@@ -183,10 +182,10 @@ import static org.junit.Assert.assertTrue;
       simpleModel.startGame();
 
       // Simulate some moves to set up the board state
-      simpleModel.placeCard(2, 2, 0, simpleModel.getRedPlayer());
-      simpleModel.placeCard(0, 0, 3, simpleModel.getBluePlayer());
-      simpleModel.placeCard(2, 0, 0, simpleModel.getRedPlayer());
-      simpleModel.placeCard(0, 2, 0, simpleModel.getBluePlayer());
+      simpleModel.placeCard(2, 2, 0, redPlayer);
+      simpleModel.placeCard(0, 0, 3, bluePlayer);
+      simpleModel.placeCard(2, 0, 0, redPlayer);
+      simpleModel.placeCard(0, 2, 0, bluePlayer);
 
       // Use CornerStrategy to determine the best move for redPlayer
       Placement bestMove = strategy2.chooseMove(simpleModel, redPlayer);
@@ -201,7 +200,7 @@ import static org.junit.Assert.assertTrue;
       simpleModel.startGame();
 
       // Simulate some moves to set up the board state
-      simpleModel.placeCard(2, 2, 0, simpleModel.getRedPlayer());
+      simpleModel.placeCard(2, 2, 0, redPlayer);
 
       // Use CornerStrategy to determine the best move for redPlayer
       Placement bestMove = strategy2.chooseMove(simpleModel, bluePlayer);
