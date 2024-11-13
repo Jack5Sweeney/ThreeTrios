@@ -48,7 +48,7 @@ public class MockModelLiesAboutCalcCardsFlipValue implements IModel {
 
   @Override
   public ICard[][] getBoard() {
-    return new ICard[0][];
+    return this.boardWithCards;
   }
 
   @Override

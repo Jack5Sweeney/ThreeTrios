@@ -243,6 +243,8 @@ import static org.junit.Assert.assertTrue;
       expected.add(new ArrayList<>(Arrays.asList(2, 2)));
 
       assertEquals(expected, mockModel.cordLog);
+
+      MockModelLiesAboutCalcCardsFlipValue mockModel2 = new MockModelLiesAboutCalcCardsFlipValue(boardWithCards);
     }
 
     @Test
