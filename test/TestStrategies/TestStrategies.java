@@ -26,15 +26,19 @@ import static org.junit.Assert.assertTrue;
 
     private IModel simpleModel;
     private IModel stratModel;
+    private IModel modelWithHole;
+
     private IModel model;
     private IModel modelForRulesTesting;
     private IModel easyWinModel;
+
 
     private PlayerImpl redPlayer;
     private PlayerImpl bluePlayer;
     private ArrayList<IPlayer> players;
     private FlipTheMostStrategy strategy1;
     private CornerStrategy strategy2;
+    private CellType[][] board1;
 
     @Before
     public void setup() {
@@ -50,6 +54,14 @@ import static org.junit.Assert.assertTrue;
 
       ConfigGame stratGameConfig = new ConfigGame("simpleBoard.config", "strategy.database");
       stratModel = new ModelImpl(stratGameConfig.getBoard(), stratGameConfig.getDeck(), players);
+
+      ConfigGame simpleGameWithHole = new ConfigGame("strategyTestingWithHole.config", "simpleCard.database");
+      modelWithHole = new ModelImpl(simpleGameWithHole.getBoard(), simpleGameWithHole.getDeck(), players);
+
+
+      // boardAvailibity for testing
+
+      this.board1 = simpleGameConfig.getBoard();
 
       // Initialize the FlipTheMostStrategy
       strategy1 = new FlipTheMostStrategy();
@@ -227,7 +239,7 @@ import static org.junit.Assert.assertTrue;
       ConfigGame simpleGameConfig = new ConfigGame("simpleBoard.config", "simpleCard.database");
       ICard[][] boardWithCards = new ICard[3][3];
       boardWithCards[2][2] = simpleGameConfig.getDeck().get(0);
-      MockModelRecordCoordinatesChecked mockModel = new MockModelRecordCoordinatesChecked(boardWithCards);
+      MockModelRecordCoordinatesChecked mockModel = new MockModelRecordCoordinatesChecked(boardWithCards, this.board1);
 
       strategy1.chooseMove(mockModel, bluePlayer);
 
@@ -244,7 +256,7 @@ import static org.junit.Assert.assertTrue;
 
       assertEquals(expected, mockModel.cordLog);
 
-      MockModelLiesAboutCalcCardsFlipValue mockModel2 = new MockModelLiesAboutCalcCardsFlipValue(boardWithCards);
+      MockModelLiesAboutCalcCardsFlipValue mockModel2 = new MockModelLiesAboutCalcCardsFlipValue(boardWithCards, board1);
     }
 
     @Test
@@ -252,7 +264,7 @@ import static org.junit.Assert.assertTrue;
       ConfigGame simpleGameConfig = new ConfigGame("simpleBoard.config", "simpleCard.database");
       ICard[][] boardWithCards = new ICard[3][3];
       boardWithCards[0][0] = simpleGameConfig.getDeck().get(0);
-      MockModelRecordCoordinatesChecked mockModel = new MockModelRecordCoordinatesChecked(boardWithCards);
+      MockModelRecordCoordinatesChecked mockModel = new MockModelRecordCoordinatesChecked(boardWithCards, board1);
 
       strategy2.chooseMove(mockModel, bluePlayer);
 
@@ -280,9 +292,33 @@ import static org.junit.Assert.assertTrue;
       ConfigGame simpleGameConfig = new ConfigGame("simpleBoard.config", "simpleCard.database");
       ICard[][] boardWithCards = new CardImpl[3][3];
       boardWithCards[0][0] = simpleGameConfig.getDeck().get(0);
-      MockModelLiesAboutCalcCardsFlipValue mockModel = new MockModelLiesAboutCalcCardsFlipValue(boardWithCards);
+      MockModelLiesAboutCalcCardsFlipValue mockModel = new MockModelLiesAboutCalcCardsFlipValue(boardWithCards, board1);
 
       assertEquals(0, strategy1.chooseMove(mockModel, redPlayer).row);
       assertEquals(1, strategy1.chooseMove(mockModel, redPlayer).column);
     }
+
+    @Test
+    public void testCornerStrategyWhenThereIsAHole() {
+      modelWithHole.startGame();
+      Placement bestMove = strategy2.chooseMove(modelWithHole, redPlayer);
+
+      assertEquals(0, bestMove.row);
+      assertEquals(2, bestMove.column);
+    }
+
+    @Test
+    public void testCornerStrategyWhenThereIsAHoleAndNoOpenCorners() {
+      modelWithHole.startGame();
+
+      modelWithHole.placeCard(0, 2, 0, redPlayer);
+      modelWithHole.placeCard(2, 2, 0, bluePlayer);
+      modelWithHole.placeCard(2, 0, 0, redPlayer);
+      Placement bestMove = strategy2.chooseMove(modelWithHole, bluePlayer);
+
+
+      assertEquals(0, bestMove.row);
+      assertEquals(1, bestMove.column);
+    }
+
   }

@@ -15,27 +15,35 @@ public class FlipTheMostStrategy implements IStrategy {
     int boardHeight = model.getBoard().length;
     int boardWidth = model.getBoard()[0].length;
 
-    // Use getBoardAvailability to retrieve the board layout
     CellType[][] boardAvailability = model.getBoardAvailability();
 
     for (int row = 0; row < boardHeight; row++) {
       for (int col = 0; col < boardWidth; col++) {
-        // Check if the cell type is EMPTY before considering it
-        if (boardAvailability[row][col] != CellType.EMPTY) {
-          continue; // Skip cells that are HOLE or already occupied by a card
+        // Check if the position is open before considering it
+
+        try {
+          model.getCardAt(row,col);
         }
+        catch (IllegalArgumentException e) {
 
-        for (int cardIndex = 0; cardIndex < player.getHand().size(); cardIndex++) {
-          ICard card = player.getHand().get(cardIndex);
+          if (boardAvailability[row][col] != CellType.EMPTY) {
+            continue;
+          }
 
-          // Calculate flips for placing this card at (row, col)
-          int flips = model.calculateFlips(row, col, card);
 
-          // Update best placement based on flip count and tiebreaker rules
-          if (flips > maxFlips ||
-                  (flips == maxFlips && (bestPlacement == null || isUpperLeft(row, col, bestPlacement)))) {
-            maxFlips = flips;
-            bestPlacement = new Placement(row, col);
+          for (int cardIndex = 0; cardIndex < player.getHand().size(); cardIndex++) {
+            ICard card = player.getHand().get(cardIndex);
+
+            // Calculate flips for placing this card at (row, col)
+            int flips = model.calculateFlips(row, col, card);
+
+            // Update best placement based on flip count and tiebreaker rules
+            if (flips > maxFlips ||
+                (flips == maxFlips && (bestPlacement == null || isUpperLeft(row, col, bestPlacement)))) {
+              maxFlips = flips;
+              bestPlacement = new Placement(row, col);
+            }
+
           }
         }
       }
@@ -45,13 +53,14 @@ public class FlipTheMostStrategy implements IStrategy {
     if (maxFlips == 0) {
       for (int row = 0; row < boardHeight; row++) {
         for (int col = 0; col < boardWidth; col++) {
-          if (boardAvailability[row][col] == CellType.EMPTY && model.getBoard()[row][col] == null) {
+          if (model.getBoard()[row][col] == null) { // Only select if the spot is open
             bestPlacement = new Placement(row, col);
-            return bestPlacement; // Select the first open EMPTY cell
+            return bestPlacement;
           }
         }
       }
     }
+
     return bestPlacement;
   }
 

@@ -6,9 +6,11 @@ import java.util.ArrayList;
 
 public class MockModelLiesAboutCalcCardsFlipValue implements IModel {
   private ICard[][] boardWithCards;
+  private CellType[][] boardAvailability;
 
-  public MockModelLiesAboutCalcCardsFlipValue(ICard[][] boardWithCards) {
+  public MockModelLiesAboutCalcCardsFlipValue(ICard[][] boardWithCards, CellType[][] boardAvailability) {
     this.boardWithCards = boardWithCards;
+    this.boardAvailability = boardAvailability;
   }
 
   @Override
@@ -53,7 +55,7 @@ public class MockModelLiesAboutCalcCardsFlipValue implements IModel {
 
   @Override
   public CellType[][] getBoardAvailability() {
-    return new CellType[0][];
+    return this.boardAvailability;
   }
 
   @Override

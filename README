@@ -134,3 +134,14 @@ To improve flexibility and adherence to interface-based design principles,
 we removed concrete class references within the model implementation wherever possible.
 Instead of directly using specific class types like PlayerImpl or CardImpl,
 we rely on interfaces (IPlayer, ICard)
+
+7. After implementing calculateFlips correctly, this allowed for the strategies to be made.
+The first strategy we made was the FlipTheMostStrategy, which placed cards where they would flip
+the most cards, an aggressive strategy to flip the most possible, where we used calculateFlips to
+find the max amount of cards we could flip with the projected placement of a card in the spot of
+the board.
+The second strategy we made was the CornerStrategy, this picked the corners first, and once the
+corners are placed it picks the uppermost leftmost placement. This strategy is defensive because it
+picks the cards that are harder to flip and puts them in the corner.
+
+8. We made mock classes for testing purposes.

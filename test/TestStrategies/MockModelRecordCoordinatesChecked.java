@@ -10,10 +10,12 @@ import java.util.List;
 public class MockModelRecordCoordinatesChecked implements IModel {
    public ArrayList<ArrayList<Integer>> cordLog;
    private ICard[][] boardWithCards;
+   private CellType[][] boardAvailability;
 
-   public MockModelRecordCoordinatesChecked(ICard[][] boardWithCards) {
+   public MockModelRecordCoordinatesChecked(ICard[][] boardWithCards, CellType[][] boardAvailability) {
     this.cordLog = new ArrayList<ArrayList<Integer>>();
     this.boardWithCards = boardWithCards;
+    this.boardAvailability = boardAvailability;
 
   }
   @Override
@@ -58,7 +60,7 @@ public class MockModelRecordCoordinatesChecked implements IModel {
 
   @Override
   public CellType[][] getBoardAvailability() {
-    return new CellType[0][];
+    return this.boardAvailability;
   }
 
   @Override
