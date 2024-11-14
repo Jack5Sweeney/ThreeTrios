@@ -15,9 +15,6 @@ import controller.Features;
  */
 public class ViewBoardPanelGUIImpl extends JPanel implements IViewBoardPanelGUI {
   private Features features;
-  private final int numRows;
-  private final int numCols;
-  private final CellPanel[][] cellPanels;
 
   /**
    * Constructs a {@code ViewBoardPanelGUIImpl} with specified rows, columns, and board
@@ -28,17 +25,12 @@ public class ViewBoardPanelGUIImpl extends JPanel implements IViewBoardPanelGUI 
    * @param boardAvailability a 2D array representing the availability status of each cell
    */
   public ViewBoardPanelGUIImpl(int numRows, int numCols, CellType[][] boardAvailability) {
-    this.numRows = numRows;
-    this.numCols = numCols;
-    this.cellPanels = new CellPanel[numRows][numCols];
-
     setLayout(new GridLayout(numRows, numCols)); // Set grid layout for the board
 
     // Initialize each cell panel and add it to the board
     for (int row = 0; row < numRows; row++) {
       for (int col = 0; col < numCols; col++) {
         CellPanel cellPanel = new CellPanel(row, col, boardAvailability[row][col]);
-        cellPanels[row][col] = cellPanel;
         this.add(cellPanel);
       }
     }
@@ -52,20 +44,6 @@ public class ViewBoardPanelGUIImpl extends JPanel implements IViewBoardPanelGUI 
   @Override
   public void addClickListener(Features features) {
     this.features = features;
-  }
-
-  /**
-   * Updates the visual state of each cell based on the board data. Each cell is updated
-   * individually.
-   *
-   * @param updatedBoard a 2D array representing the updated board state
-   */
-  public void updateBoard(CellType[][] updatedBoard) {
-    for (int row = 0; row < numRows; row++) {
-      for (int col = 0; col < numCols; col++) {
-        cellPanels[row][col].updateCell(updatedBoard[row][col]);
-      }
-    }
   }
 
   /**

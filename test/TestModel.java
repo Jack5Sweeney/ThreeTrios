@@ -1,10 +1,17 @@
-import gameConfiguration.ConfigGame;
-import model.*;
+import gameconfig.ConfigGame;
+import model.CardImpl;
+import model.CellType;
+import model.DirectionValue;
+import model.ICard;
+import model.IModel;
+import model.IPlayer;
+import model.ModelImpl;
+import model.PlayerColor;
+import model.PlayerImpl;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.ObjectInputFilter;
 import java.util.ArrayList;
 import java.util.List;
 

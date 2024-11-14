@@ -1,15 +1,13 @@
-package ControllerTesting;
+package controllertesting;
 
-import controller.*;
-import gameConfiguration.ConfigGame;
-import model.*;
+import controller.ControllerGUIImpl;
+import model.PlayerColor;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * Test class for the ControllerGUIImpl class.
@@ -23,11 +21,6 @@ public class TestGUIController {
 
   @Before
   public void setUp() {
-    PlayerImpl redPlayer = new PlayerImpl(PlayerColor.RED, new ArrayList<>());
-    PlayerImpl bluePlayer = new PlayerImpl(PlayerColor.BLUE, new ArrayList<>());
-    ArrayList<IPlayer> players = new ArrayList<>(List.of(redPlayer, bluePlayer));
-
-    ConfigGame gameConfigurator = new ConfigGame("board.config", "cards.database");
 
     // Initialize mock model and view for testing
     readOnlyMockModel = new MockModel();

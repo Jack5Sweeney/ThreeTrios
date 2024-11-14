@@ -1,4 +1,4 @@
-package gameConfiguration;
+package gameconfig;
 
 import model.CellType;
 import model.ICard;

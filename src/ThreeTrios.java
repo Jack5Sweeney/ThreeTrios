@@ -1,5 +1,5 @@
 import controller.ControllerGUIImpl;
-import gameConfiguration.ConfigGame;
+import gameconfig.ConfigGame;
 import model.*;
 import view.*;
 

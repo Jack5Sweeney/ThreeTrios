@@ -1,5 +1,5 @@
 
-import gameConfiguration.ConfigGame;
+import gameconfig.ConfigGame;
 import model.IModel;
 import model.IPlayer;
 import model.PlayerColor;

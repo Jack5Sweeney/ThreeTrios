@@ -2,6 +2,7 @@ package model;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Represents a card associated with a player that holds directional values for four
@@ -10,7 +11,7 @@ import java.util.Map;
 public class CardImpl implements ICard {
 
   private final Map<Direction, DirectionValue> directionsAndValues;
-  private PlayerColor playerColor;
+  private final PlayerColor playerColor;
   private final String name;
 
   /**
@@ -41,27 +42,22 @@ public class CardImpl implements ICard {
   }
 
   /**
-   * Gets a copy of the color of the player associated with this card.
+   * Gets the color of the player associated with this card.
    *
    * @return the {@link PlayerColor} of the player who owns this card
    */
   @Override
   public PlayerColor getPlayerColor() {
-    if (playerColor == PlayerColor.RED) {
-      return PlayerColor.RED;
-    }
-    else {
-      return PlayerColor.BLUE;
-    }
+    return playerColor;
   }
 
   /**
-   * Retrieves a copy of the name associated with this card.
+   * Retrieves the name associated with this card.
    *
-   * @return a new {@code String} representing the name of this card
+   * @return the name of this card
    */
   public String getName() {
-    return new String(this.name);
+    return name;
   }
 
   /**
@@ -82,13 +78,12 @@ public class CardImpl implements ICard {
    */
   @Override
   public String toString() {
-    return this.name + " " +
-        this.directionsAndValues.get(Direction.NORTH).toString() + " " +
-        this.directionsAndValues.get(Direction.EAST).toString() + " " +
-        this.directionsAndValues.get(Direction.SOUTH).toString() + " " +
-        this.directionsAndValues.get(Direction.WEST).toString();
+    return name + " " +
+        directionsAndValues.get(Direction.NORTH) + " " +
+        directionsAndValues.get(Direction.EAST) + " " +
+        directionsAndValues.get(Direction.SOUTH) + " " +
+        directionsAndValues.get(Direction.WEST);
   }
-
 
   /**
    * Checks if this card is equal to another object. Two cards are considered equal if they
@@ -100,13 +95,20 @@ public class CardImpl implements ICard {
    */
   @Override
   public boolean equals(Object o) {
-    if (!(o instanceof ICard)) {
-      return false;
-    } else {
-      ICard otherCard = (ICard) o;
-      return this.directionsAndValues.equals(otherCard.getDirectionsAndValues())
-          && this.name.equals(otherCard.getName());
-    }
+    if (this == o) return true;
+    if (!(o instanceof ICard)) return false;
+    ICard otherCard = (ICard) o;
+    return directionsAndValues.equals(otherCard.getDirectionsAndValues())
+        && name.equals(otherCard.getName());
   }
 
+  /**
+   * Computes a hash code for this card, consistent with the {@code equals} method.
+   *
+   * @return a hash code value for this card
+   */
+  @Override
+  public int hashCode() {
+    return Objects.hash(directionsAndValues, name);
+  }
 }

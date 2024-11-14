@@ -1,4 +1,4 @@
-package ControllerTesting;
+package controllertesting;
 
 import model.ICard;
 import model.IPlayer;

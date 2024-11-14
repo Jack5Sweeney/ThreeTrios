@@ -87,7 +87,8 @@ public class ModelImpl implements IModel {
       playableSpacesCount += frequency(asList(row), CellType.EMPTY);
     }
     if (this.deck.size() < playableSpacesCount + 1) {
-      throw new IllegalArgumentException("The deck should contain at least (playable spaces + 1) cards.");
+      throw new IllegalArgumentException("The deck should contain at least " +
+          "(playable spaces + 1) cards.");
     }
   }
 

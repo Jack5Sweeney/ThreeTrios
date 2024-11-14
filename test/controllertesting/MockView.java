@@ -1,4 +1,4 @@
-package ControllerTesting;
+package controllertesting;
 
 import controller.Features;
 import model.ICard;
