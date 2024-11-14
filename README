@@ -135,13 +135,68 @@ we removed concrete class references within the model implementation wherever po
 Instead of directly using specific class types like PlayerImpl or CardImpl,
 we rely on interfaces (IPlayer, ICard)
 
-7. After implementing calculateFlips correctly, this allowed for the strategies to be made.
-The first strategy we made was the FlipTheMostStrategy, which placed cards where they would flip
-the most cards, an aggressive strategy to flip the most possible, where we used calculateFlips to
-find the max amount of cards we could flip with the projected placement of a card in the spot of
-the board.
-The second strategy we made was the CornerStrategy, this picked the corners first, and once the
-corners are placed it picks the uppermost leftmost placement. This strategy is defensive because it
-picks the cards that are harder to flip and puts them in the corner.
+7. After developing the calculateFlips method to accurately assess potential card flips based on
+placement, we were able to implement two distinct strategies tailored to different playstyles:
+FlipTheMostStrategy and CornerStrategy. Below is an overview of each strategy, our design approach,
+and how they behave on various board setups, such as a 3x1 board.
 
-8. We made mock classes for testing purposes.
+Handling the 3x1 Board Setup
+One interesting scenario was the narrow 3x1 board, where the concept of "corners" is limited
+and traditional strategies may need adjustment. On a 3x1 board, the lack of corners and restricted
+placements required a fallback approach. For such configurations, we determined that if the board
+height or width is 1, our CornerStrategy would ignore corner logic and instead select placements
+starting from the uppermost (or leftmost) position, following the upper-leftmost rule as a fallback.
+
+2. FlipTheMostStrategy
+The FlipTheMostStrategy prioritizes maximizing card flips, making it an aggressive,
+offensive approach. Here’s how we structured and implemented it:
+
+Objective: Place a card where it will flip the maximum number of opponent’s cards.
+
+Approach:
+Use calculateFlips to evaluate each empty cell on the board.
+For each placement, calculate the number of opponent cards that would flip if a specific card
+from the player's hand is placed in that spot.
+Select the placement with the highest flip count, which maximizes the impact of each move.
+If two placements yield the same number of flips, the strategy defaults to the uppermost-leftmost
+position, as a deterministic rule for breaking ties.
+This strategy is well-suited for boards with many open spots, as it maximizes control over the
+board by flipping the most cards with each turn.
+
+3. CornerStrategy
+The CornerStrategy provides a more defensive approach by focusing on corner placements,
+aiming to minimize card vulnerability. Here’s the breakdown of how it operates:
+
+Objective: Place cards in corners first, as corner spots are generally harder for
+opponents to flip due to limited adjacent directions.
+
+Approach:
+Identify the four corners of the board and examine if they are empty and available for placement.
+For each available corner, calculate the vulnerability of placing a card there based on its
+directional values and neighboring cell types. calculateVulnerability is used to assess exposure,
+prioritizing cards with higher directional values for the exposed sides.
+Select the card that minimizes vulnerability based on the chosen corner’s specific direction
+exposure (e.g., a corner with north and east exposure would prefer cards with higher values
+in those directions).If no corners are available, the strategy defaults to selecting the
+uppermost-leftmost open position as a fallback. 3x1 Board Specific Handling: On a 3x1 board,
+where corner logic is non-applicable, the CornerStrategy bypasses corner placement and instead
+seeks the uppermost-leftmost open cell with minimal vulnerability. Each strategy was designed to
+balance the game with varied approaches, allowing for both offensive and defensive playstyles.
+The implementation of calculateFlips and calculateVulnerability was critical, enabling each
+strategy to make informed decisions based on the board state and opponent positioning. These
+methods not only determine optimal placements but also enable nuanced, adaptable playstyles
+that adjust to different board configurations.
+
+8. We made mock classes for testing purposes. Here’s how we used mocks to test specific aspects
+of each strategy: Verifying Full Coverage of Coordinates: For strategies like CornerStrategy and
+FlipTheMostStrategy, it was essential to confirm that each strategy evaluated the relevant board
+positions. For instance, we wanted to check if CornerStrategy indeed checked all four corners and
+if FlipTheMostStrategy evaluated all possible locations. By mocking the model to record every
+coordinate accessed during strategy execution, we could verify through this transcript that each
+strategy inspected the correct positions. Testing Selection of the Optimal Move: To ensure that
+FlipTheMostStrategy picked the most valuable location, we used the mock model to simulate specific
+game states, such as “lying” about the legality or value of certain moves. For example, the mock
+could make only one move appear valid or assign an artificially high flip count to a specific
+location, and we could then check if the strategy selected that pre-determined move. This allowed
+us to test the strategy’s decision-making under controlled conditions, verifying that it followed
+the intended logic.
