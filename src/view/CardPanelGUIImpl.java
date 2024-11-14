@@ -8,8 +8,6 @@ import model.PlayerColor;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -22,7 +20,7 @@ import java.awt.event.MouseEvent;
  */
 public class CardPanelGUIImpl extends JPanel {
   private final ICard card;
-  private  int index; // For hand placement, if needed
+  private int index;
   private Features features;
 
   /**

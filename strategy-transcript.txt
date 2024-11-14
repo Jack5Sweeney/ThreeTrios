@@ -1,0 +1,4 @@
+FlipTheMostStrategy strategy transcript in 3x3 grid with no holes and no cards and red player is placing:
+[[0, 0], [0, 2], [2, 0], [2, 2], [0, 0], [0, 1], [0, 2], [1, 0], [1, 1], [1, 2], [2, 0], [2, 1], [2, 2]]
+
+We chose the corner strategy as the "easiest" strategy to record in this transcript

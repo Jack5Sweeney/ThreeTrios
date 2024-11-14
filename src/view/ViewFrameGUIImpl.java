@@ -24,7 +24,6 @@ public class ViewFrameGUIImpl extends JFrame implements IViewFrameGUI {
   private final ViewHandPanelGUIImpl redHandPanel;
   private final ViewHandPanelGUIImpl blueHandPanel;
   private final ViewBoardPanelGUIImpl boardPanel;
-  private final ReadOnlyIModel readOnlyModel;
 
   private JPanel highlightedCardPanelGUIImpl;
 
@@ -35,7 +34,6 @@ public class ViewFrameGUIImpl extends JFrame implements IViewFrameGUI {
    * @param readOnlyModel the game readOnlyModel providing data for the board and players' hands
    */
   public ViewFrameGUIImpl(ReadOnlyIModel readOnlyModel) {
-    this.readOnlyModel = readOnlyModel;
 
     this.redHandPanel = new ViewHandPanelGUIImpl(readOnlyModel.getRedPlayer().getHand());
     this.blueHandPanel = new ViewHandPanelGUIImpl(readOnlyModel.getBluePlayer().getHand());

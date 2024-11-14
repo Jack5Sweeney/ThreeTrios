@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Run a Three Trios game interactively
  */
-public class Main {
+public class ThreeTrios {
   /**
    * Run a Three Trios game interactively
    */
