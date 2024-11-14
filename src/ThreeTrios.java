@@ -1,17 +1,22 @@
 import controller.ControllerGUIImpl;
 import gameconfig.ConfigGame;
-import model.*;
-import view.*;
+import model.IPlayer;
+import model.ModelImpl;
+import model.PlayerColor;
+import model.PlayerImpl;
+import model.ReadOnlyIModel;
+import view.IViewFrameGUI;
+import view.ViewFrameGUIImpl;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Run a Three Trios game interactively
+ * Run a Three Trios game interactively.
  */
 public class ThreeTrios {
   /**
-   * Run a Three Trios game interactively
+   * Run a Three Trios game interactively.
    */
   public static void main(String[] args) {
 

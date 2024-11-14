@@ -169,7 +169,8 @@ public class MockModelLiesAboutCalcCardsFlipValue implements IModel {
 
   /**
    * Calculates the number of flips that would occur for placing a card in a given position.
-   * Returns 100 if the coordinates are (0,1) and 0 otherwise, allowing exaggerated test conditions.
+   * Returns 100 if the coordinates are (0,1) and 0 otherwise, allowing exaggerated test
+   * conditions.
    *
    * @param row  the row of the board cell
    * @param col  the column of the board cell
@@ -194,7 +195,8 @@ public class MockModelLiesAboutCalcCardsFlipValue implements IModel {
   }
 
   /**
-   * Returns the color of the player who is currently taking a turn. Always returns null in this mock.
+   * Returns the color of the player who is currently taking a turn. Always returns null in this
+   * mock.
    *
    * @return null, as no player color is managed in the mock
    */

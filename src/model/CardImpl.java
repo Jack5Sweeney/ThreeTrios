@@ -95,8 +95,12 @@ public class CardImpl implements ICard {
    */
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (!(o instanceof ICard)) return false;
+    if (this == o)  {
+      return true;
+    }
+    if (!(o instanceof ICard)) {
+      return false;
+    }
     ICard otherCard = (ICard) o;
     return directionsAndValues.equals(otherCard.getDirectionsAndValues())
         && name.equals(otherCard.getName());

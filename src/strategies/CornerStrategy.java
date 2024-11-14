@@ -111,11 +111,11 @@ public class CornerStrategy implements IStrategy {
    * Calculates the vulnerability score for placing a card in a specific corner by summing
    * adjusted values based on exposed directions. Lower scores indicate less vulnerability.
    *
-   * @param card             the card being evaluated for placement
+   * @param card              the card being evaluated for placement
    * @param exposedDirections the directions exposed by placing in a particular corner
-   * @param model            the game model for board information
-   * @param row              the row position of the potential placement
-   * @param col              the column position of the potential placement
+   * @param model             the game model for board information
+   * @param row               the row position of the potential placement
+   * @param col               the column position of the potential placement
    * @param boardAvailability the current state of board cell availability
    * @return the computed vulnerability score based on adjacent cells
    */
@@ -141,8 +141,8 @@ public class CornerStrategy implements IStrategy {
         case WEST:
           adjCol--;
           break;
-          default:
-            break;
+        default:
+          break;
       }
 
       // Only add to vulnerability if the adjacent cell is open and within bounds

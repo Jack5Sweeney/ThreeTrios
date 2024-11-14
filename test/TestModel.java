@@ -47,7 +47,8 @@ public class TestModel {
     simpleModel = new ModelImpl(simpleGameConfig.getBoard(), simpleGameConfig.getDeck(), players);
 
     ConfigGame easyWinGameConfig = new ConfigGame("1x1Board.config", "simpleCard.database");
-    easyWinModel = new ModelImpl(easyWinGameConfig.getBoard(), easyWinGameConfig.getDeck(), players);
+    easyWinModel = new ModelImpl(easyWinGameConfig.getBoard(), easyWinGameConfig.getDeck(),
+        players);
 
 
     PlayerImpl redPlayer1 = new PlayerImpl(PlayerColor.RED, new ArrayList<>());
@@ -274,7 +275,8 @@ public class TestModel {
     try {
       ConfigGame configGame = new ConfigGame("simpleBoard.config",
           "dupCard.database");
-      IModel dupCardModelConfig = new ModelImpl(configGame.getBoard(), configGame.getDeck(), players);
+      IModel dupCardModelConfig = new ModelImpl(configGame.getBoard(), configGame.getDeck(),
+          players);
       dupCardModelConfig.startGame();
       fail("There is a duplicate card in the card database");
     } catch (IllegalArgumentException e) {

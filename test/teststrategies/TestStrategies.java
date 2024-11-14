@@ -47,10 +47,12 @@ public class TestStrategies {
 
     ConfigGame simpleGameWithHole = new ConfigGame("strategyTestingWithHole.config",
         "simpleCard.database");
-    modelWithHole = new ModelImpl(simpleGameWithHole.getBoard(), simpleGameWithHole.getDeck(), players);
+    modelWithHole = new ModelImpl(simpleGameWithHole.getBoard(), simpleGameWithHole.getDeck(),
+        players);
 
     ConfigGame simpleGameWith3x1 = new ConfigGame("threeByOneBoard.config", "simpleCard.database");
-    modelWithThreeBy1 = new ModelImpl(simpleGameWith3x1.getBoard(), simpleGameWith3x1.getDeck(), players);
+    modelWithThreeBy1 = new ModelImpl(simpleGameWith3x1.getBoard(), simpleGameWith3x1.getDeck(),
+        players);
 
     this.board1 = simpleGameConfig.getBoard();
 
@@ -315,8 +317,8 @@ public class TestStrategies {
     ConfigGame simpleGameConfig = new ConfigGame("simpleBoard.config", "simpleCard.database");
     ICard[][] boardWithCards = new ICard[3][3];
     boardWithCards[2][2] = simpleGameConfig.getDeck().get(0);
-    MockModelRecordCoordinatesChecked mockModel = new MockModelRecordCoordinatesChecked
-        (boardWithCards, this.board1);
+    MockModelRecordCoordinatesChecked mockModel =
+        new MockModelRecordCoordinatesChecked(boardWithCards, this.board1);
 
     strategy1.chooseMove(mockModel, bluePlayer);
 

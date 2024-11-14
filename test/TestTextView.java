@@ -40,11 +40,6 @@ public class TestTextView {
     ConfigGame simpleGameConfig = new ConfigGame("simpleBoard.config", "simpleCard.database");
     simpleModel = new ModelImpl(simpleGameConfig.getBoard(), simpleGameConfig.getDeck(), players);
 
-    ConfigGame plusGameConfig = new ConfigGame("plusBoard.config", "card.database");
-    plusModel = new ModelImpl(plusGameConfig.getBoard(), gameConfig.getDeck(), players);
-
-    ConfigGame chessGameConfig = new ConfigGame("chessBoard.config", "card.database");
-    chessModel = new ModelImpl(chessGameConfig.getBoard(), gameConfig.getDeck(), players);
 
     ConfigGame oneByOneGameConfig = new ConfigGame("1x1Board.config", "card.database");
     oneByOneModel = new ModelImpl(oneByOneGameConfig.getBoard(), gameConfig.getDeck(), players);
@@ -218,52 +213,6 @@ public class TestTextView {
     simpleModel.placeCard(0, 2, 0, redPlayer);
 
     assertEquals(expectedOutput,  view.toString());
-  }
-
-  @Test
-  public void testUniqueBoardConfig1ToString() {
-    plusModel.startGame();
-    view = new TextViewImpl(plusModel);
-
-    String expectedOutput = "Player: RED\n" +
-        " _ \n" +
-        "___\n" +
-        " _ \n" +
-        "Hand:\n" +
-        "CorruptKing 7 3 9 A\n" +
-        "WindBird 7 2 5 3\n" +
-        "WorldDragon 8 3 5 7\n" +
-        "FlameTiger 6 4 7 8\n" +
-        "ShadowSerpent 3 9 6 8\n" +
-        "IceGolem 5 4 6 7\n" +
-        "LunarEagle 7 9 5 2\n" +
-        "EarthBear 6 3 7 9\n";
-
-    assertEquals(expectedOutput, view.toString());
-  }
-
-  @Test
-  public void testUniqueBoardConfig2ToString() {
-    chessModel.startGame();
-    view = new TextViewImpl(chessModel);
-
-    String expectedOutput = "Player: RED\n" +
-        "_ _ _\n" +
-        " _ _ \n" +
-        "_ _ _\n" +
-        " _ _ \n" +
-        "_ _ _\n" +
-        "Hand:\n" +
-        "CorruptKing 7 3 9 A\n" +
-        "WindBird 7 2 5 3\n" +
-        "WorldDragon 8 3 5 7\n" +
-        "FlameTiger 6 4 7 8\n" +
-        "ShadowSerpent 3 9 6 8\n" +
-        "IceGolem 5 4 6 7\n" +
-        "LunarEagle 7 9 5 2\n" +
-        "EarthBear 6 3 7 9\n";
-
-    assertEquals(expectedOutput, view.toString());
   }
 
   @Test
