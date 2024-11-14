@@ -246,6 +246,7 @@ import static org.junit.Assert.assertTrue;
       // Assertions to verify the best corner placement
       assertEquals(0, bestMove.row);
       assertEquals(1, bestMove.column);
+      assertEquals(0, bestMove.cardIndex);
     }
 
     @Test
@@ -261,6 +262,7 @@ import static org.junit.Assert.assertTrue;
       // Assertions to verify the best corner placement
       assertEquals(0, bestMove.row);
       assertEquals(2, bestMove.column);
+      assertEquals(0, bestMove.cardIndex);
     }
 
     @Test
@@ -302,9 +304,9 @@ import static org.junit.Assert.assertTrue;
       Placement bestMove = strategy2.chooseMove(simpleModel, redPlayer);
 
       // Assertions to verify the best corner placement
-      assertEquals(0, bestMove.row);
+      assertEquals(2, bestMove.row);
       assertEquals(2, bestMove.column);
-      assertEquals(2, bestMove.cardIndex); // picks the strongest card for SW
+      assertEquals(1, bestMove.cardIndex); // picks the strongest card for SW
 
       simpleModel.placeCard(0, 1, 0, bluePlayer);
 
@@ -422,6 +424,6 @@ import static org.junit.Assert.assertTrue;
 
       assertEquals(0, bestMove.row);
       assertEquals(1, bestMove.column);
+      assertEquals(0, bestMove.cardIndex);
     }
-
   }

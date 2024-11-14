@@ -52,16 +52,12 @@ public class CornerStrategy implements IStrategy {
         for (int cardIndex = 0; cardIndex < player.getHand().size(); cardIndex++) {
           ICard card = player.getHand().get(cardIndex);
 
-          // Calculate the flip risk based on the highest value in the exposed directions, considering adjacent cells
+          // Calculate the vulnerability for placing this card at the corner
           int vulnerability = calculateVulnerability(card, directions, model, cornerRow, cornerCol, boardAvailability);
 
-          // Update the best placement if this vulnerability is lower or if it matches the
-          // current best flip risk but is closer to the upper-leftmost position
-          if (vulnerability < minVulnerability ||
-                  (vulnerability == minVulnerability && (bestPlacement == null ||
-                          isUpperLeft(cornerRow, cornerCol, bestPlacement) ||
-                          (cornerRow == bestPlacement.row && cornerCol == bestPlacement.column
-                                  && cardIndex < bestCardIndex)))) {
+          // Update the best placement based on vulnerability, card index, and position
+          if (vulnerability < minVulnerability || vulnerability == minVulnerability &&
+                  (bestPlacement == null || cardIndex < bestCardIndex)) {
 
             minVulnerability = vulnerability;
             bestPlacement = new Placement(cornerRow, cornerCol, cardIndex); // Store card with placement
@@ -71,6 +67,7 @@ public class CornerStrategy implements IStrategy {
       }
     }
 
+    // Bypass corner checks if the board has only one row or one column
     if (boardHeight == 1 || boardWidth == 1) {
       bestPlacement = null;
     }
@@ -97,12 +94,10 @@ public class CornerStrategy implements IStrategy {
   }
 
   /**
-   * Calculates the flip risk by identifying the highest value among the card's exposed directions
-   * based on the corner position, ignoring directions facing holes or occupied cells.
+   * Calculates the vulnerability by summing adjusted values for the relevant directions based on corner position.
    */
-
   private int calculateVulnerability(ICard card, Direction[] exposedDirections, IModel model, int row, int col, CellType[][] boardAvailability) {
-    int minExposedValue = Integer.MAX_VALUE;
+    int totalVulnerability = 0;
 
     for (Direction direction : exposedDirections) {
       int adjRow = row;
@@ -123,24 +118,15 @@ public class CornerStrategy implements IStrategy {
           break;
       }
 
-      // Ignore if the adjacent cell is out of bounds, a hole, or already occupied
-      if (adjRow < 0 || adjRow >= boardAvailability.length || adjCol < 0 || adjCol >= boardAvailability[0].length ||
-              boardAvailability[adjRow][adjCol] != CellType.EMPTY) {
-        continue;
+      // Only add to vulnerability if the adjacent cell is open and within bounds
+      if (adjRow >= 0 && adjRow < boardAvailability.length && adjCol >= 0 && adjCol < boardAvailability[0].length &&
+              boardAvailability[adjRow][adjCol] == CellType.EMPTY) {
+        int value = card.getDirectionsAndValues().get(direction).getValue();
+        totalVulnerability += (10 - value);
       }
+    }
 
-      // Include the value for directions that are valid and adjacent to an empty cell
-      int value = card.getDirectionsAndValues().get(direction).getValue();
-      if (value < minExposedValue) {
-        minExposedValue = value;
-      }
-    }
-    // If no exposed directions, vulnerability is zero
-    if (minExposedValue == Integer.MAX_VALUE) {
-      return 0;
-    } else {
-      return 10 - minExposedValue; // Higher value means lower vulnerability
-    }
+    return totalVulnerability;
   }
 
   private boolean isUpperLeft(int row, int col, Placement bestPlacement) {
