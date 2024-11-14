@@ -27,6 +27,7 @@ import static org.junit.Assert.assertTrue;
     private IModel simpleModel;
     private IModel stratModel;
     private IModel modelWithHole;
+    private IModel modelWithThreeBy1;
 
     private IModel model;
     private IModel modelForRulesTesting;
@@ -58,6 +59,9 @@ import static org.junit.Assert.assertTrue;
       ConfigGame simpleGameWithHole = new ConfigGame("strategyTestingWithHole.config", "simpleCard.database");
       modelWithHole = new ModelImpl(simpleGameWithHole.getBoard(), simpleGameWithHole.getDeck(), players);
 
+      ConfigGame simpleGameWith3x1 = new ConfigGame("threeByOneBoard.config", "simpleCard.database");
+      modelWithThreeBy1 = new ModelImpl(simpleGameWith3x1.getBoard(), simpleGameWith3x1.getDeck(), players);
+
 
       // boardAvailibity for testing
 
@@ -86,46 +90,52 @@ import static org.junit.Assert.assertTrue;
 
       assertEquals(expectedRow, bestMove.row);
       assertEquals(expectedColumn, bestMove.column);
+      assertEquals(0, bestMove.cardIndex);
 
+    }
 
+    @Test
+    public void testFlipTheMostStrategyWithNoCardPlacedPlaceAt00withIndex0() {
+      simpleModel.startGame();
+
+      Placement bestMove = strategy1.chooseMove(simpleModel, redPlayer);
+
+      int expectedRow = 0;
+      int expectedColumn = 0;
+
+      assertEquals(expectedRow, bestMove.row);
+      assertEquals(expectedColumn, bestMove.column);
+      assertEquals(0, bestMove.cardIndex);
     }
 
     // this test is with a new database that has 1 card can flip the 0th red card
 
     @Test
-    public void testFlipTheMostStrategy1() {
-      stratModel.startGame();
+    public void testFlipTheMostStrategy1FlipsCardsWithTiedConditionAndPicks0Index() {
+      simpleModel.startGame();
 
-      stratModel.placeCard(2, 2, 0, redPlayer);
+      simpleModel.placeCard(2, 2, 0, redPlayer);
 
-      Placement bestMove = strategy1.chooseMove(stratModel, bluePlayer);
+      Placement bestMove = strategy1.chooseMove(simpleModel, bluePlayer);
 
       assertEquals(1, bestMove.row);
       assertEquals(2, bestMove.column);
+      assertEquals(0, bestMove.cardIndex);
 
-      // to get this test to pass change the strategy database SkyWhale 4 5 9 9, to 4 5 6 9
-      // the first two tests will fail, because 6 will not flip the North 7, but then the
-      // last two tests would pass, interesting because the hand should update after each
-      // placement of a card, but it doesn't.
+      simpleModel.placeCard(1, 0, 2, bluePlayer);
+      simpleModel.placeCard(0, 2, 3, redPlayer);
 
-      // placing the 1 card that can flip the red into a bad location
+      assertEquals("ShadowSerpent", simpleModel.getCardAt(0, 2).getName());
 
-      stratModel.placeCard(1, 0, 2, bluePlayer);
-      stratModel.placeCard(0, 2, 3, redPlayer);
+      Placement bestMove2 = strategy1.chooseMove(simpleModel, bluePlayer);
 
-      assertEquals("ShadowSerpent", stratModel.getCardAt(0, 2).getName());
-
-      Placement bestMove2 = strategy1.chooseMove(stratModel, bluePlayer);
-
-      // now theres no good moves for a blue to flip the red because there is no strong enough
-      // blue cards and it should place at 0 0, no card is strong enough to flip that red card
-
-      assertEquals(0, bestMove2.row);
-      assertEquals(0, bestMove2.column);
+      assertEquals(1, bestMove2.row);
+      assertEquals(2, bestMove2.column);
+      assertEquals(0, bestMove2.cardIndex);
     }
 
     @Test
-    public void testFlipTheMostStrategyCannotFlipValidCardsAlreadyPlaced() {
+    public void testFlipTheMostStrategyFlipsRed() {
       simpleModel.startGame();
 
       simpleModel.placeCard(2, 2, 0, redPlayer);
@@ -138,6 +148,7 @@ import static org.junit.Assert.assertTrue;
 
       assertEquals(expectedRow, bestMove.row);
       assertEquals(expectedColumn, bestMove.column);
+      assertEquals(0, bestMove.cardIndex);
 
     }
 
@@ -169,9 +180,26 @@ import static org.junit.Assert.assertTrue;
 
     }
 
+    @Test
+    public void testFlipTheMostStrategyWithTiedCaseGoesUpperLeft() {
+      simpleModel.startGame();
+
+      simpleModel.placeCard(2, 2, 0, redPlayer);
+      simpleModel.placeCard(0, 2, 2, bluePlayer);
+
+      Placement bestMove = strategy1.chooseMove(simpleModel, redPlayer);
+
+      int expectedRow = 0;
+      int expectedColumn = 0;
+
+      assertEquals(expectedRow, bestMove.row);
+      assertEquals(expectedColumn, bestMove.column);
+      assertEquals(0, bestMove.cardIndex); // goes to the 0th index
+    }
+
 
     @Test
-    public void testCornerStrategy() {
+    public void testCornerStrategyWithOnlyWestTopRightCorner() {
       simpleModel.startGame();
 
       // Simulate some moves to set up the board state
@@ -185,8 +213,21 @@ import static org.junit.Assert.assertTrue;
       // Assertions to verify the best corner placement
       assertEquals(0, bestMove.row);
       assertEquals(2, bestMove.column);
+      assertEquals(3, bestMove.cardIndex);
+
       simpleModel.placeCard(0, 2, 0, bluePlayer);
       assertEquals("AngryDragon", simpleModel.getCardAt(0, 2).getName());
+    }
+
+    @Test
+    public void testCornerStrategyWith3x1Board() {
+      modelWithThreeBy1.startGame();
+
+      Placement bestMove = strategy2.chooseMove(modelWithThreeBy1, redPlayer);
+
+      assertEquals(0, bestMove.row);
+      assertEquals(0, bestMove.column);
+      assertEquals(0, bestMove.cardIndex);
     }
 
     @Test
@@ -219,7 +260,7 @@ import static org.junit.Assert.assertTrue;
 
       // Assertions to verify the best corner placement
       assertEquals(0, bestMove.row);
-      assertEquals(0, bestMove.column);
+      assertEquals(2, bestMove.column);
     }
 
     @Test
@@ -231,8 +272,56 @@ import static org.junit.Assert.assertTrue;
 
       // Assertions to verify the best corner placement
       assertEquals(0, bestMove.row);
-      assertEquals(0, bestMove.column);
+      assertEquals(2, bestMove.column);
+      assertEquals(0, bestMove.cardIndex); // picks the strongest card for SW
+
+      simpleModel.placeCard(0, 2, 0, redPlayer);
+
+      Placement bestMove2 = strategy2.chooseMove(simpleModel, bluePlayer);
+
+      assertEquals(0, bestMove2.row);
+      assertEquals(0, bestMove2.column);
+      assertEquals(0, bestMove2.cardIndex); // strongest card for SE
+
+      simpleModel.placeCard(0, 0, 0, bluePlayer);
+
+      Placement bestMove3 = strategy2.chooseMove(simpleModel, redPlayer);
+
+      assertEquals(2, bestMove3.row);
+      assertEquals(2, bestMove3.column);
+      assertEquals(1, bestMove3.cardIndex); // strongest card for NW
     }
+
+    @Test
+    public void testCornerStrategyWithGoodCardsPlaced() {
+      simpleModel.startGame();
+
+      simpleModel.placeCard(1, 1, 0, redPlayer);
+
+      // Use CornerStrategy to determine the best move for redPlayer
+      Placement bestMove = strategy2.chooseMove(simpleModel, redPlayer);
+
+      // Assertions to verify the best corner placement
+      assertEquals(0, bestMove.row);
+      assertEquals(2, bestMove.column);
+      assertEquals(2, bestMove.cardIndex); // picks the strongest card for SW
+
+      simpleModel.placeCard(0, 1, 0, bluePlayer);
+
+      simpleModel.placeCard(0, 2, 2, redPlayer);
+
+      simpleModel.placeCard(2, 1, 2, bluePlayer);
+
+      simpleModel.placeCard(1, 2, 0, redPlayer);
+
+      Placement bestMove2 = strategy2.chooseMove(simpleModel, bluePlayer);
+
+      assertEquals(2, bestMove2.row);
+      assertEquals(0, bestMove2.column);
+      assertEquals(0, bestMove2.cardIndex); // strongest card for NE
+    }
+
+
 
     @Test
     public void testLoggingCallsToGetCardAtWithStrategyOne() {
@@ -305,6 +394,20 @@ import static org.junit.Assert.assertTrue;
 
       assertEquals(0, bestMove.row);
       assertEquals(2, bestMove.column);
+      assertEquals(0, bestMove.cardIndex);
+    }
+
+    @Test
+    public void testCornerStrategyWhenThereIsAHoleAndGoodRedIsGood() {
+      modelWithHole.startGame();
+      modelWithHole.placeCard(1, 1, 0, redPlayer);
+      modelWithHole.placeCard(2, 1, 0, bluePlayer);
+
+      Placement bestMove = strategy2.chooseMove(modelWithHole, redPlayer);
+
+      assertEquals(2, bestMove.row);
+      assertEquals(0, bestMove.column);
+      assertEquals(1, bestMove.cardIndex);
     }
 
     @Test
