@@ -1,8 +1,8 @@
 package view;
 
 import model.CellType;
-
-import javax.swing.*;
+import javax.swing.JPanel;
+import javax.swing.BorderFactory;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
@@ -21,7 +21,8 @@ public class ViewBoardPanelGUIImpl extends JPanel implements IViewBoardPanelGUI 
   private final CellPanel[][] cellPanels;
 
   /**
-   * Constructs a {@code ViewBoardPanelGUIImpl} with specified rows, columns, and board availability.
+   * Constructs a {@code ViewBoardPanelGUIImpl} with specified rows, columns, and board
+   * availability.
    *
    * @param numRows           the number of rows in the game board
    * @param numCols           the number of columns in the game board
@@ -56,7 +57,8 @@ public class ViewBoardPanelGUIImpl extends JPanel implements IViewBoardPanelGUI 
   }
 
   /**
-   * Updates the visual state of each cell based on the board data. Each cell is updated individually.
+   * Updates the visual state of each cell based on the board data. Each cell is updated
+   * individually.
    *
    * @param updatedBoard a 2D array representing the updated board state
    */
@@ -69,16 +71,13 @@ public class ViewBoardPanelGUIImpl extends JPanel implements IViewBoardPanelGUI 
   }
 
   /**
-   * Inner class representing each cell in the board as a JPanel. Each cell has its own color and
+   * Inner class representing each cell in the board as a JPanel. Each cell has its own
+   * color and
    * handles its own click events.
    */
   private class CellPanel extends JPanel {
-    private final int row;
-    private final int col;
 
     public CellPanel(int row, int col, CellType cellType) {
-      this.row = row;
-      this.col = col;
       setCellColor(cellType); // Set the initial color based on the cell type
 
       setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));

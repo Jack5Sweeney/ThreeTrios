@@ -14,6 +14,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
 /**
  * A JPanel representing an individual card. Displays the card's directional values
  * and player color, and handles click events if a {@link Features} instance is provided.
@@ -47,7 +48,7 @@ public class CardPanelGUIImpl extends JPanel {
       @Override
       public void mouseClicked(MouseEvent e) {
         if (features != null) {
-          features.handleCardClick(index, card.getPlayerColor()); // Notify Features about the card click
+          features.handleCardClick(index, card.getPlayerColor());
         }
       }
     });
@@ -91,10 +92,14 @@ public class CardPanelGUIImpl extends JPanel {
     int horizontalOffset = getWidth() / 4; // Offset for east/west
 
     // Draw each directional value around the center
-    g2d.drawString(northValue, centerX - g2d.getFontMetrics().stringWidth(northValue) / 2, centerY - verticalOffset);
-    g2d.drawString(eastValue, centerX + horizontalOffset - g2d.getFontMetrics().stringWidth(eastValue) / 2, centerY);
-    g2d.drawString(southValue, centerX - g2d.getFontMetrics().stringWidth(southValue) / 2, centerY + verticalOffset);
-    g2d.drawString(westValue, centerX - horizontalOffset - g2d.getFontMetrics().stringWidth(westValue) / 2, centerY);
+    g2d.drawString(northValue, centerX - g2d.getFontMetrics().stringWidth(northValue)
+        / 2, centerY - verticalOffset);
+    g2d.drawString(eastValue, centerX + horizontalOffset -
+        g2d.getFontMetrics().stringWidth(eastValue) / 2, centerY);
+    g2d.drawString(southValue, centerX - g2d.getFontMetrics().stringWidth(southValue)
+        / 2, centerY + verticalOffset);
+    g2d.drawString(westValue, centerX - horizontalOffset -
+        g2d.getFontMetrics().stringWidth(westValue) / 2, centerY);
   }
 
   /**

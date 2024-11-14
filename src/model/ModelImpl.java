@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import static java.util.Arrays.asList;
 import static java.util.Collections.frequency;
 
-//test commit
-
 /**
  * The {@code ModelImpl} class implements the {@link IModel} interface, representing the game
  * model. It handles game setup, board configuration, and manages game state and player actions.
@@ -227,7 +225,8 @@ public class ModelImpl implements IModel {
   private void checkValidIndex(int boardRow, int boardCol) {
     if (boardRow < 0 || boardCol < 0 || boardRow >= this.boardAvailability.length
         || boardCol >= this.boardAvailability[boardRow].length) {
-      throw new IllegalArgumentException("Invalid card placement for row " + boardRow + " and column " + boardCol);
+      throw new IllegalArgumentException("Invalid card placement for row " + boardRow +
+          " and column " + boardCol);
     }
   }
 
@@ -560,7 +559,8 @@ public class ModelImpl implements IModel {
    * @param visited    a boolean 2D array to track visited positions and avoid re-counting flips
    * @return the number of opponent cards that would be flipped by this placement
    */
-  private int calculateFlipsRecursive(int row, int col, ICard card, PlayerColor ownerColor, boolean[][] visited) {
+  private int calculateFlipsRecursive(int row, int col, ICard card, PlayerColor ownerColor,
+                                      boolean[][] visited) {
     int flipCount = 0;
     int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
     Direction[] dirEnums = {Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST};
@@ -586,7 +586,8 @@ public class ModelImpl implements IModel {
             flipCount++;
 
             // Recursively calculate flips from this newly "flipped" card
-            flipCount += calculateFlipsRecursive(adjRow, adjCol, adjacentCard, ownerColor, visited);
+            flipCount += calculateFlipsRecursive(adjRow, adjCol, adjacentCard, ownerColor,
+                visited);
           }
         }
       }
@@ -613,8 +614,4 @@ public class ModelImpl implements IModel {
     }
     return score;
   }
-
-
-
-
 }

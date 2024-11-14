@@ -1,7 +1,6 @@
 package controller;
 
 import model.IModel;
-import model.ReadOnlyIModel;
 
 /**
  * Interface for the GUI-based game controller. Defines the primary methods that

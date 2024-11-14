@@ -26,8 +26,10 @@ public class ThreeTrios {
     ArrayList<IPlayer> players = new ArrayList<>(List.of(redPlayer, bluePlayer));
 
     ConfigGame gameConfigurator = new ConfigGame("board.config", "card.database");
-    ModelImpl model = new ModelImpl(gameConfigurator.getBoard(), gameConfigurator.getDeck(), players);
-    ReadOnlyIModel readOnlyModel = new ModelImpl(gameConfigurator.getBoard(), gameConfigurator.getDeck(), players);
+    ModelImpl model = new ModelImpl(gameConfigurator.getBoard(),
+        gameConfigurator.getDeck(), players);
+    ReadOnlyIModel readOnlyModel = new ModelImpl(gameConfigurator.getBoard(),
+        gameConfigurator.getDeck(), players);
     IViewFrameGUI view = new ViewFrameGUIImpl(readOnlyModel);
 
     ControllerGUIImpl controller = new ControllerGUIImpl(view, readOnlyModel);

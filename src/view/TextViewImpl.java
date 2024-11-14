@@ -1,6 +1,5 @@
 package view;
 
-import model.CardImpl;
 import model.CellType;
 import model.PlayerColor;
 import model.IModel;

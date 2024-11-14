@@ -79,7 +79,8 @@ public interface ReadOnlyIModel {
   int getPlayerScore(PlayerColor playerColor);
 
   /**
-   * Calculates the number of cards a player can flip by placing a given card at a specified position.
+   * Calculates the number of cards a player can flip by placing a given card at a
+   * specified position.
    *
    * @param row  the row on the board where the card will be placed
    * @param col  the column on the board where the card will be placed

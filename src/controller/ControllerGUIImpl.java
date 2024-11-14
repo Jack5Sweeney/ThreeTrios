@@ -9,8 +9,8 @@ import view.ViewFrameGUIImpl;
 
 /**
  * Implementation of the {@link IControllerGUI} interface, responsible for managing the game
- * logic and interactions between the model and the GUI view. It also implements the {@link Features}
- * interface to handle user interactions within the GUI.
+ * logic and interactions between the model and the GUI view. It also implements the
+ * {@link Features} interface to handle user interactions within the GUI.
  */
 public class ControllerGUIImpl implements IControllerGUI, Features {
 

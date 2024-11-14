@@ -1,8 +1,5 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.Map;
-
 /**
  * Interface representing the full model for a game, extending the read-only model
  * and adding mutator methods to control and manage the game's state.

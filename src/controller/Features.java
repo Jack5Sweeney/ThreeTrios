@@ -3,9 +3,9 @@ package controller;
 import model.PlayerColor;
 
 /**
- * Interface representing the features and actions that the view can trigger within the controller.
- * These methods define user interaction events, such as clicking on cells or cards, that are handled
- * by the controller implementation.
+ * Interface representing the features and actions that the view can trigger within the
+ * controller. These methods define user interaction events, such as clicking on cells or
+ * cards, that are handled by the controller implementation.
  */
 public interface Features {
 

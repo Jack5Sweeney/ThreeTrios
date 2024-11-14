@@ -27,16 +27,16 @@ import java.util.ArrayList;
  *
  * <p><strong>Class Invariants:</strong></p>
  * <ul>
- *   <li>Board dimensions are set based on the configuration file and remain constant after setup.</li>
- *   <li>The deck contains unique cards with assigned player colors based on an alternating pattern.</li>
+ *   <li>Board dimensions are set based on the configuration file and remain constant after
+ *   setup.</li>
+ *   <li>The deck contains unique cards with assigned player colors based on an alternating
+ *   pattern.</li>
  * </ul>
  */
 public class ConfigGame {
 
   private final File pathToBoardConfig;
   private final File pathToCardDB;
-  private int numRows;
-  private int numCols;
 
   /**
    * Initializes the configuration for the game by setting up paths to the board configuration
@@ -87,11 +87,12 @@ public class ConfigGame {
         if (firstLine != null) {
           String[] parts = firstLine.split("\\s+");
           if (parts.length == 2) {
-            this.numRows = Integer.parseInt(parts[0]);
-            this.numCols = Integer.parseInt(parts[1]);
-            return configBoardAvailability(this.numRows, this.numCols, reader);
+            int numRows = Integer.parseInt(parts[0]);
+            int numCols = Integer.parseInt(parts[1]);
+            return configBoardAvailability(numRows, numCols, reader);
           } else {
-            throw new IllegalArgumentException("Invalid config file format. Expected two integers.");
+            throw new IllegalArgumentException("Invalid config file format. Expected two " +
+                "integers.");
           }
         } else {
           throw new IllegalArgumentException("Config file is empty.");
@@ -105,8 +106,9 @@ public class ConfigGame {
   }
 
   /**
-   * Sets up the deck of cards by reading entries from the card database file. Cards are created
-   * and assigned alternately to players based on the index, which determines their color.
+   * Sets up the deck of cards by reading entries from the card database file. Cards are
+   * created and assigned alternately to players based on the index, which determines their
+   * color.
    *
    * @return an {@link ArrayList} of {@link ICard} objects representing the deck
    * @throws IllegalArgumentException if the card database file is missing, has an invalid format,
@@ -197,7 +199,8 @@ public class ConfigGame {
    *
    * @param directionValue the string value representing the direction on a card
    * @return the corresponding {@link DirectionValue} based on the input string
-   * @throws IllegalArgumentException if the provided string does not map to a valid direction value
+   * @throws IllegalArgumentException if the provided string does not map to a valid direction
+   *         value
    */
   private DirectionValue determineDirectionValue(String directionValue) {
     switch (directionValue) {

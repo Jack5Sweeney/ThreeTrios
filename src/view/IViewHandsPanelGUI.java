@@ -12,7 +12,8 @@ public interface IViewHandsPanelGUI {
    * Adds a click listener to the hands panel to handle user interactions. This allows
    * the controller to process click events on cards within the player's hand.
    *
-   * @param features the controller's features that define the actions available to handle user input
+   * @param features the controller's features that define the actions available to handle
+   *                 user input
    */
   void addClickListener(Features features);
 

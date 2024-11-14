@@ -15,9 +15,10 @@ import java.awt.Component;
 import java.awt.Dimension;
 
 /**
- * Implementation of the {@link IViewFrameGUI} interface, representing the main game window for the GUI.
- * This frame displays the game board in the center, with panels for each player's hand on the sides.
- * It also facilitates user interactions by connecting feature listeners to each panel.
+ * Implementation of the {@link IViewFrameGUI} interface, representing the main game window
+ * for the GUI. This frame displays the game board in the center, with panels for each
+ * player's hand on the sides. It also facilitates user interactions by connecting feature
+ * listeners to each panel.
  */
 public class ViewFrameGUIImpl extends JFrame implements IViewFrameGUI {
 
@@ -28,8 +29,8 @@ public class ViewFrameGUIImpl extends JFrame implements IViewFrameGUI {
   private JPanel highlightedCardPanelGUIImpl;
 
   /**
-   * Constructs a {@code ViewFrameGUIImpl} with the specified readOnlyModel, initializing the panels for
-   * the game board and player hands and setting up the layout of the main window.
+   * Constructs a {@code ViewFrameGUIImpl} with the specified readOnlyModel, initializing
+   * the panels for the game board and player hands and setting up the layout of the main window.
    *
    * @param readOnlyModel the game readOnlyModel providing data for the board and players' hands
    */
@@ -148,7 +149,7 @@ public class ViewFrameGUIImpl extends JFrame implements IViewFrameGUI {
 
         if (card != null) {
           // If there's a card, replace the current component with a CardPanelGUIImpl
-          CardPanelGUIImpl cardPanel = new CardPanelGUIImpl(card, -1); // Use -1 if index is irrelevant for the board
+          CardPanelGUIImpl cardPanel = new CardPanelGUIImpl(card, -1);
           cardPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 
           // Replace the current component with the new CardPanelGUIImpl
