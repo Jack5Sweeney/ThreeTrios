@@ -17,7 +17,6 @@ public class ViewBoardPanelGUIImpl extends JPanel implements IViewBoardPanelGUI 
   private Features features;
   private final int numRows;
   private final int numCols;
-  private final CellType[][] boardAvailability;
   private final CellPanel[][] cellPanels;
 
   /**
@@ -31,7 +30,6 @@ public class ViewBoardPanelGUIImpl extends JPanel implements IViewBoardPanelGUI 
   public ViewBoardPanelGUIImpl(int numRows, int numCols, CellType[][] boardAvailability) {
     this.numRows = numRows;
     this.numCols = numCols;
-    this.boardAvailability = boardAvailability;
     this.cellPanels = new CellPanel[numRows][numCols];
 
     setLayout(new GridLayout(numRows, numCols)); // Set grid layout for the board

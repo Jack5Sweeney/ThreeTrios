@@ -46,7 +46,8 @@ public class TestModel {
     PlayerImpl redPlayer1 = new PlayerImpl(PlayerColor.RED, new ArrayList<>());
     PlayerImpl bluePlayer1 = new PlayerImpl(PlayerColor.BLUE, new ArrayList<>());
     ArrayList<IPlayer> players1 = new ArrayList<>(List.of(redPlayer1, bluePlayer1));
-    modelForRulesTesting = new ModelImpl(simpleGameConfig.getBoard(), simpleGameConfig.getDeck(), players1);
+    modelForRulesTesting = new ModelImpl(simpleGameConfig.getBoard(), simpleGameConfig.getDeck(),
+        players1);
 
 
   }
@@ -96,19 +97,22 @@ public class TestModel {
     CardImpl redCard0 = new CardImpl(PlayerColor.RED, "RedCard",
             DirectionValue.FIVE, DirectionValue.FIVE, DirectionValue.FIVE, DirectionValue.FIVE);
     (modelForRulesTesting.getRedPlayer()).getHand().add(redCard0);
-    modelForRulesTesting.placeCard(2, 2, 0, modelForRulesTesting.getRedPlayer());
+    modelForRulesTesting.placeCard(2, 2, 0,
+        modelForRulesTesting.getRedPlayer());
 
     CardImpl blueCard = new CardImpl(PlayerColor.BLUE, "BlueCard",
             DirectionValue.TWO, DirectionValue.TWO, DirectionValue.TWO, DirectionValue.TWO);
     (modelForRulesTesting.getBluePlayer()).getHand().add(blueCard);
-    modelForRulesTesting.placeCard(1, 1, 0, modelForRulesTesting.getBluePlayer());
+    modelForRulesTesting.placeCard(1, 1, 0,
+        modelForRulesTesting.getBluePlayer());
 
     assertEquals(PlayerColor.BLUE, modelForRulesTesting.getCardAt(1, 1).getPlayerColor());
 
     CardImpl redCard = new CardImpl(PlayerColor.RED, "RedCard",
             DirectionValue.FIVE, DirectionValue.FIVE, DirectionValue.FIVE, DirectionValue.FIVE);
     (modelForRulesTesting.getRedPlayer()).getHand().add(redCard);
-    modelForRulesTesting.placeCard(1, 2, 0, modelForRulesTesting.getRedPlayer());
+    modelForRulesTesting.placeCard(1, 2, 0,
+        modelForRulesTesting.getRedPlayer());
 
     assertEquals(PlayerColor.RED, modelForRulesTesting.getCardAt(1, 1).getPlayerColor());
   }
@@ -120,22 +124,26 @@ public class TestModel {
     CardImpl redCard0 = new CardImpl(PlayerColor.RED, "RedCard",
             DirectionValue.FIVE, DirectionValue.FIVE, DirectionValue.FIVE, DirectionValue.FIVE);
     (modelForRulesTesting.getRedPlayer()).getHand().add(redCard0);
-    modelForRulesTesting.placeCard(2, 2, 0, modelForRulesTesting.getRedPlayer());
+    modelForRulesTesting.placeCard(2, 2, 0,
+        modelForRulesTesting.getRedPlayer());
 
     CardImpl blueCard = new CardImpl(PlayerColor.BLUE, "BlueCard",
             DirectionValue.TWO, DirectionValue.TWO, DirectionValue.TWO, DirectionValue.TWO);
     (modelForRulesTesting.getBluePlayer()).getHand().add(blueCard);
-    modelForRulesTesting.placeCard(1, 1, 0, modelForRulesTesting.getBluePlayer());
+    modelForRulesTesting.placeCard(1, 1, 0,
+        modelForRulesTesting.getBluePlayer());
 
     CardImpl redCard1 = new CardImpl(PlayerColor.RED, "RedCard",
             DirectionValue.FIVE, DirectionValue.FIVE, DirectionValue.FIVE, DirectionValue.FIVE);
     (modelForRulesTesting.getRedPlayer()).getHand().add(redCard1);
-    modelForRulesTesting.placeCard(0, 2, 0, modelForRulesTesting.getRedPlayer());
+    modelForRulesTesting.placeCard(0, 2, 0,
+        modelForRulesTesting.getRedPlayer());
 
     CardImpl blueCard1 = new CardImpl(PlayerColor.BLUE, "BlueCard",
             DirectionValue.ONE, DirectionValue.ONE, DirectionValue.ONE, DirectionValue.ONE);
     (modelForRulesTesting.getBluePlayer()).getHand().add(blueCard1);
-    modelForRulesTesting.placeCard(1, 0, 0, modelForRulesTesting.getBluePlayer());
+    modelForRulesTesting.placeCard(1, 0, 0,
+        modelForRulesTesting.getBluePlayer());
 
     assertEquals(PlayerColor.BLUE, modelForRulesTesting.getCardAt(1, 1).getPlayerColor());
     assertEquals(PlayerColor.BLUE, modelForRulesTesting.getCardAt(1, 0).getPlayerColor());
@@ -143,7 +151,8 @@ public class TestModel {
     CardImpl redCard2 = new CardImpl(PlayerColor.RED, "RedCard",
             DirectionValue.FIVE, DirectionValue.FIVE, DirectionValue.FIVE, DirectionValue.FIVE);
     (modelForRulesTesting.getRedPlayer()).getHand().add(redCard2);
-    modelForRulesTesting.placeCard(1, 2, 0, modelForRulesTesting.getRedPlayer());
+    modelForRulesTesting.placeCard(1, 2, 0,
+        modelForRulesTesting.getRedPlayer());
 
     assertEquals(PlayerColor.RED, modelForRulesTesting.getCardAt(1, 1).getPlayerColor());
     assertEquals(PlayerColor.RED, modelForRulesTesting.getCardAt(1, 0).getPlayerColor());
@@ -196,14 +205,22 @@ public class TestModel {
   public void testPropegationOfMultipleCardsWithDifferentDirections() {
     modelForRulesTesting.startGame();
 
-    modelForRulesTesting.placeCard(0, 0, 4, modelForRulesTesting.getRedPlayer());
-    modelForRulesTesting.placeCard(0, 2, 1, modelForRulesTesting.getBluePlayer());
-    modelForRulesTesting.placeCard(1, 0, 2, modelForRulesTesting.getRedPlayer());
-    modelForRulesTesting.placeCard(1, 2, 1, modelForRulesTesting.getBluePlayer());
-    modelForRulesTesting.placeCard(2, 0, 1, modelForRulesTesting.getRedPlayer());
-    modelForRulesTesting.placeCard(1, 1, 1, modelForRulesTesting.getBluePlayer());
-    modelForRulesTesting.placeCard(2, 1, 1, modelForRulesTesting.getRedPlayer());
-    modelForRulesTesting.placeCard(2, 2, 0, modelForRulesTesting.getBluePlayer());
+    modelForRulesTesting.placeCard(0, 0, 4,
+        modelForRulesTesting.getRedPlayer());
+    modelForRulesTesting.placeCard(0, 2, 1,
+        modelForRulesTesting.getBluePlayer());
+    modelForRulesTesting.placeCard(1, 0, 2,
+        modelForRulesTesting.getRedPlayer());
+    modelForRulesTesting.placeCard(1, 2, 1,
+        modelForRulesTesting.getBluePlayer());
+    modelForRulesTesting.placeCard(2, 0, 1,
+        modelForRulesTesting.getRedPlayer());
+    modelForRulesTesting.placeCard(1, 1, 1,
+        modelForRulesTesting.getBluePlayer());
+    modelForRulesTesting.placeCard(2, 1, 1,
+        modelForRulesTesting.getRedPlayer());
+    modelForRulesTesting.placeCard(2, 2, 0,
+        modelForRulesTesting.getBluePlayer());
 
     assertEquals(PlayerColor.BLUE, modelForRulesTesting.getCardAt(0, 0).getPlayerColor());
     assertEquals(PlayerColor.BLUE, modelForRulesTesting.getCardAt(1, 0).getPlayerColor());

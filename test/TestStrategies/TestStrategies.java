@@ -13,11 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.fail;
-import static org.junit.Assert.assertTrue;
 
   /**
    * Test class to test the model.ModelImpl Implementation.
@@ -56,7 +52,8 @@ import static org.junit.Assert.assertTrue;
       ConfigGame stratGameConfig = new ConfigGame("simpleBoard.config", "strategy.database");
       stratModel = new ModelImpl(stratGameConfig.getBoard(), stratGameConfig.getDeck(), players);
 
-      ConfigGame simpleGameWithHole = new ConfigGame("strategyTestingWithHole.config", "simpleCard.database");
+      ConfigGame simpleGameWithHole = new ConfigGame("strategyTestingWithHole.config",
+          "simpleCard.database");
       modelWithHole = new ModelImpl(simpleGameWithHole.getBoard(), simpleGameWithHole.getDeck(), players);
 
       ConfigGame simpleGameWith3x1 = new ConfigGame("threeByOneBoard.config", "simpleCard.database");
@@ -330,7 +327,8 @@ import static org.junit.Assert.assertTrue;
       ConfigGame simpleGameConfig = new ConfigGame("simpleBoard.config", "simpleCard.database");
       ICard[][] boardWithCards = new ICard[3][3];
       boardWithCards[2][2] = simpleGameConfig.getDeck().get(0);
-      MockModelRecordCoordinatesChecked mockModel = new MockModelRecordCoordinatesChecked(boardWithCards, this.board1);
+      MockModelRecordCoordinatesChecked mockModel = new MockModelRecordCoordinatesChecked
+          (boardWithCards, this.board1);
 
       strategy1.chooseMove(mockModel, bluePlayer);
 
@@ -347,7 +345,8 @@ import static org.junit.Assert.assertTrue;
 
       assertEquals(expected, mockModel.cordLog);
 
-      MockModelLiesAboutCalcCardsFlipValue mockModel2 = new MockModelLiesAboutCalcCardsFlipValue(boardWithCards, board1);
+      MockModelLiesAboutCalcCardsFlipValue mockModel2 =
+          new MockModelLiesAboutCalcCardsFlipValue(boardWithCards, board1);
     }
 
     @Test
@@ -355,7 +354,8 @@ import static org.junit.Assert.assertTrue;
       ConfigGame simpleGameConfig = new ConfigGame("simpleBoard.config", "simpleCard.database");
       ICard[][] boardWithCards = new ICard[3][3];
       boardWithCards[0][0] = simpleGameConfig.getDeck().get(0);
-      MockModelRecordCoordinatesChecked mockModel = new MockModelRecordCoordinatesChecked(boardWithCards, board1);
+      MockModelRecordCoordinatesChecked mockModel =
+          new MockModelRecordCoordinatesChecked(boardWithCards, board1);
 
       strategy2.chooseMove(mockModel, bluePlayer);
 
@@ -383,7 +383,8 @@ import static org.junit.Assert.assertTrue;
       ConfigGame simpleGameConfig = new ConfigGame("simpleBoard.config", "simpleCard.database");
       ICard[][] boardWithCards = new CardImpl[3][3];
       boardWithCards[0][0] = simpleGameConfig.getDeck().get(0);
-      MockModelLiesAboutCalcCardsFlipValue mockModel = new MockModelLiesAboutCalcCardsFlipValue(boardWithCards, board1);
+      MockModelLiesAboutCalcCardsFlipValue mockModel =
+          new MockModelLiesAboutCalcCardsFlipValue(boardWithCards, board1);
 
       assertEquals(0, strategy1.chooseMove(mockModel, redPlayer).row);
       assertEquals(1, strategy1.chooseMove(mockModel, redPlayer).column);

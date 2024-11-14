@@ -141,6 +141,8 @@ public class CornerStrategy implements IStrategy {
         case WEST:
           adjCol--;
           break;
+          default:
+            break;
       }
 
       // Only add to vulnerability if the adjacent cell is open and within bounds

@@ -42,8 +42,8 @@ public class ViewHandPanelGUIImpl extends JPanel implements IViewHandsPanelGUI {
     // Update each CardPanelGUIImpl with the Features instance
     for (int i = 0; i < getComponentCount(); i++) {
       if (getComponent(i) instanceof CardPanelGUIImpl) {
-        CardPanelGUIImpl CardPanelGUIImpl = (CardPanelGUIImpl) getComponent(i);
-        CardPanelGUIImpl.setFeatures(features);
+        CardPanelGUIImpl cardPanelGUIImpl = (CardPanelGUIImpl) getComponent(i);
+        cardPanelGUIImpl.setFeatures(features);
       }
     }
   }

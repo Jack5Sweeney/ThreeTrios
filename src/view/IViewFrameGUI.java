@@ -32,7 +32,7 @@ public interface IViewFrameGUI {
    */
   void addFeatures(Features features);
 
-  /** Highlights a card belonging to a given player at a given index (row in the hand)
+  /** Highlights a card belonging to a given player at a given index (row in the hand).
    *
    * @param row the row the card is located at (0 indexed)
    * @param color the color the card to be flipped.

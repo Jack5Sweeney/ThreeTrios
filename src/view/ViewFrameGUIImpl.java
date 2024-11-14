@@ -106,21 +106,21 @@ public class ViewFrameGUIImpl extends JFrame implements IViewFrameGUI {
 
     // Ensure the index is within bounds
     if (row >= 0 && row < handPanel.getComponentCount()) {
-      JPanel CardPanelGUIImpl = (JPanel) handPanel.getComponent(row);
+      JPanel cardPanelGUIImpl = (JPanel) handPanel.getComponent(row);
 
       // Remove the border from the previously highlighted card, if any
-      if (highlightedCardPanelGUIImpl != null && highlightedCardPanelGUIImpl != CardPanelGUIImpl) {
+      if (highlightedCardPanelGUIImpl != null && highlightedCardPanelGUIImpl != cardPanelGUIImpl) {
         highlightedCardPanelGUIImpl.setBorder(null);  // Remove the highlight border
       }
 
       // Add a yellow border to the new card
-      CardPanelGUIImpl.setBorder(BorderFactory.createLineBorder(Color.YELLOW, 3));
+      cardPanelGUIImpl.setBorder(BorderFactory.createLineBorder(Color.YELLOW, 3));
 
       // Update the reference to the currently highlighted card
-      highlightedCardPanelGUIImpl = CardPanelGUIImpl;
+      highlightedCardPanelGUIImpl = cardPanelGUIImpl;
 
       // Refresh the panel to apply changes
-      CardPanelGUIImpl.repaint();
+      cardPanelGUIImpl.repaint();
     }
   }
 

@@ -1,7 +1,11 @@
 package TestStrategies;
 
-import model.*;
-import strategies.Placement;
+import model.ICard;
+import model.IModel;
+import model.IPlayer;
+import model.PlayerColor;
+import model.CellType;
+import model.CardImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +16,8 @@ public class MockModelRecordCoordinatesChecked implements IModel {
    private ICard[][] boardWithCards;
    private CellType[][] boardAvailability;
 
-   public MockModelRecordCoordinatesChecked(ICard[][] boardWithCards, CellType[][] boardAvailability) {
+   public MockModelRecordCoordinatesChecked(ICard[][] boardWithCards,
+                                            CellType[][] boardAvailability) {
     this.cordLog = new ArrayList<ArrayList<Integer>>();
     this.boardWithCards = boardWithCards;
     this.boardAvailability = boardAvailability;
