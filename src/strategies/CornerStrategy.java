@@ -1,10 +1,6 @@
 package strategies;
 
-import model.CellType;
-import model.Direction;
-import model.ICard;
-import model.IModel;
-import model.PlayerImpl;
+import model.*;
 
 /**
  * A strategy that attempts to place cards in the corners of the board,
@@ -21,7 +17,7 @@ public class CornerStrategy implements IStrategy {
    * @param player the player making the move, containing their current hand of cards
    * @return the optimal {@link Placement} for the player's next move
    */
-  public Placement chooseMove(IModel model, PlayerImpl player) {
+  public Placement chooseMove(IModel model, IPlayer player) {
     int minVulnerability = Integer.MAX_VALUE;
     Placement bestPlacement = null;
     int bestCardIndex = Integer.MAX_VALUE; // Track the lowest index card for tie-breaking

@@ -1,5 +1,7 @@
 package model;
 
+import strategies.Placement;
+
 import java.util.ArrayList;
 
 /**
@@ -7,7 +9,7 @@ import java.util.ArrayList;
  * This class implements the {@link IPlayer} interface and provides methods to access and modify
  * the player's color and their hand of cards.
  */
-public class PlayerImpl implements IPlayer {
+public class PlayerImpl implements IPlayerActions {
 
   /**
    * The color representing the player (e.g., RED or BLUE).
@@ -74,5 +76,10 @@ public class PlayerImpl implements IPlayer {
   @Override
   public ICard removeFromHand(int index) {
     return this.hand.remove(index);
+  }
+
+  @Override
+  public Placement chooseMove() {
+    return null;
   }
 }

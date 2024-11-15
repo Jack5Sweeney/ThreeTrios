@@ -1,9 +1,6 @@
 package strategies;
 
-import model.CellType;
-import model.ICard;
-import model.IModel;
-import model.PlayerImpl;
+import model.*;
 
 /**
  * A strategy that aims to place a card in a position on the board that flips the maximum
@@ -20,7 +17,7 @@ public class FlipTheMostStrategy implements IStrategy {
    * @param player the player making the move, containing their current hand of cards
    * @return the optimal {@link Placement} for the player's next move
    */
-  public Placement chooseMove(IModel model, PlayerImpl player) {
+  public Placement chooseMove(IModel model, IPlayer player) {
     int maxFlips = 0;
     Placement bestPlacement = null;
     int bestCardIndex = Integer.MAX_VALUE;

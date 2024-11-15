@@ -1,6 +1,7 @@
 package strategies;
 
 import model.IModel;
+import model.IPlayer;
 import model.PlayerImpl;
 
 /**
@@ -17,6 +18,6 @@ public interface IStrategy {
    * @param player the player making the move, with access to their current hand of cards
    * @return a {@link Placement} representing the selected position and card index for the move
    */
-  Placement chooseMove(IModel model, PlayerImpl player);
+  Placement chooseMove(IModel model, IPlayer player);
 
 }
