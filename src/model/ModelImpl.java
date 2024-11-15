@@ -1,5 +1,7 @@
 package model;
 
+import controller.ModelObserver;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,7 +41,6 @@ public class ModelImpl implements IModel {
   private int cardIndexToPlace;
 
   private final List<ModelObserver> observers = new ArrayList<>();
-
 
   /**
    * Initializes the game model with a board configuration, deck of cards, and players.
@@ -83,12 +84,6 @@ public class ModelImpl implements IModel {
       throw new IllegalArgumentException("Observer cannot be null.");
     }
     observers.add(observer);
-  }
-
-  private void notifyBoardUpdated() {
-    for (ModelObserver observer : observers) {
-      observer.onBoardUpdated();
-    }
   }
 
   /**
@@ -212,7 +207,6 @@ public class ModelImpl implements IModel {
     updateBoard(placedCard, boardRow, boardCol);
     checkGameStatus();
     updateCurrentPlayer(player);
-    notifyBoardUpdated();
   }
 
   /**

@@ -1,4 +1,6 @@
-package model;
+package controller;
+
+import model.PlayerColor;
 
 /**
  * Interface representing a listener for updates on the game's status. Implementations
@@ -24,6 +26,4 @@ public interface ModelObserver {
    *                      if the game ends in a draw or if there is no specific winner
    */
   void onGameOver(PlayerColor winningPlayer);
-
-  void onBoardUpdated();
 }

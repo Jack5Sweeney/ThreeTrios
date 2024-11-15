@@ -1,5 +1,6 @@
 package teststrategies;
 
+import controller.ModelObserver;
 import model.*;
 
 /**

@@ -25,4 +25,6 @@ public interface Features {
    * @param row the row index representing the position of the clicked card
    */
   void handleCardClick(int row, PlayerColor color);
+
+
 }

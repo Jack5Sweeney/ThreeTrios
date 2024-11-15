@@ -1,6 +1,8 @@
 package controller;
 
-import model.*;
+import model.IPlayer;
+import model.IModel;
+import model.PlayerColor;
 import view.IViewFrameGUI;
 import view.ViewFrameGUIImpl;
 
@@ -85,6 +87,7 @@ public class ControllerGUIImpl implements IControllerGUI, Features, ModelObserve
     } catch (IllegalArgumentException | IllegalStateException e) {
       view.showErrorMessage(e.getMessage());
     }
+    view.updateHand(model.getCardIndexToPlace(), player);
   }
 
   /**
@@ -112,6 +115,7 @@ public class ControllerGUIImpl implements IControllerGUI, Features, ModelObserve
    */
   @Override
   public void onTurnChanged(PlayerColor currentPlayer) {
+    view.updateBoard(model.getBoard());
     isMyTurn = (currentPlayer == player.getPlayerColor());
     if (isMyTurn) {
       view.enableInteractions();
@@ -143,9 +147,4 @@ public class ControllerGUIImpl implements IControllerGUI, Features, ModelObserve
     view.disableInteractions();
   }
 
-  @Override
-  public void onBoardUpdated() {
-    view.updateHand(selectedCardIndex, player);
-    view.updateBoard(model.getBoard());
-  }
 }

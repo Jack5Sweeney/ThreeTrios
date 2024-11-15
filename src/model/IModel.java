@@ -1,6 +1,6 @@
 package model;
 
-import java.util.Observer;
+import controller.ModelObserver;
 
 /**
  * Interface representing the full model for a game, extending the read-only model
