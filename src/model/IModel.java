@@ -19,20 +19,26 @@ public interface IModel extends ReadOnlyIModel {
    */
   void placeCard(int boardRow, int boardCol, int cardIndexInHand, IPlayer player);
 
-
-
   /**
-   * Updates the card to be placed on the board based on the specified row and player color.
-   * This may involve changing the card's state or selection before placement.
+   * Updates the card to be placed on the board based on the specified row index and
+   * player color. This may involve changing the card's state or selection before placement.
    *
-   * @param index   the row on the board where the card will potentially be placed
+   * @param index the row on the board where the card will potentially be placed
    * @param color the color associated with the player or card being updated
    */
   void updateCardToPlace(int index, PlayerColor color);
 
+  /**
+   * Gets the player who is currently set to place a card on the board.
+   *
+   * @return the player who is about to place a card
+   */
+  IPlayer getPlayerToPlace();
 
-  public IPlayer getPlayerToPlace();
-
-  public int getCardIndexToPlace();
-
+  /**
+   * Gets the index of the card that is set to be placed on the board from the player's hand.
+   *
+   * @return the index of the card to place
+   */
+  int getCardIndexToPlace();
 }
