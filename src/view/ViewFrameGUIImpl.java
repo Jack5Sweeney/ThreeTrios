@@ -9,6 +9,7 @@ import model.ReadOnlyIModel;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JOptionPane;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -48,7 +49,8 @@ public class ViewFrameGUIImpl extends JFrame implements IViewFrameGUI {
     this.setSize(800, 600);
     this.setLocationRelativeTo(null);
     this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-    this.setTitle(readOnlyModel.getCurrentPlayerColor().toString());
+    this.setTitle("It's " + readOnlyModel.getCurrentPlayerColor().toString() +
+        " turn to make the first move.");
 
     this.add(redHandPanel, BorderLayout.WEST);
     this.add(boardPanel, BorderLayout.CENTER);
@@ -191,18 +193,42 @@ public class ViewFrameGUIImpl extends JFrame implements IViewFrameGUI {
       handPanel = blueHandPanel;
     }
 
-    if (playerPlacing.getPlayerColor() == PlayerColor.RED) {
-      this.setTitle(PlayerColor.BLUE.toString());
-    }
-    else {
-      this.setTitle(PlayerColor.RED.toString());
-    }
-
     handPanel.removeCardAtIndex(cardIndexToPlace);
     handPanel.revalidate();
     handPanel.repaint();
 
 
+  }
+
+  @Override
+  public void enableInteractions() {
+    redHandPanel.enableInteraction();
+    blueHandPanel.enableInteraction();
+    boardPanel.enableInteraction();
+  }
+
+  @Override
+  public void disableInteractions() {
+    redHandPanel.disableInteraction();
+    blueHandPanel.disableInteraction();
+    boardPanel.disableInteraction();
+  }
+
+  @Override
+  public void showErrorMessage(String message) {
+    JOptionPane.showMessageDialog(this, message, "Error",
+        JOptionPane.ERROR_MESSAGE);
+  }
+
+  @Override
+  public void showGameOver(String message) {
+    JOptionPane.showMessageDialog(this, message, "Game Over",
+        JOptionPane.INFORMATION_MESSAGE);
+  }
+
+  @Override
+  public void setTitle(String title) {
+    super.setTitle(title);
   }
 
 }

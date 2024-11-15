@@ -5,6 +5,7 @@ import model.ICard;
 import javax.swing.JPanel;
 import javax.swing.BoxLayout;
 import javax.swing.BorderFactory;
+import java.awt.Component;
 import java.util.ArrayList;
 import java.awt.Dimension;
 import java.awt.Color;
@@ -84,5 +85,27 @@ public class ViewHandPanelGUIImpl extends JPanel implements IViewHandsPanelGUI {
 
     // Recreate the card panels, including empty spots for nulls
     createCardPanelGUIImpls();
+  }
+
+  /**
+   * Enables interaction with all components within this container. This method
+   * iterates through each component and enables it, allowing the user to interact
+   * with the view.
+   */
+  public void enableInteraction() {
+    for (Component comp : getComponents()) {
+      comp.setEnabled(true);
+    }
+  }
+
+  /**
+   * Disables interaction with all components within this container. This method
+   * iterates through each component and disables it, preventing any user interaction
+   * with the view.
+   */
+  public void disableInteraction() {
+    for (Component comp : getComponents()) {
+      comp.setEnabled(false);
+    }
   }
 }

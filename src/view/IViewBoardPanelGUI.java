@@ -16,4 +16,16 @@ public interface IViewBoardPanelGUI {
    *                user input
    */
   void addClickListener(Features features);
+
+  /**
+   * Enables user interactions in the view, allowing the player to make moves and select cards.
+   * This method is typically called when it is the player's turn.
+   */
+  void enableInteractions();
+
+  /**
+   * Disables user interactions in the view, preventing the player from making moves or
+   * selecting cards. This method is typically called when it is not the player's turn.
+   */
+  void disableInteractions();
 }

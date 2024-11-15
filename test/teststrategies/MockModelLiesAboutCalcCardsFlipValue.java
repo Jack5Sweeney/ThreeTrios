@@ -1,11 +1,6 @@
 package teststrategies;
 
-import model.CellType;
-import model.CardImpl;
-import model.ICard;
-import model.IModel;
-import model.IPlayer;
-import model.PlayerColor;
+import model.*;
 
 /**
  * A mock implementation of the {@link IModel} interface for testing purposes.
@@ -72,6 +67,16 @@ public class MockModelLiesAboutCalcCardsFlipValue implements IModel {
   @Override
   public int getCardIndexToPlace() {
     return 0;
+  }
+
+  /**
+   * Stub method in mock.
+   *
+   * @param observer the observer to be added; must not be null
+   */
+  @Override
+  public void addObserver(ModelObserver observer) {
+
   }
 
   /**

@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.frequency;
@@ -25,17 +26,20 @@ import static java.util.Collections.frequency;
  */
 public class ModelImpl implements IModel {
 
-  private CellType[][] boardAvailability;
-  private ICard[][] boardWithCards;
-  private ArrayList<ICard> deck;
-  private IPlayer redPlayer;
-  private IPlayer bluePlayer;
+  private final CellType[][] boardAvailability;
+  private final ICard[][] boardWithCards;
+  private final ArrayList<ICard> deck;
+  private final IPlayer redPlayer;
+  private final IPlayer bluePlayer;
   private boolean gameStarted;
   private boolean gameOver;
   private IPlayer winningPlayer;
   private IPlayer currentPlayer;
   private IPlayer playerPlacing;
   private int cardIndexToPlace;
+
+  private final List<ModelObserver> observers = new ArrayList<>();
+
 
   /**
    * Initializes the game model with a board configuration, deck of cards, and players.
@@ -53,6 +57,7 @@ public class ModelImpl implements IModel {
     this.gameStarted = false;
     this.gameOver = false;
     this.currentPlayer = players.get(0);
+    distributeCards();
   }
 
   /**
@@ -63,7 +68,58 @@ public class ModelImpl implements IModel {
     gameStarted = true;
     ensureCorrectAmountOfCards();
     confirmNonDupCard();
-    distributeCards();
+  }
+
+  /**
+   * Adds an observer to the list of observers that will be notified of changes
+   * in the model's state. Observers can listen for specific events or updates
+   * in the model.
+   *
+   * @param observer the observer to be added; must not be null
+   * @throws IllegalArgumentException if the observer is null
+   */
+  public void addObserver(ModelObserver observer) {
+    if (observer == null) {
+      throw new IllegalArgumentException("Observer cannot be null.");
+    }
+    observers.add(observer);
+  }
+
+  private void notifyBoardUpdated() {
+    for (ModelObserver observer : observers) {
+      observer.onBoardUpdated();
+    }
+  }
+
+  /**
+   * Notifies all registered observers that the current player's turn has changed.
+   * This method iterates through each observer and calls its {@code onTurnChanged}
+   * method, passing the color of the current player.
+   */
+  private void notifyTurnChanged() {
+    for (ModelObserver observer : observers) {
+      if (observer != null) { // Ensure observer is not null before notifying
+        observer.onTurnChanged(this.currentPlayer.getPlayerColor());
+      }
+    }
+  }
+
+  /**
+   * Notifies all registered observers that the game is over. This method determines
+   * the color of the winning player, if there is one, and informs each observer
+   * by calling its {@code onGameOver} method.
+   *
+   * If there is no winning player (e.g., in case of a draw), {@code null} is passed
+   * as the winner color to indicate that there is no specific winner.
+   */
+  private void notifyGameOver() {
+    PlayerColor winnerColor = (this.winningPlayer != null)
+        ? this.winningPlayer.getPlayerColor() : null;
+    for (ModelObserver observer : observers) {
+      if (observer != null) { // Ensure observer is not null before notifying
+        observer.onGameOver(winnerColor);
+      }
+    }
   }
 
   /**
@@ -156,6 +212,7 @@ public class ModelImpl implements IModel {
     updateBoard(placedCard, boardRow, boardCol);
     checkGameStatus();
     updateCurrentPlayer(player);
+    notifyBoardUpdated();
   }
 
   /**
@@ -200,6 +257,7 @@ public class ModelImpl implements IModel {
     } else {
       this.currentPlayer = this.redPlayer;
     }
+    notifyTurnChanged();
   }
 
   /**
@@ -489,6 +547,10 @@ public class ModelImpl implements IModel {
       this.winningPlayer = this.bluePlayer;
     } else {
       this.winningPlayer = null;
+    }
+
+    if (this.gameOver) {
+      notifyGameOver();
     }
   }
 

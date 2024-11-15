@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Observer;
+
 /**
  * Interface representing the full model for a game, extending the read-only model
  * and adding mutator methods to control and manage the game's state.
@@ -29,16 +31,12 @@ public interface IModel extends ReadOnlyIModel {
   void updateCardToPlace(int index, PlayerColor color);
 
   /**
-   * Gets the player who is currently set to place a card on the board.
+   * Adds an observer to the list of observers that will be notified of changes
+   * in the model's state. Observers can listen for specific events or updates
+   * in the model.
    *
-   * @return the player who is about to place a card
+   * @param observer the observer to be added; must not be null
+   * @throws IllegalArgumentException if the observer is null
    */
-  IPlayer getPlayerToPlace();
-
-  /**
-   * Gets the index of the card that is set to be placed on the board from the player's hand.
-   *
-   * @return the index of the card to place
-   */
-  int getCardIndexToPlace();
+  void addObserver(ModelObserver observer);
 }

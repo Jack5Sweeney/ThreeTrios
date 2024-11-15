@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 import javax.swing.BorderFactory;
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import controller.Features;
@@ -45,6 +46,53 @@ public class ViewBoardPanelGUIImpl extends JPanel implements IViewBoardPanelGUI 
   public void addClickListener(Features features) {
     this.features = features;
   }
+
+  /**
+   * Enables interaction with all components within this container. This method
+   * iterates through each component and enables it, allowing the user to interact
+   * with the view.
+   */
+  @Override
+  public void enableInteractions() {
+    for (Component comp : getComponents()) {
+      comp.setEnabled(true);
+    }
+  }
+
+  /**
+   * Disables interaction with all components within this container. This method
+   * iterates through each component and disables it, preventing any user interaction
+   * with the view.
+   */
+  @Override
+  public void disableInteractions() {
+    for (Component comp : getComponents()) {
+      comp.setEnabled(false);
+    }
+  }
+
+  /**
+   * Enables interaction with all components within this container. This method
+   * iterates through each component and enables it, allowing the user to interact
+   * with the view.
+   */
+  public void enableInteraction() {
+    for (Component comp : getComponents()) {
+      comp.setEnabled(true);
+    }
+  }
+
+  /**
+   * Disables interaction with all components within this container. This method
+   * iterates through each component and disables it, preventing any user interaction
+   * with the view.
+   */
+  public void disableInteraction() {
+    for (Component comp : getComponents()) {
+      comp.setEnabled(false);
+    }
+  }
+
 
   /**
    * Inner class representing each cell in the board as a JPanel. Each cell has its own

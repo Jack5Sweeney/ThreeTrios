@@ -1,9 +1,6 @@
 package controller;
 
-import model.IModel;
-import model.IPlayer;
-import model.PlayerColor;
-import model.ReadOnlyIModel;
+import model.*;
 import view.IViewFrameGUI;
 import view.ViewFrameGUIImpl;
 
@@ -12,76 +9,143 @@ import view.ViewFrameGUIImpl;
  * logic and interactions between the model and the GUI view. It also implements the
  * {@link Features} interface to handle user interactions within the GUI.
  */
-public class ControllerGUIImpl implements IControllerGUI, Features {
+public class ControllerGUIImpl implements IControllerGUI, Features, ModelObserver {
 
   private IViewFrameGUI view;
-  private ReadOnlyIModel readOnlyModel;
-  private IModel model;
+  private final IPlayer player;
+  private final IModel model;
+  private boolean isMyTurn = false;
+  private int selectedCardIndex = -1;
 
   /**
-   * Default constructor for {@code ControllerGUIImpl}.
-   * Initializes an instance without setting the model or view, which are configured later
-   * during the game setup process.
+   * Constructs a {@code ControllerGUIImpl} with the specified view, model, and player.
+   * Initializes the controller, sets up the model and view, and registers this controller
+   * as an observer.
    *
-   * @param view  a view constructed with a read-only-model
-   * @throws IllegalArgumentException if the constructor has a null field
+   * @param view  the view interface connected to a read-only model for rendering the GUI
+   * @param model the game model containing the game state and logic
+   * @param player the player using this controller
+   * @throws IllegalArgumentException if any parameter is null
    */
-  public ControllerGUIImpl(IViewFrameGUI view, ReadOnlyIModel readOnlyModel) {
-    if (view == null || readOnlyModel == null) {
-      throw new IllegalArgumentException("readOnlyModel cannot be null");
+  public ControllerGUIImpl(IViewFrameGUI view, IModel model, IPlayer player) {
+    if (view == null || model == null || player == null) {
+      throw new IllegalArgumentException("Arguments cannot be null");
     }
-    this.readOnlyModel = readOnlyModel;
     this.view = view;
+    this.model = model;
+    this.player = player;
 
+    // Register the controller as an observer of the model
+    this.model.addObserver(this);
+
+    // Add features to the view
+    view.addFeatures(this);
+
+    // Disable interactions until it's this player's turn
+    view.disableInteractions();
   }
 
   /**
    * Starts the game by setting up the game board and card deck, initializing the model with
-   * specified configurations, and establishing the connection with the view. The view is set
-   * to visible and linked to this controller to handle user interactions.
-   *
-   * @param model the game model that encapsulates game logic and state
-   * @throws IllegalArgumentException if the model is null
+   * specified configurations, and making the view visible to handle user interactions.
    */
   @Override
-  public void playGame(IModel model) {
-    if (model == null) {
-      throw new IllegalArgumentException("Model cannot be null");
-    }
-    this.model = model;
+  public void playGame() {
     this.model.startGame();
-    this.view = new ViewFrameGUIImpl(this.readOnlyModel);
+    this.model.addObserver(this);
+    this.view = new ViewFrameGUIImpl(this.model);
     view.addFeatures(this);
     view.makeVisible();
+
+    if(this.model.getCurrentPlayerColor().equals(player.getPlayerColor())) {
+      this.isMyTurn = true;
+    }
   }
 
   /**
    * Handles cell click events in the game grid. Triggered when a cell is clicked, typically
-   * for board-based interactions.
+   * for placing a card on the board.
    *
    * @param row the row index of the clicked cell
    * @param col the column index of the clicked cell
    */
   @Override
   public void handleCellClick(int row, int col) {
-    int cardIndexToPlace = model.getCardIndexToPlace();
-    IPlayer playerPlacing = model.getPlayerToPlace();
-    model.placeCard(row, col, cardIndexToPlace, playerPlacing);
-    view.updateBoard(model.getBoard());
-    view.updateHand(cardIndexToPlace, playerPlacing);
-    System.out.println("Cell clicked: " + row + ", " + col);
+    if (!isMyTurn) {
+      view.showErrorMessage("It's not your turn.");
+      return;
+    }
+    if (selectedCardIndex == -1) {
+      view.showErrorMessage("Please select a card first.");
+      return;
+    }
+    try {
+      model.placeCard(row, col, selectedCardIndex, player);
+      selectedCardIndex = -1; // Reset selected card
+    } catch (IllegalArgumentException | IllegalStateException e) {
+      view.showErrorMessage(e.getMessage());
+    }
   }
 
   /**
    * Handles click events on a card in the player's hand. Triggered when a card is selected
    * by the player during gameplay.
    *
-   * @param row the row index representing the card's position in the player's hand
+   * @param index the index representing the card's position in the player's hand
+   * @param color the color of the player selecting the card
    */
   @Override
-  public void handleCardClick(int row, PlayerColor color) {
-    view.highlightCard(row, color);
-    model.updateCardToPlace(row, color);
-    System.out.println("Card clicked: " + row + " Player color: " + color.toString());
+  public void handleCardClick(int index, PlayerColor color) {
+    if (!isMyTurn || color != player.getPlayerColor()) {
+      view.showErrorMessage("It's not your turn or invalid card selection.");
+      return;
+    }
+    selectedCardIndex = index;
+    view.highlightCard(index, color);
+  }
+
+  /**
+   * Called when the current turn changes in the game. Updates the view and interaction
+   * state based on whether it is this player's turn.
+   *
+   * @param currentPlayer the color of the current player
+   */
+  @Override
+  public void onTurnChanged(PlayerColor currentPlayer) {
+    isMyTurn = (currentPlayer == player.getPlayerColor());
+    if (isMyTurn) {
+      view.enableInteractions();
+      view.setTitle("Your turn, " + player.getPlayerColor().toString());
+    } else {
+      view.disableInteractions();
+      view.setTitle("Waiting for opponent...");
+    }
+  }
+
+  /**
+   * Called when the game is over. Displays the appropriate end-game message in the view,
+   * indicating whether the player won, lost, or the game ended in a tie.
+   *
+   * @param winningPlayerColor the color of the winning player, or {@code null} if the game
+   *                           ended in a tie
+   */
+  @Override
+  public void onGameOver(PlayerColor winningPlayerColor) {
+    String message;
+    if (winningPlayerColor == null) {
+      message = "The game is a tie!";
+    } else if (winningPlayerColor == player.getPlayerColor()) {
+      message = "You win!";
+    } else {
+      message = "You lose.";
+    }
+    view.showGameOver(message);
+    view.disableInteractions();
+  }
+
+  @Override
+  public void onBoardUpdated() {
+    view.updateHand(selectedCardIndex, player);
+    view.updateBoard(model.getBoard());
   }
 }

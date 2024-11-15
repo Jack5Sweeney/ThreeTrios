@@ -1,12 +1,15 @@
 import controller.ControllerGUIImpl;
 import gameconfig.ConfigGame;
-import model.IPlayer;
-import model.ModelImpl;
+import model.ICard;
+import model.CellType;
 import model.PlayerColor;
 import model.PlayerImpl;
+import model.IPlayer;
+import model.ModelImpl;
 import model.ReadOnlyIModel;
 import view.IViewFrameGUI;
 import view.ViewFrameGUIImpl;
+import controller.IControllerGUI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,24 +23,25 @@ public class ThreeTrios {
    */
   public static void main(String[] args) {
 
-    // New Hotness: Graphical User Interface:
-    // 1. Create an instance of the model.
-    // 2. Create an instance of the view.
-    // 3. Create an instance of the controller, passing the view to its constructor.
-    // 4. Call playGame() on the controller.
+    ConfigGame gameConfigurator = new ConfigGame("board.config", "card.database");
+    CellType[][] board = gameConfigurator.getBoard();
+    ArrayList<ICard> deck = gameConfigurator.getDeck();
+    IPlayer redPlayer = new PlayerImpl(PlayerColor.RED, new ArrayList<>());
+    IPlayer bluePlayer = new PlayerImpl(PlayerColor.BLUE, new ArrayList<>());
 
-    PlayerImpl redPlayer = new PlayerImpl(PlayerColor.RED, new ArrayList<>());
-    PlayerImpl bluePlayer = new PlayerImpl(PlayerColor.BLUE, new ArrayList<>());
     ArrayList<IPlayer> players = new ArrayList<>(List.of(redPlayer, bluePlayer));
 
-    ConfigGame gameConfigurator = new ConfigGame("board.config", "card.database");
-    ModelImpl model = new ModelImpl(gameConfigurator.getBoard(),
-        gameConfigurator.getDeck(), players);
-    ReadOnlyIModel readOnlyModel = new ModelImpl(gameConfigurator.getBoard(),
-        gameConfigurator.getDeck(), players);
-    IViewFrameGUI view = new ViewFrameGUIImpl(readOnlyModel);
+    ModelImpl model = new ModelImpl(board, deck, players);
 
-    ControllerGUIImpl controller = new ControllerGUIImpl(view, readOnlyModel);
-    controller.playGame(model);
+    // Initialize views
+    IViewFrameGUI redView = new ViewFrameGUIImpl(model);
+    IViewFrameGUI blueView = new ViewFrameGUIImpl(model);
+
+    // Initialize controllers
+    IControllerGUI redController = new ControllerGUIImpl(redView, model, redPlayer);
+    IControllerGUI blueController = new ControllerGUIImpl(blueView, model, bluePlayer);
+
+    redController.playGame();
+    blueController.playGame();
   }
 }

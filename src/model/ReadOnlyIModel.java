@@ -106,5 +106,19 @@ public interface ReadOnlyIModel {
    */
   PlayerColor getCurrentPlayerColor();
 
+  /**
+   * Gets the player who is currently set to place a card on the board.
+   *
+   * @return the player who is about to place a card
+   */
+  IPlayer getPlayerToPlace();
+
+  /**
+   * Gets the index of the card that is set to be placed on the board from the player's hand.
+   *
+   * @return the index of the card to place
+   */
+  int getCardIndexToPlace();
+
 }
 
