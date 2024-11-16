@@ -211,8 +211,8 @@ public class ModelImpl implements IModel {
     this.boardWithCards[boardRow][boardCol] = placedCard;
     this.boardAvailability[boardRow][boardCol] = CellType.CARD;
     updateBoard(placedCard, boardRow, boardCol);
-    checkGameStatus();
     updateCurrentPlayer(player);
+    checkGameStatus();
   }
 
   /**
