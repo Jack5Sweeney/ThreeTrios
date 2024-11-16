@@ -1,6 +1,6 @@
 package controller;
 
-import model.PlayerColor;
+import player.PlayerColor;
 
 /**
  * Interface representing a listener for updates on the game's status. Implementations

@@ -1,4 +1,6 @@
-package model;
+package card;
+
+import player.PlayerColor;
 
 import java.util.HashMap;
 import java.util.Map;

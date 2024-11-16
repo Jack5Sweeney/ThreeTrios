@@ -1,6 +1,13 @@
 package model;
 
+import card.CardImpl;
+import card.CellType;
+import card.Direction;
+import card.ICard;
 import controller.ModelObserver;
+import player.IPlayer;
+import player.PlayerColor;
+import player.PlayerImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +23,9 @@ import static java.util.Collections.frequency;
  * <ul>
  *   <li>The board availability and board with cards arrays are consistent:
  *       <ul>
- *           <li>If <code>boardAvailability[i][j] == model.CellType.CARD</code>, then
+ *           <li>If <code>boardAvailability[i][j] == card.CellType.CARD</code>, then
  *               <code>boardWithCards[i][j] != null</code>.</li>
- *           <li>If <code>boardAvailability[i][j] != model.CellType.CARD</code>, then
+ *           <li>If <code>boardAvailability[i][j] != card.CellType.CARD</code>, then
  *               <code>boardWithCards[i][j] == null</code>.</li>
  *       </ul>
  *   </li>
@@ -41,7 +48,6 @@ public class ModelImpl implements IModel {
   private int cardIndexToPlace;
 
   private final List<ModelObserver> observers = new ArrayList<>();
-
   /**
    * Initializes the game model with a board configuration, deck of cards, and players.
    *

@@ -1,10 +1,10 @@
 package gameconfig;
 
-import model.CellType;
-import model.ICard;
-import model.CardImpl;
-import model.PlayerColor;
-import model.DirectionValue;
+import card.CellType;
+import card.ICard;
+import card.CardImpl;
+import player.PlayerColor;
+import card.DirectionValue;
 
 import java.io.BufferedReader;
 import java.io.File;

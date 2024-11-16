@@ -1,6 +1,9 @@
 package strategies;
 
+import card.CellType;
+import card.ICard;
 import model.*;
+import player.IPlayer;
 
 /**
  * A strategy that aims to place a card in a position on the board that flips the maximum

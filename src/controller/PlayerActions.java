@@ -1,8 +1,8 @@
-package model;
+package controller;
 
 import strategies.Placement;
 
-public interface IPlayerActions extends IPlayer {
+public interface PlayerActions {
   /**
    * Requests the player to choose their next move.
    * For machine players, this triggers a strategy-based decision.
@@ -10,5 +10,5 @@ public interface IPlayerActions extends IPlayer {
    *
    * @return the Placement (row, column, and card index) representing the chosen move.
    */
-  Placement chooseMove();
+  void choosePlayerMove();
 }

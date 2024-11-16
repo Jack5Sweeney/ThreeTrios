@@ -27,30 +27,30 @@ and players.
 View (view.TextViewImpl) : This renders the view in a way that can be seen through a string version
 of the game.
 
-Player (model.PlayerImpl) : Represents individual players in the game, it has attributes like color
+Player (player.PlayerImpl) : Represents individual players in the game, it has attributes like color
 and score.
 
 Key Subcomponents :
 
-model.Direction and model.Direction value: These are important enums that determine the direction and
+card.Direction and card.Direction value: These are important enums that determine the direction and
 value of each card, which is vital for the model and logic of the game.
 
-model.CellType: This is an enum which determines if the cell of the board is empty, a card, or a hole.
+card.CellType: This is an enum which determines if the cell of the board is empty, a card, or a hole.
 this is important for the board configuration and how the game can be played.
 
-model.CardImpl: This class is for the creation of a card. The card has a player, a player name, and the
+card.CardImpl: This class is for the creation of a card. The card has a player, a player name, and the
 directions and the values that go with each direction.
 
-model.PlayerColor: This is a simple enum that helps determine if it is either a red or blue player.
+player.PlayerColor: This is a simple enum that helps determine if it is either a red or blue player.
 
 Class Invariants:
 The board availability and board with cards arrays are consistent. For any position (i, j):
-If boardAvailability[i][j] == model.CellType. CARD, then boardWithCards[i][j] != null.
-If boardAvailability[i][j] != model.CellType. CARD, then boardWithCards[i][j] == null.
+If boardAvailability[i][j] == card.CellType. CARD, then boardWithCards[i][j] != null.
+If boardAvailability[i][j] != card.CellType. CARD, then boardWithCards[i][j] == null.
 
-In the configBoardAvailability method the cells that are marked as model.CellType.EMPTY or
-model.CellType.HOLE are set in boardAvailability without any cards in boardWithCards ensuring that non
-model.CellType.CARD cells are null in the boardWithCards.
+In the configBoardAvailability method the cells that are marked as card.CellType.EMPTY or
+card.CellType.HOLE are set in boardAvailability without any cards in boardWithCards ensuring that non
+card.CellType.CARD cells are null in the boardWithCards.
 
 These are invariants because they are logical statements that occur consistently throughout
 the model that have to be true for the board to work.
@@ -60,7 +60,7 @@ Source Org.
 src : contains all the primary code files
     model.ModelImpl.java and model.IModel.java
     view.TextViewImpl.java and view.ITextView.java
-    model.PlayerImpl.java and model.IPlayer.java
+    player.PlayerImpl.java and player.IPlayer.java
 test/ : handles all the testing files for model and view
 
 Coordinate System:
@@ -200,3 +200,67 @@ could make only one move appear valid or assign an artificially high flip count 
 location, and we could then check if the strategy selected that pre-determined move. This allowed
 us to test the strategy’s decision-making under controlled conditions, verifying that it followed
 the intended logic.
+
+Changes for Part 3:
+
+New Interfaces
+
+    IStrategy:
+    Defines the contract for implementing AI strategies.
+    Includes methods for determining the best move based on the current game state.
+    Enables flexible integration of different AI strategies into the game.
+
+    Features:
+    Acts as a bridge between the view and the controller.
+    Defines user interaction events, such as handling cell and card clicks.
+    Improves modularity by abstracting controller interactions.
+
+New Classes
+
+    PlayerFactory:
+    Implements the Factory design pattern to dynamically create players.
+    Supports both human players and AI players with configurable strategies.
+    Simplifies player creation and allows easy addition of new strategies in the future.
+
+    StrategyPlayer:
+    Represents an AI player that uses a defined strategy to make decisions during gameplay.
+    Integrates with the model through the IStrategy interface.
+
+
+Modified Classes
+
+    Main:
+    Updated to use the PlayerFactory for player creation based on command-line arguments.
+    Improved flexibility for initializing games with any combination of human and AI players.
+    Validates command-line inputs and initializes players and the game configuration accordingly.
+
+    ModelImpl:
+    Added support for notifying observers about player hand updates in real-time.
+    Improved turn management to ensure synchronization between the model, view, and controller.
+
+    ViewFrameGUIImpl:
+    Added a refreshHands method to dynamically redraw the player's hand based on the current game state.
+    Enhanced interactivity by bringing the active player’s window to the foreground during their turn.
+
+    ControllerGUIImpl:
+    Adjusted to handle dynamic hand updates using the refreshHands method in the view.
+    Improved turn management to ensure proper notifications and interactions for both players.
+
+Design Changes
+    Factory Design Pattern:
+    Introduced PlayerFactory to centralize and simplify the player creation process.
+    Ensures clean separation of concerns by moving player setup logic out of Main.
+
+    Observer Pattern Enhancements
+    The controller now observes both the model and the view, ensuring seamless communication
+    and real-time synchronization. The model notifies the controller about key game changes,
+    such as turn transitions or hand updates. In response, the controller updates the view—enabling
+    interactions for human players, refreshing displays, and bringing the active player’s window to
+    the front. For AI players, the controller triggers their strategy to compute a move and sends it
+    to the model. The controller also handles user inputs from the view, validating actions like card
+    selection and forwarding them to the model. These enhancements create a responsive game framework
+    where human and AI players interact smoothly, with the model, view, and controller staying in sync.
+
+    GUI Enhancements:
+    Player views dynamically update their hand and board displays to reflect the latest game state.
+    The active player’s window is brought to the foreground to improve turn-based interactivity.

@@ -1,4 +1,4 @@
-package model;
+package card;
 
 /**
  * Enum representing different direction values, each associated with an integer value.

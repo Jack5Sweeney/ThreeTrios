@@ -1,9 +1,9 @@
 package view;
 
 import controller.Features;
-import model.Direction;
-import model.ICard;
-import model.PlayerColor;
+import card.Direction;
+import card.ICard;
+import player.PlayerColor;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;

@@ -1,8 +1,7 @@
 package strategies;
 
 import model.IModel;
-import model.IPlayer;
-import model.PlayerImpl;
+import player.IPlayer;
 
 /**
  * Interface representing a strategy for determining a player's move.

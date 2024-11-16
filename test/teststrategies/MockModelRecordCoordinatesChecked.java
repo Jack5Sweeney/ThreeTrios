@@ -1,7 +1,12 @@
 package teststrategies;
 
+import card.CardImpl;
+import card.CellType;
+import card.ICard;
 import controller.ModelObserver;
 import model.*;
+import player.IPlayer;
+import player.PlayerColor;
 
 import java.util.ArrayList;
 import java.util.List;

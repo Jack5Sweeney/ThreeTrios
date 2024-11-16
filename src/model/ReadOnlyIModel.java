@@ -1,5 +1,11 @@
 package model;
 
+import card.CardImpl;
+import card.CellType;
+import card.ICard;
+import player.IPlayer;
+import player.PlayerColor;
+
 /**
  * Read-only interface representing the view-only model for a game.
  * Defines methods to observe the game's state without the ability to modify it.
@@ -90,14 +96,6 @@ public interface ReadOnlyIModel {
   int calculateFlips(int row, int col, ICard card);
 
 
-  /**
-   * Starts the game by configuring the board, setting up initial conditions, and preparing
-   * the card deck.
-   *
-   * @throws IllegalArgumentException if there is an issue reading the configuration file
-   *                                  or if the file has an invalid format
-   */
-  void startGame();
 
   /**
    * Method to get the current players color for the view to visualize the current player.

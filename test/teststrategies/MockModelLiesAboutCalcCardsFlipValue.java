@@ -1,7 +1,12 @@
 package teststrategies;
 
+import card.CardImpl;
+import card.CellType;
+import card.ICard;
 import controller.ModelObserver;
 import model.*;
+import player.IPlayer;
+import player.PlayerColor;
 
 /**
  * A mock implementation of the {@link IModel} interface for testing purposes.

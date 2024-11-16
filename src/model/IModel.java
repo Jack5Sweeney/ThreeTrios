@@ -1,6 +1,8 @@
 package model;
 
 import controller.ModelObserver;
+import player.IPlayer;
+import player.PlayerColor;
 
 /**
  * Interface representing the full model for a game, extending the read-only model
@@ -39,4 +41,13 @@ public interface IModel extends ReadOnlyIModel {
    * @throws IllegalArgumentException if the observer is null
    */
   void addObserver(ModelObserver observer);
+
+  /**
+   * Starts the game by configuring the board, setting up initial conditions, and preparing
+   * the card deck.
+   *
+   * @throws IllegalArgumentException if there is an issue reading the configuration file
+   *                                  or if the file has an invalid format
+   */
+  void startGame();
 }

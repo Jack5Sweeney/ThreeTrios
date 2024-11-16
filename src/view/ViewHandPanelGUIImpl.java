@@ -1,14 +1,14 @@
 package view;
 
 import controller.Features;
-import model.ICard;
+import card.ICard;
 import javax.swing.JPanel;
 import javax.swing.BoxLayout;
 import javax.swing.BorderFactory;
 import java.awt.Component;
-import java.util.ArrayList;
 import java.awt.Dimension;
 import java.awt.Color;
+import java.util.List;
 
 /**
  * Implementation of the {@link IViewHandsPanelGUI} interface, representing the GUI panel
@@ -17,7 +17,7 @@ import java.awt.Color;
  */
 public class ViewHandPanelGUIImpl extends JPanel implements IViewHandsPanelGUI {
   private Features features;
-  private final ArrayList<ICard> cards;
+  private final List<ICard> cards;
 
   /**
    * Constructs a {@code ViewHandPanelGUIImpl} with the given list of cards, organizing
@@ -25,7 +25,7 @@ public class ViewHandPanelGUIImpl extends JPanel implements IViewHandsPanelGUI {
    *
    * @param cards the list of cards to be displayed in this panel
    */
-  public ViewHandPanelGUIImpl(ArrayList<ICard> cards) {
+  public ViewHandPanelGUIImpl(List<ICard> cards) {
     this.cards = cards;
     this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     createCardPanelGUIImpls();
@@ -107,5 +107,33 @@ public class ViewHandPanelGUIImpl extends JPanel implements IViewHandsPanelGUI {
     for (Component comp : getComponents()) {
       comp.setEnabled(false);
     }
+  }
+
+  /**
+   * Refreshes the hand panel by rebuilding it with the provided list of cards.
+   *
+   * @param newCards  the list of cards to display in this hand panel
+   */
+  public void refreshHandPanel(List<ICard> newCards) {
+    this.cards.clear(); // Clear the existing card references
+    this.cards.addAll(newCards); // Update with the new list of cards
+
+    this.removeAll(); // Clear existing components
+    for (int i = 0; i < newCards.size(); i++) {
+      ICard card = newCards.get(i);
+      if (card != null) {
+        CardPanelGUIImpl cardPanel = new CardPanelGUIImpl(card, i);
+        cardPanel.setFeatures(features); // Attach the Features interface
+        this.add(cardPanel);
+      } else {
+        JPanel emptyPanel = new JPanel();
+        emptyPanel.setPreferredSize(new Dimension(100, 20)); // Maintain spacing for null cards
+        emptyPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        this.add(emptyPanel);
+      }
+    }
+
+    this.revalidate(); // Revalidate the layout
+    this.repaint(); // Repaint the panel to reflect changes
   }
 }

@@ -1,6 +1,10 @@
 package strategies;
 
+import card.CellType;
+import card.Direction;
+import card.ICard;
 import model.*;
+import player.IPlayer;
 
 /**
  * A strategy that attempts to place cards in the corners of the board,

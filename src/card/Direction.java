@@ -1,4 +1,4 @@
-package model;
+package card;
 
 /**
  * Represents the four cardinal directions.

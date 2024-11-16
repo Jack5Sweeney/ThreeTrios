@@ -1,4 +1,4 @@
-package model;
+package card;
 
 /**
  * Represents the different types of cells in a game grid.

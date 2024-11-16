@@ -1,9 +1,9 @@
 
 import gameconfig.ConfigGame;
 import model.IModel;
-import model.IPlayer;
-import model.PlayerColor;
-import model.PlayerImpl;
+import player.IPlayer;
+import player.PlayerColor;
+import player.PlayerImpl;
 import model.ModelImpl;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,7 +26,6 @@ public class TestTextView {
   private TextViewImpl view;
   private IPlayer redPlayer;
   private IPlayer bluePlayer;
-
 
   @Before
   public void setup() {

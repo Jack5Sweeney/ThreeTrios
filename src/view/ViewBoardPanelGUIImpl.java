@@ -1,6 +1,6 @@
 package view;
 
-import model.CellType;
+import card.CellType;
 import javax.swing.JPanel;
 import javax.swing.BorderFactory;
 import java.awt.Color;

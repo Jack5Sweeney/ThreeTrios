@@ -1,4 +1,8 @@
-package model;
+package player;
+
+import card.ICard;
+import model.IModel;
+import strategies.Placement;
 
 import java.util.ArrayList;
 
@@ -37,4 +41,6 @@ public interface IPlayer {
    * @throws IndexOutOfBoundsException if the index is out of range
    */
   ICard removeFromHand(int index);
+
+  Placement chooseMove(IModel model);
 }

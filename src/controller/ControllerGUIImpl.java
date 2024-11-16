@@ -1,8 +1,9 @@
 package controller;
 
-import model.IPlayer;
+import player.IPlayer;
 import model.IModel;
-import model.PlayerColor;
+import player.PlayerColor;
+import strategies.Placement;
 import view.IViewFrameGUI;
 import view.ViewFrameGUIImpl;
 
@@ -11,7 +12,7 @@ import view.ViewFrameGUIImpl;
  * logic and interactions between the model and the GUI view. It also implements the
  * {@link Features} interface to handle user interactions within the GUI.
  */
-public class ControllerGUIImpl implements IControllerGUI, Features, ModelObserver {
+public class ControllerGUIImpl implements IControllerGUI, Features, ModelObserver, PlayerActions {
 
   private IViewFrameGUI view;
   private final IPlayer player;
@@ -42,9 +43,6 @@ public class ControllerGUIImpl implements IControllerGUI, Features, ModelObserve
 
     // Add features to the view
     view.addFeatures(this);
-
-    // Disable interactions until it's this player's turn
-    view.disableInteractions();
   }
 
   /**
@@ -61,6 +59,7 @@ public class ControllerGUIImpl implements IControllerGUI, Features, ModelObserve
 
     if(this.model.getCurrentPlayerColor().equals(player.getPlayerColor())) {
       this.isMyTurn = true;
+      view.bringToFront();
     }
   }
 
@@ -87,7 +86,6 @@ public class ControllerGUIImpl implements IControllerGUI, Features, ModelObserve
     } catch (IllegalArgumentException | IllegalStateException e) {
       view.showErrorMessage(e.getMessage());
     }
-    view.updateHand(model.getCardIndexToPlace(), player);
   }
 
   /**
@@ -116,10 +114,13 @@ public class ControllerGUIImpl implements IControllerGUI, Features, ModelObserve
   @Override
   public void onTurnChanged(PlayerColor currentPlayer) {
     view.updateBoard(model.getBoard());
+    view.refreshHands(model.getRedPlayer().getHand(), model.getBluePlayer().getHand());
     isMyTurn = (currentPlayer == player.getPlayerColor());
     if (isMyTurn) {
       view.enableInteractions();
       view.setTitle("Your turn, " + player.getPlayerColor().toString());
+      choosePlayerMove();
+      view.bringToFront();
     } else {
       view.disableInteractions();
       view.setTitle("Waiting for opponent...");
@@ -147,4 +148,14 @@ public class ControllerGUIImpl implements IControllerGUI, Features, ModelObserve
     view.disableInteractions();
   }
 
+  @Override
+  public void choosePlayerMove() {
+    Placement playerPlacement = player.chooseMove(model);
+    if(playerPlacement != null) {
+      int row = playerPlacement.row;
+      int col = playerPlacement.column;
+      int index = playerPlacement.cardIndex;
+      model.placeCard(row, col, index, player);
+    }
+  }
 }

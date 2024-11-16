@@ -1,12 +1,13 @@
+import card.CellType;
+import card.ICard;
 import controller.ControllerGUIImpl;
 import gameconfig.ConfigGame;
-import model.ICard;
-import model.CellType;
-import model.PlayerColor;
-import model.PlayerImpl;
-import model.IPlayer;
 import model.ModelImpl;
-import model.ReadOnlyIModel;
+import player.AIPlayerImpl;
+import player.IPlayer;
+import player.PlayerColor;
+import player.PlayerImpl;
+import strategies.CornerStrategy;
 import view.IViewFrameGUI;
 import view.ViewFrameGUIImpl;
 import controller.IControllerGUI;
@@ -22,12 +23,17 @@ public class ThreeTrios {
    * Run a Three Trios game interactively.
    */
   public static void main(String[] args) {
-
     ConfigGame gameConfigurator = new ConfigGame("board.config", "card.database");
     CellType[][] board = gameConfigurator.getBoard();
     ArrayList<ICard> deck = gameConfigurator.getDeck();
-    IPlayer redPlayer = new PlayerImpl(PlayerColor.RED, new ArrayList<>());
-    IPlayer bluePlayer = new PlayerImpl(PlayerColor.BLUE, new ArrayList<>());
+    PlayerFactory playerFactory = new PlayerFactory();
+
+    if (args.length != 2) {
+      throw new IllegalArgumentException("Player options: 'human', 'strategy1', 'strategy2'");
+    }
+
+    IPlayer redPlayer = playerFactory.createPlayer(args[0], PlayerColor.RED);
+    IPlayer bluePlayer = playerFactory.createPlayer(args[1], PlayerColor.BLUE);
 
     ArrayList<IPlayer> players = new ArrayList<>(List.of(redPlayer, bluePlayer));
 

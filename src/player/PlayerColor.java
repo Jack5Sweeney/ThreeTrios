@@ -1,4 +1,4 @@
-package model;
+package player;
 
 /**
  * Represents the color of a player in the game.

@@ -1,9 +1,10 @@
 package view;
 
 import controller.Features;
-import model.ICard;
-import model.IPlayer;
-import model.PlayerColor;
+import card.ICard;
+import player.PlayerColor;
+
+import java.util.List;
 
 /**
  * Interface for the main GUI frame of the view component. Defines methods to manage
@@ -51,16 +52,6 @@ public interface IViewFrameGUI {
    *                      can be a card to display, or {@code null} for an empty cell
    */
   void updateBoard(ICard[][] boardWithCard);
-
-  /**
-   * Updates the hand panel of the specified player by removing the card at the given index.
-   * Refreshes the display to reflect the removal of the card from the player's hand.
-   *
-   * @param cardIndexToPlace the index of the card in the player's hand to be removed
-   * @param playerPlacing    the player whose hand is being updated
-   */
-  void updateHand(int cardIndexToPlace, IPlayer playerPlacing);
-
   /**
    * Enables user interactions in the view, allowing the player to make moves and select cards.
    * This method is typically called when it is the player's turn.
@@ -96,4 +87,11 @@ public interface IViewFrameGUI {
    * @param title the title text to display in the game window
    */
   void setTitle(String title);
+
+  /**
+   * Brings the view window to the front, making it the active window.
+   */
+  void bringToFront();
+
+  void refreshHands(List<ICard> redHand, List<ICard> blueHand);
 }

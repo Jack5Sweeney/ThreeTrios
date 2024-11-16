@@ -1,10 +1,10 @@
 package view;
 
-import model.CellType;
-import model.PlayerColor;
+import card.CellType;
+import player.PlayerColor;
 import model.IModel;
-import model.IPlayer;
-import model.ICard;
+import player.IPlayer;
+import card.ICard;
 
 /**
  * A textual representation of the game view for a player, displaying the current player,

@@ -4,9 +4,9 @@ including access to the player’s hand, player color, and potential moves. This
 as an AI-controlled player—by implementing this interface. With this approach, we can introduce varied player logic while
 maintaining consistent interaction within the game.
 
-For our initial implementation, model.PlayerImpl is the primary class implementing the Player interface. This class manages
+For our initial implementation, player.PlayerImpl is the primary class implementing the Player interface. This class manages
 fundamental attributes like hand management and player color, serving as a baseline for human-controlled players.
-However, when we expand the game to include an AI player, this design will allow us to extend model.PlayerImpl or create new
+However, when we expand the game to include an AI player, this design will allow us to extend player.PlayerImpl or create new
 subclasses of Player to incorporate AI strategies, enabling additional play modes like solitaire or fully automated testing
 scenarios.
 
@@ -22,7 +22,7 @@ Player Interface: Defines the essential player interactions required by the mode
 player’s hand or color. This abstraction supports extensibility, enabling different implementations (human or AI)
 to be used interchangeably within the game.
 
-model.PlayerImpl: The main implementation of Player, primarily designed for human-controlled players. model.PlayerImpl provides foundational
+player.PlayerImpl: The main implementation of Player, primarily designed for human-controlled players. player.PlayerImpl provides foundational
 methods for card management and retrieval of player color, ensuring seamless integration with the model.ModelImpl.
 
 AI Player (Future Expansion): With the Player interface, adding an AI-controlled player in the future is straightforward.

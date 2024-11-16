@@ -1,9 +1,8 @@
 package view;
 
 import controller.Features;
-import model.ICard;
-import model.IPlayer;
-import model.PlayerColor;
+import card.ICard;
+import player.PlayerColor;
 import model.ReadOnlyIModel;
 
 import javax.swing.BorderFactory;
@@ -14,6 +13,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.util.List;
 
 /**
  * Implementation of the {@link IViewFrameGUI} interface, representing the main game window
@@ -176,30 +176,6 @@ public class ViewFrameGUIImpl extends JFrame implements IViewFrameGUI {
     boardPanel.repaint();
   }
 
-  /**
-   * Updates the hand panel of the specified player by removing the card at the given index.
-   * Refreshes the display to reflect the removal.
-   *
-   * @param cardIndexToPlace the index of the card in the player's hand to be removed
-   * @param playerPlacing    the player whose hand is being updated
-   */
-  @Override
-  public void updateHand(int cardIndexToPlace, IPlayer playerPlacing) {
-    PlayerColor playerColor = playerPlacing.getPlayerColor();
-    ViewHandPanelGUIImpl handPanel;
-    if (playerColor == PlayerColor.RED) {
-      handPanel = redHandPanel;
-    } else {
-      handPanel = blueHandPanel;
-    }
-
-    handPanel.removeCardAtIndex(cardIndexToPlace);
-    handPanel.revalidate();
-    handPanel.repaint();
-
-
-  }
-
   @Override
   public void enableInteractions() {
     redHandPanel.enableInteraction();
@@ -231,5 +207,16 @@ public class ViewFrameGUIImpl extends JFrame implements IViewFrameGUI {
     super.setTitle(title);
   }
 
+  @Override
+  public void bringToFront() {
+    this.setAlwaysOnTop(true);
+  }
+
+  @Override
+  public void refreshHands(List<ICard> redHand, List<ICard> blueHand) {
+    // Refresh both hands using the helper method
+    redHandPanel.refreshHandPanel(redHand);
+    blueHandPanel.refreshHandPanel(blueHand);
+  }
 }
 

@@ -1,6 +1,6 @@
 package controller;
 
-import model.PlayerColor;
+import player.PlayerColor;
 
 /**
  * Interface representing the features and actions that the view can trigger within the
