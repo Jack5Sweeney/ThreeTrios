@@ -4,7 +4,7 @@ import card.CardImpl;
 import card.CellType;
 import card.ICard;
 import controller.ModelObserver;
-import model.*;
+import model.IModel;
 import player.IPlayer;
 import player.PlayerColor;
 
@@ -82,7 +82,7 @@ public class MockModelLiesAboutCalcCardsFlipValue implements IModel {
    */
   @Override
   public void addObserver(ModelObserver observer) {
-
+    // Implementation not needed in the mock
   }
 
   /**

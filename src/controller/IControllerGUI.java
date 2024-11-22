@@ -1,7 +1,5 @@
 package controller;
 
-import model.IModel;
-
 /**
  * Interface for the GUI-based game controller. Defines the primary methods that
  * control the game flow and interactions between the model and the view.

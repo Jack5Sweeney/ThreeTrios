@@ -1,16 +1,15 @@
 package controllertesting;
 
+import gameconfig.ConfigGame;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import card.CellType;
 import card.ICard;
 import controller.ControllerGUIImpl;
 import player.PlayerColor;
-import player.PlayerImpl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -23,24 +22,24 @@ import static org.junit.Assert.assertTrue;
 
 public class TestNewGUIController {
 
-  /**
 
   private ControllerGUIImpl controller;
-  private MockModelForControllerGUI readOnlyMockModel;
   private MockView viewMock;
-  private MockModel model;
+  private MockModelForControllerGUI model;
   private MockPlayer mockPlayer;
-  private MockPlayer mockPlayer2;
   private MockView mockView;
 
   @Before
   public void setUp() {
-
+    ICard[][] boardWithCards = new ICard[][]{};
+    ConfigGame configGame = new ConfigGame("board.config", "card.database");
     // Initialize mock model and view for testing
-    readOnlyMockModel = new MockModel();
+    MockModelForControllerGUI readOnlyMockModel = new MockModelForControllerGUI(boardWithCards,
+        configGame.getBoard());
     mockView = new MockView(readOnlyMockModel);
-    model = new MockModel();
-    MockPlayer mockPlayer = new MockPlayer(PlayerColor.RED);
+    model = new MockModelForControllerGUI(boardWithCards,
+        configGame.getBoard());
+    mockPlayer = new MockPlayer(PlayerColor.RED);
     MockPlayer mockPlayer2 = new MockPlayer(PlayerColor.BLUE);
   }
 
@@ -63,7 +62,8 @@ public class TestNewGUIController {
   public void testControllerLogsCorrectCoordinates() {
     ICard[][] mockBoard = new ICard[3][3];
     CellType[][] mockAvailability = new CellType[3][3];
-    MockModelForControllerGUI mockModel = new MockModelForControllerGUI(mockBoard, mockAvailability);
+    MockModelForControllerGUI mockModel = new MockModelForControllerGUI(mockBoard,
+        mockAvailability);
     // need to make a mock view
     // need to make mock players but we can do this by just creating players.
 
@@ -159,7 +159,4 @@ public class TestNewGUIController {
     assertEquals("You lose.", viewMock.lastGameOverMessage);
     assertFalse(viewMock.interactionsEnabled);
   }
-
-  **/
-
 }

@@ -48,6 +48,7 @@ public class ModelImpl implements IModel {
   private int cardIndexToPlace;
 
   private final List<ModelObserver> observers = new ArrayList<>();
+
   /**
    * Initializes the game model with a board configuration, deck of cards, and players.
    *
@@ -108,10 +109,9 @@ public class ModelImpl implements IModel {
   /**
    * Notifies all registered observers that the game is over. This method determines
    * the color of the winning player, if there is one, and informs each observer
-   * by calling its {@code onGameOver} method.
-   *
-   * If there is no winning player (e.g., in case of a draw), {@code null} is passed
-   * as the winner color to indicate that there is no specific winner.
+   * by calling its {@code onGameOver} method. If there is no winning player
+   * (e.g., in case of a draw), {@code null} is passed as the winner color
+   * to indicate that there is no specific winner.
    */
   private void notifyGameOver() {
     PlayerColor winnerColor = (this.winningPlayer != null)
@@ -219,7 +219,7 @@ public class ModelImpl implements IModel {
    * Updates the card to be placed on the board based on the specified row and player color.
    * This may involve changing the card's state or selection before placement.
    *
-   * @param index   the row on the board where the card will potentially be placed
+   * @param index the row on the board where the card will potentially be placed
    * @param color the color associated with the player or card being updated
    */
   @Override
@@ -243,7 +243,6 @@ public class ModelImpl implements IModel {
   public int getCardIndexToPlace() {
     return Integer.valueOf(this.cardIndexToPlace);
   }
-
 
 
   /**
@@ -633,7 +632,7 @@ public class ModelImpl implements IModel {
       int adjCol = col + directions[directionIndex][1];
 
       if (isValidPosition(adjRow, adjCol) && boardWithCards[adjRow][adjCol] != null &&
-              !visited[adjRow][adjCol]) {
+          !visited[adjRow][adjCol]) {
 
         ICard adjacentCard = boardWithCards[adjRow][adjCol];
 
@@ -642,7 +641,7 @@ public class ModelImpl implements IModel {
           Direction adjOppositeDir = getOppositeDirection(placedDir);
 
           if (card.getDirectionsAndValues().get(placedDir).getValue() >
-                  adjacentCard.getDirectionsAndValues().get(adjOppositeDir).getValue()) {
+              adjacentCard.getDirectionsAndValues().get(adjOppositeDir).getValue()) {
 
             // Mark as visited and count this flip
             visited[adjRow][adjCol] = true;

@@ -35,7 +35,7 @@ public class MockPlayer implements IPlayer {
 
   @Override
   public void addToHand(ICard card) {
-
+    // Implementation not needed in the mock
   }
 
   @Override

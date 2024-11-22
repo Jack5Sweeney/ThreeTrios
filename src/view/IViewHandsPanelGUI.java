@@ -2,8 +2,6 @@ package view;
 
 import controller.Features;
 
-import java.awt.*;
-
 /**
  * Interface for the hands panel within the GUI view. This panel displays the player's hand
  * and defines methods to handle user interactions with the cards in the hand.
@@ -33,13 +31,13 @@ public interface IViewHandsPanelGUI {
    * iterates through each component and enables it, allowing the user to interact
    * with the view.
    */
-   void enableInteraction();
+  void enableInteraction();
 
   /**
    * Disables interaction with all components within this container. This method
    * iterates through each component and disables it, preventing any user interaction
    * with the view.
    */
-   void disableInteraction();
+  void disableInteraction();
 }
 

@@ -2,7 +2,7 @@ package strategies;
 
 import card.CellType;
 import card.ICard;
-import model.*;
+import model.IModel;
 import player.IPlayer;
 
 /**

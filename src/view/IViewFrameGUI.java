@@ -52,6 +52,7 @@ public interface IViewFrameGUI {
    *                      can be a card to display, or {@code null} for an empty cell
    */
   void updateBoard(ICard[][] boardWithCard);
+
   /**
    * Enables user interactions in the view, allowing the player to make moves and select cards.
    * This method is typically called when it is the player's turn.

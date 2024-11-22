@@ -1,9 +1,14 @@
 package controllertesting;
 
+import card.ICard;
+import card.CellType;
+import card.CardImpl;
 import controller.ModelObserver;
-import model.*;
-import card.*;
-import player.*;
+
+import model.IModel;
+import player.IPlayer;
+import player.PlayerColor;
+
 import java.util.ArrayList;
 import java.util.List;
 

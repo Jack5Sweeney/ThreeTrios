@@ -1,6 +1,5 @@
 package controllertesting;
 
-import model.ReadOnlyIModel;
 import view.IViewFrameGUI;
 import controller.Features;
 import player.PlayerColor;
@@ -17,13 +16,12 @@ public class MockView implements IViewFrameGUI {
   public String lastGameOverMessage; // Stores the most recent game-over message
   public boolean interactionsEnabled; // Tracks whether interactions are enabled
   public String title; // Stores the last set title
-  private MockModelForControllerGUI model;
 
   public int highlightedRow;
   public PlayerColor highlightedColor;
 
   public MockView(MockModelForControllerGUI model) {
-    this.model = model;
+    // Implementation not needed in the mock
   }
 
   @Override
@@ -53,13 +51,19 @@ public class MockView implements IViewFrameGUI {
 
   // Stub methods for other interface methods
   @Override
-  public void refresh() {}
+  public void refresh() {
+    // Implementation not needed in the mock
+  }
 
   @Override
-  public void makeVisible() {}
+  public void makeVisible() {
+    // Implementation not needed in the mock
+  }
 
   @Override
-  public void addFeatures(Features features) {}
+  public void addFeatures(Features features) {
+    // Implementation not needed in the mock
+  }
 
   @Override
   public void highlightCard(int row, PlayerColor color) {
@@ -68,11 +72,17 @@ public class MockView implements IViewFrameGUI {
   }
 
   @Override
-  public void updateBoard(ICard[][] board) {}
+  public void updateBoard(ICard[][] board) {
+    // Implementation not needed in the mock
+  }
 
   @Override
-  public void refreshHands(List<ICard> redHand, List<ICard> blueHand) {}
+  public void refreshHands(List<ICard> redHand, List<ICard> blueHand) {
+    // Implementation not needed in the mock
+  }
 
   @Override
-  public void bringToFront() {}
+  public void bringToFront() {
+    // Implementation not needed in the mock
+  }
 }

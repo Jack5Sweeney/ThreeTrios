@@ -25,8 +25,8 @@ public class ControllerGUIImpl implements IControllerGUI, Features, ModelObserve
    * Initializes the controller, sets up the model and view, and registers this controller
    * as an observer.
    *
-   * @param view  the view interface connected to a read-only model for rendering the GUI
-   * @param model the game model containing the game state and logic
+   * @param view   the view interface connected to a read-only model for rendering the GUI
+   * @param model  the game model containing the game state and logic
    * @param player the player using this controller
    * @throws IllegalArgumentException if any parameter is null
    */
@@ -57,7 +57,7 @@ public class ControllerGUIImpl implements IControllerGUI, Features, ModelObserve
     view.addFeatures(this);
     view.makeVisible();
 
-    if(this.model.getCurrentPlayerColor().equals(player.getPlayerColor())) {
+    if (this.model.getCurrentPlayerColor().equals(player.getPlayerColor())) {
       this.isMyTurn = true;
       view.bringToFront();
     }
@@ -136,6 +136,8 @@ public class ControllerGUIImpl implements IControllerGUI, Features, ModelObserve
    */
   @Override
   public void onGameOver(PlayerColor winningPlayerColor) {
+    view.updateBoard(model.getBoard());
+    view.refreshHands(model.getRedPlayer().getHand(), model.getBluePlayer().getHand());
     String message;
     if (winningPlayerColor == null) {
       message = "The game is a tie!";
@@ -151,7 +153,7 @@ public class ControllerGUIImpl implements IControllerGUI, Features, ModelObserve
   @Override
   public void choosePlayerMove() {
     Placement playerPlacement = player.chooseMove(model);
-    if(playerPlacement != null) {
+    if (playerPlacement != null) {
       int row = playerPlacement.row;
       int col = playerPlacement.column;
       int index = playerPlacement.cardIndex;

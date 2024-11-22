@@ -7,6 +7,9 @@ import strategies.FlipTheMostStrategy;
 
 import java.util.ArrayList;
 
+/**
+ * A factory class for creating players based on the run configurations args.
+ */
 public class PlayerFactory {
   /**
    * Creates a player based on the type and color.
