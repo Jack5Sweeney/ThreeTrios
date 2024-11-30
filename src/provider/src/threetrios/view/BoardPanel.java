@@ -7,9 +7,9 @@ import java.awt.GridLayout;
 import javax.swing.event.MouseInputAdapter;
 import javax.swing.JPanel;
 
-import threetrios.model.Card;
-import threetrios.model.CellType;
-import threetrios.model.TeamColor;
+import provider.src.threetrios.model.Card;
+import provider.src.threetrios.model.CellType;
+import provider.src.threetrios.model.TeamColor;
 
 /**
  * A board panel is the master panel that holds all the cells of the playable board. Initially

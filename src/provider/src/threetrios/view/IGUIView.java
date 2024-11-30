@@ -1,9 +1,9 @@
 package provider.src.threetrios.view;
 
 
-import threetrios.controller.PlayerActionsListener;
-import threetrios.model.Card;
-import threetrios.model.TeamColor;
+import provider.src.threetrios.controller.PlayerActionsListener;
+import provider.src.threetrios.model.Card;
+import provider.src.threetrios.model.TeamColor;
 
 /**
  * Interface for our GUI playable version of ThreeTrios.

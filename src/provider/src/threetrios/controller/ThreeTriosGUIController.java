@@ -6,12 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import threetrios.model.CellType;
-import threetrios.model.Model;
-import threetrios.model.TeamColor;
-import threetrios.strategies.Move;
-import threetrios.view.Cell;
-import threetrios.view.IGUIView;
+import provider.src.threetrios.model.CellType;
+import provider.src.threetrios.model.Model;
+import provider.src.threetrios.model.TeamColor;
+import provider.src.threetrios.strategies.Move;
+import provider.src.threetrios.view.Cell;
+import provider.src.threetrios.view.IGUIView;
 import javax.swing.JOptionPane;
 
 /**

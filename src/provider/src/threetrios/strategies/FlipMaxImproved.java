@@ -3,10 +3,10 @@ package provider.src.threetrios.strategies;
 import java.util.ArrayList;
 import java.util.List;
 
-import threetrios.model.Card;
-import threetrios.model.CellType;
-import threetrios.model.Model;
-import threetrios.model.TeamColor;
+import provider.src.threetrios.model.Card;
+import provider.src.threetrios.model.CellType;
+import provider.src.threetrios.model.Model;
+import provider.src.threetrios.model.TeamColor;
 
 /**
  * Class representing a flipMax move strategy, which places the card from the players hand that

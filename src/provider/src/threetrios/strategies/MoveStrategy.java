@@ -1,7 +1,7 @@
 package provider.src.threetrios.strategies;
 
-import threetrios.model.Model;
-import threetrios.model.TeamColor;
+import provider.src.threetrios.model.Model;
+import provider.src.threetrios.model.TeamColor;
 
 /**
  * A Strategy interface for choosing where to play next for the given player.

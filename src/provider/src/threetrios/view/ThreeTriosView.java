@@ -3,8 +3,8 @@ package provider.src.threetrios.view;
 import java.io.IOException;
 import java.util.List;
 
-import threetrios.model.Card;
-import threetrios.model.Model;
+import provider.src.threetrios.model.Card;
+import provider.src.threetrios.model.Model;
 
 /**
  * A three trios view highlights the current player as well as a snapshot of the board. As well

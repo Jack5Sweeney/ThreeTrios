@@ -6,10 +6,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import threetrios.model.Card;
-import threetrios.model.CellType;
-import threetrios.model.Model;
-import threetrios.model.TeamColor;
+import provider.src.threetrios.model.Card;
+import provider.src.threetrios.model.CellType;
+import provider.src.threetrios.model.Model;
+import provider.src.threetrios.model.TeamColor;
 
 /**
  * Class representing a goForTheCorner move strategy, which prioritizes placing cards in corners

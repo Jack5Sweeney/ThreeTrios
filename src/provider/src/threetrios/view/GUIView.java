@@ -8,10 +8,10 @@ import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import threetrios.controller.PlayerActionsListener;
-import threetrios.model.Card;
-import threetrios.model.ReadonlyThreeTriosModel;
-import threetrios.model.TeamColor;
+import provider.src.threetrios.controller.PlayerActionsListener;
+import provider.src.threetrios.model.Card;
+import provider.src.threetrios.model.ReadonlyThreeTriosModel;
+import provider.src.threetrios.model.TeamColor;
 
 /**
  * The guiview is the main frame that holds our board panel, and both hand panels. Its title

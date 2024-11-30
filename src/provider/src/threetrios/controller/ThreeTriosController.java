@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
 
-import threetrios.model.Model;
-import threetrios.strategies.Move;
+import provider.src.threetrios.model.Model;
+import provider.src.threetrios.strategies.Move;
 
 /**
  * Controller class for three trios. This controller has the full functionality for a console game

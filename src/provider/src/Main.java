@@ -3,18 +3,18 @@ package provider.src;
 import java.io.FileNotFoundException;
 import java.util.List;
 
-import threetrios.controller.Controller;
-import threetrios.controller.ModelStatusListener;
-import threetrios.controller.PlayerImpl;
-import threetrios.controller.ThreeTriosController;
-import threetrios.controller.ThreeTriosGUIController;
-import threetrios.model.Model;
-import threetrios.model.TeamColor;
-import threetrios.model.ThreeTriosModel;
-import threetrios.strategies.FlipMaxImproved;
-import threetrios.strategies.GoForTheCorners;
-import threetrios.view.GUIView;
-import threetrios.view.IGUIView;
+import provider.src.threetrios.controller.Controller;
+import provider.src.threetrios.controller.ModelStatusListener;
+import provider.src.threetrios.controller.PlayerImpl;
+import provider.src.threetrios.controller.ThreeTriosController;
+import provider.src.threetrios.controller.ThreeTriosGUIController;
+import provider.src.threetrios.model.Model;
+import provider.src.threetrios.model.TeamColor;
+import provider.src.threetrios.model.ThreeTriosModel;
+import provider.src.threetrios.strategies.FlipMaxImproved;
+import provider.src.threetrios.strategies.GoForTheCorners;
+import provider.src.threetrios.view.GUIView;
+import provider.src.threetrios.view.IGUIView;
 
 /**
  * Runner for a three trios game. Controller reads from a card file and board file.

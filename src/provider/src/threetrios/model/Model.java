@@ -1,6 +1,6 @@
 package provider.src.threetrios.model;
 
-import threetrios.controller.ModelStatusListener;
+import provider.src.threetrios.controller.ModelStatusListener;
 
 /**
  * Model interface for general game functionality.

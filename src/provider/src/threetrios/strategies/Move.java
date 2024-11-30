@@ -1,6 +1,6 @@
 package provider.src.threetrios.strategies;
 
-import threetrios.model.Card;
+import provider.src.threetrios.model.Card;
 
 /**
  * A move is something that is created after a strategy makes it decision on where a player should

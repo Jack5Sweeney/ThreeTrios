@@ -1,6 +1,6 @@
 package provider.src.threetrios.view;
 
-import threetrios.model.Card;
+import provider.src.threetrios.model.Card;
 
 /**
  * Interface for a cell implementation.

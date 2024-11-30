@@ -6,9 +6,9 @@ import javax.swing.event.MouseInputAdapter;
 
 import java.awt.Color;
 
-import threetrios.model.Card;
-import threetrios.model.CellType;
-import threetrios.model.TeamColor;
+import provider.src.threetrios.model.Card;
+import provider.src.threetrios.model.CellType;
+import provider.src.threetrios.model.TeamColor;
 
 import javax.swing.JPanel;
 import java.awt.BorderLayout;

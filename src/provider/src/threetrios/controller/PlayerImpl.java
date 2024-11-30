@@ -1,9 +1,9 @@
 package provider.src.threetrios.controller;
 
-import threetrios.model.Model;
-import threetrios.model.TeamColor;
-import threetrios.strategies.Move;
-import threetrios.strategies.MoveStrategy;
+import provider.src.threetrios.model.Model;
+import provider.src.threetrios.model.TeamColor;
+import provider.src.threetrios.strategies.Move;
+import provider.src.threetrios.strategies.MoveStrategy;
 
 /**
  * A simple Player implementation that delegates most of its

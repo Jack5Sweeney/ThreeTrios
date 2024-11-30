@@ -3,7 +3,7 @@ package provider.src.threetrios.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import threetrios.controller.ModelStatusListener;
+import provider.src.threetrios.controller.ModelStatusListener;
 
 /**
  * Model implementation for a Game of Three trios.

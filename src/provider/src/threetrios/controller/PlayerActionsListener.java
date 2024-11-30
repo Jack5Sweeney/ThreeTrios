@@ -1,6 +1,6 @@
 package provider.src.threetrios.controller;
 
-import threetrios.view.Cell;
+import provider.src.threetrios.view.Cell;
 
 /**
  * Player actions listeners are used to communicate from view to controller that a visual
