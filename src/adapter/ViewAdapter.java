@@ -1,21 +1,21 @@
 package adapter;
 
+import provider.src.threetrios.controller.PlayerActionsListener;
 import view.IViewFrameGUI;
 import provider.src.threetrios.view.IGUIView;
 import controller.Features;
 import card.ICard;
 import player.PlayerColor;
-import provider.src.threetrios.model.Card;
-import provider.src.threetrios.model.TeamColor;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
- * Adapter class to bridge between IViewFrameGUI and IGUIView.
+ * Object Adapter to bridge between IViewFrameGUI and IGUIView.
  */
 public class ViewAdapter implements IViewFrameGUI {
   private final IGUIView providedView;
+  private PlayerActionsListener adaptedListener;
+
 
   /**
    * Constructor for the adapter.
@@ -38,8 +38,9 @@ public class ViewAdapter implements IViewFrameGUI {
 
   @Override
   public void addFeatures(Features features) {
-    // Translate Features to the equivalent PlayerActionsListener
-    providedView.addListener(features); // Adjust method mapping if needed.
+    // Create an adapted controller to bridge Features to PlayerActionsListener
+    adaptedListener = new ControllerAdapter(null, this, null, features);
+    providedView.addListener(adaptedListener);
   }
 
   @Override
