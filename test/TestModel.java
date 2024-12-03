@@ -1,6 +1,6 @@
 import gameconfig.ConfigGame;
 import card.CardImpl;
-import card.CellType;
+import card.CellTypeContents;
 import card.DirectionValue;
 import card.ICard;
 import model.IModel;
@@ -525,15 +525,15 @@ public class TestModel {
   public void testGetBoardAvailabilityReturnsDeepCopy() {
     simpleModel.startGame();
 
-    CellType[][] availabilityCopy = simpleModel.getBoardAvailability();
+    CellTypeContents[][] availabilityCopy = simpleModel.getBoardAvailability();
 
-    CellType originalCellType = simpleModel.getBoardAvailability()[0][0];
+    CellTypeContents originalCellType = simpleModel.getBoardAvailability()[0][0];
     assertEquals(originalCellType, availabilityCopy[0][0]);
 
-    availabilityCopy[0][0] = CellType.HOLE;
+    availabilityCopy[0][0] = CellTypeContents.HOLE;
 
     assertEquals(originalCellType, simpleModel.getBoardAvailability()[0][0]);
-    assertNotEquals(CellType.HOLE, simpleModel.getBoardAvailability()[0][0]);
+    assertNotEquals(CellTypeContents.HOLE, simpleModel.getBoardAvailability()[0][0]);
   }
 
   @Test(expected = IllegalStateException.class)

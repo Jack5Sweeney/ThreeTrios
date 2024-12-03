@@ -1,10 +1,10 @@
 package teststrategies;
 
+import card.CellTypeContents;
 import gameconfig.ConfigGame;
 import strategies.CornerStrategy;
 import strategies.FlipTheMostStrategy;
 import strategies.Placement;
-import card.CellType;
 import card.ICard;
 import model.IModel;
 import player.IPlayer;
@@ -34,7 +34,7 @@ public class TestStrategies {
   private PlayerImpl bluePlayer;
   private FlipTheMostStrategy strategy1;
   private CornerStrategy strategy2;
-  private CellType[][] board1;
+  private CellTypeContents[][] board1;
 
   @Before
   public void setup() {

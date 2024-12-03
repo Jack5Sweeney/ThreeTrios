@@ -1,6 +1,6 @@
 package gameconfig;
 
-import card.CellType;
+import card.CellTypeContents;
 import card.ICard;
 import card.CardImpl;
 import player.PlayerColor;
@@ -53,11 +53,11 @@ public class ConfigGame {
   /**
    * Retrieves the board setup as specified in the configuration file.
    *
-   * @return a 2D array of {@link CellType} representing the board layout
+   * @return a 2D array of {@link CellTypeContents} representing the board layout
    * @throws IllegalArgumentException if the configuration file is missing, has invalid content,
    *                                  or there is an error while reading it
    */
-  public CellType[][] getBoard() {
+  public CellTypeContents[][] getBoard() {
     return configBoard();
   }
 
@@ -76,11 +76,11 @@ public class ConfigGame {
    * Reads the board configuration file to set up the board dimensions and initializes
    * the availability of each cell based on the content of the file.
    *
-   * @return a 2D array of {@link CellType} that represents the initial board configuration
+   * @return a 2D array of {@link CellTypeContents} that represents the initial board configuration
    * @throws IllegalArgumentException if the configuration file is missing, has an invalid format,
    *                                  or cannot be read properly
    */
-  private CellType[][] configBoard() {
+  private CellTypeContents[][] configBoard() {
     if (pathToBoardConfig.exists() && pathToBoardConfig.isFile()) {
       try (BufferedReader reader = new BufferedReader(new FileReader(pathToBoardConfig))) {
         String firstLine = reader.readLine();
@@ -156,21 +156,21 @@ public class ConfigGame {
    * @param numRows    the number of rows on the board
    * @param numColumns the number of columns on the board
    * @param reader     the {@link BufferedReader} used to read the board configuration file
-   * @return a 2D array of {@link CellType} indicating the type of each cell on the board
+   * @return a 2D array of {@link CellTypeContents} indicating the type of each cell on the board
    * @throws IOException if there is an error reading the file or invalid content is encountered
    */
-  private CellType[][] configBoardAvailability(int numRows, int numColumns, BufferedReader reader)
+  private CellTypeContents[][] configBoardAvailability(int numRows, int numColumns, BufferedReader reader)
       throws IOException {
-    CellType[][] boardAvailability = new CellType[numRows][numColumns];
+    CellTypeContents[][] boardAvailability = new CellTypeContents[numRows][numColumns];
     for (int row = 0; row < numRows; row++) {
       String line = reader.readLine();
       if (line != null) {
         char[] parts = line.toCharArray();
         for (int column = 0; column < numColumns; column++) {
           if (parts[column] == 'C') {
-            boardAvailability[row][column] = CellType.EMPTY;
+            boardAvailability[row][column] = CellTypeContents.EMPTY;
           } else if (parts[column] == 'X') {
-            boardAvailability[row][column] = CellType.HOLE;
+            boardAvailability[row][column] = CellTypeContents.HOLE;
           } else {
             throw new IOException("Invalid character in config file.");
           }

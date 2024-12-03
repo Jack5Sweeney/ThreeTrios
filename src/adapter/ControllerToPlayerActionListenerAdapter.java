@@ -11,10 +11,10 @@ import view.IViewFrameGUI;
 /**
  * Object adapter controller that bridges Features and PlayerActionsListener.
  */
-public class ControllerAdapter extends ControllerGUIImpl implements PlayerActionsListener {
+public class ControllerToPlayerActionListenerAdapter extends ControllerGUIImpl implements PlayerActionsListener {
   private final Features features;
 
-  public ControllerAdapter(IModel model, IViewFrameGUI view, IPlayer player, Features features) {
+  public ControllerToPlayerActionListenerAdapter(IModel model, IViewFrameGUI view, IPlayer player, Features features) {
     super(view, model, player);
     this.features = features;
   }

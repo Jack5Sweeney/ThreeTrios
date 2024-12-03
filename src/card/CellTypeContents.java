@@ -8,7 +8,7 @@ package card;
  *   <li>EMPTY - A cell that is empty.</li>
  * </ul>
  */
-public enum CellType {
+public enum CellTypeContents {
   HOLE,  // Represents a hole in the game grid.
   CARD,  // Represents a cell containing a card.
   EMPTY; // Represents an empty cell.

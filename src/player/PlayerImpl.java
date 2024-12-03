@@ -5,6 +5,7 @@ import model.IModel;
 import strategies.Placement;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Represents a player in the game, holding a hand of cards and associated with a specific color.
@@ -29,7 +30,7 @@ public class PlayerImpl implements IPlayer {
    * @param playerColor the {@link PlayerColor} representing the player (e.g., RED or BLUE)
    * @param hand        the initial hand of {@link ICard} objects for the player
    */
-  public PlayerImpl(PlayerColor playerColor, ArrayList<ICard> hand) {
+  public PlayerImpl(PlayerColor playerColor, List<ICard> hand) {
     this.playerColor = playerColor;
     this.hand = new ArrayList<>(hand);  // Create a defensive copy of the hand
   }
@@ -54,7 +55,7 @@ public class PlayerImpl implements IPlayer {
    * @return a new {@link ArrayList} containing the player's cards
    */
   @Override
-  public ArrayList<ICard> getHand() {
+  public List<ICard> getHand() {
     return new ArrayList<>(this.hand);  // Return a defensive copy of the hand
   }
 

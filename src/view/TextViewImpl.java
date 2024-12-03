@@ -1,6 +1,6 @@
 package view;
 
-import card.CellType;
+import card.CellTypeContents;
 import player.PlayerColor;
 import model.IModel;
 import player.IPlayer;
@@ -67,14 +67,14 @@ public class TextViewImpl implements ITextView {
    */
   private void appendBoard(StringBuilder sb) {
     ICard[][] boardWithCards = model.getBoard();
-    CellType[][] boardAvailability = model.getBoardAvailability();
+    CellTypeContents[][] boardAvailability = model.getBoardAvailability();
 
     for (int row = 0; row < boardWithCards.length; row++) {
       for (int col = 0; col < boardWithCards[row].length; col++) {
         if (boardWithCards[row][col] != null) {
           // Display 'R' or 'B' based on the card’s player color
           sb.append(boardWithCards[row][col].getPlayerColor() == PlayerColor.RED ? "R" : "B");
-        } else if (boardAvailability[row][col] == CellType.HOLE) {
+        } else if (boardAvailability[row][col] == CellTypeContents.HOLE) {
           sb.append(" ");  // Hole
         } else {
           sb.append("_");  // Empty cell

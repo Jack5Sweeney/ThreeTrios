@@ -1,6 +1,6 @@
 package strategies;
 
-import card.CellType;
+import card.CellTypeContents;
 import card.ICard;
 import model.IModel;
 import player.IPlayer;
@@ -27,7 +27,7 @@ public class FlipTheMostStrategy implements IStrategy {
 
     int boardHeight = model.getBoard().length;
     int boardWidth = model.getBoard()[0].length;
-    CellType[][] boardAvailability = model.getBoardAvailability();
+    CellTypeContents[][] boardAvailability = model.getBoardAvailability();
 
     // Iterate through each cell on the board
     for (int row = 0; row < boardHeight; row++) {
@@ -37,7 +37,7 @@ public class FlipTheMostStrategy implements IStrategy {
           model.getCardAt(row, col);
         } catch (IllegalArgumentException e) {
           // Skip non-empty or non-playable cells
-          if (boardAvailability[row][col] != CellType.EMPTY) {
+          if (boardAvailability[row][col] != CellTypeContents.EMPTY) {
             continue;
           }
 
@@ -68,7 +68,7 @@ public class FlipTheMostStrategy implements IStrategy {
     if (bestPlacement == null) {
       for (int row = 0; row < boardHeight; row++) {
         for (int col = 0; col < boardWidth; col++) {
-          if (boardAvailability[row][col] == CellType.EMPTY &&
+          if (boardAvailability[row][col] == CellTypeContents.EMPTY &&
               model.getBoard()[row][col] == null) {
             bestPlacement = new Placement(row, col, 0);
             return bestPlacement;

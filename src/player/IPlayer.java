@@ -4,7 +4,7 @@ import card.ICard;
 import model.IModel;
 import strategies.Placement;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Interface representing a player in a Triple Triad game. A player is associated with a
@@ -22,9 +22,9 @@ public interface IPlayer {
   /**
    * Retrieves a copy of the player's current hand of cards.
    *
-   * @return an {@link ArrayList} of {@link ICard} objects representing the player's hand
+   * @return a list of {@link ICard} objects representing the player's hand
    */
-  ArrayList<ICard> getHand();
+  List<ICard> getHand();
 
   /**
    * Adds a card to the player's hand.

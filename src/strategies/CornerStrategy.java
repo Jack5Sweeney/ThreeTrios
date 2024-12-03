@@ -1,6 +1,6 @@
 package strategies;
 
-import card.CellType;
+import card.CellTypeContents;
 import card.Direction;
 import card.ICard;
 import model.IModel;
@@ -45,7 +45,7 @@ public class CornerStrategy implements IStrategy {
         {Direction.WEST, Direction.NORTH}      // bottom-right
     };
 
-    CellType[][] boardAvailability = model.getBoardAvailability();
+    CellTypeContents[][] boardAvailability = model.getBoardAvailability();
 
     // Iterate through each card in hand and each corner position
     for (int i = 0; i < corners.length; i++) {
@@ -58,7 +58,7 @@ public class CornerStrategy implements IStrategy {
       } catch (IllegalArgumentException e) {
 
         // Skip non-empty or non-playable cells
-        if (boardAvailability[cornerRow][cornerCol] != CellType.EMPTY) {
+        if (boardAvailability[cornerRow][cornerCol] != CellTypeContents.EMPTY) {
           continue;
         }
 
@@ -90,7 +90,7 @@ public class CornerStrategy implements IStrategy {
     if (bestPlacement == null) {
       for (int row = 0; row < boardHeight; row++) {
         for (int col = 0; col < boardWidth; col++) {
-          if (boardAvailability[row][col] != CellType.EMPTY) {
+          if (boardAvailability[row][col] != CellTypeContents.EMPTY) {
             continue;
           }
           try {
@@ -121,7 +121,7 @@ public class CornerStrategy implements IStrategy {
    */
   private int calculateVulnerability(ICard card, Direction[] exposedDirections,
                                      IModel model, int row, int col,
-                                     CellType[][] boardAvailability) {
+                                     CellTypeContents[][] boardAvailability) {
     int totalVulnerability = 0;
 
     for (Direction direction : exposedDirections) {
@@ -148,7 +148,7 @@ public class CornerStrategy implements IStrategy {
       // Only add to vulnerability if the adjacent cell is open and within bounds
       if (adjRow >= 0 && adjRow < boardAvailability.length && adjCol >= 0 && adjCol
           < boardAvailability[0].length &&
-          boardAvailability[adjRow][adjCol] == CellType.EMPTY) {
+          boardAvailability[adjRow][adjCol] == CellTypeContents.EMPTY) {
         int value = card.getDirectionsAndValues().get(direction).getValue();
         totalVulnerability += (10 - value);
       }

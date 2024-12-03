@@ -1,7 +1,7 @@
 package model;
 
 import card.CardImpl;
-import card.CellType;
+import card.CellTypeContents;
 import card.Direction;
 import card.ICard;
 import controller.ModelObserver;
@@ -35,7 +35,7 @@ import static java.util.Collections.frequency;
  */
 public class ModelImpl implements IModel {
 
-  private final CellType[][] boardAvailability;
+  private final CellTypeContents[][] boardAvailability;
   private final ICard[][] boardWithCards;
   private final ArrayList<ICard> deck;
   private final IPlayer redPlayer;
@@ -52,11 +52,11 @@ public class ModelImpl implements IModel {
   /**
    * Initializes the game model with a board configuration, deck of cards, and players.
    *
-   * @param board   a 2D array of {@link CellType} representing the board layout
+   * @param board   a 2D array of {@link CellTypeContents} representing the board layout
    * @param deck    a list of {@link ICard} representing the deck of cards
    * @param players a list of {@link IPlayer} representing the players in the game
    */
-  public ModelImpl(CellType[][] board, ArrayList<ICard> deck, ArrayList<IPlayer> players) {
+  public ModelImpl(CellTypeContents[][] board, ArrayList<ICard> deck, ArrayList<IPlayer> players) {
     this.boardAvailability = board;
     this.boardWithCards = new ICard[board.length][board[0].length];
     this.deck = deck;
@@ -140,8 +140,8 @@ public class ModelImpl implements IModel {
    */
   private void ensureCorrectAmountOfCards() {
     int playableSpacesCount = 0;
-    for (CellType[] row : boardAvailability) {
-      playableSpacesCount += frequency(asList(row), CellType.EMPTY);
+    for (CellTypeContents[] row : boardAvailability) {
+      playableSpacesCount += frequency(asList(row), CellTypeContents.EMPTY);
     }
     if (this.deck.size() < playableSpacesCount + 1) {
       throw new IllegalArgumentException("The deck should contain at least " +
@@ -209,7 +209,7 @@ public class ModelImpl implements IModel {
     checkValidCardPlacement(boardRow, boardCol);
     ICard placedCard = player.removeFromHand(cardIndexInHand);
     this.boardWithCards[boardRow][boardCol] = placedCard;
-    this.boardAvailability[boardRow][boardCol] = CellType.CARD;
+    this.boardAvailability[boardRow][boardCol] = CellTypeContents.CARD;
     updateBoard(placedCard, boardRow, boardCol);
     updateCurrentPlayer(player);
     checkGameStatus();
@@ -268,7 +268,7 @@ public class ModelImpl implements IModel {
    */
   private void checkValidCardPlacement(int boardRow, int boardCol) {
     checkValidIndex(boardRow, boardCol);
-    if (this.boardAvailability[boardRow][boardCol] != CellType.EMPTY) {
+    if (this.boardAvailability[boardRow][boardCol] != CellTypeContents.EMPTY) {
       throw new IllegalArgumentException("The card placement is not valid for the board.");
     }
   }
@@ -494,12 +494,12 @@ public class ModelImpl implements IModel {
   /**
    * Provides a copy of the board availability array, showing each cell's availability type.
    *
-   * @return a 2D array of {@link CellType} objects representing the availability status of
+   * @return a 2D array of {@link CellTypeContents} objects representing the availability status of
    *         each cell
    */
-  public CellType[][] getBoardAvailability() {
+  public CellTypeContents[][] getBoardAvailability() {
     int numRows = boardAvailability.length;
-    CellType[][] availabilityCopy = new CellType[numRows][];
+    CellTypeContents[][] availabilityCopy = new CellTypeContents[numRows][];
 
     for (int rowIndx = 0; rowIndx < numRows; rowIndx++) {
       availabilityCopy[rowIndx] = boardAvailability[rowIndx].clone();
@@ -521,8 +521,8 @@ public class ModelImpl implements IModel {
 
     for (int row = 0; row < boardWithCards.length; row++) {
       for (int col = 0; col < boardWithCards[row].length; col++) {
-        if (boardAvailability[row][col] == CellType.EMPTY ||
-            boardAvailability[row][col] == CellType.CARD) {
+        if (boardAvailability[row][col] == CellTypeContents.EMPTY ||
+            boardAvailability[row][col] == CellTypeContents.CARD) {
           totalPlayableCells++;
           if (boardWithCards[row][col] != null) {
             totalOccupiedCells++;

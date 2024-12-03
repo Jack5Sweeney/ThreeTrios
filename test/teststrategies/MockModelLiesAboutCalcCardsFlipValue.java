@@ -1,7 +1,7 @@
 package teststrategies;
 
 import card.CardImpl;
-import card.CellType;
+import card.CellTypeContents;
 import card.ICard;
 import controller.ModelObserver;
 import model.IModel;
@@ -16,7 +16,7 @@ import player.PlayerColor;
  */
 public class MockModelLiesAboutCalcCardsFlipValue implements IModel {
   private final ICard[][] boardWithCards;
-  private final CellType[][] boardAvailability;
+  private final CellTypeContents[][] boardAvailability;
 
   /**
    * Constructs a {@code MockModelLiesAboutCalcCardsFlipValue} with a specified board setup.
@@ -25,7 +25,7 @@ public class MockModelLiesAboutCalcCardsFlipValue implements IModel {
    * @param boardAvailability the availability of each cell on the board
    */
   public MockModelLiesAboutCalcCardsFlipValue(ICard[][] boardWithCards,
-                                              CellType[][] boardAvailability) {
+                                              CellTypeContents[][] boardAvailability) {
     this.boardWithCards = boardWithCards;
     this.boardAvailability = boardAvailability;
   }
@@ -133,7 +133,7 @@ public class MockModelLiesAboutCalcCardsFlipValue implements IModel {
    * @return the 2D array representing the cell availability on the board
    */
   @Override
-  public CellType[][] getBoardAvailability() {
+  public CellTypeContents[][] getBoardAvailability() {
     return this.boardAvailability;
   }
 

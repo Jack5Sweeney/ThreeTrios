@@ -1,6 +1,6 @@
 package view;
 
-import card.CellType;
+import card.CellTypeContents;
 import javax.swing.JPanel;
 import javax.swing.BorderFactory;
 import java.awt.Color;
@@ -25,7 +25,7 @@ public class ViewBoardPanelGUIImpl extends JPanel implements IViewBoardPanelGUI 
    * @param numCols           the number of columns in the game board
    * @param boardAvailability a 2D array representing the availability status of each cell
    */
-  public ViewBoardPanelGUIImpl(int numRows, int numCols, CellType[][] boardAvailability) {
+  public ViewBoardPanelGUIImpl(int numRows, int numCols, CellTypeContents[][] boardAvailability) {
     setLayout(new GridLayout(numRows, numCols)); // Set grid layout for the board
 
     // Initialize each cell panel and add it to the board
@@ -101,7 +101,7 @@ public class ViewBoardPanelGUIImpl extends JPanel implements IViewBoardPanelGUI 
    */
   private class CellPanel extends JPanel {
 
-    public CellPanel(int row, int col, CellType cellType) {
+    public CellPanel(int row, int col, CellTypeContents cellType) {
       setCellColor(cellType); // Set the initial color based on the cell type
 
       setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
@@ -122,7 +122,7 @@ public class ViewBoardPanelGUIImpl extends JPanel implements IViewBoardPanelGUI 
      *
      * @param cellType the new cell type for this cell
      */
-    public void updateCell(CellType cellType) {
+    public void updateCell(CellTypeContents cellType) {
       setCellColor(cellType);
       repaint(); // Repaint the cell to reflect the updated color
     }
@@ -132,7 +132,7 @@ public class ViewBoardPanelGUIImpl extends JPanel implements IViewBoardPanelGUI 
      *
      * @param cellType the type of cell (e.g., HOLE, EMPTY)
      */
-    private void setCellColor(CellType cellType) {
+    private void setCellColor(CellTypeContents cellType) {
       switch (cellType) {
         case HOLE:
           setBackground(Color.GRAY);

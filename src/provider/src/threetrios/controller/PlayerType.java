@@ -2,7 +2,7 @@ package provider.src.threetrios.controller;
 
 import provider.src.threetrios.model.Model;
 import provider.src.threetrios.model.TeamColor;
-import provider.src.threetrios.strategies.Move;
+import provider.src.threetrios.strategies.IMove;
 import provider.src.threetrios.strategies.MoveStrategy;
 
 /**
@@ -17,7 +17,7 @@ public interface PlayerType {
    * @param model is the model the game is being played one.
    * @return the move selected by a strategy.
    */
-  Move play(Model model);
+  IMove play(Model model);
 
   /**
    * Returns a players team color, this can be either red or blue.

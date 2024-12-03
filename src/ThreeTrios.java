@@ -1,10 +1,14 @@
-import card.CellType;
+import adapter.IGUIViewToIViewFrameGUIAdapter;
+import adapter.ModelToReadOnlyThreeTriosModelAdapter;
+import card.CellTypeContents;
 import card.ICard;
 import controller.ControllerGUIImpl;
 import gameconfig.ConfigGame;
 import model.ModelImpl;
 import player.IPlayer;
 import player.PlayerColor;
+import provider.src.threetrios.view.GUIView;
+import provider.src.threetrios.view.IGUIView;
 import view.IViewFrameGUI;
 import view.ViewFrameGUIImpl;
 import controller.IControllerGUI;
@@ -21,7 +25,7 @@ public class ThreeTrios {
    */
   public static void main(String[] args) {
     ConfigGame gameConfigurator = new ConfigGame("board.config", "card.database");
-    CellType[][] board = gameConfigurator.getBoard();
+    CellTypeContents[][] board = gameConfigurator.getBoard();
     ArrayList<ICard> deck = gameConfigurator.getDeck();
     PlayerFactory playerFactory = new PlayerFactory();
 
@@ -38,11 +42,12 @@ public class ThreeTrios {
 
     // Initialize views
     IViewFrameGUI redView = new ViewFrameGUIImpl(model);
-    IViewFrameGUI blueView = new ViewFrameGUIImpl(model);
+    IGUIView blueView = new GUIView(new ModelToReadOnlyThreeTriosModelAdapter(model));
 
     // Initialize controllers
     IControllerGUI redController = new ControllerGUIImpl(redView, model, redPlayer);
-    IControllerGUI blueController = new ControllerGUIImpl(blueView, model, bluePlayer);
+    IControllerGUI blueController = new ControllerGUIImpl(
+        new IGUIViewToIViewFrameGUIAdapter(blueView, model, bluePlayer), model, bluePlayer);
 
     redController.playGame();
     blueController.playGame();

@@ -1,7 +1,7 @@
 package teststrategies;
 
 import card.CardImpl;
-import card.CellType;
+import card.CellTypeContents;
 import card.ICard;
 import controller.ModelObserver;
 import model.IModel;
@@ -19,7 +19,7 @@ import java.util.List;
 public class MockModelRecordCoordinatesChecked implements IModel {
   public ArrayList<ArrayList<Integer>> cordLog;
   private final ICard[][] boardWithCards;
-  private final CellType[][] boardAvailability;
+  private final CellTypeContents[][] boardAvailability;
 
   /**
    * Constructs a {@code MockModelRecordCoordinatesChecked} with a specified board configuration.
@@ -28,7 +28,7 @@ public class MockModelRecordCoordinatesChecked implements IModel {
    * @param boardAvailability the availability of each cell on the board
    */
   public MockModelRecordCoordinatesChecked(ICard[][] boardWithCards,
-                                           CellType[][] boardAvailability) {
+                                           CellTypeContents[][] boardAvailability) {
     this.cordLog = new ArrayList<ArrayList<Integer>>();
     this.boardWithCards = boardWithCards;
     this.boardAvailability = boardAvailability;
@@ -137,7 +137,7 @@ public class MockModelRecordCoordinatesChecked implements IModel {
    * @return the 2D array representing the cell availability on the board
    */
   @Override
-  public CellType[][] getBoardAvailability() {
+  public CellTypeContents[][] getBoardAvailability() {
     return this.boardAvailability;
   }
 

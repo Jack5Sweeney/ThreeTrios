@@ -1,7 +1,7 @@
 package model;
 
 import card.CardImpl;
-import card.CellType;
+import card.CellTypeContents;
 import card.ICard;
 import player.IPlayer;
 import player.PlayerColor;
@@ -48,10 +48,10 @@ public interface ReadOnlyIModel {
   /**
    * Returns the board availability information.
    *
-   * @return a 2D array of {@link CellType} objects representing the availability status of each
+   * @return a 2D array of {@link CellTypeContents} objects representing the availability status of each
    *         cell
    */
-  CellType[][] getBoardAvailability();
+  CellTypeContents[][] getBoardAvailability();
 
   /**
    * Checks if the game has started.

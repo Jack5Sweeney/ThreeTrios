@@ -1,7 +1,7 @@
 package controllertesting;
 
+import card.CellTypeContents;
 import card.ICard;
-import card.CellType;
 import card.CardImpl;
 import controller.ModelObserver;
 
@@ -23,10 +23,10 @@ public class MockModelForControllerGUI implements IModel {
 
   // Mock board and availability arrays
   private final ICard[][] boardWithCards;
-  private final CellType[][] boardAvailability;
+  private final CellTypeContents[][] boardAvailability;
 
   // Constructor to set up mock board and availability
-  public MockModelForControllerGUI(ICard[][] boardWithCards, CellType[][] boardAvailability) {
+  public MockModelForControllerGUI(ICard[][] boardWithCards, CellTypeContents[][] boardAvailability) {
     this.boardWithCards = boardWithCards;
     this.boardAvailability = boardAvailability;
   }
@@ -59,7 +59,7 @@ public class MockModelForControllerGUI implements IModel {
   }
 
   @Override
-  public CellType[][] getBoardAvailability() {
+  public CellTypeContents[][] getBoardAvailability() {
     return this.boardAvailability;
   }
 

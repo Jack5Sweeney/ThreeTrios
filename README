@@ -35,7 +35,7 @@ Key Subcomponents :
 card.Direction and card.Direction value: These are important enums that determine the direction and
 value of each card, which is vital for the model and logic of the game.
 
-card.CellType: This is an enum which determines if the cell of the board is empty, a card, or a hole.
+card.CellTypeContents: This is an enum which determines if the cell of the board is empty, a card, or a hole.
 this is important for the board configuration and how the game can be played.
 
 card.CardImpl: This class is for the creation of a card. The card has a player, a player name, and the
@@ -45,12 +45,12 @@ player.PlayerColor: This is a simple enum that helps determine if it is either a
 
 Class Invariants:
 The board availability and board with cards arrays are consistent. For any position (i, j):
-If boardAvailability[i][j] == card.CellType. CARD, then boardWithCards[i][j] != null.
-If boardAvailability[i][j] != card.CellType. CARD, then boardWithCards[i][j] == null.
+If boardAvailability[i][j] == card.CellTypeContents. CARD, then boardWithCards[i][j] != null.
+If boardAvailability[i][j] != card.CellTypeContents. CARD, then boardWithCards[i][j] == null.
 
-In the configBoardAvailability method the cells that are marked as card.CellType.EMPTY or
-card.CellType.HOLE are set in boardAvailability without any cards in boardWithCards ensuring that non
-card.CellType.CARD cells are null in the boardWithCards.
+In the configBoardAvailability method the cells that are marked as card.CellTypeContents.EMPTY or
+card.CellTypeContents.HOLE are set in boardAvailability without any cards in boardWithCards ensuring that non
+card.CellTypeContents.CARD cells are null in the boardWithCards.
 
 These are invariants because they are logical statements that occur consistently throughout
 the model that have to be true for the board to work.
