@@ -3,6 +3,8 @@ package controller;
 import player.IPlayer;
 import model.IModel;
 import player.PlayerColor;
+import provider.src.threetrios.controller.PlayerActionsListener;
+import provider.src.threetrios.view.Cell;
 import strategies.Placement;
 import view.IViewFrameGUI;
 import view.ViewFrameGUIImpl;
@@ -12,7 +14,7 @@ import view.ViewFrameGUIImpl;
  * logic and interactions between the model and the GUI view. It also implements the
  * {@link Features} interface to handle user interactions within the GUI.
  */
-public class ControllerGUIImpl implements IControllerGUI, Features, ModelObserver, PlayerActions {
+public class ControllerGUIImpl implements IControllerGUI, Features, ModelObserver, PlayerActions, PlayerActionsListener {
 
   private IViewFrameGUI view;
   private final IPlayer player;
@@ -159,5 +161,10 @@ public class ControllerGUIImpl implements IControllerGUI, Features, ModelObserve
       int index = playerPlacement.cardIndex;
       model.placeCard(row, col, index, player);
     }
+  }
+
+  @Override
+  public void onPlaceCard(int row, int col, Cell cell) {
+    this.handleCellClick(row, col);
   }
 }

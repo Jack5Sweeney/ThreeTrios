@@ -43,9 +43,7 @@ public class IGUIViewToIViewFrameGUIAdapter implements IViewFrameGUI {
 
   @Override
   public void addFeatures(Features features) {
-    // Create an adapted controller to bridge Features to PlayerActionsListener
-    PlayerActionsListener adaptedListener = new ControllerToPlayerActionListenerAdapter(model, this, player, features);
-    providedView.addListener(adaptedListener);
+    providedView.addListener(new FeaturesToPlayerActionListener(features));
   }
 
   @Override
