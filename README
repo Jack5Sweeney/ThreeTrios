@@ -264,3 +264,23 @@ Design Changes
     GUI Enhancements:
     Player views dynamically update their hand and board displays to reflect the latest game state.
     The active player’s window is brought to the foreground to improve turn-based interactivity.
+
+Adaptor Assignment (HW8)
+    In this assignment we were fully able to adapt the providers View besides notifying the player if the won or
+    lost (more details below), in order to do so we needed to implement the providers PlayerActionListeners
+    interface into our controller, this is ok as the controller is also our listener, implementing our
+    features and other observer interfaces. This was a design choice made a few homeworks ago, we
+    asked Professor Nunez about this and she said it is ok and will not receive points off for.
+
+    The only functionality missing is the providers code moving the current players view to the front,
+    this is because they simply did not implement anything of that nature to their view.
+
+    The feature for handling the end-game state and notifying the player of the game's outcome is
+    unadaptable in this context because the provider's implementation relies on their controller to
+    manage and communicate the game state to the view. Since we do not have access to their controller
+    implementation and cannot modify their controller to integrate with our model and view, this feature
+    cannot be seamlessly adapted. Additionally, our implementation adheres to the MVC design pattern,
+    where the model is responsible for maintaining the game state, and the controller acts as an
+    intermediary between the model and the view. Integrating this feature would require violating the
+    MVC principles by moving game state management into the controller, which is not aligned with our
+    architectural design.
