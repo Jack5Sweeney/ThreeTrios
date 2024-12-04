@@ -33,6 +33,7 @@ public class CardToICardAdapter implements Card {
 
   @Override
   public void flip() {
+    // never used in implementation, therefore do not need to adapt
   }
 
   @Override
