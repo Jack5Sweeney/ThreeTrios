@@ -16,8 +16,6 @@ import java.util.List;
  */
 public class IGUIViewToIViewFrameGUIAdapter implements IViewFrameGUI {
   private final IGUIView providedView;
-  private final IModel model;
-  private final IPlayer player;
 
 
   /**
@@ -25,10 +23,8 @@ public class IGUIViewToIViewFrameGUIAdapter implements IViewFrameGUI {
    *
    * @param providedView the provided IGUIView instance.
    */
-  public IGUIViewToIViewFrameGUIAdapter(IGUIView providedView, IModel model, IPlayer player ) {
+  public IGUIViewToIViewFrameGUIAdapter(IGUIView providedView) {
     this.providedView = providedView;
-    this.model = model;
-    this.player = player;
   }
 
   @Override
@@ -58,10 +54,12 @@ public class IGUIViewToIViewFrameGUIAdapter implements IViewFrameGUI {
 
   @Override
   public void enableInteractions() {
+    // Provider does not enable/disable interactions
   }
 
   @Override
   public void disableInteractions() {
+    // Provider does not enable/disable interactions
   }
 
   @Override

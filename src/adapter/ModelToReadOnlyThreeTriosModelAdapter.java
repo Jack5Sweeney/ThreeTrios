@@ -94,8 +94,8 @@ public class ModelToReadOnlyThreeTriosModelAdapter implements ReadonlyThreeTrios
     int cols = modelDelegate.getBoard()[0].length;
 
     Object[][] boardArray =  new Object[rows][cols];
-    for(int row = 0; row < getGridSize(); row++) {
-      for(int col = 0; col < getGridSize(); col++) {
+    for(int row = 0; row < rows; row++) {
+      for(int col = 0; col < cols; col++) {
         if(modelDelegate.getBoard()[row][col] != null) {
           boardArray[row][col] = new CardToICardAdapter(modelDelegate.getCardAt(row,col));
         }

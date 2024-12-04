@@ -55,7 +55,7 @@ public class ControllerGUIImpl implements IControllerGUI, Features, ModelObserve
   public void playGame() {
     this.model.startGame();
     this.model.addObserver(this);
-    this.view = new ViewFrameGUIImpl(this.model);
+    //this.view = new ViewFrameGUIImpl(this.model);
     view.addFeatures(this);
     view.makeVisible();
 

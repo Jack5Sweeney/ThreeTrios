@@ -47,7 +47,7 @@ public class ThreeTrios {
     // Initialize controllers
     IControllerGUI redController = new ControllerGUIImpl(redView, model, redPlayer);
     IControllerGUI blueController = new ControllerGUIImpl(
-        new IGUIViewToIViewFrameGUIAdapter(blueView, model, bluePlayer), model, bluePlayer);
+        new IGUIViewToIViewFrameGUIAdapter(blueView), model, bluePlayer);
 
     redController.playGame();
     blueController.playGame();
