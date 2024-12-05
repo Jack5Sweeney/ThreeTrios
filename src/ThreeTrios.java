@@ -1,14 +1,12 @@
-import adapter.IGUIViewToIViewFrameGUIAdapter;
-import adapter.ModelToReadOnlyThreeTriosModelAdapter;
 import card.CellTypeContents;
 import card.ICard;
 import controller.ControllerGUIImpl;
+import controller.Features;
 import gameconfig.ConfigGame;
+import gameconsole.GameConsole;
 import model.ModelImpl;
 import player.IPlayer;
 import player.PlayerColor;
-import provider.src.threetrios.view.GUIView;
-import provider.src.threetrios.view.IGUIView;
 import view.IViewFrameGUI;
 import view.ViewFrameGUIImpl;
 import controller.IControllerGUI;
@@ -28,6 +26,7 @@ public class ThreeTrios {
     CellTypeContents[][] board = gameConfigurator.getBoard();
     ArrayList<ICard> deck = gameConfigurator.getDeck();
     PlayerFactory playerFactory = new PlayerFactory();
+    GameConsole gameConsole = new GameConsole();
 
     if (args.length != 2) {
       throw new IllegalArgumentException("Player options: 'human', 'strategy1', 'strategy2'");
@@ -42,14 +41,14 @@ public class ThreeTrios {
 
     // Initialize views
     IViewFrameGUI redView = new ViewFrameGUIImpl(model);
-    IGUIView blueView = new GUIView(new ModelToReadOnlyThreeTriosModelAdapter(model));
+    IViewFrameGUI blueView = new ViewFrameGUIImpl(model);
 
     // Initialize controllers
-    IControllerGUI redController = new ControllerGUIImpl(redView, model, redPlayer);
-    IControllerGUI blueController = new ControllerGUIImpl(
-        new IGUIViewToIViewFrameGUIAdapter(blueView), model, bluePlayer);
+    IControllerGUI redController = new ControllerGUIImpl(redView, model, redPlayer, gameConsole);
+    IControllerGUI blueController = new ControllerGUIImpl(blueView, model, bluePlayer, gameConsole);
 
     redController.playGame();
     blueController.playGame();
+    gameConsole.runGame();
   }
 }

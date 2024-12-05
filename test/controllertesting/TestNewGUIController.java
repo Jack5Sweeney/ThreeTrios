@@ -2,6 +2,8 @@ package controllertesting;
 
 import card.CellTypeContents;
 import gameconfig.ConfigGame;
+import gameconsole.GameConsole;
+import gameconsole.IGameConsole;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -28,6 +30,7 @@ public class TestNewGUIController {
   private MockModelForControllerGUI model;
   private MockPlayer mockPlayer;
   private MockView mockView;
+  private IGameConsole gameConsole;
 
   @Before
   public void setUp() {
@@ -41,21 +44,22 @@ public class TestNewGUIController {
         configGame.getBoard());
     mockPlayer = new MockPlayer(PlayerColor.RED);
     MockPlayer mockPlayer2 = new MockPlayer(PlayerColor.BLUE);
+    this.gameConsole = new GameConsole();
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testConstructorWithNullView() {
-    new ControllerGUIImpl(null, model, mockPlayer);
+    new ControllerGUIImpl(null, model, mockPlayer, gameConsole);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testConstructorWithNullModel() {
-    new ControllerGUIImpl(mockView, null, mockPlayer);
+    new ControllerGUIImpl(mockView, null, mockPlayer, gameConsole);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testConstructorWithNullPlayer() {
-    new ControllerGUIImpl(mockView, model, null);
+    new ControllerGUIImpl(mockView, model, null, gameConsole);
   }
 
   @Test
@@ -67,7 +71,8 @@ public class TestNewGUIController {
     // need to make a mock view
     // need to make mock players but we can do this by just creating players.
 
-    ControllerGUIImpl controller = new ControllerGUIImpl(mockView, mockModel, mockPlayer);
+    ControllerGUIImpl controller = new ControllerGUIImpl(mockView, mockModel, mockPlayer,
+        gameConsole);
     controller.handleCellClick(2, 3);
 
     // Verify coordinates were logged
@@ -76,21 +81,21 @@ public class TestNewGUIController {
 
   @Test
   public void testHandleCellClickNotPlayerTurn() {
-    controller = new ControllerGUIImpl(viewMock, model, mockPlayer);
+    controller = new ControllerGUIImpl(viewMock, model, mockPlayer, gameConsole);
     controller.handleCellClick(1, 1);
     assertEquals("It's not your turn.", viewMock.lastErrorMessage);
   }
 
   @Test
   public void testHandleCellClickNoCardSelected() {
-    controller = new ControllerGUIImpl(viewMock, model, mockPlayer);
+    controller = new ControllerGUIImpl(viewMock, model, mockPlayer, gameConsole);
     controller.handleCellClick(1, 1);
-    assertEquals("Please select a card first.", viewMock.lastErrorMessage);
+    assertEquals("Please select a card first.", viewMock.lastErrorMessage, gameConsole);
   }
 
   @Test
   public void testHandleCardClickInvalidPlayer() {
-    controller = new ControllerGUIImpl(viewMock, model, mockPlayer);
+    controller = new ControllerGUIImpl(viewMock, model, mockPlayer, gameConsole);
     controller.handleCardClick(0, PlayerColor.BLUE);
     assertEquals("It's not your turn or invalid card selection.", viewMock.lastErrorMessage);
   }
@@ -98,7 +103,7 @@ public class TestNewGUIController {
   @Test
   public void testHighlightCardValidInput() {
 
-    ControllerGUIImpl controller = new ControllerGUIImpl(mockView, model, mockPlayer);
+    ControllerGUIImpl controller = new ControllerGUIImpl(mockView, model, mockPlayer, gameConsole);
 
     controller.handleCardClick(2, PlayerColor.RED);
     assertEquals(2, mockView.highlightedRow);
@@ -110,7 +115,7 @@ public class TestNewGUIController {
 
     // in all of these test cases model is the mockModel by the way*
 
-    ControllerGUIImpl controller = new ControllerGUIImpl(mockView, model, mockPlayer);
+    ControllerGUIImpl controller = new ControllerGUIImpl(mockView, model, mockPlayer, gameConsole);
     controller.handleCardClick(1, PlayerColor.BLUE);
     // Verify that highlightCard
     assertEquals(0, mockView.highlightedRow);
@@ -120,7 +125,7 @@ public class TestNewGUIController {
 
   @Test
   public void testOnTurnChangedOpponentTurn() {
-    controller = new ControllerGUIImpl(mockView, model, mockPlayer);
+    controller = new ControllerGUIImpl(mockView, model, mockPlayer, gameConsole);
     // Simulate turn change to opponent
     controller.onTurnChanged(PlayerColor.BLUE);
     assertFalse(viewMock.interactionsEnabled);
@@ -129,7 +134,7 @@ public class TestNewGUIController {
 
   @Test
   public void testOnTurnChangedPlayersTurn() {
-    controller = new ControllerGUIImpl(mockView, model, mockPlayer);
+    controller = new ControllerGUIImpl(mockView, model, mockPlayer, gameConsole);
     // Simulate turn change to the player
     controller.onTurnChanged(PlayerColor.RED);
     assertTrue(viewMock.interactionsEnabled);
@@ -138,7 +143,7 @@ public class TestNewGUIController {
 
   @Test
   public void testOnGameOverTie() {
-    controller = new ControllerGUIImpl(mockView, model, mockPlayer);
+    controller = new ControllerGUIImpl(mockView, model, mockPlayer,gameConsole);
     controller.onGameOver(null); // Simulate a tie
     assertEquals("The game is a tie!", viewMock.lastGameOverMessage);
     assertFalse(viewMock.interactionsEnabled); // Interactions should be disabled
@@ -146,7 +151,7 @@ public class TestNewGUIController {
 
   @Test
   public void testOnGameOverWin() {
-    controller = new ControllerGUIImpl(mockView, model, mockPlayer);
+    controller = new ControllerGUIImpl(mockView, model, mockPlayer, gameConsole);
     controller.onGameOver(PlayerColor.RED); // Simulate player win
     assertEquals("You win!", viewMock.lastGameOverMessage);
     assertFalse(viewMock.interactionsEnabled);
@@ -154,7 +159,7 @@ public class TestNewGUIController {
 
   @Test
   public void testOnGameOverLoss() {
-    controller = new ControllerGUIImpl(mockView, model, mockPlayer);
+    controller = new ControllerGUIImpl(mockView, model, mockPlayer, gameConsole);
     controller.onGameOver(PlayerColor.BLUE); // Simulate player loss
     assertEquals("You lose.", viewMock.lastGameOverMessage);
     assertFalse(viewMock.interactionsEnabled);

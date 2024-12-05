@@ -26,5 +26,15 @@ public interface Features {
    */
   void handleCardClick(int row, PlayerColor color);
 
+  /**
+   * Handles when a player wants to enable hints for a player's color.
+   *
+   */
+  void enableHints();
 
+  /**
+   * Handles when a player wants to disable hints for a player's color.
+   *
+   */
+  void disableHints();
 }

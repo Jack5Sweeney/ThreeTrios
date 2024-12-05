@@ -96,5 +96,7 @@ public interface IViewFrameGUI {
 
   void refreshHands(List<ICard> redHand, List<ICard> blueHand);
 
-  void showFlipCounts(int[][] flipCounts);
+  void enableHints(int[][] flipCounts);
+
+  void disableHints();
 }

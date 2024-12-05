@@ -1,7 +1,5 @@
 package adapter;
 
-import model.IModel;
-import player.IPlayer;
 import provider.src.threetrios.controller.PlayerActionsListener;
 import view.IViewFrameGUI;
 import provider.src.threetrios.view.IGUIView;
@@ -151,7 +149,12 @@ public class IGUIViewToIViewFrameGUIAdapter implements IViewFrameGUI {
   }
 
   @Override
-  public void showFlipCounts(int[][] flipCounts) {
+  public void enableHints(int[][] flipCounts) {
+
+  }
+
+  @Override
+  public void disableHints() {
 
   }
 }

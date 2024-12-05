@@ -218,8 +218,13 @@ public class ViewFrameGUIImpl extends JFrame implements IViewFrameGUI {
   }
 
   @Override
-  public void showFlipCounts(int[][] flipCounts) {
+  public void enableHints(int[][] flipCounts) {
     boardPanel.showFlipCounts(flipCounts); // Delegate to ViewBoardPanelGUIImpl
+  }
+
+  @Override
+  public void disableHints() {
+    boardPanel.clearHints();
   }
 
 }

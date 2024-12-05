@@ -101,6 +101,19 @@ public class ViewBoardPanelGUIImpl extends JPanel implements IViewBoardPanelGUI 
     this.repaint();
   }
 
+  @Override
+  public void clearHints() {
+    // Iterate through all components in the board
+    for (Component comp : getComponents()) {
+      if (comp instanceof CellPanel) {
+        CellPanel cellPanel = (CellPanel) comp;
+        cellPanel.clearFlipCount(); // Clear the flip count for each cell
+      }
+    }
+
+    this.revalidate(); // Ensure the layout updates after clearing
+    this.repaint();    // Redraw the board
+  }
 
   /**
    * Enables interaction with all components within this container. This method
@@ -156,12 +169,6 @@ public class ViewBoardPanelGUIImpl extends JPanel implements IViewBoardPanelGUI 
       return cellType;
     }
 
-    // Setter for the cell type (if it changes dynamically)
-    public void setCellType(CellTypeContents cellType) {
-      this.cellType = cellType;
-      setCellColor(cellType); // Update the color based on the new type
-    }
-
     public void setFlipCount(int count) {
       if (flipCountLabel == null) {
         flipCountLabel = new JLabel();
@@ -199,5 +206,4 @@ public class ViewBoardPanelGUIImpl extends JPanel implements IViewBoardPanelGUI 
       }
     }
   }
-
-  }
+}

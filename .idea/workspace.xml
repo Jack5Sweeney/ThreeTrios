@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="HW5:jar" />
+    </artifacts-to-build>
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="15352f44-95c9-4cdc-8768-e3019536a213" name="Changes" comment="Test commit">
+      <change afterPath="$PROJECT_DIR$/src/gameconsole/GameConsole.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/gameconsole/IGameConsole.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/HW5_jar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/HW5_jar2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ThreeTrios.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ThreeTrios.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/adapter/IGUIViewToIViewFrameGUIAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/adapter/IGUIViewToIViewFrameGUIAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/ControllerGUIImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/ControllerGUIImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/Features.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/Features.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/IViewBoardPanelGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/IViewBoardPanelGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/IViewFrameGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/IViewFrameGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/ViewBoardPanelGUIImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/ViewBoardPanelGUIImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/ViewFrameGUIImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/ViewFrameGUIImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/submission.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/controllertesting/MockView.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/controllertesting/MockView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/controllertesting/TestNewGUIController.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/controllertesting/TestNewGUIController.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Enum" />
+        <option value="Class" />
+        <option value="Interface" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
+  <component name="ProjectId" id="2no2OtCVNJaRKxlytzJMOQrqvqo" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Main.executor": "Run",
+    "Application.ThreeTrios(Human/Strat1).executor": "Run",
+    "Application.ThreeTrios(Human/Strat2).executor": "Run",
+    "Application.ThreeTrios.executor": "Run",
+    "Downloaded.Files.Path.Enabled": "false",
+    "JUnit.TestController.executor": "Run",
+    "JUnit.TestController.testModelCatchesErrorInvalidCardFormat.executor": "Run",
+    "JUnit.TestController.testModelCatchesErrorWithEmptyFile.executor": "Run",
+    "JUnit.TestController.testModelCatchesErrorWithInvalidCardFileName.executor": "Run",
+    "JUnit.TestController.testModelCatchesErrorWithInvalidFBoardileName.executor": "Run",
+    "JUnit.TestController.testModelCatchesErrorWithInvalidFileName.executor": "Run",
+    "JUnit.TestController.testModelCatchesErrorWithInvalidFormat.executor": "Debug",
+    "JUnit.TestController.testModelCatchesErrorWithNotEnoughCards.executor": "Run",
+    "JUnit.TestGUIController.testHandleCellClickUpdatesModelAndView.executor": "Run",
+    "JUnit.TestGUIController.testNullModelInConstructor.executor": "Run",
+    "JUnit.TestGUIController.testNullModelInPlayGame.executor": "Run",
+    "JUnit.TestGUIController.testNullReadOnlyModelInConstructor.executor": "Run",
+    "JUnit.TestGUIController.testNullViewInConstructor.executor": "Run",
+    "JUnit.TestGUIController.testPlayGameInitializesCorrectly.executor": "Debug",
+    "JUnit.TestGUIController.testTextControllerCatchesErrorWithInvalidBoardFileName.executor": "Debug",
+    "JUnit.TestModel.executor": "Run",
+    "JUnit.TestModel.getBluePlayerMutateCardDoesNotMutatePlayer.executor": "Run",
+    "JUnit.TestModel.getBluePlayerReturnsACopyOfBluePlayerCorrectCardName.executor": "Run",
+    "JUnit.TestModel.getRedPlayerMutateCardDoesNotMutatePlayer.executor": "Run",
+    "JUnit.TestModel.getRedPlayerReturnsACopyOfRedPlayer.executor": "Run",
+    "JUnit.TestModel.testBattleWithoutFlipDueToLowerValue.executor": "Run",
+    "JUnit.TestModel.testCalculateFlipsComplexBoard.executor": "Run",
+    "JUnit.TestModel.testCalculateFlipsNoAdjacentOpponentCards.executor": "Run",
+    "JUnit.TestModel.testCalculateFlipsWithOneAdjacentOpponentCard.executor": "Run",
+    "JUnit.TestModel.testCalculateFlipsWithTwoAdjacentOpponentCard.executor": "Run",
+    "JUnit.TestModel.testCalculateNumFlipsInMultipleDirections.executor": "Run",
+    "JUnit.TestModel.testCheckGameOverDoesNotThrowIfGameNotOver.executor": "Run",
+    "JUnit.TestModel.testCheckGameOverThrowsExceptionIfGameOver.executor": "Run",
+    "JUnit.TestModel.testCheckGameStartedDoesNotThrowIfGameStarted.executor": "Run",
+    "JUnit.TestModel.testCheckGameStartedThrowsExceptionIfGameNotStarted.executor": "Run",
+    "JUnit.TestModel.testCheckOverWhenGameIsOver.executor": "Run",
+    "JUnit.TestModel.testCheckOverWorks.executor": "Run",
+    "JUnit.TestModel.testCurrentGetPlayerColor.executor": "Run",
+    "JUnit.TestModel.testCurrentGetPlayerColorAfterSwitchedPlayerColor.executor": "Run",
+    "JUnit.TestModel.testGameOverBeforeGameStarted.executor": "Run",
+    "JUnit.TestModel.testGetBoardAvailabilityReturnsDeepCopy.executor": "Run",
+    "JUnit.TestModel.testGetBoardReturnsDeepCopy.executor": "Run",
+    "JUnit.TestModel.testGetCardAtINullCard.executor": "Run",
+    "JUnit.TestModel.testGetCardAtInvalidNegCol.executor": "Run",
+    "JUnit.TestModel.testGetCardAtInvalidNegRow.executor": "Run",
+    "JUnit.TestModel.testGetCardAtInvalidPossCol.executor": "Debug",
+    "JUnit.TestModel.testGetCardAtInvalidPossRow.executor": "Run",
+    "JUnit.TestModel.testGetCardAt_ValidPositionWithCard.executor": "Run",
+    "JUnit.TestModel.testGetPlayerColorReturnsCorrectPlayerColor.executor": "Run",
+    "JUnit.TestModel.testGetPlayerColorReturnsCorrectPlayerColorBLUE.executor": "Run",
+    "JUnit.TestModel.testGetPlayerColorReturnsCorrectPlayerColorRED.executor": "Run",
+    "JUnit.TestModel.testGetPlayerScoreAfterFlippingCards.executor": "Run",
+    "JUnit.TestModel.testGetPlayerScoreAfterPlacingCards.executor": "Run",
+    "JUnit.TestModel.testGetPlayerScoreAtGameStart.executor": "Run",
+    "JUnit.TestModel.testGetWinningPlayerReturnsCorrectWinningPlayer.executor": "Run",
+    "JUnit.TestModel.testGetWinningPlayerReturnsCorrectWinningPlayerAfterProp.executor": "Debug",
+    "JUnit.TestModel.testGetWinningPlayerThrowsExceptionIfGameIsInTie.executor": "Run",
+    "JUnit.TestModel.testGetWinningPlayerThrowsExceptionIfGameIsInTieWithCards.executor": "Run",
+    "JUnit.TestModel.testGetWinningPlayerThrowsExceptionIfGameNotStarted.executor": "Run",
+    "JUnit.TestModel.testModelCatchesErrorWithDuplicateCard.executor": "Run",
+    "JUnit.TestModel.testModelCatchesErrorWithInvalidFileFormat.executor": "Run",
+    "JUnit.TestModel.testModelCatchesErrorWithInvalidFileName.executor": "Run",
+    "JUnit.TestModel.testModelCatchesErrorWithNotEnoughCards.executor": "Run",
+    "JUnit.TestModel.testModelCatchesErrorWithTooManyCards.executor": "Run",
+    "JUnit.TestModel.testModelSetupCorrectRowsAndColumns.executor": "Debug",
+    "JUnit.TestModel.testPlaceAndFlipAdjacentCardWithNoPropAvailable.executor": "Run",
+    "JUnit.TestModel.testPlaceAndFlipAdjacentCardWithPropAvailableButTie.executor": "Run",
+    "JUnit.TestModel.testPlaceCardDoesNotFlipSameColor.executor": "Debug",
+    "JUnit.TestModel.testPlaceCardFlipsCardsAroundIt.executor": "Run",
+    "JUnit.TestModel.testPlaceCardOutOfBounds.executor": "Run",
+    "JUnit.TestModel.testPlaceCardOutOfBoundsPos.executor": "Run",
+    "JUnit.TestModel.testPlacingCardInEmptySpot.executor": "Run",
+    "JUnit.TestModel.testPlacingCardInHole.executor": "Debug",
+    "JUnit.TestModel.testPlacingCardInNonEmptySpot.executor": "Run",
+    "JUnit.TestModel.testPlacingCardNullPlayer.executor": "Run",
+    "JUnit.TestModel.testPlacingCardOutOfBoundsCol.executor": "Run",
+    "JUnit.TestModel.testPlacingCardOutOfBoundsColNeg.executor": "Run",
+    "JUnit.TestModel.testPlacingCardOutOfBoundsColPoss.executor": "Run",
+    "JUnit.TestModel.testPlacingCardOutOfBoundsHandIndexNeg.executor": "Run",
+    "JUnit.TestModel.testPlacingCardOutOfBoundsHandIndexPoss.executor": "Run",
+    "JUnit.TestModel.testPlacingCardOutOfBoundsRow.executor": "Run",
+    "JUnit.TestModel.testPlacingCardOutOfBoundsRowNeg.executor": "Run",
+    "JUnit.TestModel.testPropegationOfMultipleCardsWithDifferentDirections.executor": "Debug",
+    "JUnit.TestModel.testVModelCatchesErrorWithDuplicateCard.executor": "Debug",
+    "JUnit.TestModel.testValidDeckConstruction.executor": "Debug",
+    "JUnit.TestModel.testValidGameConstruction.executor": "Debug",
+    "JUnit.TestStrategies.executor": "Run",
+    "JUnit.TestStrategies.testCornerStrategy.executor": "Debug",
+    "JUnit.TestStrategies.testCornerStrategyNoCornersTakenWithMockLog.executor": "Run",
+    "JUnit.TestStrategies.testFlipTheMostStrategy1.executor": "Run",
+    "JUnit.TestStrategies.testFlipTheMostStrategyWithNoCardPlacedPlaceAt00withIndex0.executor": "Run",
+    "JUnit.TestStrategies.testLoggingCallsToGetCardAtWithStrategyOne.executor": "Run",
+    "JUnit.TestStrategies.testLoggingCallsToGetCardAtWithStrategyTwo.executor": "Run",
+    "JUnit.TestStrategies.testLoggingCallsToGetCardAtWithStrategyTwoAfterPlacingCard.executor": "Debug",
+    "JUnit.TestStrategies.testLyingAboutValueReturnsExpectedCoordinates.executor": "Run",
+    "JUnit.TestTextController.executor": "Run",
+    "JUnit.TestTextController.testModelCatchesErrorInvalidCardFormat.executor": "Run",
+    "JUnit.TestTextController.testModelCatchesErrorWithEmptyFile.executor": "Run",
+    "JUnit.TestTextController.testModelCatchesErrorWithInvalidBoardFileName.executor": "Run",
+    "JUnit.TestTextController.testModelCatchesErrorWithInvalidCardFileName.executor": "Run",
+    "JUnit.TestTextController.testModelCatchesErrorWithInvalidFBoardileName.executor": "Run",
+    "JUnit.TestTextController.testModelCatchesErrorWithInvalidFormat.executor": "Run",
+    "JUnit.TestTextView.executor": "Run",
+    "JUnit.TestTextView.testBluePlayerView.executor": "Run",
+    "JUnit.TestTextView.testRedPlayerView.executor": "Run",
+    "JUnit.TestView.executor": "Run",
+    "JUnit.TestView.testBluePlayerView.executor": "Run",
+    "JUnit.TestView.testRedPlayerView.executor": "Run",
+    "JUnit.TestView.testSimpleCardView.executor": "Run",
+    "JUnit.TestView.testTextViewRespondsCardsAttacking.executor": "Run",
+    "JUnit.TestView.testTextViewRespondsCardsAttackingAndPropagation.executor": "Run",
+    "JUnit.TestView.testTextViewRespondsToPlacingCard.executor": "Run",
+    "JUnit.TestView.testUniqueBoardConfig1ToString.executor": "Run",
+    "JUnit.TestView.testUniqueBoardConfig2ToString.executor": "Run",
+    "JUnit.TestView.testUniqueBoardConfig3ToString.executor": "Run",
+    "JUnit.TestView.testUniqueBoardConfigToString.executor": "Run",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/jacksweeney/Desktop/CS3500/HW9",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Artifacts",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="ControllerTesting" />
+      <recent name="view" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/out/artifacts/HW5_jar" />
+      <recent name="$PROJECT_DIR$/ViewImages" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.ThreeTrios(Human/Strat1)">
+    <configuration name="ThreeTrios(Human/Strat1)" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="ThreeTrios" />
+      <module name="HW5" />
+      <option name="PROGRAM_PARAMETERS" value="human strategy1" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ThreeTrios(Human/Strat2)" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="ThreeTrios" />
+      <module name="HW5" />
+      <option name="PROGRAM_PARAMETERS" value="human strategy2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestModel" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="HW5" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="TestModel" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.ThreeTrios(Human/Strat1)" />
+      <item itemvalue="Application.ThreeTrios(Human/Strat2)" />
+      <item itemvalue="JUnit.TestModel" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.ThreeTrios(Human/Strat2)" />
+        <item itemvalue="JUnit.TestModel" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-b114ca120d71-intellij.indexing.shared.core-IU-242.21829.142" />
+        <option value="bundled-js-predefined-d6986cc7102b-7c0b70fcd90d-JavaScript-IU-242.21829.142" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="15352f44-95c9-4cdc-8768-e3019536a213" name="Changes" comment="" />
+      <created>1729625090229</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1729625090229</updated>
+      <workItem from="1729625091093" duration="39925000" />
+      <workItem from="1729790816298" duration="11639000" />
+      <workItem from="1729896730866" duration="45446000" />
+      <workItem from="1730327538230" duration="16613000" />
+      <workItem from="1730398435114" duration="564000" />
+      <workItem from="1730400300840" duration="3985000" />
+      <workItem from="1730681579258" duration="24492000" />
+      <workItem from="1730763058734" duration="35382000" />
+      <workItem from="1730915062852" duration="43721000" />
+      <workItem from="1731261498324" duration="56847000" />
+      <workItem from="1731640580335" duration="2381000" />
+      <workItem from="1731677389058" duration="7819000" />
+      <workItem from="1731686006147" duration="16262000" />
+      <workItem from="1731764855146" duration="8231000" />
+      <workItem from="1731796925008" duration="3195000" />
+      <workItem from="1731957347572" duration="2499000" />
+      <workItem from="1732137594996" duration="4747000" />
+      <workItem from="1732301755628" duration="7204000" />
+      <workItem from="1732404598164" duration="484000" />
+      <workItem from="1733000424985" duration="20774000" />
+      <workItem from="1733165172649" duration="15000" />
+      <workItem from="1733166284066" duration="2000" />
+      <workItem from="1733176216200" duration="34664000" />
+      <workItem from="1733415075062" duration="9659000" />
+    </task>
+    <task id="LOCAL-00001" summary="First push from me">
+      <option name="closed" value="true" />
+      <created>1729635909184</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1729635909184</updated>
+    </task>
+    <task id="LOCAL-00002" summary="First push from me">
+      <option name="closed" value="true" />
+      <created>1729636033624</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1729636033624</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Test commit">
+      <option name="closed" value="true" />
+      <created>1729637740432</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1729637740432</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Test commit">
+      <option name="closed" value="true" />
+      <created>1729637888504</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1729637888504</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="First push from me" />
+    <MESSAGE value="Test commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="Test commit" />
+  </component>
+</project>

@@ -31,4 +31,6 @@ public interface IViewBoardPanelGUI {
   void disableInteractions();
 
   void showFlipCounts(int[][] flipCounts);
+
+  void clearHints();
 }

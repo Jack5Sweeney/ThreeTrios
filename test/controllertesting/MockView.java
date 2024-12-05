@@ -82,7 +82,12 @@ public class MockView implements IViewFrameGUI {
   }
 
   @Override
-  public void showFlipCounts(int[][] flipCounts) {
+  public void enableHints(int[][] flipCounts) {
+
+  }
+
+  @Override
+  public void disableHints() {
 
   }
 

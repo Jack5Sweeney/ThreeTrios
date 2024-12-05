@@ -1,6 +1,7 @@
 package controller;
 
 import card.ICard;
+import gameconsole.IGameConsole;
 import player.IPlayer;
 import model.IModel;
 import player.PlayerColor;
@@ -8,7 +9,6 @@ import provider.src.threetrios.controller.PlayerActionsListener;
 import provider.src.threetrios.view.Cell;
 import strategies.Placement;
 import view.IViewFrameGUI;
-import view.ViewFrameGUIImpl;
 
 /**
  * Implementation of the {@link IControllerGUI} interface, responsible for managing the game
@@ -22,6 +22,8 @@ public class ControllerGUIImpl implements IControllerGUI, Features, ModelObserve
   private final IModel model;
   private boolean isMyTurn = false;
   private int selectedCardIndex = -1;
+  private int[][] flipCount;
+  private boolean hintsEnabled;
 
   /**
    * Constructs a {@code ControllerGUIImpl} with the specified view, model, and player.
@@ -33,19 +35,24 @@ public class ControllerGUIImpl implements IControllerGUI, Features, ModelObserve
    * @param player the player using this controller
    * @throws IllegalArgumentException if any parameter is null
    */
-  public ControllerGUIImpl(IViewFrameGUI view, IModel model, IPlayer player) {
+  public ControllerGUIImpl(IViewFrameGUI view, IModel model, IPlayer player, IGameConsole gameConsole) {
     if (view == null || model == null || player == null) {
       throw new IllegalArgumentException("Arguments cannot be null");
     }
     this.view = view;
     this.model = model;
     this.player = player;
-
+    this.hintsEnabled = false;
     // Register the controller as an observer of the model
     this.model.addObserver(this);
 
+    int rows = model.getBoard().length;
+    int cols = model.getBoard()[0].length;
+     this.flipCount = new int[rows][cols];
+
     // Add features to the view
     view.addFeatures(this);
+    gameConsole.addFeatures(this);
   }
 
   /**
@@ -126,21 +133,23 @@ public class ControllerGUIImpl implements IControllerGUI, Features, ModelObserve
       }
     }
 
-    // Send the flip counts to the view
-    view.showFlipCounts(flipCounts);
+    this.flipCount = flipCounts;
+    if(this.hintsEnabled) {
+      this.enableHints();
+    }
   }
 
-  private void clearFlipCounts() {
-    int rows = model.getBoard().length;
-    int cols = model.getBoard()[0].length;
-
-    // Create an empty array (all zeroes) representing no flip counts
-    int[][] emptyFlipCounts = new int[rows][cols];
-
-    // Send the empty array to the view to clear the flip overlays
-    view.showFlipCounts(emptyFlipCounts);
+  @Override
+  public void enableHints() {
+    this.hintsEnabled = true;
+    this.view.enableHints(this.flipCount);
   }
 
+  @Override
+  public void disableHints() {
+    this.hintsEnabled = false;
+    this.view.disableHints();
+  }
 
   /**
    * Called when the current turn changes in the game. Updates the view and interaction
@@ -151,7 +160,6 @@ public class ControllerGUIImpl implements IControllerGUI, Features, ModelObserve
   @Override
   public void onTurnChanged(PlayerColor currentPlayer) {
     view.updateBoard(model.getBoard());
-    clearFlipCounts();
     view.refreshHands(model.getRedPlayer().getHand(), model.getBluePlayer().getHand());
     isMyTurn = (currentPlayer == player.getPlayerColor());
     if (isMyTurn) {
