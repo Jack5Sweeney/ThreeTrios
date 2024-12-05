@@ -4,6 +4,8 @@ import card.CardImpl;
 import card.CellTypeContents;
 import card.Direction;
 import card.ICard;
+import cardcomparison.CardComparisonStrategy;
+import cardcomparison.NormalComparisonStrategy;
 import controller.ModelObserver;
 import player.IPlayer;
 import player.PlayerColor;
@@ -46,6 +48,7 @@ public class ModelImpl implements IModel {
   private IPlayer currentPlayer;
   private IPlayer playerPlacing;
   private int cardIndexToPlace;
+  private CardComparisonStrategy cardComp;
 
   private final List<ModelObserver> observers = new ArrayList<>();
 
@@ -65,6 +68,7 @@ public class ModelImpl implements IModel {
     this.gameStarted = false;
     this.gameOver = false;
     this.currentPlayer = players.get(0);
+    this.cardComp = new NormalComparisonStrategy();
     distributeCards();
   }
 
@@ -338,12 +342,11 @@ public class ModelImpl implements IModel {
           Direction placedDir = dirEnums[directionIndex];
           Direction adjOppositeDir = getOppositeDirection(placedDir);
 
-          if (cardPlaced.getDirectionsAndValues().get(placedDir).getValue() >
-              adjacentCard.getDirectionsAndValues().get(adjOppositeDir).getValue()) {
-
+          if (cardComp.compare(cardPlaced, adjacentCard, placedDir, adjOppositeDir)) {
             flipCardOwnership(adjacentCard, adjRow, adjCol, cardPlaced.getPlayerColor());
             comboStep(adjacentCard, adjRow, adjCol, cardPlaced.getPlayerColor());
           }
+
         }
       }
     }
@@ -376,10 +379,7 @@ public class ModelImpl implements IModel {
           Direction flippedDir = dirEnums[directionIndex];
           Direction adjOppositeDir = getOppositeDirection(flippedDir);
 
-          if (flippedCard.getDirectionsAndValues().get(flippedDir).getValue() >
-              adjacentCard.getDirectionsAndValues().get(adjOppositeDir).getValue()) {
-
-            // Flip the opponent's card and continue the combo step
+          if (cardComp.compare(flippedCard, adjacentCard, flippedDir, adjOppositeDir)) {
             flipCardOwnership(adjacentCard, adjRow, adjCol, newOwner);
             comboStep(adjacentCard, adjRow, adjCol, newOwner);
           }

@@ -1,7 +1,6 @@
 package gameconsole;
 
 import controller.Features;
-import player.PlayerColor;
 
 import java.util.ArrayList;
 import java.util.List;
