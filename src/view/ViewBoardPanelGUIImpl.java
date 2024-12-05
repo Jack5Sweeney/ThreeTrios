@@ -1,8 +1,9 @@
 package view;
 
 import card.CellTypeContents;
-import javax.swing.JPanel;
-import javax.swing.BorderFactory;
+
+import javax.swing.*;
+
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Component;
@@ -71,6 +72,36 @@ public class ViewBoardPanelGUIImpl extends JPanel implements IViewBoardPanelGUI 
     }
   }
 
+  @Override
+  public void showFlipCounts(int[][] flipCounts) {
+    int rows = flipCounts.length;
+    int cols = flipCounts[0].length;
+
+    for (int row = 0; row < rows; row++) {
+      for (int col = 0; col < cols; col++) {
+        Component cell = getComponent(row * cols + col); // Retrieve the cell panel
+
+        if (cell instanceof CellPanel) {
+          CellPanel cellPanel = (CellPanel) cell;
+
+          // Check the cell type
+          CellTypeContents cellType = cellPanel.getCellType();
+          if (cellType == CellTypeContents.EMPTY) {
+            // Set flip count for empty cells
+            cellPanel.setFlipCount(flipCounts[row][col]);
+          } else {
+            // Clear flip count for non-empty cells
+            cellPanel.clearFlipCount();
+          }
+        }
+      }
+    }
+
+    this.revalidate();
+    this.repaint();
+  }
+
+
   /**
    * Enables interaction with all components within this container. This method
    * iterates through each component and enables it, allowing the user to interact
@@ -100,10 +131,13 @@ public class ViewBoardPanelGUIImpl extends JPanel implements IViewBoardPanelGUI 
    * handles its own click events.
    */
   private class CellPanel extends JPanel {
+    private CellTypeContents cellType; // Store the cell type
+    private JLabel flipCountLabel;
 
     public CellPanel(int row, int col, CellTypeContents cellType) {
+      this.cellType = cellType; // Initialize the cell type
+      this.setLayout(new OverlayLayout(this));
       setCellColor(cellType); // Set the initial color based on the cell type
-
       setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 
       // Add a mouse listener to handle click events
@@ -117,21 +151,40 @@ public class ViewBoardPanelGUIImpl extends JPanel implements IViewBoardPanelGUI 
       });
     }
 
-    /**
-     * Updates the cell color based on the new cell type.
-     *
-     * @param cellType the new cell type for this cell
-     */
-    public void updateCell(CellTypeContents cellType) {
-      setCellColor(cellType);
-      repaint(); // Repaint the cell to reflect the updated color
+    // Getter for the cell type
+    public CellTypeContents getCellType() {
+      return cellType;
     }
 
-    /**
-     * Sets the color of the cell based on its type.
-     *
-     * @param cellType the type of cell (e.g., HOLE, EMPTY)
-     */
+    // Setter for the cell type (if it changes dynamically)
+    public void setCellType(CellTypeContents cellType) {
+      this.cellType = cellType;
+      setCellColor(cellType); // Update the color based on the new type
+    }
+
+    public void setFlipCount(int count) {
+      if (flipCountLabel == null) {
+        flipCountLabel = new JLabel();
+        flipCountLabel.setForeground(Color.BLACK); // Set text color
+        flipCountLabel.setAlignmentX(0.5f); // Center horizontally
+        flipCountLabel.setAlignmentY(0.5f); // Center vertically
+        this.add(flipCountLabel); // Add to the panel
+      }
+
+      flipCountLabel.setText(String.valueOf(count)); // Update the label text
+      this.revalidate();
+      this.repaint();
+    }
+
+    public void clearFlipCount() {
+      if (flipCountLabel != null) {
+        this.remove(flipCountLabel);
+        flipCountLabel = null;
+        this.revalidate();
+        this.repaint();
+      }
+    }
+
     private void setCellColor(CellTypeContents cellType) {
       switch (cellType) {
         case HOLE:
@@ -146,4 +199,5 @@ public class ViewBoardPanelGUIImpl extends JPanel implements IViewBoardPanelGUI 
       }
     }
   }
-}
+
+  }

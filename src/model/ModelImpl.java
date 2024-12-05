@@ -676,4 +676,9 @@ public class ModelImpl implements IModel {
     }
     return score;
   }
+
+  public boolean isCellEmpty(int row, int col) {
+    return boardAvailability[row][col] == CellTypeContents.EMPTY;
+  }
+
 }

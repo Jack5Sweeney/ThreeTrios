@@ -1,5 +1,6 @@
 package view;
 
+import card.CellTypeContents;
 import controller.Features;
 
 /**
@@ -28,4 +29,6 @@ public interface IViewBoardPanelGUI {
    * selecting cards. This method is typically called when it is not the player's turn.
    */
   void disableInteractions();
+
+  void showFlipCounts(int[][] flipCounts);
 }

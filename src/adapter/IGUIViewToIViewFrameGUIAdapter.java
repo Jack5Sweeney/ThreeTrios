@@ -149,4 +149,9 @@ public class IGUIViewToIViewFrameGUIAdapter implements IViewFrameGUI {
   public void refreshHands(List<ICard> redHand, List<ICard> blueHand) {
     providedView.refresh();
   }
+
+  @Override
+  public void showFlipCounts(int[][] flipCounts) {
+
+  }
 }

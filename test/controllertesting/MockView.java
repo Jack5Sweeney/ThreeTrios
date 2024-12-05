@@ -82,6 +82,11 @@ public class MockView implements IViewFrameGUI {
   }
 
   @Override
+  public void showFlipCounts(int[][] flipCounts) {
+
+  }
+
+  @Override
   public void bringToFront() {
     // Implementation not needed in the mock
   }

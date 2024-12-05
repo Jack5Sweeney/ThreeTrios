@@ -95,4 +95,6 @@ public interface IViewFrameGUI {
   void bringToFront();
 
   void refreshHands(List<ICard> redHand, List<ICard> blueHand);
+
+  void showFlipCounts(int[][] flipCounts);
 }

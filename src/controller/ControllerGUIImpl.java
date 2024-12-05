@@ -1,5 +1,6 @@
 package controller;
 
+import card.ICard;
 import player.IPlayer;
 import model.IModel;
 import player.PlayerColor;
@@ -94,18 +95,52 @@ public class ControllerGUIImpl implements IControllerGUI, Features, ModelObserve
    * Handles click events on a card in the player's hand. Triggered when a card is selected
    * by the player during gameplay.
    *
-   * @param index the index representing the card's position in the player's hand
+   * @param row the index representing the card's position in the player's hand
    * @param color the color of the player selecting the card
    */
   @Override
-  public void handleCardClick(int index, PlayerColor color) {
+  public void handleCardClick(int row, PlayerColor color) {
     if (!isMyTurn || color != player.getPlayerColor()) {
       view.showErrorMessage("It's not your turn or invalid card selection.");
       return;
     }
-    selectedCardIndex = index;
-    view.highlightCard(index, color);
+
+    selectedCardIndex = row;
+    view.highlightCard(row, color);
+
+    // Get the selected card from the player's hand
+    IPlayer currentPlayer = (color == PlayerColor.RED) ? model.getRedPlayer() : model.getBluePlayer();
+    ICard selectedCard = currentPlayer.getHand().get(row);
+
+    // Initialize a 2D array to store flip counts
+    int rows = model.getBoard().length;
+    int cols = model.getBoard()[0].length;
+    int[][] flipCounts = new int[rows][cols];
+
+    // Use calculateFlips to evaluate each empty cell
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < cols; j++) {
+        if (model.isCellEmpty(i, j)) { // Check if the cell is empty
+          flipCounts[i][j] = model.calculateFlips(i, j, selectedCard);
+        }
+      }
+    }
+
+    // Send the flip counts to the view
+    view.showFlipCounts(flipCounts);
   }
+
+  private void clearFlipCounts() {
+    int rows = model.getBoard().length;
+    int cols = model.getBoard()[0].length;
+
+    // Create an empty array (all zeroes) representing no flip counts
+    int[][] emptyFlipCounts = new int[rows][cols];
+
+    // Send the empty array to the view to clear the flip overlays
+    view.showFlipCounts(emptyFlipCounts);
+  }
+
 
   /**
    * Called when the current turn changes in the game. Updates the view and interaction
@@ -116,6 +151,7 @@ public class ControllerGUIImpl implements IControllerGUI, Features, ModelObserve
   @Override
   public void onTurnChanged(PlayerColor currentPlayer) {
     view.updateBoard(model.getBoard());
+    clearFlipCounts();
     view.refreshHands(model.getRedPlayer().getHand(), model.getBluePlayer().getHand());
     isMyTurn = (currentPlayer == player.getPlayerColor());
     if (isMyTurn) {

@@ -1,5 +1,6 @@
 package model;
 
+import card.CellTypeContents;
 import controller.ModelObserver;
 import player.IPlayer;
 import player.PlayerColor;
@@ -50,4 +51,7 @@ public interface IModel extends ReadOnlyIModel {
    *                                  or if the file has an invalid format
    */
   void startGame();
-}
+
+  boolean isCellEmpty(int row, int col);
+
+  }

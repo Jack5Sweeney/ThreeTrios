@@ -204,6 +204,11 @@ public class MockModelRecordCoordinatesChecked implements IModel {
     // No action needed for startGame in the mock
   }
 
+  @Override
+  public boolean isCellEmpty(int row, int col) {
+    return false;
+  }
+
   /**
    * Returns the color of the player who is currently taking a turn. Always returns null
    * in this mock.

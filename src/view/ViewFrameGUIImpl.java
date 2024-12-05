@@ -5,14 +5,9 @@ import card.ICard;
 import player.PlayerColor;
 import model.ReadOnlyIModel;
 
-import javax.swing.BorderFactory;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JOptionPane;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
+import javax.swing.*;
+
+import java.awt.*;
 import java.util.List;
 
 /**
@@ -29,6 +24,7 @@ public class ViewFrameGUIImpl extends JFrame implements IViewFrameGUI {
 
   private JPanel highlightedCardPanelGUIImpl;
 
+
   /**
    * Constructs a {@code ViewFrameGUIImpl} with the specified readOnlyModel, initializing
    * the panels for the game board and player hands and setting up the layout of the main window.
@@ -36,26 +32,28 @@ public class ViewFrameGUIImpl extends JFrame implements IViewFrameGUI {
    * @param readOnlyModel the game readOnlyModel providing data for the board and players' hands
    */
   public ViewFrameGUIImpl(ReadOnlyIModel readOnlyModel) {
-
     this.redHandPanel = new ViewHandPanelGUIImpl(readOnlyModel.getRedPlayer().getHand());
     this.blueHandPanel = new ViewHandPanelGUIImpl(readOnlyModel.getBluePlayer().getHand());
     this.boardPanel = new ViewBoardPanelGUIImpl(
-        readOnlyModel.getBoard().length,
-        readOnlyModel.getBoard()[0].length,
-        readOnlyModel.getBoardAvailability()
+            readOnlyModel.getBoard().length,
+            readOnlyModel.getBoard()[0].length,
+            readOnlyModel.getBoardAvailability()
     );
 
+    // Set layout for the main frame
     this.setLayout(new BorderLayout());
-    this.setSize(800, 600);
+    this.setSize(800, 650); // Adjust size to accommodate the flip count panel
     this.setLocationRelativeTo(null);
     this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     this.setTitle("It's " + readOnlyModel.getCurrentPlayerColor().toString() +
-        " turn to make the first move.");
+            " turn to make the first move.");
 
+    // Add panels to the frame
     this.add(redHandPanel, BorderLayout.WEST);
     this.add(boardPanel, BorderLayout.CENTER);
     this.add(blueHandPanel, BorderLayout.EAST);
 
+    // Set preferred sizes for the hand panels
     redHandPanel.setPreferredSize(new Dimension(75, 600));
     blueHandPanel.setPreferredSize(new Dimension(75, 600));
   }
@@ -218,5 +216,11 @@ public class ViewFrameGUIImpl extends JFrame implements IViewFrameGUI {
     redHandPanel.refreshHandPanel(redHand);
     blueHandPanel.refreshHandPanel(blueHand);
   }
+
+  @Override
+  public void showFlipCounts(int[][] flipCounts) {
+    boardPanel.showFlipCounts(flipCounts); // Delegate to ViewBoardPanelGUIImpl
+  }
+
 }
 

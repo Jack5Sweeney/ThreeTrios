@@ -99,6 +99,11 @@ public class MockModelForControllerGUI implements IModel {
   }
 
   @Override
+  public boolean isCellEmpty(int row, int col) {
+    return false;
+  }
+
+  @Override
   public IPlayer getPlayerToPlace() {
     return null; // Return null for the player
   }
