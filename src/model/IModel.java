@@ -1,6 +1,7 @@
 package model;
 
 import card.CellTypeContents;
+import cardcomparison.CardComparisonStrategy;
 import controller.ModelObserver;
 import player.IPlayer;
 import player.PlayerColor;
@@ -54,4 +55,5 @@ public interface IModel extends ReadOnlyIModel {
 
   boolean isCellEmpty(int row, int col);
 
+  void setVariantRule(CardComparisonStrategy variantRule);
   }

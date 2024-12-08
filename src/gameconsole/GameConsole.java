@@ -1,5 +1,9 @@
 package gameconsole;
 
+import cardcomparison.FallenAce;
+import cardcomparison.NormalComparisonStrategy;
+import cardcomparison.Reverse;
+import cardcomparison.ReverseFallenAce;
 import controller.Features;
 
 import java.util.ArrayList;
@@ -57,11 +61,37 @@ public class GameConsole implements IGameConsole {
         default:
           System.out.println("Unknown command: " + command);
       }
-    } else {
-      System.out.println("Invalid command format. Use: 'enableHints red' or 'disableHints blue'");
+    }
+    if(parts.length == 1) {
+      String action = parts[0].trim();
+      switch (action.toLowerCase()) {
+        case "reverse":
+          this.features.get(0).setVariantRule(new Reverse());
+          this.features.get(1).setVariantRule(new Reverse());
+          break;
+        case "fallenace":
+          this.features.get(0).setVariantRule(new FallenAce());
+          this.features.get(1).setVariantRule(new FallenAce());
+          break;
+        case "reversefallenace":
+          this.features.get(0).setVariantRule(new ReverseFallenAce());
+          this.features.get(1).setVariantRule(new ReverseFallenAce());
+          break;
+        case "resetrules":
+          this.features.get(0).setVariantRule(new NormalComparisonStrategy());
+          this.features.get(1).setVariantRule(new NormalComparisonStrategy());
+          break;
+        default:
+          System.out.println("Unknown Command: " + command);
+      }
+    }
+    else {
+      System.out.println("Invalid command format. Use: 'enableHints red' or 'disableHints blue'\n " +
+          "or 'reverse', 'fallenAce', 'reverse fallenAce'");
     }
   } catch (IllegalArgumentException e) {
-    System.out.println("Invalid command format. Use: 'enableHints red' or 'disableHints blue'");
+    System.out.println("Invalid command format. Use: 'enableHints red' or 'disableHints blue'\n " +
+        "or 'reverse', 'fallenAce', 'reverse fallenAce'");
   }
   }
 

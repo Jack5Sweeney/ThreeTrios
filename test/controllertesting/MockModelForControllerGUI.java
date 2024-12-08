@@ -3,6 +3,7 @@ package controllertesting;
 import card.CellTypeContents;
 import card.ICard;
 import card.CardImpl;
+import cardcomparison.CardComparisonStrategy;
 import controller.ModelObserver;
 
 import model.IModel;
@@ -101,6 +102,11 @@ public class MockModelForControllerGUI implements IModel {
   @Override
   public boolean isCellEmpty(int row, int col) {
     return false;
+  }
+
+  @Override
+  public void setVariantRule(CardComparisonStrategy variantRule) {
+
   }
 
   @Override

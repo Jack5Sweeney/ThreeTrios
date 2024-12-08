@@ -28,7 +28,7 @@ public class NormalComparisonStrategy implements CardComparisonStrategy {
   public boolean compare(
       ICard placedCard,
       ICard adjacentCard,
-      Direction placedDirection,
+      Direction placedDirection, 
       Direction adjacentDirection) {
 
     int placedValue = placedCard.getDirectionsAndValues()

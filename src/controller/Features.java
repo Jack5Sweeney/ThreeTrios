@@ -1,5 +1,6 @@
 package controller;
 
+import cardcomparison.CardComparisonStrategy;
 import player.PlayerColor;
 
 /**
@@ -37,4 +38,6 @@ public interface Features {
    *
    */
   void disableHints();
+
+  void setVariantRule(CardComparisonStrategy variantRule);
 }

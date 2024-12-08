@@ -1,6 +1,7 @@
 package controller;
 
 import card.ICard;
+import cardcomparison.CardComparisonStrategy;
 import gameconsole.IGameConsole;
 import player.IPlayer;
 import model.IModel;
@@ -149,6 +150,11 @@ public class ControllerGUIImpl implements IControllerGUI, Features, ModelObserve
   public void disableHints() {
     this.hintsEnabled = false;
     this.view.disableHints();
+  }
+
+  @Override
+  public void setVariantRule(CardComparisonStrategy variantRule) {
+    this.model.setVariantRule(variantRule);
   }
 
   /**

@@ -3,6 +3,7 @@ package teststrategies;
 import card.CardImpl;
 import card.CellTypeContents;
 import card.ICard;
+import cardcomparison.CardComparisonStrategy;
 import controller.ModelObserver;
 import model.IModel;
 import player.IPlayer;
@@ -208,6 +209,11 @@ public class MockModelLiesAboutCalcCardsFlipValue implements IModel {
   @Override
   public boolean isCellEmpty(int row, int col) {
     return false;
+  }
+
+  @Override
+  public void setVariantRule(CardComparisonStrategy variantRule) {
+
   }
 
   /**

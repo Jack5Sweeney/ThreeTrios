@@ -681,4 +681,8 @@ public class ModelImpl implements IModel {
     return boardAvailability[row][col] == CellTypeContents.EMPTY;
   }
 
+  @Override
+  public void setVariantRule(CardComparisonStrategy variantRule) {
+    this.cardComp = variantRule;
+  }
 }
