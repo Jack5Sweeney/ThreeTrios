@@ -10,20 +10,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="15352f44-95c9-4cdc-8768-e3019536a213" name="Changes" comment="Test commit">
-      <change afterPath="$PROJECT_DIR$/src/cardcomparison/FallenAce.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/cardcomparison/Reverse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/cardcomparison/ReverseFallenAce.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/card.database" beforeDir="false" afterPath="$PROJECT_DIR$/docs/card.database" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cardcomparison/NormalComparisonStrategy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cardcomparison/NormalComparisonStrategy.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/ControllerGUIImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/ControllerGUIImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/Features.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/Features.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cardcomparison/FallenAce.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cardcomparison/FallenAce.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cardcomparison/Reverse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cardcomparison/Reverse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cardcomparison/ReverseFallenAce.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gameconsole/GameConsole.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gameconsole/GameConsole.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/IModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/IModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/ModelImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/ModelImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/controllertesting/MockModelForControllerGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/controllertesting/MockModelForControllerGUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/teststrategies/MockModelLiesAboutCalcCardsFlipValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/teststrategies/MockModelLiesAboutCalcCardsFlipValue.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/teststrategies/MockModelRecordCoordinatesChecked.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/teststrategies/MockModelRecordCoordinatesChecked.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,8 +24,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Enum" />
-        <option value="Interface" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -292,7 +282,7 @@
       <workItem from="1733165172649" duration="15000" />
       <workItem from="1733166284066" duration="2000" />
       <workItem from="1733176216200" duration="34664000" />
-      <workItem from="1733415075062" duration="23567000" />
+      <workItem from="1733415075062" duration="26177000" />
     </task>
     <task id="LOCAL-00001" summary="First push from me">
       <option name="closed" value="true" />

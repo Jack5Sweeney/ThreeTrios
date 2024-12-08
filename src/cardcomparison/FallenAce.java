@@ -4,6 +4,11 @@ import card.Direction;
 import card.ICard;
 
 public class FallenAce implements CardComparisonStrategy {
+  private final CardComparisonStrategy baseStrategy;
+
+  public FallenAce(CardComparisonStrategy baseStrategy) {
+    this.baseStrategy = baseStrategy;
+  }
 
   public boolean compare(
       ICard placedCard,
@@ -26,7 +31,7 @@ public class FallenAce implements CardComparisonStrategy {
       return false;
     }
     else {
-      return placedValue > adjacentValue;
+      return baseStrategy.compare(placedCard, adjacentCard, placedDirection, adjacentDirection);
     }
   }
 }

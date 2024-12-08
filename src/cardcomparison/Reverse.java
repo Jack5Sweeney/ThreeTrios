@@ -2,6 +2,7 @@ package cardcomparison;
 
 import card.Direction;
 import card.ICard;
+import provider.src.threetrios.model.Card;
 
 public class Reverse implements CardComparisonStrategy {
 
