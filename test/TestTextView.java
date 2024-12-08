@@ -1,10 +1,10 @@
 
 import gameconfig.ConfigGame;
 import model.IModel;
+import model.ModelVarientImpl;
 import player.IPlayer;
 import player.PlayerColor;
 import player.PlayerImpl;
-import model.ModelImpl;
 import org.junit.Before;
 import org.junit.Test;
 import view.TextViewImpl;
@@ -34,14 +34,14 @@ public class TestTextView {
     ArrayList<IPlayer> players = new ArrayList<>(List.of(redPlayer, bluePlayer));
 
     ConfigGame gameConfig = new ConfigGame("board.config", "card.database");
-    model = new ModelImpl(gameConfig.getBoard(), gameConfig.getDeck(), players);
+    model = new ModelVarientImpl(gameConfig.getBoard(), gameConfig.getDeck(), players);
 
     ConfigGame simpleGameConfig = new ConfigGame("simpleBoard.config", "simpleCard.database");
-    simpleModel = new ModelImpl(simpleGameConfig.getBoard(), simpleGameConfig.getDeck(), players);
+    simpleModel = new ModelVarientImpl(simpleGameConfig.getBoard(), simpleGameConfig.getDeck(), players);
 
 
     ConfigGame oneByOneGameConfig = new ConfigGame("1x1Board.config", "card.database");
-    oneByOneModel = new ModelImpl(oneByOneGameConfig.getBoard(), gameConfig.getDeck(), players);
+    oneByOneModel = new ModelVarientImpl(oneByOneGameConfig.getBoard(), gameConfig.getDeck(), players);
   }
 
   @Test

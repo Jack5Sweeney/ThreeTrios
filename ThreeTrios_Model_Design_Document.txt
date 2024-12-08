@@ -12,9 +12,9 @@ scenarios.
 
 Key Components of the Model:
 
-model.ModelImpl: This class, implementing the model.IModel interface, serves as the main game engine, handling core game setup,
+model.ModelVarientImpl: This class, implementing the model.IModel interface, serves as the main game engine, handling core game setup,
 rules enforcement, and the board's current state. By abstracting away player logic from the model,
-model.ModelImpl is agnostic to whether a human or AI controls a player. The model is designed to process player turns,
+model.ModelVarientImpl is agnostic to whether a human or AI controls a player. The model is designed to process player turns,
 enforce the game’s battle rules, and check for end-game conditions. Methods like startGame, placeCard, and updateBoard
 encapsulate these actions and validate game states.
 
@@ -23,10 +23,10 @@ player’s hand or color. This abstraction supports extensibility, enabling diff
 to be used interchangeably within the game.
 
 player.PlayerImpl: The main implementation of Player, primarily designed for human-controlled players. player.PlayerImpl provides foundational
-methods for card management and retrieval of player color, ensuring seamless integration with the model.ModelImpl.
+methods for card management and retrieval of player color, ensuring seamless integration with the model.ModelVarientImpl.
 
 AI Player (Future Expansion): With the Player interface, adding an AI-controlled player in the future is straightforward.
 The AI class can implement logic to evaluate moves, make strategic placements, and manage interactions without altering
-the model’s core functionality. AI players would interact with model.ModelImpl through the same methods as human players,
+the model’s core functionality. AI players would interact with model.ModelVarientImpl through the same methods as human players,
 ensuring a cohesive and maintainable design.
 

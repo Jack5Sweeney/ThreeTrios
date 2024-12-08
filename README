@@ -21,7 +21,7 @@ This demonstrates the setup of a model and players, and how to start a basic gam
 
 Key Components:
 
-Model (model.ModelImpl) : Manages the game's logic, handles the state, rules, and structure for cards
+Model (model.ModelVarientImpl) : Manages the game's logic, handles the state, rules, and structure for cards
 and players.
 
 View (view.TextViewImpl) : This renders the view in a way that can be seen through a string version
@@ -58,7 +58,7 @@ the model that have to be true for the board to work.
 Source Org.
 
 src : contains all the primary code files
-    model.ModelImpl.java and model.IModel.java
+    model.ModelVarientImpl.java and model.IModel.java
     view.TextViewImpl.java and view.ITextView.java
     player.PlayerImpl.java and player.IPlayer.java
 test/ : handles all the testing files for model and view

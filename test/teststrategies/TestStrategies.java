@@ -2,13 +2,13 @@ package teststrategies;
 
 import card.CellTypeContents;
 import gameconfig.ConfigGame;
+import model.ModelVarientImpl;
 import strategies.CornerStrategy;
 import strategies.FlipTheMostStrategy;
 import strategies.Placement;
 import card.ICard;
 import model.IModel;
 import player.IPlayer;
-import model.ModelImpl;
 import player.PlayerColor;
 import player.PlayerImpl;
 import card.CardImpl;
@@ -43,15 +43,15 @@ public class TestStrategies {
     ArrayList<IPlayer> players = new ArrayList<>(List.of(redPlayer, bluePlayer));
 
     ConfigGame simpleGameConfig = new ConfigGame("simpleBoard.config", "simpleCard.database");
-    simpleModel = new ModelImpl(simpleGameConfig.getBoard(), simpleGameConfig.getDeck(), players);
+    simpleModel = new ModelVarientImpl(simpleGameConfig.getBoard(), simpleGameConfig.getDeck(), players);
 
     ConfigGame simpleGameWithHole = new ConfigGame("strategyTestingWithHole.config",
         "simpleCard.database");
-    modelWithHole = new ModelImpl(simpleGameWithHole.getBoard(), simpleGameWithHole.getDeck(),
+    modelWithHole = new ModelVarientImpl(simpleGameWithHole.getBoard(), simpleGameWithHole.getDeck(),
         players);
 
     ConfigGame simpleGameWith3x1 = new ConfigGame("threeByOneBoard.config", "simpleCard.database");
-    modelWithThreeBy1 = new ModelImpl(simpleGameWith3x1.getBoard(), simpleGameWith3x1.getDeck(),
+    modelWithThreeBy1 = new ModelVarientImpl(simpleGameWith3x1.getBoard(), simpleGameWith3x1.getDeck(),
         players);
 
     this.board1 = simpleGameConfig.getBoard();

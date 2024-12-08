@@ -4,8 +4,8 @@ import card.CellTypeContents;
 import card.DirectionValue;
 import card.ICard;
 import model.IModel;
+import model.ModelVarientImpl;
 import player.IPlayer;
-import model.ModelImpl;
 import player.PlayerColor;
 import player.PlayerImpl;
 import org.junit.Assert;
@@ -41,20 +41,20 @@ public class TestModel {
     players = new ArrayList<>(List.of(redPlayer, bluePlayer));
 
     ConfigGame gameConfig = new ConfigGame("board.config", "card.database");
-    model = new ModelImpl(gameConfig.getBoard(), gameConfig.getDeck(), players);
+    model = new ModelVarientImpl(gameConfig.getBoard(), gameConfig.getDeck(), players);
 
     ConfigGame simpleGameConfig = new ConfigGame("simpleBoard.config", "simpleCard.database");
-    simpleModel = new ModelImpl(simpleGameConfig.getBoard(), simpleGameConfig.getDeck(), players);
+    simpleModel = new ModelVarientImpl(simpleGameConfig.getBoard(), simpleGameConfig.getDeck(), players);
 
     ConfigGame easyWinGameConfig = new ConfigGame("1x1Board.config", "simpleCard.database");
-    easyWinModel = new ModelImpl(easyWinGameConfig.getBoard(), easyWinGameConfig.getDeck(),
+    easyWinModel = new ModelVarientImpl(easyWinGameConfig.getBoard(), easyWinGameConfig.getDeck(),
         players);
 
 
     PlayerImpl redPlayer1 = new PlayerImpl(PlayerColor.RED, new ArrayList<>());
     PlayerImpl bluePlayer1 = new PlayerImpl(PlayerColor.BLUE, new ArrayList<>());
     ArrayList<IPlayer> players1 = new ArrayList<>(List.of(redPlayer1, bluePlayer1));
-    modelForRulesTesting = new ModelImpl(simpleGameConfig.getBoard(), simpleGameConfig.getDeck(),
+    modelForRulesTesting = new ModelVarientImpl(simpleGameConfig.getBoard(), simpleGameConfig.getDeck(),
         players1);
 
 
@@ -275,7 +275,7 @@ public class TestModel {
     try {
       ConfigGame configGame = new ConfigGame("simpleBoard.config",
           "dupCard.database");
-      IModel dupCardModelConfig = new ModelImpl(configGame.getBoard(), configGame.getDeck(),
+      IModel dupCardModelConfig = new ModelVarientImpl(configGame.getBoard(), configGame.getDeck(),
           players);
       dupCardModelConfig.startGame();
       fail("There is a duplicate card in the card database");

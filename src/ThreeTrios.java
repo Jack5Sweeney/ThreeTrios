@@ -1,10 +1,9 @@
 import card.CellTypeContents;
 import card.ICard;
 import controller.ControllerGUIImpl;
-import controller.Features;
 import gameconfig.ConfigGame;
 import gameconsole.GameConsole;
-import model.ModelImpl;
+import model.ModelVarientImpl;
 import player.IPlayer;
 import player.PlayerColor;
 import view.IViewFrameGUI;
@@ -37,7 +36,7 @@ public class ThreeTrios {
 
     ArrayList<IPlayer> players = new ArrayList<>(List.of(redPlayer, bluePlayer));
 
-    ModelImpl model = new ModelImpl(board, deck, players);
+    ModelVarientImpl model = new ModelVarientImpl(board, deck, players);
 
     // Initialize views
     IViewFrameGUI redView = new ViewFrameGUIImpl(model);
