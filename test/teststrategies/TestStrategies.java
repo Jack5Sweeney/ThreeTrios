@@ -1,6 +1,9 @@
 package teststrategies;
 
 import card.CellTypeContents;
+import cardcomparison.FallenAce;
+import cardcomparison.NormalComparisonStrategy;
+import cardcomparison.Reverse;
 import gameconfig.ConfigGame;
 import model.ModelVarientImpl;
 import strategies.CornerStrategy;
@@ -27,6 +30,7 @@ import static org.junit.Assert.assertEquals;
 public class TestStrategies {
 
   private IModel simpleModel;
+  private IModel newSimpleModel;
   private IModel modelWithHole;
   private IModel modelWithThreeBy1;
 
@@ -42,9 +46,15 @@ public class TestStrategies {
     bluePlayer = new PlayerImpl(PlayerColor.BLUE, new ArrayList<>());
     ArrayList<IPlayer> players = new ArrayList<>(List.of(redPlayer, bluePlayer));
 
+    /*
     ConfigGame simpleGameConfig = new ConfigGame("simpleBoard.config", "simpleCard.database");
     simpleModel = new ModelVarientImpl(simpleGameConfig.getBoard(), simpleGameConfig.getDeck(), players);
+     */
 
+    ConfigGame newSimpleGameConfig = new ConfigGame("board.config", "card.database");
+    newSimpleModel = new ModelVarientImpl(newSimpleGameConfig.getBoard(), newSimpleGameConfig.getDeck(), players);
+
+    /*
     ConfigGame simpleGameWithHole = new ConfigGame("strategyTestingWithHole.config",
         "simpleCard.database");
     modelWithHole = new ModelVarientImpl(simpleGameWithHole.getBoard(), simpleGameWithHole.getDeck(),
@@ -54,7 +64,11 @@ public class TestStrategies {
     modelWithThreeBy1 = new ModelVarientImpl(simpleGameWith3x1.getBoard(), simpleGameWith3x1.getDeck(),
         players);
 
+     */
+
+    /*
     this.board1 = simpleGameConfig.getBoard();
+     */
 
     strategy1 = new FlipTheMostStrategy();
     strategy2 = new CornerStrategy();
@@ -415,6 +429,42 @@ public class TestStrategies {
 
     assertEquals(0, bestMove.row);
     assertEquals(1, bestMove.column);
+    assertEquals(0, bestMove.cardIndex);
+  }
+
+  // testing the strategies with the new strategies such a reverse and fallen ace
+
+  @Test
+  public void testFlipTheMostStrategyWithReverse() {
+    newSimpleModel.startGame();
+    newSimpleModel.setVariantRule(new Reverse());
+
+    newSimpleModel.placeCard(0, 0, 0, redPlayer);
+
+    Placement bestMove = strategy1.chooseMove(newSimpleModel, bluePlayer);
+
+    int expectedRow = 1;
+    int expectedColumn = 0;
+
+    assertEquals(expectedRow, bestMove.row);
+    assertEquals(expectedColumn, bestMove.column);
+    assertEquals(0, bestMove.cardIndex);
+  }
+
+  @Test
+  public void testFlipTheMostStrategyWithFallenAce() {
+    newSimpleModel.startGame();
+    newSimpleModel.setVariantRule(new FallenAce(new NormalComparisonStrategy()));
+
+    newSimpleModel.placeCard(4, 6, 0, redPlayer);
+
+    Placement bestMove = strategy1.chooseMove(newSimpleModel, bluePlayer);
+
+    int expectedRow = 3;
+    int expectedColumn = 6;
+
+    assertEquals(expectedRow, bestMove.row);
+    assertEquals(expectedColumn, bestMove.column);
     assertEquals(0, bestMove.cardIndex);
   }
 }

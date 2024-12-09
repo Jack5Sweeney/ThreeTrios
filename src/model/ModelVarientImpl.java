@@ -621,8 +621,7 @@ public class ModelVarientImpl implements IModel {
    * @param visited    a boolean 2D array to track visited positions and avoid re-counting flips
    * @return the number of opponent cards that would be flipped by this placement
    */
-  private int calculateFlipsRecursive(int row, int col, ICard card, PlayerColor ownerColor,
-                                      boolean[][] visited) {
+  private int calculateFlipsRecursive(int row, int col, ICard card, PlayerColor ownerColor, boolean[][] visited) {
     int flipCount = 0;
     int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
     Direction[] dirEnums = {Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST};
@@ -631,25 +630,21 @@ public class ModelVarientImpl implements IModel {
       int adjRow = row + directions[directionIndex][0];
       int adjCol = col + directions[directionIndex][1];
 
-      if (isValidPosition(adjRow, adjCol) && boardWithCards[adjRow][adjCol] != null &&
-          !visited[adjRow][adjCol]) {
-
+      if (isValidPosition(adjRow, adjCol) && boardWithCards[adjRow][adjCol] != null && !visited[adjRow][adjCol]) {
         ICard adjacentCard = boardWithCards[adjRow][adjCol];
 
         if (adjacentCard.getPlayerColor() != ownerColor) {
           Direction placedDir = dirEnums[directionIndex];
           Direction adjOppositeDir = getOppositeDirection(placedDir);
 
-          if (card.getDirectionsAndValues().get(placedDir).getValue() >
-              adjacentCard.getDirectionsAndValues().get(adjOppositeDir).getValue()) {
-
+          // Use the comparison strategy to determine if the card can flip
+          if (cardComp.compare(card, adjacentCard, placedDir, adjOppositeDir)) {
             // Mark as visited and count this flip
             visited[adjRow][adjCol] = true;
             flipCount++;
 
             // Recursively calculate flips from this newly "flipped" card
-            flipCount += calculateFlipsRecursive(adjRow, adjCol, adjacentCard, ownerColor,
-                visited);
+            flipCount += calculateFlipsRecursive(adjRow, adjCol, adjacentCard, ownerColor, visited);
           }
         }
       }

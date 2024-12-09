@@ -1,3 +1,6 @@
+import cardcomparison.CardComparisonStrategy;
+import cardcomparison.FallenAce;
+import cardcomparison.Reverse;
 import gameconfig.ConfigGame;
 import card.CardImpl;
 import card.CellTypeContents;
@@ -26,6 +29,7 @@ import static org.junit.Assert.assertTrue;
 public class TestModel {
 
   private IModel simpleModel;
+  private IModel newSimpleModel;
   private IModel model;
   private IModel modelForRulesTesting;
   private IModel easyWinModel;
@@ -40,6 +44,8 @@ public class TestModel {
     bluePlayer = new PlayerImpl(PlayerColor.BLUE, new ArrayList<>());
     players = new ArrayList<>(List.of(redPlayer, bluePlayer));
 
+    /*
+
     ConfigGame gameConfig = new ConfigGame("board.config", "card.database");
     model = new ModelVarientImpl(gameConfig.getBoard(), gameConfig.getDeck(), players);
 
@@ -50,12 +56,20 @@ public class TestModel {
     easyWinModel = new ModelVarientImpl(easyWinGameConfig.getBoard(), easyWinGameConfig.getDeck(),
         players);
 
+     */
+
+    ConfigGame newSimpleGameConfig = new ConfigGame("board.config", "card.database");
+    newSimpleModel = new ModelVarientImpl(newSimpleGameConfig.getBoard(), newSimpleGameConfig.getDeck(), players);
+
 
     PlayerImpl redPlayer1 = new PlayerImpl(PlayerColor.RED, new ArrayList<>());
     PlayerImpl bluePlayer1 = new PlayerImpl(PlayerColor.BLUE, new ArrayList<>());
     ArrayList<IPlayer> players1 = new ArrayList<>(List.of(redPlayer1, bluePlayer1));
+    /*
     modelForRulesTesting = new ModelVarientImpl(simpleGameConfig.getBoard(), simpleGameConfig.getDeck(),
         players1);
+
+     */
 
 
   }
@@ -732,6 +746,25 @@ public class TestModel {
     simpleModel.placeCard(0, 0, 0, redPlayer);
     assertEquals(simpleModel.getCurrentPlayerColor(), PlayerColor.BLUE);
   }
+
+  // tests for the new rules (strategies we created such as reverse and fallen ace)
+
+  @Test
+  public void testPropWithReverseRules() {
+    newSimpleModel.startGame();
+    newSimpleModel.setVariantRule(new Reverse());
+
+    newSimpleModel.placeCard(0, 0, 0, redPlayer);
+    newSimpleModel.placeCard(4, 0, 0, bluePlayer);
+    newSimpleModel.placeCard(1, 0, 0, redPlayer);
+    newSimpleModel.placeCard(2, 0, 1, bluePlayer);
+
+    assertEquals(PlayerColor.BLUE, newSimpleModel.getCardAt(0, 0).getPlayerColor());
+    assertEquals(PlayerColor.BLUE, newSimpleModel.getCardAt(1, 0).getPlayerColor());
+
+  }
+
+
 }
 
 
