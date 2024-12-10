@@ -284,3 +284,18 @@ Adaptor Assignment (HW8)
     intermediary between the model and the view. Integrating this feature would require violating the
     MVC principles by moving game state management into the controller, which is not aligned with our
     architectural design.
+
+HW9 Included features
+    In this assignment we did Level 0 and Level 1, we made modifications to the view package for Level 0,
+    and modifications to the model package for Level 1. We also added a gameconsole package to handle user
+    input in the command line for features like toggling on and off the hints, or changing the game variant.
+
+    For level 0, in order to enable/disable hints for a player individually you must type the command:
+        "enableHints (player)"
+    where player is red or blue. To disable hints you type the command:
+        "disableHints (player)"
+
+    For level 1 we added fallen ace, and reverse and the combination as variants, we also allowed the user
+    to reset the game back to the base rules. To change the variants a user will type to the command line:
+
+        "reverse", "fallenAce", "reverseFallenAce" or "reset" to change the game variants.
