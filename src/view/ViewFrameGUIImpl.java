@@ -24,6 +24,9 @@ public class ViewFrameGUIImpl extends JFrame implements IViewFrameGUI {
 
   private JPanel highlightedCardPanelGUIImpl;
 
+  private final int numRows;
+  private final int numCols;
+
 
   /**
    * Constructs a {@code ViewFrameGUIImpl} with the specified readOnlyModel, initializing
@@ -32,11 +35,14 @@ public class ViewFrameGUIImpl extends JFrame implements IViewFrameGUI {
    * @param readOnlyModel the game readOnlyModel providing data for the board and players' hands
    */
   public ViewFrameGUIImpl(ReadOnlyIModel readOnlyModel) {
+    this.numRows = readOnlyModel.getBoard().length; // Get number of rows
+    this.numCols = readOnlyModel.getBoard()[0].length; // Get number of columns
+
     this.redHandPanel = new ViewHandPanelGUIImpl(readOnlyModel.getRedPlayer().getHand());
     this.blueHandPanel = new ViewHandPanelGUIImpl(readOnlyModel.getBluePlayer().getHand());
     this.boardPanel = new ViewBoardPanelGUIImpl(
-            readOnlyModel.getBoard().length,
-            readOnlyModel.getBoard()[0].length,
+            numRows,
+            numCols,
             readOnlyModel.getBoardAvailability()
     );
 
@@ -219,13 +225,36 @@ public class ViewFrameGUIImpl extends JFrame implements IViewFrameGUI {
 
   @Override
   public void enableHints(int[][] flipCounts) {
-    boardPanel.showFlipCounts(flipCounts); // Delegate to ViewBoardPanelGUIImpl
+    // No operation in ViewFrameGUIImpl directly
+    // The controller or decorator handles this
   }
 
   @Override
   public void disableHints() {
-    boardPanel.clearHints();
+    // No operation in ViewFrameGUIImpl directly
+    // The controller or decorator handles this
   }
+
+  @Override
+  public Component getBoardComponent(int row, int col) {
+    return boardPanel.getComponent(row * numCols + col);
+  }
+
+  @Override
+  public int getHighlightedCardIndex(PlayerColor color) {
+    ViewHandPanelGUIImpl handPanel = (color == PlayerColor.RED) ? redHandPanel : blueHandPanel;
+
+    if (highlightedCardPanelGUIImpl != null) {
+      // Find the index of the highlighted card
+      for (int i = 0; i < handPanel.getComponentCount(); i++) {
+        if (handPanel.getComponent(i) == highlightedCardPanelGUIImpl) {
+          return i; // Return the index of the highlighted card
+        }
+      }
+    }
+    return -1; // Return -1 if no card is highlighted
+  }
+
 
 }
 

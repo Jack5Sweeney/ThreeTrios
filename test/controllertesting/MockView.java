@@ -5,6 +5,7 @@ import controller.Features;
 import player.PlayerColor;
 import card.ICard;
 
+import java.awt.*;
 import java.util.List;
 
 /**
@@ -89,6 +90,16 @@ public class MockView implements IViewFrameGUI {
   @Override
   public void disableHints() {
 
+  }
+
+  @Override
+  public Component getBoardComponent(int row, int col) {
+    return null;
+  }
+
+  @Override
+  public int getHighlightedCardIndex(PlayerColor color) {
+    return 0;
   }
 
   @Override

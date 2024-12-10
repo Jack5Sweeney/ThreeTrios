@@ -3,7 +3,6 @@ package view;
 import card.CellTypeContents;
 
 import javax.swing.*;
-
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Component;
@@ -13,9 +12,14 @@ import controller.Features;
 
 /**
  * Implementation of the {@link IViewBoardPanelGUI} interface, providing a graphical panel
- * for displaying the game board within the GUI. Each cell is represented as its own panel.
+ * for displaying the game board within the GUI. Each cell is represented as its own panel
+ * and is capable of handling user interactions.
  */
 public class ViewBoardPanelGUIImpl extends JPanel implements IViewBoardPanelGUI {
+
+  /**
+   * The features interface used to handle user interactions with the game board.
+   */
   private Features features;
 
   /**
@@ -72,49 +76,6 @@ public class ViewBoardPanelGUIImpl extends JPanel implements IViewBoardPanelGUI 
     }
   }
 
-  @Override
-  public void showFlipCounts(int[][] flipCounts) {
-    int rows = flipCounts.length;
-    int cols = flipCounts[0].length;
-
-    for (int row = 0; row < rows; row++) {
-      for (int col = 0; col < cols; col++) {
-        Component cell = getComponent(row * cols + col); // Retrieve the cell panel
-
-        if (cell instanceof CellPanel) {
-          CellPanel cellPanel = (CellPanel) cell;
-
-          // Check the cell type
-          CellTypeContents cellType = cellPanel.getCellType();
-          if (cellType == CellTypeContents.EMPTY) {
-            // Set flip count for empty cells
-            cellPanel.setFlipCount(flipCounts[row][col]);
-          } else {
-            // Clear flip count for non-empty cells
-            cellPanel.clearFlipCount();
-          }
-        }
-      }
-    }
-
-    this.revalidate();
-    this.repaint();
-  }
-
-  @Override
-  public void clearHints() {
-    // Iterate through all components in the board
-    for (Component comp : getComponents()) {
-      if (comp instanceof CellPanel) {
-        CellPanel cellPanel = (CellPanel) comp;
-        cellPanel.clearFlipCount(); // Clear the flip count for each cell
-      }
-    }
-
-    this.revalidate(); // Ensure the layout updates after clearing
-    this.repaint();    // Redraw the board
-  }
-
   /**
    * Enables interaction with all components within this container. This method
    * iterates through each component and enables it, allowing the user to interact
@@ -137,16 +98,30 @@ public class ViewBoardPanelGUIImpl extends JPanel implements IViewBoardPanelGUI 
     }
   }
 
-
   /**
    * Inner class representing each cell in the board as a JPanel. Each cell has its own
-   * color and
-   * handles its own click events.
+   * color, handles its own click events, and can display additional information such as
+   * flip counts.
    */
-  private class CellPanel extends JPanel {
-    private CellTypeContents cellType; // Store the cell type
+  public class CellPanel extends JPanel {
+
+    /**
+     * The type of the cell, determining its appearance and behavior.
+     */
+    private CellTypeContents cellType;
+
+    /**
+     * Label to display the flip count within the cell.
+     */
     private JLabel flipCountLabel;
 
+    /**
+     * Constructs a {@code CellPanel} for a specific cell in the game board.
+     *
+     * @param row      the row index of the cell
+     * @param col      the column index of the cell
+     * @param cellType the type of the cell (e.g., HOLE, EMPTY)
+     */
     public CellPanel(int row, int col, CellTypeContents cellType) {
       this.cellType = cellType; // Initialize the cell type
       this.setLayout(new OverlayLayout(this));
@@ -164,11 +139,20 @@ public class ViewBoardPanelGUIImpl extends JPanel implements IViewBoardPanelGUI 
       });
     }
 
-    // Getter for the cell type
+    /**
+     * Retrieves the type of the cell.
+     *
+     * @return the {@link CellTypeContents} of this cell
+     */
     public CellTypeContents getCellType() {
       return cellType;
     }
 
+    /**
+     * Sets the flip count for this cell and updates its display.
+     *
+     * @param count the flip count to display
+     */
     public void setFlipCount(int count) {
       if (flipCountLabel == null) {
         flipCountLabel = new JLabel();
@@ -183,6 +167,9 @@ public class ViewBoardPanelGUIImpl extends JPanel implements IViewBoardPanelGUI 
       this.repaint();
     }
 
+    /**
+     * Clears the flip count display from this cell.
+     */
     public void clearFlipCount() {
       if (flipCountLabel != null) {
         this.remove(flipCountLabel);
@@ -192,6 +179,11 @@ public class ViewBoardPanelGUIImpl extends JPanel implements IViewBoardPanelGUI 
       }
     }
 
+    /**
+     * Sets the background color of this cell based on its type.
+     *
+     * @param cellType the {@link CellTypeContents} of the cell
+     */
     private void setCellColor(CellTypeContents cellType) {
       switch (cellType) {
         case HOLE:

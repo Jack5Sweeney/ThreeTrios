@@ -1,6 +1,5 @@
 package controller;
 
-import card.ICard;
 import cardcomparison.CardComparisonStrategy;
 import gameconsole.IGameConsole;
 import player.IPlayer;
@@ -10,6 +9,7 @@ import provider.src.threetrios.controller.PlayerActionsListener;
 import provider.src.threetrios.view.Cell;
 import strategies.Placement;
 import view.IViewFrameGUI;
+import view.HintDecorator;
 
 /**
  * Implementation of the {@link IControllerGUI} interface, responsible for managing the game
@@ -18,12 +18,34 @@ import view.IViewFrameGUI;
  */
 public class ControllerGUIImpl implements IControllerGUI, Features, ModelObserver, PlayerActions, PlayerActionsListener {
 
-  private IViewFrameGUI view;
+  /**
+   * The main GUI view, decorated to include hint functionality.
+   */
+  private final IViewFrameGUI view;
+
+  /**
+   * The player associated with this controller.
+   */
   private final IPlayer player;
+
+  /**
+   * The game model, representing the state and logic of the game.
+   */
   private final IModel model;
+
+  /**
+   * Indicates whether it is the player's turn.
+   */
   private boolean isMyTurn = false;
+
+  /**
+   * Index of the card selected by the player, or -1 if no card is selected.
+   */
   private int selectedCardIndex = -1;
-  private int[][] flipCount;
+
+  /**
+   * Tracks whether hints are currently enabled.
+   */
   private boolean hintsEnabled;
 
   /**
@@ -31,40 +53,37 @@ public class ControllerGUIImpl implements IControllerGUI, Features, ModelObserve
    * Initializes the controller, sets up the model and view, and registers this controller
    * as an observer.
    *
-   * @param view   the view interface connected to a read-only model for rendering the GUI
-   * @param model  the game model containing the game state and logic
-   * @param player the player using this controller
-   * @throws IllegalArgumentException if any parameter is null
+   * @param view        the decorated view interface for rendering the GUI
+   * @param model       the game model containing the game state and logic
+   * @param player      the player using this controller
+   * @param gameConsole the console interface for additional game interactions
+   * @throws IllegalArgumentException if any of the arguments are {@code null}
    */
   public ControllerGUIImpl(IViewFrameGUI view, IModel model, IPlayer player, IGameConsole gameConsole) {
     if (view == null || model == null || player == null) {
       throw new IllegalArgumentException("Arguments cannot be null");
     }
-    this.view = view;
+    this.view = new HintDecorator(view, model, player.getPlayerColor());
     this.model = model;
     this.player = player;
     this.hintsEnabled = false;
+
     // Register the controller as an observer of the model
     this.model.addObserver(this);
 
-    int rows = model.getBoard().length;
-    int cols = model.getBoard()[0].length;
-     this.flipCount = new int[rows][cols];
-
-    // Add features to the view
+    // Add features to the view and game console
     view.addFeatures(this);
     gameConsole.addFeatures(this);
   }
 
   /**
-   * Starts the game by setting up the game board and card deck, initializing the model with
-   * specified configurations, and making the view visible to handle user interactions.
+   * Starts the game by initializing the model, setting up the view, and determining
+   * if it is the player's turn.
    */
   @Override
   public void playGame() {
     this.model.startGame();
     this.model.addObserver(this);
-    //this.view = new ViewFrameGUIImpl(this.model);
     view.addFeatures(this);
     view.makeVisible();
 
@@ -75,8 +94,8 @@ public class ControllerGUIImpl implements IControllerGUI, Features, ModelObserve
   }
 
   /**
-   * Handles cell click events in the game grid. Triggered when a cell is clicked, typically
-   * for placing a card on the board.
+   * Handles a click on a board cell. If it is the player's turn and a card is selected,
+   * attempts to place the card at the specified cell.
    *
    * @param row the row index of the clicked cell
    * @param col the column index of the clicked cell
@@ -100,11 +119,11 @@ public class ControllerGUIImpl implements IControllerGUI, Features, ModelObserve
   }
 
   /**
-   * Handles click events on a card in the player's hand. Triggered when a card is selected
-   * by the player during gameplay.
+   * Handles a click on a card in the player's hand. Highlights the selected card
+   * and recalculates hints if they are enabled.
    *
-   * @param row the index representing the card's position in the player's hand
-   * @param color the color of the player selecting the card
+   * @param row   the row index of the card in the player's hand
+   * @param color the color of the player who clicked the card
    */
   @Override
   public void handleCardClick(int row, PlayerColor color) {
@@ -116,50 +135,48 @@ public class ControllerGUIImpl implements IControllerGUI, Features, ModelObserve
     selectedCardIndex = row;
     view.highlightCard(row, color);
 
-    // Get the selected card from the player's hand
-    IPlayer currentPlayer = (color == PlayerColor.RED) ? model.getRedPlayer() : model.getBluePlayer();
-    ICard selectedCard = currentPlayer.getHand().get(row);
-
-    // Initialize a 2D array to store flip counts
-    int rows = model.getBoard().length;
-    int cols = model.getBoard()[0].length;
-    int[][] flipCounts = new int[rows][cols];
-
-    // Use calculateFlips to evaluate each empty cell
-    for (int i = 0; i < rows; i++) {
-      for (int j = 0; j < cols; j++) {
-        if (model.isCellEmpty(i, j)) { // Check if the cell is empty
-          flipCounts[i][j] = model.calculateFlips(i, j, selectedCard);
-        }
-      }
-    }
-
-    this.flipCount = flipCounts;
-    if(this.hintsEnabled) {
-      this.enableHints();
+    // Recalculate hints for the newly highlighted card
+    if (hintsEnabled) {
+      view.enableHints(null); // Trigger the decorator to recalculate hints
     }
   }
 
+  /**
+   * Enables hint functionality in the view. Recalculates and displays hints for
+   * the currently highlighted card.
+   */
   @Override
   public void enableHints() {
-    this.hintsEnabled = true;
-    this.view.enableHints(this.flipCount);
+    if (!hintsEnabled) {
+      hintsEnabled = true;
+      view.enableHints(null); // Delegates to the decorator for implementation
+    }
   }
 
+  /**
+   * Disables hint functionality in the view. Removes any displayed hints.
+   */
   @Override
   public void disableHints() {
-    this.hintsEnabled = false;
-    this.view.disableHints();
+    if (hintsEnabled) {
+      hintsEnabled = false;
+      view.disableHints(); // Delegates to the decorator for implementation
+    }
   }
 
+  /**
+   * Sets the variant rule for card comparison in the model.
+   *
+   * @param variantRule the card comparison strategy to use
+   */
   @Override
   public void setVariantRule(CardComparisonStrategy variantRule) {
     this.model.setVariantRule(variantRule);
   }
 
   /**
-   * Called when the current turn changes in the game. Updates the view and interaction
-   * state based on whether it is this player's turn.
+   * Handles changes in the current player's turn. Updates the view and enables
+   * or disables interactions based on the current player.
    *
    * @param currentPlayer the color of the current player
    */
@@ -180,11 +197,10 @@ public class ControllerGUIImpl implements IControllerGUI, Features, ModelObserve
   }
 
   /**
-   * Called when the game is over. Displays the appropriate end-game message in the view,
-   * indicating whether the player won, lost, or the game ended in a tie.
+   * Handles the game-over event. Displays the outcome of the game and disables
+   * further interactions in the view.
    *
-   * @param winningPlayerColor the color of the winning player, or {@code null} if the game
-   *                           ended in a tie
+   * @param winningPlayerColor the color of the winning player, or {@code null} if the game is a tie
    */
   @Override
   public void onGameOver(PlayerColor winningPlayerColor) {
@@ -202,6 +218,10 @@ public class ControllerGUIImpl implements IControllerGUI, Features, ModelObserve
     view.disableInteractions();
   }
 
+  /**
+   * Allows the player to choose a move. If a valid move is chosen, places the card
+   * at the selected cell.
+   */
   @Override
   public void choosePlayerMove() {
     Placement playerPlacement = player.chooseMove(model);
@@ -213,6 +233,14 @@ public class ControllerGUIImpl implements IControllerGUI, Features, ModelObserve
     }
   }
 
+  /**
+   * Handles card placement events. Invokes {@link #handleCellClick(int, int)} to process
+   * the placement.
+   *
+   * @param row  the row index of the placed card
+   * @param col  the column index of the placed card
+   * @param cell the cell where the card was placed
+   */
   @Override
   public void onPlaceCard(int row, int col, Cell cell) {
     this.handleCellClick(row, col);

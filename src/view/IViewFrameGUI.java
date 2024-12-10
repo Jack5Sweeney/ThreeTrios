@@ -4,11 +4,13 @@ import controller.Features;
 import card.ICard;
 import player.PlayerColor;
 
+import java.awt.*;
 import java.util.List;
 
 /**
  * Interface for the main GUI frame of the view component. Defines methods to manage
- * the visibility, refresh functionality, and interaction setup of the view during the game.
+ * the visibility, refresh functionality, interaction setup, and additional game-related
+ * visual features during gameplay.
  */
 public interface IViewFrameGUI {
 
@@ -45,8 +47,6 @@ public interface IViewFrameGUI {
   /**
    * Updates the board display based on the provided 2D array of {@link ICard} objects.
    * Each cell on the board is updated to show a card or remain empty if null.
-   * Replaces components on the board with {@link CardPanelGUIImpl} panels where cards
-   * are present, or blank panels for empty cells.
    *
    * @param boardWithCard a 2D array representing the board, where each {@code ICard}
    *                      can be a card to display, or {@code null} for an empty cell
@@ -94,9 +94,41 @@ public interface IViewFrameGUI {
    */
   void bringToFront();
 
+  /**
+   * Refreshes the display of both players' hands in the view.
+   *
+   * @param redHand  the list of cards in the red player's hand
+   * @param blueHand the list of cards in the blue player's hand
+   */
   void refreshHands(List<ICard> redHand, List<ICard> blueHand);
 
+  /**
+   * Enables hints in the view by displaying flip counts or other indicators
+   * based on the given flip count data.
+   *
+   * @param flipCounts a 2D array of integers representing the flip counts for each board cell
+   */
   void enableHints(int[][] flipCounts);
 
+  /**
+   * Disables hints in the view, removing any visual indicators previously displayed.
+   */
   void disableHints();
+
+  /**
+   * Retrieves the specific board component (e.g., cell) at a given row and column.
+   *
+   * @param row the row index of the component
+   * @param col the column index of the component
+   * @return the board component at the specified location
+   */
+  Component getBoardComponent(int row, int col);
+
+  /**
+   * Retrieves the index of the currently highlighted card for a specific player.
+   *
+   * @param color the color of the player
+   * @return the index of the highlighted card, or -1 if no card is highlighted
+   */
+  int getHighlightedCardIndex(PlayerColor color);
 }

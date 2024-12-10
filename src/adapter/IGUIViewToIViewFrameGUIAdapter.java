@@ -7,6 +7,7 @@ import controller.Features;
 import card.ICard;
 import player.PlayerColor;
 
+import java.awt.*;
 import java.util.List;
 
 /**
@@ -156,5 +157,15 @@ public class IGUIViewToIViewFrameGUIAdapter implements IViewFrameGUI {
   @Override
   public void disableHints() {
 
+  }
+
+  @Override
+  public Component getBoardComponent(int row, int col) {
+    return null;
+  }
+
+  @Override
+  public int getHighlightedCardIndex(PlayerColor color) {
+    return 0;
   }
 }
