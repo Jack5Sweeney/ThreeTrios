@@ -1,5 +1,5 @@
-import cardcomparison.CardComparisonStrategy;
 import cardcomparison.FallenAce;
+import cardcomparison.NormalComparisonStrategy;
 import cardcomparison.Reverse;
 import gameconfig.ConfigGame;
 import card.CardImpl;
@@ -50,7 +50,8 @@ public class TestModel {
     model = new ModelVarientImpl(gameConfig.getBoard(), gameConfig.getDeck(), players);
 
     ConfigGame simpleGameConfig = new ConfigGame("simpleBoard.config", "simpleCard.database");
-    simpleModel = new ModelVarientImpl(simpleGameConfig.getBoard(), simpleGameConfig.getDeck(), players);
+    simpleModel = new ModelVarientImpl(simpleGameConfig.getBoard(),
+    simpleGameConfig.getDeck(), players);
 
     ConfigGame easyWinGameConfig = new ConfigGame("1x1Board.config", "simpleCard.database");
     easyWinModel = new ModelVarientImpl(easyWinGameConfig.getBoard(), easyWinGameConfig.getDeck(),
@@ -59,15 +60,17 @@ public class TestModel {
      */
 
     ConfigGame newSimpleGameConfig = new ConfigGame("board.config", "card.database");
-    newSimpleModel = new ModelVarientImpl(newSimpleGameConfig.getBoard(), newSimpleGameConfig.getDeck(), players);
+    newSimpleModel = new ModelVarientImpl(newSimpleGameConfig.getBoard(),
+            newSimpleGameConfig.getDeck(), players);
 
 
     PlayerImpl redPlayer1 = new PlayerImpl(PlayerColor.RED, new ArrayList<>());
     PlayerImpl bluePlayer1 = new PlayerImpl(PlayerColor.BLUE, new ArrayList<>());
     ArrayList<IPlayer> players1 = new ArrayList<>(List.of(redPlayer1, bluePlayer1));
+
     /*
-    modelForRulesTesting = new ModelVarientImpl(simpleGameConfig.getBoard(), simpleGameConfig.getDeck(),
-        players1);
+    modelForRulesTesting = new ModelVarientImpl(simpleGameConfig.getBoard(),
+    simpleGameConfig.getDeck(), players1);
 
      */
 
@@ -530,9 +533,12 @@ public class TestModel {
     boardCopy[0][0] = new CardImpl(PlayerColor.RED, "MutantCard", DirectionValue.ONE,
             DirectionValue.TWO, DirectionValue.THREE, DirectionValue.FOUR);
 
-    assertEquals("CorruptKing", simpleModel.getCardAt(0, 0).getName());
-    assertEquals(originalCard.getName(), simpleModel.getCardAt(0, 0).getName());
-    assertNotEquals("MutantCard", simpleModel.getCardAt(0, 0).getName());
+    assertEquals("CorruptKing",
+            simpleModel.getCardAt(0, 0).getName());
+    assertEquals(originalCard.getName(),
+            simpleModel.getCardAt(0, 0).getName());
+    assertNotEquals("MutantCard",
+            simpleModel.getCardAt(0, 0).getName());
   }
 
   @Test
@@ -667,17 +673,20 @@ public class TestModel {
     CardImpl redCard0 = new CardImpl(PlayerColor.RED, "RedCard",
             DirectionValue.ONE, DirectionValue.ONE, DirectionValue.ONE, DirectionValue.ONE);
     modelForRulesTesting.getRedPlayer().getHand().add(redCard0);
-    modelForRulesTesting.placeCard(0, 0, 0, modelForRulesTesting.getRedPlayer());
+    modelForRulesTesting.placeCard(0, 0, 0,
+            modelForRulesTesting.getRedPlayer());
 
     CardImpl blueCard = new CardImpl(PlayerColor.BLUE, "BlueCard",
             DirectionValue.ONE, DirectionValue.ONE, DirectionValue.ONE, DirectionValue.ONE);
     modelForRulesTesting.getBluePlayer().getHand().add(blueCard);
-    modelForRulesTesting.placeCard(1, 1, 0, modelForRulesTesting.getBluePlayer());
+    modelForRulesTesting.placeCard(1, 1, 0,
+            modelForRulesTesting.getBluePlayer());
 
     CardImpl redCard = new CardImpl(PlayerColor.RED, "RedCard",
             DirectionValue.NINE, DirectionValue.NINE, DirectionValue.NINE, DirectionValue.NINE);
     modelForRulesTesting.getRedPlayer().getHand().add(redCard);
-    modelForRulesTesting.placeCard(1, 2, 0, modelForRulesTesting.getRedPlayer());
+    modelForRulesTesting.placeCard(1, 2, 0,
+            modelForRulesTesting.getRedPlayer());
 
     assertEquals(3, modelForRulesTesting.getPlayerScore(PlayerColor.RED));
     assertEquals(0, modelForRulesTesting.getPlayerScore(PlayerColor.BLUE));
@@ -711,8 +720,10 @@ public class TestModel {
     simpleModel.placeCard(0, 2, 1, redPlayer);
     simpleModel.placeCard(1, 0, 1, bluePlayer);
 
-    assertEquals(PlayerColor.BLUE, simpleModel.getCardAt(1, 2).getPlayerColor());
-    assertEquals(PlayerColor.BLUE, simpleModel.getCardAt(1, 0).getPlayerColor());
+    assertEquals(PlayerColor.BLUE,
+            simpleModel.getCardAt(1, 2).getPlayerColor());
+    assertEquals(PlayerColor.BLUE,
+            simpleModel.getCardAt(1, 0).getPlayerColor());
 
     ICard redCard = redPlayer.getHand().get(2);
     int flips = simpleModel.calculateFlips(1, 1, redCard);
@@ -759,9 +770,167 @@ public class TestModel {
     newSimpleModel.placeCard(1, 0, 0, redPlayer);
     newSimpleModel.placeCard(2, 0, 1, bluePlayer);
 
-    assertEquals(PlayerColor.BLUE, newSimpleModel.getCardAt(0, 0).getPlayerColor());
-    assertEquals(PlayerColor.BLUE, newSimpleModel.getCardAt(1, 0).getPlayerColor());
+    assertEquals(PlayerColor.RED,
+            newSimpleModel.getCardAt(0, 0).getPlayerColor());
+    assertEquals(PlayerColor.RED,
+            newSimpleModel.getCardAt(1, 0).getPlayerColor());
 
+  }
+
+  @Test
+  public void testReverseRuleSimpleFlip() {
+    newSimpleModel.startGame();
+    newSimpleModel.setVariantRule(new Reverse());
+
+    CardImpl redCard = new CardImpl(PlayerColor.RED, "RedCard",
+            DirectionValue.ONE, DirectionValue.ONE, DirectionValue.ONE, DirectionValue.ONE);
+    redPlayer.getHand().add(redCard);
+    newSimpleModel.placeCard(1, 1, 0, redPlayer);
+
+    CardImpl blueCard = new CardImpl(PlayerColor.BLUE, "BlueCard",
+            DirectionValue.TWO, DirectionValue.TWO, DirectionValue.TWO, DirectionValue.TWO);
+    bluePlayer.getHand().add(blueCard);
+    newSimpleModel.placeCard(1, 0, 0, bluePlayer);
+
+    assertEquals(PlayerColor.RED,
+            newSimpleModel.getCardAt(1, 0).getPlayerColor());
+  }
+
+  @Test
+  public void testReverseRuleSimpleFlipNEW() {
+    newSimpleModel.startGame();
+    newSimpleModel.setVariantRule(new Reverse());
+
+    // Place cards on valid yellow cells
+    CardImpl redCard = new CardImpl(PlayerColor.RED, "RedCard",
+            DirectionValue.ONE, DirectionValue.ONE, DirectionValue.ONE, DirectionValue.ONE);
+    redPlayer.getHand().add(redCard);
+    newSimpleModel.placeCard(0, 0, 0, redPlayer);
+    // Valid yellow cell
+
+    CardImpl blueCard = new CardImpl(PlayerColor.BLUE, "BlueCard",
+            DirectionValue.TWO, DirectionValue.TWO, DirectionValue.TWO, DirectionValue.TWO);
+    bluePlayer.getHand().add(blueCard);
+    newSimpleModel.placeCard(0, 1, 0, bluePlayer);
+    // Valid yellow cell in the same row
+
+    assertEquals(PlayerColor.RED,
+            newSimpleModel.getCardAt(0, 0).getPlayerColor());
+  }
+
+  // FALLEN ACE
+
+  @Test
+  public void testFallenAceRuleFlipWithAceNEW() {
+    newSimpleModel.startGame();
+    newSimpleModel.setVariantRule(new FallenAce(new NormalComparisonStrategy()));
+
+    // Place cards on valid yellow cells
+    CardImpl redCard = new CardImpl(PlayerColor.RED, "RedCard",
+            DirectionValue.ONE, DirectionValue.ONE, DirectionValue.ONE, DirectionValue.ONE);
+    redPlayer.getHand().add(redCard);
+    newSimpleModel.placeCard(2, 0, 0, redPlayer);
+    // Valid yellow cell
+
+    CardImpl blueCard = new CardImpl(PlayerColor.BLUE, "BlueCard",
+            DirectionValue.A, DirectionValue.A, DirectionValue.A, DirectionValue.A);
+    bluePlayer.getHand().add(blueCard);
+    newSimpleModel.placeCard(3, 0, 0, bluePlayer);
+    // Valid yellow cell below
+
+    assertEquals(PlayerColor.RED,
+            newSimpleModel.getCardAt(2, 0).getPlayerColor());
+  }
+
+  @Test
+  public void testReverseAndFallenAceRulesFlipWithAceNEW() {
+    newSimpleModel.startGame();
+    newSimpleModel.setVariantRule(new FallenAce(new Reverse()));
+
+    // Place cards on valid yellow cells
+    CardImpl redCard = new CardImpl(PlayerColor.RED, "RedCard",
+            DirectionValue.ONE, DirectionValue.ONE, DirectionValue.ONE, DirectionValue.ONE);
+    redPlayer.getHand().add(redCard);
+    newSimpleModel.placeCard(3, 0, 0, redPlayer);
+    // Valid yellow cell
+
+    CardImpl blueCard = new CardImpl(PlayerColor.BLUE, "BlueCard",
+            DirectionValue.A, DirectionValue.A, DirectionValue.A, DirectionValue.A);
+    bluePlayer.getHand().add(blueCard);
+    newSimpleModel.placeCard(4, 0, 0, bluePlayer);
+    // Valid yellow cell below
+
+    assertEquals(PlayerColor.BLUE,
+            newSimpleModel.getCardAt(3, 0).getPlayerColor());
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testPlaceCardOnInvalidCellNEW() {
+    newSimpleModel.startGame();
+
+    // Attempt to place on a gray cell (e.g., 1, 1, which is a hole)
+    CardImpl redCard = new CardImpl(PlayerColor.RED, "RedCard",
+            DirectionValue.ONE, DirectionValue.ONE, DirectionValue.ONE, DirectionValue.ONE);
+    redPlayer.getHand().add(redCard);
+    newSimpleModel.placeCard(1, 1, 0, redPlayer);
+    // Invalid cell
+  }
+
+  @Test
+  public void testPropagationWithReverseAndFallenAceNEW() {
+    newSimpleModel.startGame();
+    newSimpleModel.setVariantRule(new FallenAce(new Reverse()));
+
+    // Place initial cards on valid yellow cells
+    CardImpl redCard1 = new CardImpl(PlayerColor.RED, "RedCard",
+            DirectionValue.ONE, DirectionValue.ONE, DirectionValue.ONE, DirectionValue.ONE);
+    redPlayer.getHand().add(redCard1);
+    newSimpleModel.placeCard(0, 0, 0, redPlayer);
+    // Valid yellow cell
+
+    CardImpl blueCard1 = new CardImpl(PlayerColor.BLUE, "BlueCard",
+            DirectionValue.A, DirectionValue.A, DirectionValue.A, DirectionValue.A);
+    bluePlayer.getHand().add(blueCard1);
+    newSimpleModel.placeCard(1, 0, 0, bluePlayer);
+    // Valid yellow cell
+
+    CardImpl redCard2 = new CardImpl(PlayerColor.RED, "RedCard",
+            DirectionValue.NINE, DirectionValue.NINE, DirectionValue.NINE, DirectionValue.NINE);
+    redPlayer.getHand().add(redCard2);
+    newSimpleModel.placeCard(2, 0, 0, redPlayer);
+    // Valid yellow cell
+
+    // Check propagation
+    assertEquals(PlayerColor.RED,
+            newSimpleModel.getCardAt(0, 0).getPlayerColor());
+    assertEquals(PlayerColor.RED,
+            newSimpleModel.getCardAt(1, 0).getPlayerColor());
+  }
+
+  @Test
+  public void testTieCase() {
+    newSimpleModel.startGame();
+    newSimpleModel.setVariantRule(new FallenAce(new Reverse()));
+
+    // Place a RED card with value 6 on all sides
+    CardImpl redCard = new CardImpl(PlayerColor.RED, "RedCard",
+            DirectionValue.SIX, DirectionValue.SIX, DirectionValue.SIX, DirectionValue.SIX);
+    redPlayer.getHand().add(redCard);
+    newSimpleModel.placeCard(0, 0, 0, redPlayer);
+    // Valid yellow cell
+
+    // Place a BLUE card with value 6 on all sides, adjacent to RED card
+    CardImpl blueCard = new CardImpl(PlayerColor.BLUE, "BlueCard",
+            DirectionValue.SIX, DirectionValue.SIX, DirectionValue.SIX, DirectionValue.SIX);
+    bluePlayer.getHand().add(blueCard);
+    newSimpleModel.placeCard(0, 1, 0, bluePlayer);
+    // Valid yellow cell adjacent to RED card
+
+    // Assert that no flip occurred due to tie values
+    assertEquals(PlayerColor.RED,
+            newSimpleModel.getCardAt(0, 0).getPlayerColor());
+    assertEquals(PlayerColor.BLUE,
+            newSimpleModel.getCardAt(0, 1).getPlayerColor());
   }
 
 

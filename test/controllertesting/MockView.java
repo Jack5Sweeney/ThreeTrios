@@ -5,7 +5,7 @@ import controller.Features;
 import player.PlayerColor;
 import card.ICard;
 
-import java.awt.*;
+import java.awt.Component;
 import java.util.List;
 
 /**
@@ -84,12 +84,12 @@ public class MockView implements IViewFrameGUI {
 
   @Override
   public void enableHints(int[][] flipCounts) {
-
+    // not needed
   }
 
   @Override
   public void disableHints() {
-
+    // not needed
   }
 
   @Override

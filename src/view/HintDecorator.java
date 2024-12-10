@@ -1,10 +1,9 @@
 package view;
 
-import java.awt.*;
 import java.util.List;
 
-import javax.swing.*;
-
+import java.awt.Component;
+import javax.swing.JLabel;
 import card.CellTypeContents;
 import card.ICard;
 import controller.Features;

@@ -22,7 +22,8 @@ public class FeaturesToPlayerActionListener implements PlayerActionsListener {
   }
 
   /**
-   * Handles the action of placing a card by delegating the row and column to the {@link Features} instance.
+   * Handles the action of placing a card by delegating the row and column to
+   * the {@link Features} instance.
    *
    * @param row   the row where the card is placed
    * @param col   the column where the card is placed

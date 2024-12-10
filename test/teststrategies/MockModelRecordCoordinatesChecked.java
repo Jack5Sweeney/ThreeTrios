@@ -2,9 +2,11 @@ package teststrategies;
 
 import card.CardImpl;
 import card.CellTypeContents;
+import card.Direction;
 import card.ICard;
 import cardcomparison.CardComparisonStrategy;
 import controller.ModelObserver;
+import flipcriteria.ICriteria;
 import model.IModel;
 import player.IPlayer;
 import player.PlayerColor;
@@ -100,6 +102,16 @@ public class MockModelRecordCoordinatesChecked implements IModel {
   @Override
   public CardImpl getCardAt(int boardRow, int boardCol) {
     cordLog.add(new ArrayList<>(List.of(boardRow, boardCol)));
+    return null;
+  }
+
+  @Override
+  public boolean isValidPosition(int row, int col) {
+    return false;
+  }
+
+  @Override
+  public Direction getOppositeDirection(Direction direction) {
     return null;
   }
 
@@ -212,7 +224,17 @@ public class MockModelRecordCoordinatesChecked implements IModel {
 
   @Override
   public void setVariantRule(CardComparisonStrategy variantRule) {
+    // not needed
+  }
 
+  @Override
+  public void setCardComparisonStrategy(CardComparisonStrategy strategy) {
+    // not needed
+  }
+
+  @Override
+  public void setFlipCriteria(ICriteria criteria) {
+    // not needed
   }
 
   /**

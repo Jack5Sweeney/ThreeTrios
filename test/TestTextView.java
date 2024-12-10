@@ -36,12 +36,16 @@ public class TestTextView {
     ConfigGame gameConfig = new ConfigGame("board.config", "card.database");
     model = new ModelVarientImpl(gameConfig.getBoard(), gameConfig.getDeck(), players);
 
-    ConfigGame simpleGameConfig = new ConfigGame("simpleBoard.config", "simpleCard.database");
-    simpleModel = new ModelVarientImpl(simpleGameConfig.getBoard(), simpleGameConfig.getDeck(), players);
+    ConfigGame simpleGameConfig = new ConfigGame("simpleBoard.config",
+            "simpleCard.database");
+    simpleModel = new ModelVarientImpl(simpleGameConfig.getBoard(), simpleGameConfig.getDeck(),
+            players);
 
 
-    ConfigGame oneByOneGameConfig = new ConfigGame("1x1Board.config", "card.database");
-    oneByOneModel = new ModelVarientImpl(oneByOneGameConfig.getBoard(), gameConfig.getDeck(), players);
+    ConfigGame oneByOneGameConfig = new ConfigGame("1x1Board.config",
+            "card.database");
+    oneByOneModel = new ModelVarientImpl(oneByOneGameConfig.getBoard(), gameConfig.getDeck(),
+            players);
   }
 
   @Test

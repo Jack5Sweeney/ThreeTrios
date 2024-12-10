@@ -7,7 +7,7 @@ import controller.Features;
 import card.ICard;
 import player.PlayerColor;
 
-import java.awt.*;
+import java.awt.Component;
 import java.util.List;
 
 /**
@@ -151,12 +151,12 @@ public class IGUIViewToIViewFrameGUIAdapter implements IViewFrameGUI {
 
   @Override
   public void enableHints(int[][] flipCounts) {
-
+    // Not implemented as this functionality is not needed in the adaptation
   }
 
   @Override
   public void disableHints() {
-
+    // Not implemented as this functionality is not needed in the adaptation
   }
 
   @Override

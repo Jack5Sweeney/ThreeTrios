@@ -48,20 +48,25 @@ public class TestStrategies {
 
     /*
     ConfigGame simpleGameConfig = new ConfigGame("simpleBoard.config", "simpleCard.database");
-    simpleModel = new ModelVarientImpl(simpleGameConfig.getBoard(), simpleGameConfig.getDeck(), players);
+    simpleModel = new ModelVarientImpl(simpleGameConfig.getBoard(), simpleGameConfig.getDeck(),
+    players);
      */
 
     ConfigGame newSimpleGameConfig = new ConfigGame("board.config", "card.database");
-    newSimpleModel = new ModelVarientImpl(newSimpleGameConfig.getBoard(), newSimpleGameConfig.getDeck(), players);
+    newSimpleModel = new ModelVarientImpl(newSimpleGameConfig.getBoard(),
+            newSimpleGameConfig.getDeck(), players);
 
     /*
     ConfigGame simpleGameWithHole = new ConfigGame("strategyTestingWithHole.config",
         "simpleCard.database");
-    modelWithHole = new ModelVarientImpl(simpleGameWithHole.getBoard(), simpleGameWithHole.getDeck(),
+    modelWithHole = new ModelVarientImpl(simpleGameWithHole.getBoard(),
+    simpleGameWithHole.getDeck(),
         players);
 
-    ConfigGame simpleGameWith3x1 = new ConfigGame("threeByOneBoard.config", "simpleCard.database");
-    modelWithThreeBy1 = new ModelVarientImpl(simpleGameWith3x1.getBoard(), simpleGameWith3x1.getDeck(),
+    ConfigGame simpleGameWith3x1 = new ConfigGame("threeByOneBoard.config",
+    "simpleCard.database");
+    modelWithThreeBy1 = new ModelVarientImpl(simpleGameWith3x1.getBoard(),
+    simpleGameWith3x1.getDeck(),
         players);
 
      */

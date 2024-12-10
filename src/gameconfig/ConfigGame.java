@@ -91,8 +91,8 @@ public class ConfigGame {
             int numCols = Integer.parseInt(parts[1]);
             return configBoardAvailability(numRows, numCols, reader);
           } else {
-            throw new IllegalArgumentException("Invalid config file format. Expected two " +
-                "integers.");
+            throw new IllegalArgumentException("Invalid config file format. "
+                    + "Expected two integers.");
           }
         } else {
           throw new IllegalArgumentException("Config file is empty.");
@@ -159,7 +159,8 @@ public class ConfigGame {
    * @return a 2D array of {@link CellTypeContents} indicating the type of each cell on the board
    * @throws IOException if there is an error reading the file or invalid content is encountered
    */
-  private CellTypeContents[][] configBoardAvailability(int numRows, int numColumns, BufferedReader reader)
+  private CellTypeContents[][] configBoardAvailability(int numRows, int numColumns,
+                                                       BufferedReader reader)
       throws IOException {
     CellTypeContents[][] boardAvailability = new CellTypeContents[numRows][numColumns];
     for (int row = 0; row < numRows; row++) {

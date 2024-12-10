@@ -1,11 +1,13 @@
 package controllertesting;
 
 import card.CellTypeContents;
+import card.Direction;
 import card.ICard;
 import card.CardImpl;
 import cardcomparison.CardComparisonStrategy;
 import controller.ModelObserver;
 
+import flipcriteria.ICriteria;
 import model.IModel;
 import player.IPlayer;
 import player.PlayerColor;
@@ -27,7 +29,8 @@ public class MockModelForControllerGUI implements IModel {
   private final CellTypeContents[][] boardAvailability;
 
   // Constructor to set up mock board and availability
-  public MockModelForControllerGUI(ICard[][] boardWithCards, CellTypeContents[][] boardAvailability) {
+  public MockModelForControllerGUI(ICard[][] boardWithCards, CellTypeContents[][]
+          boardAvailability) {
     this.boardWithCards = boardWithCards;
     this.boardAvailability = boardAvailability;
   }
@@ -52,6 +55,16 @@ public class MockModelForControllerGUI implements IModel {
     // Log accessed coordinates
     cordLog.add(List.of(boardRow, boardCol));
     return null; // Return null since no real cards are involved in the mock
+  }
+
+  @Override
+  public boolean isValidPosition(int row, int col) {
+    return false;
+  }
+
+  @Override
+  public Direction getOppositeDirection(Direction direction) {
+    return null;
   }
 
   @Override
@@ -106,7 +119,17 @@ public class MockModelForControllerGUI implements IModel {
 
   @Override
   public void setVariantRule(CardComparisonStrategy variantRule) {
+    // not needed
+  }
 
+  @Override
+  public void setCardComparisonStrategy(CardComparisonStrategy strategy) {
+    // not needed
+  }
+
+  @Override
+  public void setFlipCriteria(ICriteria criteria) {
+    // not needed
   }
 
   @Override

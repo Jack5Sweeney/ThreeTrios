@@ -2,6 +2,7 @@ package model;
 
 import card.CardImpl;
 import card.CellTypeContents;
+import card.Direction;
 import card.ICard;
 import player.IPlayer;
 import player.PlayerColor;
@@ -22,6 +23,24 @@ public interface ReadOnlyIModel {
    * @throws IllegalArgumentException if there is no card at the specified position
    */
   CardImpl getCardAt(int boardRow, int boardCol);
+
+  /**
+   * Checks if the specified position on the board is within valid bounds.
+   *
+   * @param row the row index to check
+   * @param col the column index to check
+   * @return {@code true} if the position is valid; {@code false} otherwise
+   */
+  boolean isValidPosition(int row, int col);
+
+  /**
+   * Gets the opposite direction of a given direction.
+   *
+   * @param direction the direction for which to find the opposite
+   * @return the opposite direction
+   */
+
+  Direction getOppositeDirection(Direction direction);
 
   /**
    * Retrieves a new instance of the red player, including their color and hand.
@@ -48,8 +67,8 @@ public interface ReadOnlyIModel {
   /**
    * Returns the board availability information.
    *
-   * @return a 2D array of {@link CellTypeContents} objects representing the availability status of each
-   *         cell
+   * @return a 2D array of {@link CellTypeContents} objects representing availability status of
+   *         cells.
    */
   CellTypeContents[][] getBoardAvailability();
 

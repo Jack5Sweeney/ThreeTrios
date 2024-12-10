@@ -28,9 +28,9 @@ public interface IGameConsole {
   void processCommand(String command);
 
   /**
-   * Method to add features to this IGameController
+   * Method to add features to this IGameController.
    * @param features features to add
    */
-  void addFeatures (Features features);
+  void addFeatures(Features features);
 }
 
