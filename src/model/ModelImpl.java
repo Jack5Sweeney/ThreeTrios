@@ -6,6 +6,7 @@ import card.Direction;
 import card.ICard;
 import cardcomparison.CardComparisonStrategy;
 import controller.ModelObserver;
+import flipcriteria.ICriteria;
 import player.IPlayer;
 import player.PlayerColor;
 import player.PlayerImpl;
@@ -87,6 +88,16 @@ public class ModelImpl implements IModel {
   @Override
   public void setVariantRule(CardComparisonStrategy variantRule) {
     // no implementation needed as it does not have the variants
+  }
+
+  @Override
+  public void setCardComparisonStrategy(CardComparisonStrategy strategy) {
+    // not needed
+  }
+
+  @Override
+  public void setFlipCriteria(ICriteria criteria) {
+    // not needed
   }
 
   /**
@@ -426,7 +437,7 @@ public class ModelImpl implements IModel {
    * @return the opposite direction
    */
 
-  private Direction getOppositeDirection(Direction direction) {
+  public Direction getOppositeDirection(Direction direction) {
     switch (direction) {
       case NORTH:
         return Direction.SOUTH;
@@ -448,7 +459,7 @@ public class ModelImpl implements IModel {
    * @param col the column index to check
    * @return {@code true} if the position is valid; {@code false} otherwise
    */
-  private boolean isValidPosition(int row, int col) {
+  public boolean isValidPosition(int row, int col) {
     return row >= 0 && row < boardWithCards.length && col >= 0 && col < boardWithCards[0].length;
   }
 

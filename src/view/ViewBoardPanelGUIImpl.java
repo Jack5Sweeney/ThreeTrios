@@ -2,7 +2,10 @@ package view;
 
 import card.CellTypeContents;
 
-import javax.swing.*;
+import javax.swing.JLabel;
+import javax.swing.OverlayLayout;
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Component;

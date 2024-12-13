@@ -9,10 +9,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="15352f44-95c9-4cdc-8768-e3019536a213" name="Changes" comment="Test commit">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gameconsole/GameConsole.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gameconsole/GameConsole.java" afterDir="false" />
-    </list>
+    <list default="true" id="15352f44-95c9-4cdc-8768-e3019536a213" name="Changes" comment="Test commit" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -42,151 +39,162 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;Application.ThreeTrios(Human/Human).executor&quot;: &quot;Run&quot;,
-    &quot;Application.ThreeTrios(Human/Strat1).executor&quot;: &quot;Run&quot;,
-    &quot;Application.ThreeTrios(Human/Strat2).executor&quot;: &quot;Run&quot;,
-    &quot;Application.ThreeTrios.executor&quot;: &quot;Run&quot;,
-    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
-    &quot;JUnit.TestController.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestController.testModelCatchesErrorInvalidCardFormat.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestController.testModelCatchesErrorWithEmptyFile.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestController.testModelCatchesErrorWithInvalidCardFileName.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestController.testModelCatchesErrorWithInvalidFBoardileName.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestController.testModelCatchesErrorWithInvalidFileName.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestController.testModelCatchesErrorWithInvalidFormat.executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.TestController.testModelCatchesErrorWithNotEnoughCards.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestGUIController.testHandleCellClickUpdatesModelAndView.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestGUIController.testNullModelInConstructor.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestGUIController.testNullModelInPlayGame.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestGUIController.testNullReadOnlyModelInConstructor.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestGUIController.testNullViewInConstructor.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestGUIController.testPlayGameInitializesCorrectly.executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.TestGUIController.testTextControllerCatchesErrorWithInvalidBoardFileName.executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.TestModel.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.getBluePlayerMutateCardDoesNotMutatePlayer.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.getBluePlayerReturnsACopyOfBluePlayerCorrectCardName.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.getRedPlayerMutateCardDoesNotMutatePlayer.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.getRedPlayerReturnsACopyOfRedPlayer.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.testBattleWithoutFlipDueToLowerValue.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.testCalculateFlipsComplexBoard.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.testCalculateFlipsNoAdjacentOpponentCards.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.testCalculateFlipsWithOneAdjacentOpponentCard.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.testCalculateFlipsWithTwoAdjacentOpponentCard.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.testCalculateNumFlipsInMultipleDirections.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.testCheckGameOverDoesNotThrowIfGameNotOver.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.testCheckGameOverThrowsExceptionIfGameOver.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.testCheckGameStartedDoesNotThrowIfGameStarted.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.testCheckGameStartedThrowsExceptionIfGameNotStarted.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.testCheckOverWhenGameIsOver.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.testCheckOverWorks.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.testCurrentGetPlayerColor.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.testCurrentGetPlayerColorAfterSwitchedPlayerColor.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.testGameOverBeforeGameStarted.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.testGetBoardAvailabilityReturnsDeepCopy.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.testGetBoardReturnsDeepCopy.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.testGetCardAtINullCard.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.testGetCardAtInvalidNegCol.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.testGetCardAtInvalidNegRow.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.testGetCardAtInvalidPossCol.executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.TestModel.testGetCardAtInvalidPossRow.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.testGetCardAt_ValidPositionWithCard.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.testGetPlayerColorReturnsCorrectPlayerColor.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.testGetPlayerColorReturnsCorrectPlayerColorBLUE.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.testGetPlayerColorReturnsCorrectPlayerColorRED.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.testGetPlayerScoreAfterFlippingCards.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.testGetPlayerScoreAfterPlacingCards.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.testGetPlayerScoreAtGameStart.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.testGetWinningPlayerReturnsCorrectWinningPlayer.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.testGetWinningPlayerReturnsCorrectWinningPlayerAfterProp.executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.TestModel.testGetWinningPlayerThrowsExceptionIfGameIsInTie.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.testGetWinningPlayerThrowsExceptionIfGameIsInTieWithCards.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.testGetWinningPlayerThrowsExceptionIfGameNotStarted.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.testModelCatchesErrorWithDuplicateCard.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.testModelCatchesErrorWithInvalidFileFormat.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.testModelCatchesErrorWithInvalidFileName.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.testModelCatchesErrorWithNotEnoughCards.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.testModelCatchesErrorWithTooManyCards.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.testModelSetupCorrectRowsAndColumns.executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.TestModel.testPlaceAndFlipAdjacentCardWithNoPropAvailable.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.testPlaceAndFlipAdjacentCardWithPropAvailableButTie.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.testPlaceCardDoesNotFlipSameColor.executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.TestModel.testPlaceCardFlipsCardsAroundIt.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.testPlaceCardOutOfBounds.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.testPlaceCardOutOfBoundsPos.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.testPlacingCardInEmptySpot.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.testPlacingCardInHole.executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.TestModel.testPlacingCardInNonEmptySpot.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.testPlacingCardNullPlayer.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.testPlacingCardOutOfBoundsCol.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.testPlacingCardOutOfBoundsColNeg.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.testPlacingCardOutOfBoundsColPoss.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.testPlacingCardOutOfBoundsHandIndexNeg.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.testPlacingCardOutOfBoundsHandIndexPoss.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.testPlacingCardOutOfBoundsRow.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.testPlacingCardOutOfBoundsRowNeg.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.testPropWithReverseRules.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestModel.testPropegationOfMultipleCardsWithDifferentDirections.executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.TestModel.testVModelCatchesErrorWithDuplicateCard.executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.TestModel.testValidDeckConstruction.executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.TestModel.testValidGameConstruction.executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.TestStrategies.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestStrategies.testCornerStrategy.executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.TestStrategies.testCornerStrategyNoCornersTakenWithMockLog.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestStrategies.testFlipTheMostStrategy1.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestStrategies.testFlipTheMostStrategyWithFallenAce.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestStrategies.testFlipTheMostStrategyWithNoCardPlacedPlaceAt00withIndex0.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestStrategies.testFlipTheMostStrategyWithReverse.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestStrategies.testLoggingCallsToGetCardAtWithStrategyOne.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestStrategies.testLoggingCallsToGetCardAtWithStrategyTwo.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestStrategies.testLoggingCallsToGetCardAtWithStrategyTwoAfterPlacingCard.executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.TestStrategies.testLyingAboutValueReturnsExpectedCoordinates.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestTextController.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestTextController.testModelCatchesErrorInvalidCardFormat.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestTextController.testModelCatchesErrorWithEmptyFile.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestTextController.testModelCatchesErrorWithInvalidBoardFileName.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestTextController.testModelCatchesErrorWithInvalidCardFileName.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestTextController.testModelCatchesErrorWithInvalidFBoardileName.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestTextController.testModelCatchesErrorWithInvalidFormat.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestTextView.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestTextView.testBluePlayerView.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestTextView.testRedPlayerView.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestView.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestView.testBluePlayerView.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestView.testRedPlayerView.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestView.testSimpleCardView.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestView.testTextViewRespondsCardsAttacking.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestView.testTextViewRespondsCardsAttackingAndPropagation.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestView.testTextViewRespondsToPlacingCard.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestView.testUniqueBoardConfig1ToString.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestView.testUniqueBoardConfig2ToString.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestView.testUniqueBoardConfig3ToString.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestView.testUniqueBoardConfigToString.executor&quot;: &quot;Run&quot;,
-    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/jacksweeney/Desktop/CS3500/HW9&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Main.executor": "Run",
+    "Application.ThreeTrios(Human/Human).executor": "Run",
+    "Application.ThreeTrios(Human/Strat1).executor": "Run",
+    "Application.ThreeTrios(Human/Strat2).executor": "Run",
+    "Application.ThreeTrios.executor": "Run",
+    "Downloaded.Files.Path.Enabled": "false",
+    "JUnit.TestController.executor": "Run",
+    "JUnit.TestController.testModelCatchesErrorInvalidCardFormat.executor": "Run",
+    "JUnit.TestController.testModelCatchesErrorWithEmptyFile.executor": "Run",
+    "JUnit.TestController.testModelCatchesErrorWithInvalidCardFileName.executor": "Run",
+    "JUnit.TestController.testModelCatchesErrorWithInvalidFBoardileName.executor": "Run",
+    "JUnit.TestController.testModelCatchesErrorWithInvalidFileName.executor": "Run",
+    "JUnit.TestController.testModelCatchesErrorWithInvalidFormat.executor": "Debug",
+    "JUnit.TestController.testModelCatchesErrorWithNotEnoughCards.executor": "Run",
+    "JUnit.TestGUIController.testHandleCellClickUpdatesModelAndView.executor": "Run",
+    "JUnit.TestGUIController.testNullModelInConstructor.executor": "Run",
+    "JUnit.TestGUIController.testNullModelInPlayGame.executor": "Run",
+    "JUnit.TestGUIController.testNullReadOnlyModelInConstructor.executor": "Run",
+    "JUnit.TestGUIController.testNullViewInConstructor.executor": "Run",
+    "JUnit.TestGUIController.testPlayGameInitializesCorrectly.executor": "Debug",
+    "JUnit.TestGUIController.testTextControllerCatchesErrorWithInvalidBoardFileName.executor": "Debug",
+    "JUnit.TestModel.executor": "Run",
+    "JUnit.TestModel.getBluePlayerMutateCardDoesNotMutatePlayer.executor": "Run",
+    "JUnit.TestModel.getBluePlayerReturnsACopyOfBluePlayerCorrectCardName.executor": "Run",
+    "JUnit.TestModel.getRedPlayerMutateCardDoesNotMutatePlayer.executor": "Run",
+    "JUnit.TestModel.getRedPlayerReturnsACopyOfRedPlayer.executor": "Run",
+    "JUnit.TestModel.testBattleWithoutFlipDueToLowerValue.executor": "Run",
+    "JUnit.TestModel.testCalculateFlipsComplexBoard.executor": "Run",
+    "JUnit.TestModel.testCalculateFlipsNoAdjacentOpponentCards.executor": "Run",
+    "JUnit.TestModel.testCalculateFlipsWithOneAdjacentOpponentCard.executor": "Run",
+    "JUnit.TestModel.testCalculateFlipsWithTwoAdjacentOpponentCard.executor": "Run",
+    "JUnit.TestModel.testCalculateNumFlipsInMultipleDirections.executor": "Run",
+    "JUnit.TestModel.testCheckGameOverDoesNotThrowIfGameNotOver.executor": "Run",
+    "JUnit.TestModel.testCheckGameOverThrowsExceptionIfGameOver.executor": "Run",
+    "JUnit.TestModel.testCheckGameStartedDoesNotThrowIfGameStarted.executor": "Run",
+    "JUnit.TestModel.testCheckGameStartedThrowsExceptionIfGameNotStarted.executor": "Run",
+    "JUnit.TestModel.testCheckOverWhenGameIsOver.executor": "Run",
+    "JUnit.TestModel.testCheckOverWorks.executor": "Run",
+    "JUnit.TestModel.testCurrentGetPlayerColor.executor": "Run",
+    "JUnit.TestModel.testCurrentGetPlayerColorAfterSwitchedPlayerColor.executor": "Run",
+    "JUnit.TestModel.testFallenAceRuleFlipWithAceNEW.executor": "Run",
+    "JUnit.TestModel.testGameOverBeforeGameStarted.executor": "Run",
+    "JUnit.TestModel.testGetBoardAvailabilityReturnsDeepCopy.executor": "Run",
+    "JUnit.TestModel.testGetBoardReturnsDeepCopy.executor": "Run",
+    "JUnit.TestModel.testGetCardAtINullCard.executor": "Run",
+    "JUnit.TestModel.testGetCardAtInvalidNegCol.executor": "Run",
+    "JUnit.TestModel.testGetCardAtInvalidNegRow.executor": "Run",
+    "JUnit.TestModel.testGetCardAtInvalidPossCol.executor": "Debug",
+    "JUnit.TestModel.testGetCardAtInvalidPossRow.executor": "Run",
+    "JUnit.TestModel.testGetCardAt_ValidPositionWithCard.executor": "Run",
+    "JUnit.TestModel.testGetPlayerColorReturnsCorrectPlayerColor.executor": "Run",
+    "JUnit.TestModel.testGetPlayerColorReturnsCorrectPlayerColorBLUE.executor": "Run",
+    "JUnit.TestModel.testGetPlayerColorReturnsCorrectPlayerColorRED.executor": "Run",
+    "JUnit.TestModel.testGetPlayerScoreAfterFlippingCards.executor": "Run",
+    "JUnit.TestModel.testGetPlayerScoreAfterPlacingCards.executor": "Run",
+    "JUnit.TestModel.testGetPlayerScoreAtGameStart.executor": "Run",
+    "JUnit.TestModel.testGetWinningPlayerReturnsCorrectWinningPlayer.executor": "Run",
+    "JUnit.TestModel.testGetWinningPlayerReturnsCorrectWinningPlayerAfterProp.executor": "Debug",
+    "JUnit.TestModel.testGetWinningPlayerThrowsExceptionIfGameIsInTie.executor": "Run",
+    "JUnit.TestModel.testGetWinningPlayerThrowsExceptionIfGameIsInTieWithCards.executor": "Run",
+    "JUnit.TestModel.testGetWinningPlayerThrowsExceptionIfGameNotStarted.executor": "Run",
+    "JUnit.TestModel.testModelCatchesErrorWithDuplicateCard.executor": "Run",
+    "JUnit.TestModel.testModelCatchesErrorWithInvalidFileFormat.executor": "Run",
+    "JUnit.TestModel.testModelCatchesErrorWithInvalidFileName.executor": "Run",
+    "JUnit.TestModel.testModelCatchesErrorWithNotEnoughCards.executor": "Run",
+    "JUnit.TestModel.testModelCatchesErrorWithTooManyCards.executor": "Run",
+    "JUnit.TestModel.testModelSetupCorrectRowsAndColumns.executor": "Debug",
+    "JUnit.TestModel.testPlaceAndFlipAdjacentCardWithNoPropAvailable.executor": "Run",
+    "JUnit.TestModel.testPlaceAndFlipAdjacentCardWithPropAvailableButTie.executor": "Run",
+    "JUnit.TestModel.testPlaceCardDoesNotFlipSameColor.executor": "Debug",
+    "JUnit.TestModel.testPlaceCardFlipsCardsAroundIt.executor": "Run",
+    "JUnit.TestModel.testPlaceCardOnInvalidCellNEW.executor": "Run",
+    "JUnit.TestModel.testPlaceCardOutOfBounds.executor": "Run",
+    "JUnit.TestModel.testPlaceCardOutOfBoundsPos.executor": "Run",
+    "JUnit.TestModel.testPlacingCardInEmptySpot.executor": "Run",
+    "JUnit.TestModel.testPlacingCardInHole.executor": "Debug",
+    "JUnit.TestModel.testPlacingCardInNonEmptySpot.executor": "Run",
+    "JUnit.TestModel.testPlacingCardNullPlayer.executor": "Run",
+    "JUnit.TestModel.testPlacingCardOutOfBoundsCol.executor": "Run",
+    "JUnit.TestModel.testPlacingCardOutOfBoundsColNeg.executor": "Run",
+    "JUnit.TestModel.testPlacingCardOutOfBoundsColPoss.executor": "Run",
+    "JUnit.TestModel.testPlacingCardOutOfBoundsHandIndexNeg.executor": "Run",
+    "JUnit.TestModel.testPlacingCardOutOfBoundsHandIndexPoss.executor": "Run",
+    "JUnit.TestModel.testPlacingCardOutOfBoundsRow.executor": "Run",
+    "JUnit.TestModel.testPlacingCardOutOfBoundsRowNeg.executor": "Run",
+    "JUnit.TestModel.testPropWithReverseRules.executor": "Run",
+    "JUnit.TestModel.testPropagationWithReverseAndFallenAceNEW.executor": "Run",
+    "JUnit.TestModel.testPropegationOfMultipleCardsWithDifferentDirections.executor": "Debug",
+    "JUnit.TestModel.testReverseAndFallenAceRulesFlipWithAceNEW.executor": "Run",
+    "JUnit.TestModel.testReverseFallenAceOneBeatsNonAceRedFirst.executor": "Run",
+    "JUnit.TestModel.testReverseRuleNoFlip.executor": "Run",
+    "JUnit.TestModel.testReverseRuleSimpleFlipNEW.executor": "Run",
+    "JUnit.TestModel.testTieCase.executor": "Run",
+    "JUnit.TestModel.testVModelCatchesErrorWithDuplicateCard.executor": "Debug",
+    "JUnit.TestModel.testValidDeckConstruction.executor": "Debug",
+    "JUnit.TestModel.testValidGameConstruction.executor": "Debug",
+    "JUnit.TestStrategies.executor": "Run",
+    "JUnit.TestStrategies.testCornerStrategy.executor": "Debug",
+    "JUnit.TestStrategies.testCornerStrategyNoCornersTakenWithMockLog.executor": "Run",
+    "JUnit.TestStrategies.testFlipTheMostStrategy1.executor": "Run",
+    "JUnit.TestStrategies.testFlipTheMostStrategyWithFallenAce.executor": "Run",
+    "JUnit.TestStrategies.testFlipTheMostStrategyWithNoCardPlacedPlaceAt00withIndex0.executor": "Run",
+    "JUnit.TestStrategies.testFlipTheMostStrategyWithReverse.executor": "Run",
+    "JUnit.TestStrategies.testLoggingCallsToGetCardAtWithStrategyOne.executor": "Run",
+    "JUnit.TestStrategies.testLoggingCallsToGetCardAtWithStrategyTwo.executor": "Run",
+    "JUnit.TestStrategies.testLoggingCallsToGetCardAtWithStrategyTwoAfterPlacingCard.executor": "Debug",
+    "JUnit.TestStrategies.testLyingAboutValueReturnsExpectedCoordinates.executor": "Run",
+    "JUnit.TestTextController.executor": "Run",
+    "JUnit.TestTextController.testModelCatchesErrorInvalidCardFormat.executor": "Run",
+    "JUnit.TestTextController.testModelCatchesErrorWithEmptyFile.executor": "Run",
+    "JUnit.TestTextController.testModelCatchesErrorWithInvalidBoardFileName.executor": "Run",
+    "JUnit.TestTextController.testModelCatchesErrorWithInvalidCardFileName.executor": "Run",
+    "JUnit.TestTextController.testModelCatchesErrorWithInvalidFBoardileName.executor": "Run",
+    "JUnit.TestTextController.testModelCatchesErrorWithInvalidFormat.executor": "Run",
+    "JUnit.TestTextView.executor": "Run",
+    "JUnit.TestTextView.testBluePlayerView.executor": "Run",
+    "JUnit.TestTextView.testRedPlayerView.executor": "Run",
+    "JUnit.TestView.executor": "Run",
+    "JUnit.TestView.testBluePlayerView.executor": "Run",
+    "JUnit.TestView.testRedPlayerView.executor": "Run",
+    "JUnit.TestView.testSimpleCardView.executor": "Run",
+    "JUnit.TestView.testTextViewRespondsCardsAttacking.executor": "Run",
+    "JUnit.TestView.testTextViewRespondsCardsAttackingAndPropagation.executor": "Run",
+    "JUnit.TestView.testTextViewRespondsToPlacingCard.executor": "Run",
+    "JUnit.TestView.testUniqueBoardConfig1ToString.executor": "Run",
+    "JUnit.TestView.testUniqueBoardConfig2ToString.executor": "Run",
+    "JUnit.TestView.testUniqueBoardConfig3ToString.executor": "Run",
+    "JUnit.TestView.testUniqueBoardConfigToString.executor": "Run",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/ramseysalem/Documents/IntelliJ/OOD/ThreeTrios/src/flipcriterianew",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Artifacts",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="ControllerTesting" />
       <recent name="view" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/flipcriterianew" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
@@ -197,7 +205,7 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.ThreeTrios(Human/Strat1)">
+  <component name="RunManager" selected="JUnit.TestModel.testReverseFallenAceOneBeatsNonAceRedFirst">
     <configuration name="ThreeTrios(Human/Human)" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="ThreeTrios" />
       <module name="HW5" />
@@ -214,60 +222,51 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ThreeTrios(Human/Strat2)" type="Application" factoryName="Application" temporary="true">
-      <option name="MAIN_CLASS_NAME" value="ThreeTrios" />
-      <module name="HW5" />
-      <option name="PROGRAM_PARAMETERS" value="human strategy2" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="TestModel" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="TestModel.testPlaceCardOnInvalidCellNEW" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="HW5" />
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="TestModel" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="TestModel.testPropWithReverseRules" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="HW5" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="TestModel" />
-      <option name="METHOD_NAME" value="testPropWithReverseRules" />
+      <option name="METHOD_NAME" value="testPlaceCardOnInvalidCellNEW" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TestStrategies.testFlipTheMostStrategyWithFallenAce" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="TestModel.testPropagationWithReverseAndFallenAceNEW" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="HW5" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="teststrategies.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="teststrategies" />
-      <option name="MAIN_CLASS_NAME" value="teststrategies.TestStrategies" />
-      <option name="METHOD_NAME" value="testFlipTheMostStrategyWithFallenAce" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="TestModel" />
+      <option name="METHOD_NAME" value="testPropagationWithReverseAndFallenAceNEW" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TestStrategies.testFlipTheMostStrategyWithReverse" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="TestModel.testReverseAndFallenAceRulesFlipWithAceNEW" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="HW5" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="teststrategies.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="teststrategies" />
-      <option name="MAIN_CLASS_NAME" value="teststrategies.TestStrategies" />
-      <option name="METHOD_NAME" value="testFlipTheMostStrategyWithReverse" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="TestModel" />
+      <option name="METHOD_NAME" value="testReverseAndFallenAceRulesFlipWithAceNEW" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestModel.testReverseFallenAceOneBeatsNonAceRedFirst" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="HW5" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="TestModel" />
+      <option name="METHOD_NAME" value="testReverseFallenAceOneBeatsNonAceRedFirst" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestModel.testTieCase" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="HW5" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="TestModel" />
+      <option name="METHOD_NAME" value="testTieCase" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -276,19 +275,19 @@
     <list>
       <item itemvalue="Application.ThreeTrios(Human/Strat1)" />
       <item itemvalue="Application.ThreeTrios(Human/Human)" />
-      <item itemvalue="Application.ThreeTrios(Human/Strat2)" />
-      <item itemvalue="JUnit.TestModel.testPropWithReverseRules" />
-      <item itemvalue="JUnit.TestStrategies.testFlipTheMostStrategyWithFallenAce" />
-      <item itemvalue="JUnit.TestStrategies.testFlipTheMostStrategyWithReverse" />
-      <item itemvalue="JUnit.TestModel" />
+      <item itemvalue="JUnit.TestModel.testPlaceCardOnInvalidCellNEW" />
+      <item itemvalue="JUnit.TestModel.testPropagationWithReverseAndFallenAceNEW" />
+      <item itemvalue="JUnit.TestModel.testReverseAndFallenAceRulesFlipWithAceNEW" />
+      <item itemvalue="JUnit.TestModel.testReverseFallenAceOneBeatsNonAceRedFirst" />
+      <item itemvalue="JUnit.TestModel.testTieCase" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.TestModel.testPropWithReverseRules" />
-        <item itemvalue="JUnit.TestStrategies.testFlipTheMostStrategyWithFallenAce" />
-        <item itemvalue="JUnit.TestStrategies.testFlipTheMostStrategyWithReverse" />
-        <item itemvalue="Application.ThreeTrios(Human/Strat2)" />
-        <item itemvalue="JUnit.TestModel" />
+        <item itemvalue="JUnit.TestModel.testReverseFallenAceOneBeatsNonAceRedFirst" />
+        <item itemvalue="JUnit.TestModel.testTieCase" />
+        <item itemvalue="JUnit.TestModel.testPropagationWithReverseAndFallenAceNEW" />
+        <item itemvalue="JUnit.TestModel.testPlaceCardOnInvalidCellNEW" />
+        <item itemvalue="JUnit.TestModel.testReverseAndFallenAceRulesFlipWithAceNEW" />
       </list>
     </recent_temporary>
   </component>
@@ -332,8 +331,7 @@
       <workItem from="1733166284066" duration="2000" />
       <workItem from="1733176216200" duration="34664000" />
       <workItem from="1733415075062" duration="26177000" />
-      <workItem from="1733804559959" duration="14619000" />
-      <workItem from="1734048419017" duration="407000" />
+      <workItem from="1733804559959" duration="27250000" />
     </task>
     <task id="LOCAL-00001" summary="First push from me">
       <option name="closed" value="true" />

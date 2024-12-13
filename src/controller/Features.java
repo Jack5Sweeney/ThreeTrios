@@ -1,6 +1,7 @@
 package controller;
 
 import cardcomparison.CardComparisonStrategy;
+import flipcriteria.ICriteria;
 import player.PlayerColor;
 
 /**
@@ -40,4 +41,13 @@ public interface Features {
   void disableHints();
 
   void setVariantRule(CardComparisonStrategy variantRule);
+
+  /**
+   * Sets the flip criteria for the game.
+   *
+   * @param flipCriteria the flip criteria to apply (e.g., SameRule, PlusRule, or null for none)
+   */
+  void setFlipCriteria(ICriteria flipCriteria);
+
+
 }

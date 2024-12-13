@@ -7,6 +7,7 @@ import card.ICard;
 import cardcomparison.CardComparisonStrategy;
 import cardcomparison.NormalComparisonStrategy;
 import controller.ModelObserver;
+import flipcriteria.ICriteria;
 import player.IPlayer;
 import player.PlayerColor;
 import player.PlayerImpl;
@@ -49,6 +50,7 @@ public class ModelVarientImpl implements IModel {
   private IPlayer playerPlacing;
   private int cardIndexToPlace;
   private CardComparisonStrategy cardComp;
+  private ICriteria flipCriteria;
 
   private final List<ModelObserver> observers = new ArrayList<>();
 
@@ -59,7 +61,8 @@ public class ModelVarientImpl implements IModel {
    * @param deck    a list of {@link ICard} representing the deck of cards
    * @param players a list of {@link IPlayer} representing the players in the game
    */
-  public ModelVarientImpl(CellTypeContents[][] board, ArrayList<ICard> deck, ArrayList<IPlayer> players) {
+  public ModelVarientImpl(CellTypeContents[][] board, ArrayList<ICard> deck,
+                          ArrayList<IPlayer> players) {
     this.boardAvailability = board;
     this.boardWithCards = new ICard[board.length][board[0].length];
     this.deck = deck;
@@ -69,6 +72,7 @@ public class ModelVarientImpl implements IModel {
     this.gameOver = false;
     this.currentPlayer = players.get(0);
     this.cardComp = new NormalComparisonStrategy();
+    this.flipCriteria = flipCriteria;
     distributeCards();
   }
 
@@ -214,6 +218,21 @@ public class ModelVarientImpl implements IModel {
     ICard placedCard = player.removeFromHand(cardIndexInHand);
     this.boardWithCards[boardRow][boardCol] = placedCard;
     this.boardAvailability[boardRow][boardCol] = CellTypeContents.CARD;
+
+    // Apply flip criteria if set
+    if (flipCriteria != null) {
+      List<int[]> flippedPositions = flipCriteria.applyFlipCriteria(this, placedCard,
+              boardRow, boardCol, player);
+
+      // Flip cards based on the criteria
+      for (int[] pos : flippedPositions) {
+        int flipRow = pos[0];
+        int flipCol = pos[1];
+        flipCardOwnership(boardWithCards[flipRow][flipCol], flipRow, flipCol,
+                placedCard.getPlayerColor());
+      }
+    }
+
     updateBoard(placedCard, boardRow, boardCol);
     updateCurrentPlayer(player);
     checkGameStatus();
@@ -415,7 +434,7 @@ public class ModelVarientImpl implements IModel {
    * @return the opposite direction
    */
 
-  private Direction getOppositeDirection(Direction direction) {
+  public Direction getOppositeDirection(Direction direction) {
     switch (direction) {
       case NORTH:
         return Direction.SOUTH;
@@ -437,7 +456,7 @@ public class ModelVarientImpl implements IModel {
    * @param col the column index to check
    * @return {@code true} if the position is valid; {@code false} otherwise
    */
-  private boolean isValidPosition(int row, int col) {
+  public boolean isValidPosition(int row, int col) {
     return row >= 0 && row < boardWithCards.length && col >= 0 && col < boardWithCards[0].length;
   }
 
@@ -621,7 +640,8 @@ public class ModelVarientImpl implements IModel {
    * @param visited    a boolean 2D array to track visited positions and avoid re-counting flips
    * @return the number of opponent cards that would be flipped by this placement
    */
-  private int calculateFlipsRecursive(int row, int col, ICard card, PlayerColor ownerColor, boolean[][] visited) {
+  private int calculateFlipsRecursive(int row, int col, ICard card, PlayerColor ownerColor,
+                                      boolean[][] visited) {
     int flipCount = 0;
     int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
     Direction[] dirEnums = {Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST};
@@ -630,7 +650,8 @@ public class ModelVarientImpl implements IModel {
       int adjRow = row + directions[directionIndex][0];
       int adjCol = col + directions[directionIndex][1];
 
-      if (isValidPosition(adjRow, adjCol) && boardWithCards[adjRow][adjCol] != null && !visited[adjRow][adjCol]) {
+      if (isValidPosition(adjRow, adjCol) && boardWithCards[adjRow][adjCol] != null &&
+              !visited[adjRow][adjCol]) {
         ICard adjacentCard = boardWithCards[adjRow][adjCol];
 
         if (adjacentCard.getPlayerColor() != ownerColor) {
@@ -679,4 +700,13 @@ public class ModelVarientImpl implements IModel {
   public void setVariantRule(CardComparisonStrategy variantRule) {
     this.cardComp = variantRule;
   }
+
+  public void setCardComparisonStrategy(CardComparisonStrategy strategy) {
+    this.cardComp = strategy;
+  }
+
+  public void setFlipCriteria(ICriteria criteria) {
+    this.flipCriteria = criteria;
+  }
+
 }

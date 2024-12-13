@@ -5,10 +5,15 @@ import card.ICard;
 import player.PlayerColor;
 import model.ReadOnlyIModel;
 
-import javax.swing.*;
-
-import java.awt.*;
+import javax.swing.JPanel;
+import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
+import javax.swing.JFrame;
 import java.util.List;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Color;
+import java.awt.Component;
 
 /**
  * Implementation of the {@link IViewFrameGUI} interface, representing the main game window
@@ -24,7 +29,6 @@ public class ViewFrameGUIImpl extends JFrame implements IViewFrameGUI {
 
   private JPanel highlightedCardPanelGUIImpl;
 
-  private final int numRows;
   private final int numCols;
 
 
@@ -35,7 +39,7 @@ public class ViewFrameGUIImpl extends JFrame implements IViewFrameGUI {
    * @param readOnlyModel the game readOnlyModel providing data for the board and players' hands
    */
   public ViewFrameGUIImpl(ReadOnlyIModel readOnlyModel) {
-    this.numRows = readOnlyModel.getBoard().length; // Get number of rows
+    int numRows = readOnlyModel.getBoard().length; // Get number of rows
     this.numCols = readOnlyModel.getBoard()[0].length; // Get number of columns
 
     this.redHandPanel = new ViewHandPanelGUIImpl(readOnlyModel.getRedPlayer().getHand());

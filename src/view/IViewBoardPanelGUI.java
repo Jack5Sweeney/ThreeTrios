@@ -1,6 +1,5 @@
 package view;
 
-import card.CellTypeContents;
 import controller.Features;
 
 /**

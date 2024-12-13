@@ -1,6 +1,7 @@
 package controller;
 
 import cardcomparison.CardComparisonStrategy;
+import flipcriteria.ICriteria;
 import gameconsole.IGameConsole;
 import player.IPlayer;
 import model.IModel;
@@ -16,7 +17,8 @@ import view.HintDecorator;
  * logic and interactions between the model and the GUI view. It also implements the
  * {@link Features} interface to handle user interactions within the GUI.
  */
-public class ControllerGUIImpl implements IControllerGUI, Features, ModelObserver, PlayerActions, PlayerActionsListener {
+public class ControllerGUIImpl implements IControllerGUI, Features, ModelObserver,
+        PlayerActions, PlayerActionsListener {
 
   /**
    * The main GUI view, decorated to include hint functionality.
@@ -59,7 +61,8 @@ public class ControllerGUIImpl implements IControllerGUI, Features, ModelObserve
    * @param gameConsole the console interface for additional game interactions
    * @throws IllegalArgumentException if any of the arguments are {@code null}
    */
-  public ControllerGUIImpl(IViewFrameGUI view, IModel model, IPlayer player, IGameConsole gameConsole) {
+  public ControllerGUIImpl(IViewFrameGUI view, IModel model, IPlayer player,
+                           IGameConsole gameConsole) {
     if (view == null || model == null || player == null) {
       throw new IllegalArgumentException("Arguments cannot be null");
     }
@@ -172,6 +175,11 @@ public class ControllerGUIImpl implements IControllerGUI, Features, ModelObserve
   @Override
   public void setVariantRule(CardComparisonStrategy variantRule) {
     this.model.setVariantRule(variantRule);
+  }
+
+  @Override
+  public void setFlipCriteria(ICriteria flipCriteria) {
+    this.model.setFlipCriteria(flipCriteria);
   }
 
   /**
