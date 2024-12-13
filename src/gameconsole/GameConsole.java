@@ -84,10 +84,6 @@ public class GameConsole implements IGameConsole {
           System.out.println("Unknown Command: " + command);
       }
     }
-    else {
-      System.out.println("Invalid command format. Use: 'enableHints red' or 'disableHints blue'\n " +
-          "or 'reverse', 'fallenAce', 'reverse fallenAce'");
-    }
   } catch (IllegalArgumentException e) {
     System.out.println("Invalid command format. Use: 'enableHints red' or 'disableHints blue'\n " +
         "or 'reverse', 'fallenAce', 'reverse fallenAce'");

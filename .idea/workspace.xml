@@ -9,7 +9,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="15352f44-95c9-4cdc-8768-e3019536a213" name="Changes" comment="Test commit" />
+    <list default="true" id="15352f44-95c9-4cdc-8768-e3019536a213" name="Changes" comment="Test commit">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gameconsole/GameConsole.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gameconsole/GameConsole.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -194,7 +197,7 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.ThreeTrios(Human/Human)">
+  <component name="RunManager" selected="Application.ThreeTrios(Human/Strat1)">
     <configuration name="ThreeTrios(Human/Human)" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="ThreeTrios" />
       <module name="HW5" />
@@ -330,6 +333,7 @@
       <workItem from="1733176216200" duration="34664000" />
       <workItem from="1733415075062" duration="26177000" />
       <workItem from="1733804559959" duration="14619000" />
+      <workItem from="1734048419017" duration="407000" />
     </task>
     <task id="LOCAL-00001" summary="First push from me">
       <option name="closed" value="true" />

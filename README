@@ -1,301 +1,117 @@
-The overall purpose of this codebase it to implement a card game, which is based off of
-player interactions and different view updates. The project facilitates card-based gameplay where
-components interact in harmony to create a playable and fun game. People that try to use this
-codebase will need a basic understanding of java as well as being familiar with OOD design
-principals. There are 3 interfaces where the classes all implement the interfaces that we created.
-There are four enums that are used for the project which are a specific design choice.
+# Customizable Game: ThreeTrios
 
-An example of a quick setup/initialization would be :
-    PlayerImpl redPlayer = new PlayerImpl(PlayerColor.RED, new ArrayList<>());
-    PlayerImpl bluePlayer = new PlayerImpl(PlayerColor.BLUE, new ArrayList<>());
-    ArrayList<IPlayer> players = new ArrayList<>(List.of(redPlayer, bluePlayer));
+Welcome to the **ThreeTrios** game! This project allows users to create, configure, and play a highly customizable card-based strategy game. The game supports multiple player types, including human and AI players, with strategies tailored for competitive gameplay.
 
-    ConfigGame gameConfigurator = new ConfigGame("board.config", "card.database");
-    ModelImpl model = new ModelImpl(gameConfigurator.getBoard(), gameConfigurator.getDeck(), players);
-    ReadOnlyIModel readOnlyModel = new ModelImpl(gameConfigurator.getBoard(), gameConfigurator.getDeck(), players);
+---
 
-    ControllerGUIImpl controller = new ControllerGUIImpl(readOnlyModel);
-    controller.playGame(model);
+## Table of Contents
+1. [Game Overview](#game-overview)
+2. [Creating a Customizable Game](#creating-a-customizable-game)
+3. [How the Game Works](#how-the-game-works)
+4. [Executing the Game](#executing-the-game)
+5. [Player Types](#player-types)
+   - [Human Player](#human-player)
+   - [AI Players](#ai-players)
+6. [AI Strategies](#ai-strategies)
 
-This demonstrates the setup of a model and players, and how to start a basic game.
+---
 
-Key Components:
+## Game Overview
+ThreeTrios is a strategy game where players take turns placing cards on a grid to gain points by flipping opponent cards. The game ends when no valid moves remain, and the player with the most flipped cards wins.
 
-Model (model.ModelVarientImpl) : Manages the game's logic, handles the state, rules, and structure for cards
-and players.
+The game can be configured using external configuration files, making it easy to customize gameplay mechanics and rules.
 
-View (view.TextViewImpl) : This renders the view in a way that can be seen through a string version
-of the game.
+---
 
-Player (player.PlayerImpl) : Represents individual players in the game, it has attributes like color
-and score.
+## Creating a Customizable Game
+To customize the game, follow these steps:
 
-Key Subcomponents :
+1. **Locate Configuration Files**:
+   - Configuration files are located in the `docs` directory.
+     - `board.config`: Defines the board size and layout.
+     - `card.database`: Specifies available card types, values, and attributes.
 
-card.Direction and card.Direction value: These are important enums that determine the direction and
-value of each card, which is vital for the model and logic of the game.
+2. **Edit Configuration Files**:
+   - Open `board.config` to adjust the board dimensions (e.g., `3x3` or `5x5`). Example:
+     ```
+     BOARD_SIZE=3x3
+     STARTING_CARDS=5
+     MAX_TURNS=20
+     ```
+   - Edit `card.database` to define card attributes, including directions and values. Example:
+     ```
+     CARD_1: NORTH=2, EAST=3, SOUTH=1, WEST=0
+     CARD_2: NORTH=0, EAST=1, SOUTH=3, WEST=2
+     ```
 
-card.CellTypeContents: This is an enum which determines if the cell of the board is empty, a card, or a hole.
-this is important for the board configuration and how the game can be played.
+3. **Save Changes**:
+   - Ensure all changes are saved in the respective configuration files.
 
-card.CardImpl: This class is for the creation of a card. The card has a player, a player name, and the
-directions and the values that go with each direction.
+---
 
-player.PlayerColor: This is a simple enum that helps determine if it is either a red or blue player.
+## How the Game Works
+1. **Setup**:
+   - The game initializes based on `board.config` and `card.database`.
+   - Players receive a hand of cards to place on the board.
 
-Class Invariants:
-The board availability and board with cards arrays are consistent. For any position (i, j):
-If boardAvailability[i][j] == card.CellTypeContents. CARD, then boardWithCards[i][j] != null.
-If boardAvailability[i][j] != card.CellTypeContents. CARD, then boardWithCards[i][j] == null.
+2. **Gameplay**:
+   - Players take turns placing cards.
+   - When a card is placed, it may flip adjacent opponent cards if the placed card’s values dominate.
 
-In the configBoardAvailability method the cells that are marked as card.CellTypeContents.EMPTY or
-card.CellTypeContents.HOLE are set in boardAvailability without any cards in boardWithCards ensuring that non
-card.CellTypeContents.CARD cells are null in the boardWithCards.
+3. **Winning Condition**:
+   - The game ends when no valid moves remain or the turn limit is reached.
+   - The player with the most flipped cards wins.
 
-These are invariants because they are logical statements that occur consistently throughout
-the model that have to be true for the board to work.
+---
 
-Source Org.
+## Executing the Game
+To execute the game, follow these steps:
 
-src : contains all the primary code files
-    model.ModelVarientImpl.java and model.IModel.java
-    view.TextViewImpl.java and view.ITextView.java
-    player.PlayerImpl.java and player.IPlayer.java
-test/ : handles all the testing files for model and view
+1. **Build the JAR File**:
+   - Ensure the project is compiled and packaged into a JAR file (e.g., `ThreeTrios.jar`).
 
-Coordinate System:
-The game board is represented as a 2D array, where each element corresponds to a cell on the board.
-The coordinate system uses a row-major order, meaning that the first index represents the row (y-coordinate),
-and the second index represents the column (x-coordinate).
+2. **Run the Game**:
+   - Use the following command to start the game:
+     ```
+     java -jar ThreeTrios.jar --players PLAYER1:PLAYER2
+     ```
+   - Replace `PLAYER1` and `PLAYER2` with the desired player types (e.g., `human`, `ai_flipmost`, `ai_corner`).
 
-Origin: The origin of the grid is located at the top-left corner, with coordinates (0, 0).
-Row and Column Indices:
+3. **Example**:
+   - To play a game with one human and one AI using the "Flip The Most" strategy:
+     ```
+     java -jar ThreeTrios.jar --players human:ai_flipmost
+     ```
 
-board[row][col]: Here, row specifies the vertical position (moving downward increases the row index),
-and col specifies the horizontal position (moving right increases the column index).
+---
 
-Changes for Part 2
-In reexamining the model’s design and implementation from the previous assignment,
-we identified a few areas that needed enhancements to improve gameplay functionality and user experience.
-Below is a summary of the changes made, explaining what functionality was previously missing, the reasons behind it,
-and how we addressed these issues.
+## Player Types
 
-1. Move Evaluation: calculateFlips
-Missing Functionality: The original model lacked a method for evaluating the potential impact of a move before
-executing it. Without a preview option, players couldn’t anticipate how many opponent cards their move might flip,
-limiting strategic planning.
-
-New Addition: We introduced calculateFlips, a method that calculates the number of opponent cards that would be flipped
-if a player places a card at a specific position.
-
-Implementation Details: The calculateFlips method examines the board in four cardinal directions
-(North, South, East, West) using the helper function countFlipsInDirection to tally flips based on game rules.
-This change allows players to preview move impacts without altering the board state, supporting more strategic decision-making.
-
-2. Real-Time Score Tracking: getPlayerScore
-Missing Functionality: The previous model didn’t offer real-time score tracking. As a result, the player’s score wasn’t
-dynamically updated or displayed based on board state changes.
-
-New Addition: We added getPlayerScore, a method that counts a player's cards on the board and returns the current score.
-
-Implementation Details: getPlayerScore iterates over the board, identifying cards associated with the specified player.
-This addition enables real-time score updates, enriching the competitive aspect of the game and giving players
-immediate feedback on their progress.
-
-3. Separation of File Management
-Missing Functionality: File reading functionality was initially embedded within the model, reducing modularity and
-compromising the model’s focus on game logic.
-
-New Addition: File reading has been moved outside the model into a dedicated class, allowing the model to concentrate
-on game-specific operations.
-
-Implementation Details: By externalizing file reading, the model now better adheres to single-responsibility principles,
-improving modularity and readability.
-
-4. Enhanced Turn Management: getPlayerToPlace and getCardIndexToPlace
-Missing Functionality: The model previously lacked a method to track a player’s current selection, complicating
-the turn-by-turn logic.
-
-New Addition: We added getPlayerToPlace and getCardIndexToPlace to the model interface to manage the current card selection.
-
-Implementation Details: These methods keep track of the player’s intended card placement, streamlining
-turn-taking and enhancing game flow consistency.
-
-5. Read-Only Model Interface
-Missing Functionality: Previously, the view had access to mutator methods, risking unintended modifications to the model.
-
-New Addition: We created a ReadOnlyModel interface that exposes only observer methods to the view.
-
-Implementation Details: By restricting the view to read-only access, this interface preserves the integrity of the
-model state and aligns with MVC architecture best practices.
-
-6. Removing Concrete Class-types From Model Implementation:
-To improve flexibility and adherence to interface-based design principles,
-we removed concrete class references within the model implementation wherever possible.
-Instead of directly using specific class types like PlayerImpl or CardImpl,
-we rely on interfaces (IPlayer, ICard)
-
-7. After developing the calculateFlips method to accurately assess potential card flips based on
-placement, we were able to implement two distinct strategies tailored to different playstyles:
-FlipTheMostStrategy and CornerStrategy. Below is an overview of each strategy, our design approach,
-and how they behave on various board setups, such as a 3x1 board.
-
-Handling the 3x1 Board Setup
-One interesting scenario was the narrow 3x1 board, where the concept of "corners" is limited
-and traditional strategies may need adjustment. On a 3x1 board, the lack of corners and restricted
-placements required a fallback approach. For such configurations, we determined that if the board
-height or width is 1, our CornerStrategy would ignore corner logic and instead select placements
-starting from the uppermost (or leftmost) position, following the upper-leftmost rule as a fallback.
-
-2. FlipTheMostStrategy
-The FlipTheMostStrategy prioritizes maximizing card flips, making it an aggressive,
-offensive approach. Here’s how we structured and implemented it:
-
-Objective: Place a card where it will flip the maximum number of opponent’s cards.
-
-Approach:
-Use calculateFlips to evaluate each empty cell on the board.
-For each placement, calculate the number of opponent cards that would flip if a specific card
-from the player's hand is placed in that spot.
-Select the placement with the highest flip count, which maximizes the impact of each move.
-If two placements yield the same number of flips, the strategy defaults to the uppermost-leftmost
-position, as a deterministic rule for breaking ties.
-This strategy is well-suited for boards with many open spots, as it maximizes control over the
-board by flipping the most cards with each turn.
-
-3. CornerStrategy
-The CornerStrategy provides a more defensive approach by focusing on corner placements,
-aiming to minimize card vulnerability. Here’s the breakdown of how it operates:
-
-Objective: Place cards in corners first, as corner spots are generally harder for
-opponents to flip due to limited adjacent directions.
-
-Approach:
-Identify the four corners of the board and examine if they are empty and available for placement.
-For each available corner, calculate the vulnerability of placing a card there based on its
-directional values and neighboring cell types. calculateVulnerability is used to assess exposure,
-prioritizing cards with higher directional values for the exposed sides.
-Select the card that minimizes vulnerability based on the chosen corner’s specific direction
-exposure (e.g., a corner with north and east exposure would prefer cards with higher values
-in those directions).If no corners are available, the strategy defaults to selecting the
-uppermost-leftmost open position as a fallback. 3x1 Board Specific Handling: On a 3x1 board,
-where corner logic is non-applicable, the CornerStrategy bypasses corner placement and instead
-seeks the uppermost-leftmost open cell with minimal vulnerability. Each strategy was designed to
-balance the game with varied approaches, allowing for both offensive and defensive playstyles.
-The implementation of calculateFlips and calculateVulnerability was critical, enabling each
-strategy to make informed decisions based on the board state and opponent positioning. These
-methods not only determine optimal placements but also enable nuanced, adaptable playstyles
-that adjust to different board configurations.
-
-8. We made mock classes for testing purposes. Here’s how we used mocks to test specific aspects
-of each strategy: Verifying Full Coverage of Coordinates: For strategies like CornerStrategy and
-FlipTheMostStrategy, it was essential to confirm that each strategy evaluated the relevant board
-positions. For instance, we wanted to check if CornerStrategy indeed checked all four corners and
-if FlipTheMostStrategy evaluated all possible locations. By mocking the model to record every
-coordinate accessed during strategy execution, we could verify through this transcript that each
-strategy inspected the correct positions. Testing Selection of the Optimal Move: To ensure that
-FlipTheMostStrategy picked the most valuable location, we used the mock model to simulate specific
-game states, such as “lying” about the legality or value of certain moves. For example, the mock
-could make only one move appear valid or assign an artificially high flip count to a specific
-location, and we could then check if the strategy selected that pre-determined move. This allowed
-us to test the strategy’s decision-making under controlled conditions, verifying that it followed
-the intended logic.
-
-Changes for Part 3:
-
-New Interfaces
-
-    IStrategy:
-    Defines the contract for implementing AI strategies.
-    Includes methods for determining the best move based on the current game state.
-    Enables flexible integration of different AI strategies into the game.
-
-    Features:
-    Acts as a bridge between the view and the controller.
-    Defines user interaction events, such as handling cell and card clicks.
-    Improves modularity by abstracting controller interactions.
-
-New Classes
-
-    PlayerFactory:
-    Implements the Factory design pattern to dynamically create players.
-    Supports both human players and AI players with configurable strategies.
-    Simplifies player creation and allows easy addition of new strategies in the future.
-
-    StrategyPlayer:
-    Represents an AI player that uses a defined strategy to make decisions during gameplay.
-    Integrates with the model through the IStrategy interface.
-
-
-Modified Classes
-
-    Main:
-    Updated to use the PlayerFactory for player creation based on command-line arguments.
-    Improved flexibility for initializing games with any combination of human and AI players.
-    Validates command-line inputs and initializes players and the game configuration accordingly.
-
-    ModelImpl:
-    Added support for notifying observers about player hand updates in real-time.
-    Improved turn management to ensure synchronization between the model, view, and controller.
-
-    ViewFrameGUIImpl:
-    Added a refreshHands method to dynamically redraw the player's hand based on the current game state.
-    Enhanced interactivity by bringing the active player’s window to the foreground during their turn.
-
-    ControllerGUIImpl:
-    Adjusted to handle dynamic hand updates using the refreshHands method in the view.
-    Improved turn management to ensure proper notifications and interactions for both players.
-
-Design Changes
-    Factory Design Pattern:
-    Introduced PlayerFactory to centralize and simplify the player creation process.
-    Ensures clean separation of concerns by moving player setup logic out of Main.
-
-    Observer Pattern Enhancements
-    The controller now observes both the model and the view, ensuring seamless communication
-    and real-time synchronization. The model notifies the controller about key game changes,
-    such as turn transitions or hand updates. In response, the controller updates the view—enabling
-    interactions for human players, refreshing displays, and bringing the active player’s window to
-    the front. For AI players, the controller triggers their strategy to compute a move and sends it
-    to the model. The controller also handles user inputs from the view, validating actions like card
-    selection and forwarding them to the model. These enhancements create a responsive game framework
-    where human and AI players interact smoothly, with the model, view, and controller staying in sync.
-
-    GUI Enhancements:
-    Player views dynamically update their hand and board displays to reflect the latest game state.
-    The active player’s window is brought to the foreground to improve turn-based interactivity.
-
-Adaptor Assignment (HW8)
-    In this assignment we were fully able to adapt the providers View besides notifying the player if the won or
-    lost (more details below), in order to do so we needed to implement the providers PlayerActionListeners
-    interface into our controller, this is ok as the controller is also our listener, implementing our
-    features and other observer interfaces. This was a design choice made a few homeworks ago, we
-    asked Professor Nunez about this and she said it is ok and will not receive points off for.
-
-    The only functionality missing is the providers code moving the current players view to the front,
-    this is because they simply did not implement anything of that nature to their view.
-
-    The feature for handling the end-game state and notifying the player of the game's outcome is
-    unadaptable in this context because the provider's implementation relies on their controller to
-    manage and communicate the game state to the view. Since we do not have access to their controller
-    implementation and cannot modify their controller to integrate with our model and view, this feature
-    cannot be seamlessly adapted. Additionally, our implementation adheres to the MVC design pattern,
-    where the model is responsible for maintaining the game state, and the controller acts as an
-    intermediary between the model and the view. Integrating this feature would require violating the
-    MVC principles by moving game state management into the controller, which is not aligned with our
-    architectural design.
-
-HW9 Included features
-    In this assignment we did Level 0 and Level 1, we made modifications to the view package for Level 0,
-    and modifications to the model package for Level 1. We also added a gameconsole package to handle user
-    input in the command line for features like toggling on and off the hints, or changing the game variant.
-
-    For level 0, in order to enable/disable hints for a player individually you must type the command:
-        "enableHints (player)"
-    where player is red or blue. To disable hints you type the command:
-        "disableHints (player)"
-
-    For level 1 we added fallen ace, and reverse and the combination as variants, we also allowed the user
-    to reset the game back to the base rules. To change the variants a user will type to the command line:
-
-        "reverse", "fallenAce", "reverseFallenAce" or "reset" to change the game variants.
+### Human Player
+- **Description**: Human players interact with the game via a graphical or text-based interface, manually selecting card placements.
+
+### AI Players
+- **Description**: AI players automatically decide their moves based on predefined strategies. This allows for dynamic and competitive gameplay without requiring human input.
+
+---
+
+## AI Strategies
+
+### Flip The Most Strategy (`ai_flipmost`)
+- **Purpose**: Maximizes the number of opponent cards flipped in a single turn.
+- **Mechanics**:
+  - Evaluates all possible moves.
+  - Chooses the move that flips the maximum number of cards.
+  - In case of a tie, selects the uppermost-leftmost position and the first card in hand.
+
+### Corner Strategy (`ai_corner`)
+- **Purpose**: Prioritizes placing cards in board corners to minimize the chance of being flipped.
+- **Mechanics**:
+  - Identifies corner positions.
+  - Selects the move that minimizes risk based on opponent card values.
+  - Resolves ties by selecting the uppermost-leftmost position and the first card in hand.
+
+---
+
+Enjoy customizing and playing ThreeTrios! If you encounter issues or have questions, please refer to the source code or contact the project maintainers.
+
